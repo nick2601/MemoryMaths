@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mathsgames/src/data/RandomFindMissingData.dart';
 
 import 'package:mathsgames/src/ui/app/app.dart';
+import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/app/coin_provider.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
@@ -116,6 +117,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider<CoinProvider>(
           create: (context) => GetIt.I.get<CoinProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider()..checkLoginStatus(),
         ),
       ],
       child: MyApp(),

@@ -1,4 +1,4 @@
-# mathsgames
+# Memory Maths
 
 A new Flutter project.
 

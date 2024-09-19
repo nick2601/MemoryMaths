@@ -4,8 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/core/app_theme.dart';
 import 'package:mathsgames/src/core/app_routes.dart';
+import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
+import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
 import 'package:provider/provider.dart';
+
+import '../login/login_view.dart';
 
 class MyApp extends StatelessWidget {
   final String fontFamily = "Montserrat";
@@ -26,6 +30,12 @@ class MyApp extends StatelessWidget {
     return Consumer<ThemeProvider>(
         builder: (context, ThemeProvider provider, child) {
       return MaterialApp(
+        home: Consumer<AuthProvider>(
+          builder: (BuildContext context, AuthProvider value, _) {
+            return value.isLoggedIn ? DashboardView() : LoginScreen();
+          },
+
+        ),
         title: 'Memory Math',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.theme,
