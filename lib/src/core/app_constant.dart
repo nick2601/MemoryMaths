@@ -47,6 +47,9 @@ class KeyUtil {
 
   static const String splash = 'Splash';
   static const String dashboard = 'Dashboard';
+  static const String login = 'Login';
+  static const String signup = 'Signup';
+
   static const String home = 'Home';
   static const String level = 'Level';
   static const String dual = 'Dual';
@@ -337,12 +340,12 @@ class KeyUtil {
 
   static int mentalArithmeticTimeOut = 60;
   static int mentalArithmeticLocalTimeOut = 4;
-  static int squareRootTimeOut = 10;
-  static int cubeRootTimeOut = 10;
+  static int squareRootTimeOut = 15;
+  static int cubeRootTimeOut = 15;
   static int mathGridTimeOut = 120;
 
   static int mathematicalPairsTimeOut = 60;
-  static int concentrationTimeOut = 10;
+  static int concentrationTimeOut = 15;
 
   static int magicTriangleTimeOut = 60;
   static int picturePuzzleTimeOut = 90;

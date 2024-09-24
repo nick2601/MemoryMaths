@@ -81,7 +81,7 @@ class DualView extends StatelessWidget {
                                       return getTextWidget(
                                           Theme.of(context)
                                               .textTheme
-                                              .subtitle2!,
+                                              .titleSmall!,
                                           calculatorProvider.question!,
                                           TextAlign.center,
                                           getPercentSize(remainHeight, 4));
@@ -146,7 +146,7 @@ class DualView extends StatelessWidget {
                                   builder:
                                       (context, calculatorProvider, child) {
                                     return getTextWidget(
-                                        Theme.of(context).textTheme.subtitle2!,
+                                        Theme.of(context).textTheme.titleSmall!,
                                         calculatorProvider.question!,
                                         TextAlign.center,
                                         getPercentSize(remainHeight, 4));

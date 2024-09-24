@@ -6,6 +6,7 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/common/rate_dialog_view.dart';
+import 'package:mathsgames/src/ui/login/login_view.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/resizer/fetch_pixels.dart';
 import 'package:mathsgames/src/ui/resizer/widget_utils.dart';
@@ -14,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 import '../core/app_assets.dart';
+import 'app/auth_provider.dart';
 import 'app/theme_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -62,6 +64,7 @@ class _SettingScreen extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     FetchPixels(context);
     int selection = 1;
 
@@ -69,11 +72,20 @@ class _SettingScreen extends State<SettingScreen> {
 
     double margin = getHorizontalSpace(context);
 
-    TextStyle theme = Theme.of(context).textTheme.subtitle2!;
+    TextStyle theme = Theme.of(context).textTheme.titleSmall!;
 
     return WillPopScope(
       child: Scaffold(
-        appBar: getNoneAppBar(context),
+        appBar: AppBar(actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              Provider.of<AuthProvider>(context, listen: false).logout();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+            },
+          ),
+        ],)
+        ,
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: margin),
@@ -119,6 +131,7 @@ class _SettingScreen extends State<SettingScreen> {
     Widget verSpace,
     BuildContext context,
   ) {
+    final authProvider = Provider.of<AuthProvider>(context);
     return Expanded(
       child: SizedBox(
         width: double.infinity,
@@ -367,7 +380,7 @@ class _SettingScreen extends State<SettingScreen> {
               flex: 1,
             ),
             Icon(Icons.navigate_next,
-                color: Theme.of(context).textTheme.subtitle1!.color)
+                color: Theme.of(context).textTheme.titleMedium!.color)
           ],
         ),
         margin: EdgeInsets.symmetric(vertical: FetchPixels.getPixelHeight(45)),
@@ -385,13 +398,13 @@ class _SettingScreen extends State<SettingScreen> {
   }
 
   Widget getSubTitleFonts(String titles) {
-    TextStyle theme = Theme.of(context).textTheme.subtitle2!;
+    TextStyle theme = Theme.of(context).textTheme.titleSmall!;
     return getCustomFont(titles, fontTitleSize, theme.color!, 1,
         fontWeight: FontWeight.w500, textAlign: TextAlign.start);
   }
 
   getTitleText(String string) {
-    TextStyle theme = Theme.of(context).textTheme.subtitle2!;
+    TextStyle theme = Theme.of(context).textTheme.titleSmall!;
 
     // return getCustomFont(
     //   string,

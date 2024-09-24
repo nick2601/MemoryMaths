@@ -69,7 +69,7 @@ class CommonButton extends StatelessWidget {
                 // )),
                 child: Center(
                   child: getTextWidget(
-                      Theme.of(context).textTheme.subtitle1!.copyWith(
+                      Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: (color == Colors.red)
                               ? Colors.white
                               : Colors.black,

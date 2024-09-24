@@ -42,25 +42,25 @@ class ConcentrationButton extends StatelessWidget {
         child: Container(
           decoration: !isContinue
               ? getDefaultDecorationWithBorder(
-                  borderColor: Theme.of(context).textTheme.subtitle2!.color,
+                  borderColor: Theme.of(context).textTheme.titleSmall!.color,
                   radius: radius)
               : !mathPairs.isActive
                   ? getDefaultDecorationWithGradient(
                       radius: radius,
-                      borderColor: Theme.of(context).textTheme.subtitle2!.color,
+                      borderColor: Theme.of(context).textTheme.titleSmall!.color,
                       colors: LinearGradient(
                         colors: [colorTuple.item2, colorTuple.item2],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ))
                   : getDefaultDecorationWithBorder(
-                      borderColor: Theme.of(context).textTheme.subtitle2!.color,
+                      borderColor: Theme.of(context).textTheme.titleSmall!.color,
                       radius: radius),
           alignment: Alignment.center,
           child: FittedBox(
             fit: BoxFit.contain,
             child: getTextWidget(
-                Theme.of(context).textTheme.subtitle1!.copyWith(
+                Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: !isContinue
                         ? null
                         : !mathPairs.isActive

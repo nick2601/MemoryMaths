@@ -139,7 +139,7 @@ class CommonScoreWidget extends StatelessWidget {
                             child: getTextWidget(
                                 Theme.of(context)
                                     .textTheme
-                                    .subtitle2!
+                                    .titleSmall!
                                     .copyWith(fontWeight: FontWeight.w600),
                                 '$currentLevel/$totalLevel\nLevel',
                                 TextAlign.center,
@@ -377,7 +377,7 @@ class CommonScoreWidget extends StatelessWidget {
                     child: getTextWidget(
                         Theme.of(context)
                             .textTheme
-                            .bodyText1!
+                            .bodyLarge!
                             .copyWith(fontWeight: FontWeight.bold),
                         "Game Over!!!",
                         TextAlign.center,
@@ -392,7 +392,7 @@ class CommonScoreWidget extends StatelessWidget {
                       getTextWidget(
                           Theme.of(context)
                               .textTheme
-                              .subtitle2!
+                              .titleSmall!
                               .copyWith(fontWeight: FontWeight.w600),
                           score.toString(),
                           TextAlign.center,
@@ -409,7 +409,7 @@ class CommonScoreWidget extends StatelessWidget {
                   ),
                   // SizedBox(height: getPercentSize(scoreHeight, 8)),
                   getTextWidget(
-                      Theme.of(context).textTheme.subtitle2!.copyWith(
+                      Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.w500, color: Colors.grey),
                       'Your Score',
                       TextAlign.center,
@@ -516,7 +516,7 @@ class CommonScoreWidget extends StatelessWidget {
           child: isFolder == null
               ? SvgPicture.asset(
                   icon,
-                  color: Theme.of(context).textTheme.subtitle2!.color!,
+                  color: Theme.of(context).textTheme.titleSmall!.color!,
                   height: getPercentSize(size, 52),
                 )
               : SvgPicture.asset(

@@ -85,7 +85,7 @@ class GuessSignView extends StatelessWidget {
                                   selector: (p0, p1) => p1.currentState,
                                   builder: (context, provider, child) {
                                     return getTextWidget(
-                                        Theme.of(context).textTheme.subtitle2!,
+                                        Theme.of(context).textTheme.titleSmall!,
                                         provider.firstDigit,
                                         TextAlign.center,
                                         getPercentSize(remainHeight, 4));
@@ -113,7 +113,7 @@ class GuessSignView extends StatelessWidget {
                                       return getTextWidget(
                                           Theme.of(context)
                                               .textTheme
-                                              .subtitle2!,
+                                              .titleSmall!,
                                           (result.length > 0) ? result : "?",
                                           TextAlign.center,
                                           getPercentSize(remainHeight, 4));
@@ -126,14 +126,14 @@ class GuessSignView extends StatelessWidget {
                                   selector: (p0, p1) => p1.currentState,
                                   builder: (context, provider, child) {
                                     return getTextWidget(
-                                        Theme.of(context).textTheme.subtitle2!,
+                                        Theme.of(context).textTheme.titleSmall!,
                                         provider.secondDigit,
                                         TextAlign.center,
                                         getPercentSize(remainHeight, 4));
                                   }),
                               SizedBox(width: getWidthPercentSize(context, 2)),
                               getTextWidget(
-                                  Theme.of(context).textTheme.subtitle2!,
+                                  Theme.of(context).textTheme.titleSmall!,
                                   '=',
                                   TextAlign.center,
                                   getPercentSize(remainHeight, 4)),
@@ -144,7 +144,7 @@ class GuessSignView extends StatelessWidget {
                                     print("valueG===true");
 
                                     return getTextWidget(
-                                        Theme.of(context).textTheme.subtitle2!,
+                                        Theme.of(context).textTheme.titleSmall!,
                                         provider.answer,
                                         TextAlign.center,
                                         getPercentSize(remainHeight, 4));

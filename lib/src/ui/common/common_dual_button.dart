@@ -49,7 +49,7 @@ class CommonDualButton extends StatelessWidget {
             // height: height,
             decoration: getDefaultDecoration(
                 radius: radius,
-                borderColor: Theme.of(context).textTheme.subtitle1!.color,
+                borderColor: Theme.of(context).textTheme.titleMedium!.color,
                 borderWidth: 1.3,
                 bgColor: colorTuple.item1.backgroundColor!),
             child: Stack(
@@ -65,7 +65,7 @@ class CommonDualButton extends StatelessWidget {
                             : constraints.maxHeight / 20,
                         alignment: Alignment.topCenter,
                         child: getTextWidget(
-                            Theme.of(context).textTheme.subtitle1!.copyWith(
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
                                 color: Colors.white.withOpacity(0.1),
                                 fontWeight: FontWeight.bold),
                             text,
@@ -80,7 +80,7 @@ class CommonDualButton extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: getTextWidget(
-                      Theme.of(context).textTheme.subtitle1!.copyWith(
+                      Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       text,
                       TextAlign.center,

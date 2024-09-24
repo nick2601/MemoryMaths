@@ -51,14 +51,14 @@ class CommonClearButton extends StatelessWidget {
                 // bgColor: "#FFDB7C".toColor(),
                 bgColor: Colors.white,
                 radius: radius,
-                borderColor: Theme.of(context).textTheme.subtitle1!.color,
+                borderColor: Theme.of(context).textTheme.titleMedium!.color,
                 borderWidth: 1.2),
             margin: EdgeInsets.symmetric(
                 horizontal: getWidthPercentSize(context, 2), vertical: 2),
 
             child: Center(
               child: getTextWidget(
-                  Theme.of(context).textTheme.subtitle1!.copyWith(
+                  Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontWeight: FontWeight.w500, color: Colors.black),
                   (text),
                   TextAlign.center,

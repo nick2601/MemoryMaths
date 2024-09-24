@@ -108,7 +108,7 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
                       child: getTextWidget(
                           Theme.of(context)
                               .textTheme
-                              .subtitle2!
+                              .titleSmall!
                               .copyWith(fontWeight: FontWeight.bold),
                           tuple2.item1.name,
                           TextAlign.center,
@@ -162,7 +162,7 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
                                     radius: getPercentSize(height, 20),
                                     borderColor: Theme.of(context)
                                         .textTheme
-                                        .subtitle2!
+                                        .titleSmall!
                                         .color,
                                     bgColor: Theme.of(context)
                                         .scaffoldBackgroundColor),
@@ -173,7 +173,7 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
                                     getTextWidget(
                                         Theme.of(context)
                                             .textTheme
-                                            .subtitle2!
+                                            .titleSmall!
                                             .copyWith(
                                                 fontWeight: FontWeight.w500,
                                                 fontFamily: "OriginalSurfer"),
@@ -200,7 +200,7 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
                                         child: getTextWidget(
                                             Theme.of(context)
                                                 .textTheme
-                                                .subtitle2!
+                                                .titleSmall!
                                                 .copyWith(
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.black),

@@ -77,7 +77,7 @@ class ComplexCalculationView extends StatelessWidget {
                                 selector: (p0, p1) => p1.currentState,
                                 builder: (context, calculatorProvider, child) {
                                   return getTextWidget(
-                                      Theme.of(context).textTheme.subtitle2!,
+                                      Theme.of(context).textTheme.titleSmall!,
                                       calculatorProvider.question!,
                                       TextAlign.center,
                                       getPercentSize(remainHeight, 4));

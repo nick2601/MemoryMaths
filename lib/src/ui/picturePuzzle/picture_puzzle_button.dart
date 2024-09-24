@@ -57,7 +57,7 @@ class PicturePuzzleButton extends StatelessWidget {
             width: width,
 
             child: getTextWidget(
-                Theme.of(context).textTheme.subtitle2!,
+                Theme.of(context).textTheme.titleSmall!,
                 picturePuzzleShape.text,
                 TextAlign.start,
                 getPercentSize(width, 70)),
@@ -76,7 +76,7 @@ class PicturePuzzleButton extends StatelessWidget {
             width: width,
 
             child: getTextWidget(
-                Theme.of(context).textTheme.subtitle2!,
+                Theme.of(context).textTheme.titleSmall!,
                 picturePuzzleShape.text,
                 TextAlign.start,
                 getPercentSize(width, 70)),

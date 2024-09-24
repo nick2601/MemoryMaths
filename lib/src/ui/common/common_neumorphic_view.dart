@@ -37,7 +37,7 @@ class CommonNeumorphicView extends StatelessWidget {
               : (getHorizontalSpace(context) * 2.5)),
       decoration: getDefaultDecoration(
           bgColor: color,
-          borderColor: Theme.of(context).textTheme.subtitle2!.color,
+          borderColor: Theme.of(context).textTheme.titleSmall!.color,
           borderWidth: 1.3,
           radius: getPercentSize(height!, 20)),
       child: child,

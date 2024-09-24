@@ -290,14 +290,14 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                       getTextWidget(
                           Theme.of(context)
                               .textTheme
-                              .subtitle1!
+                              .titleMedium!
                               .copyWith(fontWeight: FontWeight.w600),
                           "Select Difficulty",
                           TextAlign.center,
                           getScreenPercentSize(context, 2)),
                       Container(
                         height: 1,
-                        color: Theme.of(context).textTheme.subtitle1!.color,
+                        color: Theme.of(context).textTheme.titleMedium!.color,
                         margin: EdgeInsets.symmetric(
                             vertical: margin, horizontal: 5),
                       ),
@@ -344,7 +344,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                 child: getTextWidget(
                     Theme.of(context)
                         .textTheme
-                        .subtitle1!
+                        .titleMedium!
                         .copyWith(fontWeight: FontWeight.w600),
                     s,
                     TextAlign.center,

@@ -55,7 +55,7 @@ class RateViewDialog extends StatelessWidget {
           getTextWidget(
               Theme.of(context)
                   .textTheme
-                  .bodyText1!
+                  .bodyLarge!
                   .copyWith(fontWeight: FontWeight.bold),
               "Give Your Opinion",
               TextAlign.center,
@@ -64,7 +64,7 @@ class RateViewDialog extends StatelessWidget {
           SizedBox(height: getScreenPercentSize(context, 1.5)),
 
           getTextWidget(
-              Theme.of(context).textTheme.bodyText1!.copyWith(
+              Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontWeight: FontWeight.w400,
                   ),
               "Make better math goal for you,and would love to know how would rate our app?",

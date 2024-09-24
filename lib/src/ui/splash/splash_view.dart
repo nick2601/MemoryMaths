@@ -20,7 +20,7 @@ class _SplashViewState extends State<SplashView> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top]);
     Future.delayed(Duration(seconds: 2)).then((value) {
-      Navigator.pushReplacementNamed(context, KeyUtil.dashboard);
+      Navigator.pushReplacementNamed(context, KeyUtil.login);
     });
 
     super.initState();
@@ -60,7 +60,7 @@ class _SplashViewState extends State<SplashView> {
                 height: getScreenPercentSize(context, 2.3),
               ),
               getTextWidget(
-                  Theme.of(context).textTheme.subtitle2!.copyWith(
+                  Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.bold, fontFamily: 'Latinotype'),
                   'Memory Math',
                   TextAlign.center,

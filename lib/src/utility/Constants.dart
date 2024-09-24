@@ -228,7 +228,7 @@ getHeaderWidget(BuildContext context, String title, String content,
     children: [
       SizedBox(height: getVerticalSpace(context)),
       getTextWidget(
-          Theme.of(context).textTheme.subtitle2!.copyWith(
+          Theme.of(context).textTheme.titleSmall!.copyWith(
               color: color != null ? color : null, fontWeight: FontWeight.bold),
           title,
           TextAlign.start,
@@ -237,7 +237,7 @@ getHeaderWidget(BuildContext context, String title, String content,
       Padding(
         padding: EdgeInsets.only(right: getWidthPercentSize(context, 25)),
         child: getTextWidgetWithMaxLine(
-            Theme.of(context).textTheme.subtitle1!.copyWith(
+            Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontWeight: FontWeight.w500,
                 color: color != null ? color.withOpacity(0.9) : null),
             content,
@@ -460,7 +460,7 @@ getSettingWidget(BuildContext context, {Function? function}) {
       AppAssets.setting,
       width: FetchPixels.getPixelHeight(60),
       height: FetchPixels.getPixelHeight(60),
-      color: Theme.of(context).textTheme.subtitle1!.color,
+      color: Theme.of(context).textTheme.titleMedium!.color,
     ),
   );
 }
@@ -479,7 +479,7 @@ getScoreWidget(BuildContext context, {Color? color, bool? isCenter}) {
       ),
       Consumer<DashboardProvider>(
         builder: (context, model, child) => getTextWidget(
-            Theme.of(context).textTheme.subtitle2!.copyWith(
+            Theme.of(context).textTheme.titleSmall!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: color != null ? color : null),
             model.coin.toString(),
@@ -686,7 +686,7 @@ Widget getCommonMainWidget(
                                       return getTextWidget(
                                           Theme.of(context)
                                               .textTheme
-                                              .subtitle2!
+                                              .titleSmall!
                                               .copyWith(
                                                   fontWeight: FontWeight.w600),
                                           oldScore > currentScore
@@ -767,7 +767,7 @@ Widget getCommonDetailWidget({
             : horizontalSpace,
       ),
       getTextWidget(
-          Theme.of(context).textTheme.subtitle2!.copyWith(
+          Theme.of(context).textTheme.titleSmall!.copyWith(
               fontWeight:
                   horizontalSpace == null ? FontWeight.w500 : FontWeight.w600),
           data,
@@ -897,7 +897,7 @@ Widget getHintButtonWidget(
                     width: getWidthPercentSize(context, 1),
                   ),
                   getTextWidget(
-                      Theme.of(context).textTheme.bodyText1!.copyWith(
+                      Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w500,
                           color: textColor == null ? Colors.white : textColor),
                       'Use 10 coin',
@@ -909,7 +909,7 @@ Widget getHintButtonWidget(
           ),
           Center(
               child: getTextWidget(
-                  Theme.of(context).textTheme.bodyText1!.copyWith(
+                  Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w700,
                       color: textColor == null ? Colors.white : textColor),
                   s,
@@ -944,7 +944,7 @@ Widget getButtonWidget(
               bgColor: Colors.transparent),
       child: Center(
           child: getTextWidget(
-              Theme.of(context).textTheme.bodyText1!.copyWith(
+              Theme.of(context).textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.w700,
                   color: textColor == null ? Colors.white : textColor),
               s,

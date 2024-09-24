@@ -39,7 +39,7 @@ class CommonGameExitDialogView extends StatelessWidget {
         ),
         SizedBox(height: getScreenPercentSize(context, 1.8)),
 
-        getTextWidget(Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold),
+        getTextWidget(Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
             "Quit!!!", TextAlign.center, getScreenPercentSize(context,2.5)),
 
 
@@ -50,7 +50,7 @@ class CommonGameExitDialogView extends StatelessWidget {
 
 
 
-        getTextWidget(Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400,
+        getTextWidget(Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w400,
      ),
             "Are you sure you want to quit the game?", TextAlign.center, getScreenPercentSize(context,2.2)),
 

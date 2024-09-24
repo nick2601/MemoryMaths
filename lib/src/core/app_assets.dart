@@ -26,7 +26,7 @@ class AppAssets {
   static const String homeIcon = "home_icon.svg";
   static const String homeCellBg = "home_cell_bg.svg";
   static const String subCellBg = "sub_cell_bg.svg";
-  // static const String nextIcon = assetPath +"Vector.svg";
+  //static const String nextIcon = assetPath +"Vector.svg";
 
 
   static const String restartIcon = "restart.svg";

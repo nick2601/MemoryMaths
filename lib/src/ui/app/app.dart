@@ -7,12 +7,14 @@ import 'package:mathsgames/src/core/app_routes.dart';
 import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
+import 'package:mathsgames/src/ui/home/home_view.dart';
 import 'package:provider/provider.dart';
 
 import '../login/login_view.dart';
 
 class MyApp extends StatelessWidget {
   final String fontFamily = "Montserrat";
+
   // final FirebaseAnalytics firebaseAnalytics;
 
   const MyApp({
@@ -30,22 +32,26 @@ class MyApp extends StatelessWidget {
     return Consumer<ThemeProvider>(
         builder: (context, ThemeProvider provider, child) {
       return MaterialApp(
-        home: Consumer<AuthProvider>(
-          builder: (BuildContext context, AuthProvider value, _) {
-            return value.isLoggedIn ? DashboardView() : LoginScreen();
-          },
-
-        ),
         title: 'Memory Math',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.theme,
         darkTheme: AppTheme.darkTheme,
         themeMode: themeMode,
         initialRoute: KeyUtil.splash,
+        home: Consumer<AuthProvider>(
+          builder: (context, authProvider, _) {
+            if (authProvider.isAuthenticated) {
+              return DashboardView();
+            } else {
+              return LoginScreen();
+            }
+            // ? DashboardView()
+                // : LoginScreen();
+          },
+        ),
         routes: appRoutes,
         navigatorObservers: [],
       );
     });
   }
 }
- 

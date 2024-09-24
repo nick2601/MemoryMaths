@@ -100,7 +100,7 @@ class _FeedbackScreen extends State<FeedbackScreen> {
                       await FlutterEmailSender.send(email);
                     }
                   },
-                  textColor: Theme.of(context).textTheme.bodyText1!.color,
+                  textColor: Theme.of(context).textTheme.bodyLarge!.color,
                 ),
                 getVerSpace(FetchPixels.getPixelHeight(75)),
               ],
@@ -119,7 +119,7 @@ class _FeedbackScreen extends State<FeedbackScreen> {
 
   Expanded buildExpandedData(EdgeInsets edgeInsets, double starSize,
       int selection, BuildContext context) {
-    Color fontColor = Theme.of(context).textTheme.subtitle2!.color!;
+    Color fontColor = Theme.of(context).textTheme.titleSmall!.color!;
     return Expanded(
       child: ListView(
         shrinkWrap: true,

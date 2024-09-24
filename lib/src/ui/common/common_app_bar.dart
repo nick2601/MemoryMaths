@@ -56,7 +56,7 @@ class CommonAppBar<T extends GameProvider> extends StatelessWidget {
                   child: getTextWidgetWithMaxLine(
                       Theme.of(context)
                           .textTheme
-                          .subtitle2!
+                          .titleSmall!
                           .copyWith(fontWeight: FontWeight.w700),
                       DialogInfoUtil.getInfoDialogData(gameCategoryType!).title,
                       TextAlign.start,

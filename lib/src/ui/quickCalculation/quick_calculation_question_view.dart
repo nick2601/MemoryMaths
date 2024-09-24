@@ -47,7 +47,7 @@ class _QuickCalculationQuestionViewState
       children: [
         Center(
           child: getTextWidget(
-              Theme.of(context).textTheme.subtitle2!,
+              Theme.of(context).textTheme.titleSmall!,
               widget.currentState.question,
               TextAlign.center,
               getPercentSize(getRemainHeight(context: context), 4)),

@@ -50,7 +50,7 @@ class MathGridButton extends StatelessWidget {
               : gridModel.isActive
                   ? Theme.of(context).scaffoldBackgroundColor
                   : color,
-          borderColor: Theme.of(context).textTheme.subtitle2!.color,
+          borderColor: Theme.of(context).textTheme.titleSmall!.color,
           radius: getScreenPercentSize(context, 2)),
 
       // decoration: BoxDecoration(
@@ -70,7 +70,7 @@ class MathGridButton extends StatelessWidget {
           },
           child: Center(
             child: getTextWidget(
-              Theme.of(context).textTheme.subtitle2!.copyWith(
+              Theme.of(context).textTheme.titleSmall!.copyWith(
                   fontWeight: FontWeight.w700,
                   color: gridModel.isActive
                       ? themeMode == ThemeMode.light

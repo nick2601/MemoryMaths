@@ -117,7 +117,7 @@ class _MentalArithmeticQuestionViewState
               child: Opacity(
                 opacity: _opacityAnimationIn.value,
                 child: getTextWidget(
-                    Theme.of(context).textTheme.subtitle2!,
+                    Theme.of(context).textTheme.titleSmall!,
                     index != 3 ? widget.currentState.questionList[index] : "",
                     TextAlign.center,
                     getPercentSize(getRemainHeight(context: context), 3.5)),
@@ -133,7 +133,7 @@ class _MentalArithmeticQuestionViewState
               child: Opacity(
                 opacity: _opacityAnimationOut.value,
                 child: getTextWidget(
-                    Theme.of(context).textTheme.subtitle2!,
+                    Theme.of(context).textTheme.titleSmall!,
                     index == 0
                         ? ""
                         : widget.currentState.questionList[index - 1],

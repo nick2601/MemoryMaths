@@ -329,7 +329,7 @@ class QuickCalculationView extends StatelessWidget {
                                 child: getTextWidget(
                                     Theme.of(context)
                                         .textTheme
-                                        .caption!
+                                        .bodySmall!
                                         .copyWith(color: Colors.grey),
                                     "NEXT",
                                     TextAlign.center,
@@ -393,7 +393,7 @@ class QuickCalculationView extends StatelessWidget {
                                       getTextWidget(
                                           Theme.of(context)
                                               .textTheme
-                                              .subtitle2!,
+                                              .titleSmall!,
                                           " = ",
                                           TextAlign.center,
                                           getPercentSize(remainHeight, 4)),
@@ -428,7 +428,7 @@ class QuickCalculationView extends StatelessWidget {
                                                 return getTextWidget(
                                                     Theme.of(context)
                                                         .textTheme
-                                                        .subtitle2!,
+                                                        .titleSmall!,
                                                     result.length > 0
                                                         ? result
                                                         : "?",

@@ -100,7 +100,7 @@ class CommonMainWidget<T extends GameProvider> extends StatelessWidget {
                               child: getTextWidget(
                                   Theme.of(context)
                                       .textTheme
-                                      .subtitle2!
+                                      .titleSmall!
                                       .copyWith(fontWeight: FontWeight.w600),
                                   secToTime(model.currentTime),
                                   TextAlign.center,
@@ -173,7 +173,7 @@ class CommonMainWidget<T extends GameProvider> extends StatelessWidget {
                                 child: getTextWidget(
                                     Theme.of(context)
                                         .textTheme
-                                        .subtitle2!
+                                        .titleSmall!
                                         .copyWith(fontWeight: FontWeight.w500),
                                     'Level : ${model.levelNo}',
                                     TextAlign.center,
@@ -208,7 +208,7 @@ class CommonMainWidget<T extends GameProvider> extends StatelessWidget {
                                             return getTextWidget(
                                                 Theme.of(context)
                                                     .textTheme
-                                                    .subtitle2!
+                                                    .titleSmall!
                                                     .copyWith(
                                                         fontWeight:
                                                             FontWeight.w600),
@@ -238,7 +238,7 @@ class CommonMainWidget<T extends GameProvider> extends StatelessWidget {
                                           return getTextWidget(
                                               Theme.of(context)
                                                   .textTheme
-                                                  .subtitle2!
+                                                  .titleSmall!
                                                   .copyWith(
                                                       fontWeight:
                                                           FontWeight.w600),

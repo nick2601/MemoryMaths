@@ -100,7 +100,7 @@ class _CommonScoreViewState extends State<CommonScoreView>
             opacity: _opacityAnimationIn,
 
             child: getTextWidget(
-                Theme.of(context).textTheme.subtitle2!,
+                Theme.of(context).textTheme.titleSmall!,
                 widget.oldScore < widget.currentScore
                     ? widget.currentScore.toString()
                     : widget.oldScore.toString(),
@@ -123,7 +123,7 @@ class _CommonScoreViewState extends State<CommonScoreView>
               child: getTextWidget(
                   Theme.of(context)
                       .textTheme
-                      .subtitle2!
+                      .titleSmall!
                       .copyWith(fontWeight: FontWeight.bold),
                   widget.oldScore > widget.currentScore
                       ? widget.currentScore.toString()

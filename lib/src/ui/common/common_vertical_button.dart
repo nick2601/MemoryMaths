@@ -75,7 +75,7 @@ class CommonVerticalButton extends StatelessWidget {
                 // )),
                 child: Center(
                   child: getTextWidget(
-                      Theme.of(context).textTheme.subtitle1!.copyWith(
+                      Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       text,
                       TextAlign.center,

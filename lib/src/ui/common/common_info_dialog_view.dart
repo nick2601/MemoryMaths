@@ -29,7 +29,7 @@ class CommonInfoDialogView extends StatelessWidget {
           getTextWidget(
               Theme.of(context)
                   .textTheme
-                  .bodyText1!
+                  .bodyLarge!
                   .copyWith(fontWeight: FontWeight.bold),
               gameInfoDialog.title,
               TextAlign.center,
@@ -58,7 +58,7 @@ class CommonInfoDialogView extends StatelessWidget {
             child: getTextWidgetWithMaxLine(
                 Theme.of(context)
                     .textTheme
-                    .subtitle1!
+                    .titleMedium!
                     .copyWith(fontWeight: FontWeight.w400),
                 gameInfoDialog.dec,
                 TextAlign.center,
@@ -75,7 +75,7 @@ class CommonInfoDialogView extends StatelessWidget {
                   getTextWidget(
                       Theme.of(context)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .copyWith(fontWeight: FontWeight.w700),
                       "${gameInfoDialog.correctAnswerScore}",
                       TextAlign.center,
@@ -86,7 +86,7 @@ class CommonInfoDialogView extends StatelessWidget {
                   getTextWidget(
                       Theme.of(context)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .copyWith(fontWeight: FontWeight.w700),
                       "${gameInfoDialog.wrongAnswerScore}",
                       TextAlign.center,
@@ -100,7 +100,7 @@ class CommonInfoDialogView extends StatelessWidget {
                   getTextWidget(
                       Theme.of(context)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .copyWith(fontWeight: FontWeight.w700),
                       "for correct answer",
                       TextAlign.center,
@@ -112,7 +112,7 @@ class CommonInfoDialogView extends StatelessWidget {
                   getTextWidget(
                       Theme.of(context)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .copyWith(fontWeight: FontWeight.w700),
                       "for wrong answer",
                       TextAlign.center,
@@ -145,11 +145,11 @@ class CommonInfoDialogView extends StatelessWidget {
             children: [
               Expanded(
                   child: getButtonWidget(context, "Cancel",
-                      Theme.of(context).textTheme.bodyText1!.color, () {
+                      Theme.of(context).textTheme.bodyLarge!.color, () {
                 Navigator.pop(context);
               },
                       isBorder: true,
-                      textColor: Theme.of(context).textTheme.bodyText1!.color)),
+                      textColor: Theme.of(context).textTheme.bodyLarge!.color)),
               SizedBox(
                 width: getWidthPercentSize(context, 5),
               ),

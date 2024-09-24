@@ -77,7 +77,7 @@ class SquareRootView extends StatelessWidget {
                                 height: getPercentSize(remainHeight, 6),
                                 color: Theme.of(context)
                                     .textTheme
-                                    .subtitle2!
+                                    .titleSmall!
                                     .color,
                               ),
                               Selector<SquareRootProvider, SquareRoot>(
@@ -85,7 +85,7 @@ class SquareRootView extends StatelessWidget {
                                   builder:
                                       (context, calculatorProvider, child) {
                                     return getTextWidget(
-                                        Theme.of(context).textTheme.subtitle2!,
+                                        Theme.of(context).textTheme.titleSmall!,
                                         calculatorProvider.question,
                                         TextAlign.center,
                                         getPercentSize(remainHeight, 4));

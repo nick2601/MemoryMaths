@@ -144,7 +144,7 @@ class NumericMemoryView extends StatelessWidget {
                                         child: getTextWidget(
                                             Theme.of(context)
                                                 .textTheme
-                                                .subtitle2!
+                                                .titleSmall!
                                                 .copyWith(
                                                     fontWeight:
                                                         FontWeight.bold),

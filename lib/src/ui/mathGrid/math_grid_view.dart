@@ -86,7 +86,7 @@ class MathGridView extends StatelessWidget {
                                   return getTextWidget(
                                       Theme.of(context)
                                           .textTheme
-                                          .subtitle2!
+                                          .titleSmall!
                                           .copyWith(
                                               fontWeight: FontWeight.bold),
                                       currentAnswer.toString(),
@@ -107,7 +107,7 @@ class MathGridView extends StatelessWidget {
                                 bgColor: colorTuple.item1.gridColor,
                                 borderColor: Theme.of(context)
                                     .textTheme
-                                    .subtitle2!
+                                    .titleSmall!
                                     .color,
                                 radius: getCommonRadius(context)),
                             margin: EdgeInsets.all(getHorizontalSpace(context)),

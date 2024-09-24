@@ -187,7 +187,7 @@ class MentalArithmeticView extends StatelessWidget {
                             return getTextWidget(
                                 Theme.of(context)
                                     .textTheme
-                                    .subtitle2!
+                                    .titleSmall!
                                     .copyWith(fontWeight: FontWeight.w600),
                                 result.length > 0 ? result : '?',
                                 TextAlign.center,

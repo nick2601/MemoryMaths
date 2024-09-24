@@ -24,7 +24,7 @@ class NumericMemoryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     double radius = getPercentSize(height, 35);
 
-    Color borderColor = Theme.of(context).textTheme.subtitle2!.color!;
+    Color borderColor = Theme.of(context).textTheme.titleSmall!.color!;
     Color color = mathPairs.list[index].isCheck != null
         ? mathPairs.list[index].isCheck!
             ? Colors.green
@@ -71,7 +71,7 @@ class NumericMemoryButton extends StatelessWidget {
                 )),
         alignment: Alignment.center,
         child: getTextWidget(
-            Theme.of(context).textTheme.subtitle1!.copyWith(
+            Theme.of(context).textTheme.titleMedium!.copyWith(
                 color: mathPairs.list[index].isCheck == null
                     ? !isContinue
                         ? null

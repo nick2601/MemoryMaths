@@ -49,7 +49,7 @@ class CommonGamePauseDialogView extends StatelessWidget {
         getTextWidget(
             Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(fontWeight: FontWeight.bold),
             gameInfoDialog.title,
             TextAlign.center,
@@ -60,7 +60,7 @@ class CommonGamePauseDialogView extends StatelessWidget {
         getTextWidget(
             Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(fontWeight: FontWeight.w600),
             score.toInt().toString(),
             TextAlign.center,
@@ -68,7 +68,7 @@ class CommonGamePauseDialogView extends StatelessWidget {
         SizedBox(height: getScreenPercentSize(context, 1)),
 
         getTextWidget(
-            Theme.of(context).textTheme.bodyText1!.copyWith(
+            Theme.of(context).textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.w500,
                 ),
             "Your current score",

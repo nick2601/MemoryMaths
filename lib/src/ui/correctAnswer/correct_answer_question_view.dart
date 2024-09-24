@@ -24,13 +24,13 @@ class CorrectAnswerQuestionView extends StatelessWidget {
         question.firstOperand.isQuestionMark
             ? questionView
             : getTextWidget(
-                Theme.of(context).textTheme.subtitle2!,
+                Theme.of(context).textTheme.titleSmall!,
                 question.firstOperand.value,
                 TextAlign.center,
                 getPercentSize(remainHeight, 4)),
         question.firstOperand.isQuestionMark ? Container() : getSpace,
         getTextWidget(
-            Theme.of(context).textTheme.subtitle2!,
+            Theme.of(context).textTheme.titleSmall!,
             question.firstOperator,
             TextAlign.center,
             getPercentSize(remainHeight, 4)),
@@ -38,7 +38,7 @@ class CorrectAnswerQuestionView extends StatelessWidget {
         question.secondOperand.isQuestionMark
             ? questionView
             : getTextWidget(
-                Theme.of(context).textTheme.subtitle2!,
+                Theme.of(context).textTheme.titleSmall!,
                 question.secondOperand.value,
                 TextAlign.center,
                 getPercentSize(remainHeight, 4)),
@@ -47,7 +47,7 @@ class CorrectAnswerQuestionView extends StatelessWidget {
             children: [
               getSpace,
               getTextWidget(
-                  Theme.of(context).textTheme.subtitle2!,
+                  Theme.of(context).textTheme.titleSmall!,
                   question.secondOperator!,
                   TextAlign.center,
                   getPercentSize(remainHeight, 4)),
@@ -55,18 +55,18 @@ class CorrectAnswerQuestionView extends StatelessWidget {
               question.thirdOperand!.isQuestionMark
                   ? questionView
                   : getTextWidget(
-                      Theme.of(context).textTheme.subtitle2!,
+                      Theme.of(context).textTheme.titleSmall!,
                       question.thirdOperand!.value,
                       TextAlign.center,
                       getPercentSize(remainHeight, 4))
             ],
           ),
         getSpace,
-        getTextWidget(Theme.of(context).textTheme.subtitle2!, '=',
+        getTextWidget(Theme.of(context).textTheme.titleSmall!, '=',
             TextAlign.center, getPercentSize(remainHeight, 4)),
         getSpace,
         getTextWidget(
-            Theme.of(context).textTheme.subtitle2!,
+            Theme.of(context).textTheme.titleSmall!,
             question.answer.toString(),
             TextAlign.center,
             getPercentSize(remainHeight, 4)),

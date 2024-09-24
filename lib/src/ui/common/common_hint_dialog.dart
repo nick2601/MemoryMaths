@@ -42,7 +42,7 @@ class CommonHintDialog extends StatelessWidget {
                   child: getTextWidget(
                       Theme.of(context)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .copyWith(fontWeight: FontWeight.bold),
                       isHint ? '' : 'Hint',
                       TextAlign.center,
@@ -78,7 +78,7 @@ class CommonHintDialog extends StatelessWidget {
                             getTextWidgetWithMaxLine(
                                 Theme.of(context)
                                     .textTheme
-                                    .subtitle1!
+                                    .titleMedium!
                                     .copyWith(fontWeight: FontWeight.w400),
                                 'Answer is :',
                                 TextAlign.center,
@@ -88,7 +88,7 @@ class CommonHintDialog extends StatelessWidget {
                             getTextWidgetWithMaxLine(
                                 Theme.of(context)
                                     .textTheme
-                                    .subtitle1!
+                                    .titleMedium!
                                     .copyWith(fontWeight: FontWeight.w700),
                                 provider.currentState.answer.toString(),
                                 TextAlign.center,

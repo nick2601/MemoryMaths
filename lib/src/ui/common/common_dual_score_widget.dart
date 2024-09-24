@@ -97,7 +97,7 @@ class CommonDualScoreWidget extends StatelessWidget {
                             child: getTextWidget(
                                 Theme.of(context)
                                     .textTheme
-                                    .subtitle2!
+                                    .titleSmall!
                                     .copyWith(fontWeight: FontWeight.w600),
                                 '${index + 1}/20\nQuiz',
                                 TextAlign.center,
@@ -153,7 +153,7 @@ class CommonDualScoreWidget extends StatelessWidget {
                                 getTextWidget(
                                     Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(fontWeight: FontWeight.w600),
                                     (score1 > 0)
                                         ? score1.toInt().toString()
@@ -165,7 +165,7 @@ class CommonDualScoreWidget extends StatelessWidget {
                                 getTextWidget(
                                     Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -187,7 +187,7 @@ class CommonDualScoreWidget extends StatelessWidget {
                                 getTextWidget(
                                     Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(fontWeight: FontWeight.w600),
                                     (score2 > 0)
                                         ? score2.toInt().toString()
@@ -199,7 +199,7 @@ class CommonDualScoreWidget extends StatelessWidget {
                                 getTextWidget(
                                     Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .copyWith(
                                           fontWeight: FontWeight.w500,
                                         ),

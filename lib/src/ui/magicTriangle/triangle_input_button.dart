@@ -59,7 +59,7 @@ class TriangleInputButton extends StatelessWidget {
           child: getTextWidget(
               Theme.of(context)
                   .textTheme
-                  .subtitle2!
+                  .titleSmall!
                   .copyWith(fontWeight: FontWeight.bold, color: Colors.black),
               input.value.toString(),
               TextAlign.center,

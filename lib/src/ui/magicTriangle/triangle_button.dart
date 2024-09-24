@@ -53,7 +53,7 @@ class TriangleButton extends StatelessWidget {
           child: getTextWidget(
               Theme.of(context)
                   .textTheme
-                  .subtitle1!
+                  .titleMedium!
                   .copyWith(fontWeight: FontWeight.bold),
               digit.value,
               TextAlign.center,

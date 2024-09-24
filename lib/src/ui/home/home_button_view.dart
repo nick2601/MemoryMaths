@@ -66,7 +66,7 @@ class HomeButtonView extends StatelessWidget {
                     getTextWidget(
                         Theme.of(context)
                             .textTheme
-                            .subtitle2!
+                            .titleSmall!
                             .copyWith(fontWeight: FontWeight.bold),
                         title,
                         TextAlign.center,
@@ -112,7 +112,7 @@ class HomeButtonView extends StatelessWidget {
                                       score.toString(),
                                       style: Theme.of(context)
                                           .textTheme
-                                          .subtitle1!
+                                          .titleMedium!
                                           .copyWith(
                                               fontSize: getPercentSize(
                                                   remainHeight, 10),
@@ -138,7 +138,7 @@ class HomeButtonView extends StatelessWidget {
                           radius: getPercentSize(height, 4)),
                       child: Center(
                         child: getTextWidget(
-                            Theme.of(context).textTheme.subtitle2!.copyWith(
+                            Theme.of(context).textTheme.titleSmall!.copyWith(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                             'Play',

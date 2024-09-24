@@ -34,7 +34,7 @@ class PicturePuzzleAnswerButton extends StatelessWidget {
         // width: double.infinity,
 
         decoration: getDefaultDecoration(
-            borderColor: Theme.of(context).textTheme.subtitle2!.color,
+            borderColor: Theme.of(context).textTheme.titleSmall!.color,
             bgColor: lighten(colorTuple.item1),
             radius: getPercentSize(height, 20)),
 
@@ -42,7 +42,7 @@ class PicturePuzzleAnswerButton extends StatelessWidget {
           selector: (p0, p1) => p1.result,
           builder: (context, value, child) => Center(
             child: getTextWidget(
-                Theme.of(context).textTheme.subtitle2!.copyWith(
+                Theme.of(context).textTheme.titleSmall!.copyWith(
 
                     // color: value == ""
                     //     ? colorTuple.item2

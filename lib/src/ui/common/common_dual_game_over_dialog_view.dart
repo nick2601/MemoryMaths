@@ -46,7 +46,7 @@ class CommonDualGameOverDialogView extends StatelessWidget {
           child: getTextWidget(
               Theme.of(context)
                   .textTheme
-                  .bodyText1!
+                  .bodyLarge!
                   .copyWith(fontWeight: FontWeight.bold),
               "Game Over!!!",
               TextAlign.center,

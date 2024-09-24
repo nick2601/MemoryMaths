@@ -58,7 +58,7 @@ class CommonBackButton extends StatelessWidget {
             decoration: getDefaultDecoration(
                 bgColor: Colors.white,
                 radius: radius,
-                borderColor: Theme.of(context).textTheme.subtitle1!.color,
+                borderColor: Theme.of(context).textTheme.titleMedium!.color,
                 borderWidth: 1.2),
             margin: EdgeInsets.symmetric(
                 horizontal: getWidthPercentSize(context, 2), vertical: 2),

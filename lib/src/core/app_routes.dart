@@ -9,6 +9,7 @@ import 'package:mathsgames/src/ui/cubeRoot/cube_root_view.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
 import 'package:mathsgames/src/ui/dualGame/dual_view.dart';
 import 'package:mathsgames/src/ui/home/home_view.dart';
+import 'package:mathsgames/src/ui/login/login_view.dart';
 import 'package:mathsgames/src/ui/magicTriangle/magic_triangle_view.dart';
 import 'package:mathsgames/src/ui/mathGrid/math_grid_view.dart';
 import 'package:mathsgames/src/ui/mathPairs/math_pairs_view.dart';
@@ -17,6 +18,7 @@ import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/picturePuzzle/picture_puzzle_view.dart';
 import 'package:mathsgames/src/ui/numberPyramid/number_pyramid_view.dart';
 import 'package:mathsgames/src/ui/quickCalculation/quick_calculation_view.dart';
+import 'package:mathsgames/src/ui/signup/SignupScreen.dart';
 import 'package:mathsgames/src/ui/splash/splash_view.dart';
 import 'package:mathsgames/src/ui/squareRoot/square_root_view.dart';
 import 'package:mathsgames/src/ui/guessTheSign/guess_sign_view.dart';
@@ -31,6 +33,8 @@ import '../ui/trueFalseQuiz/true_false_view.dart';
 var appRoutes = {
   KeyUtil.dashboard: (context) => DashboardView(),
   KeyUtil.splash: (context) => SplashView(),
+  KeyUtil.login :(context) => LoginScreen(),
+  KeyUtil.signup :(context) => SignupScreen(),
   KeyUtil.home: (context) => HomeView(
       tuple2: ModalRoute.of(context)?.settings.arguments
           as Tuple2<Dashboard, double>),

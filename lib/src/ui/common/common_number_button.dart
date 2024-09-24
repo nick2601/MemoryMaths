@@ -53,7 +53,7 @@ class CommonNumberButton extends StatelessWidget {
                 // bgColor: "#FFDB7C".toColor(),
                 bgColor: colorTuple.item1.backgroundColor,
                 radius: radius,
-                borderColor: Theme.of(context).textTheme.subtitle1!.color,
+                borderColor: Theme.of(context).textTheme.titleMedium!.color,
                 borderWidth: 1.2),
             margin: EdgeInsets.symmetric(
                 horizontal: getWidthPercentSize(context, 2), vertical: 2),
@@ -66,7 +66,7 @@ class CommonNumberButton extends StatelessWidget {
             // )),
             child: Center(
               child: getTextWidget(
-                  Theme.of(context).textTheme.subtitle1!.copyWith(
+                  Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Colors.black, fontWeight: FontWeight.bold),
                   text,
                   TextAlign.center,

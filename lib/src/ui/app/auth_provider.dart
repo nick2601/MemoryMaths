@@ -2,59 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
-  String? _email;
-  String? _password;
-  bool _isLoggedIn = false;
+  bool _isAuthenticated = false;
+  String? _username;
 
-  bool get isLoggedIn => _isLoggedIn;
+  bool get isAuthenticated => _isAuthenticated;
+  String? get username => _username;
 
-  Future<void> signup(String email, String password) async {
+  Future<void> signup(String username, String password) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('email', email);
-    await prefs.setString('password', password);
-    _email = email;
-    _password = password;
-    _isLoggedIn = true;
+
+    // Check if the username already exists
+    if (prefs.containsKey(username)) {
+      throw Exception("Username already exists.");
+    }
+
+    // Save the new user credentials
+    await prefs.setString(username, password);
+    await prefs.setString('loggedInUser', username);
+
+    _isAuthenticated = true;
+    _username = username;
     notifyListeners();
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String username, String password) async {
     final prefs = await SharedPreferences.getInstance();
-    String? savedEmail = prefs.getString('email');
-    String? savedPassword = prefs.getString('password');
 
-    if (savedEmail == email && savedPassword == password) {
-      _email = email;
-      _password = password;
-      _isLoggedIn = true;
+    if (prefs.getString(username) == password) {
+      await prefs.setString('loggedInUser', username);
+      _isAuthenticated = true;
+      _username = username;
       notifyListeners();
     } else {
-      throw Exception('Invalid credentials');
+      throw Exception("Invalid username or password.");
     }
   }
 
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('email');
-    await prefs.remove('password');
-    _email = null;
-    _password = null;
-    _isLoggedIn = false;
+    await prefs.remove('loggedInUser');
+
+    _isAuthenticated = false;
+    _username = null;
     notifyListeners();
   }
 
-  Future<void> checkLoginStatus() async {
+  Future<void> checkAuthStatus() async {
     final prefs = await SharedPreferences.getInstance();
-    String? savedEmail = prefs.getString('email');
-    String? savedPassword = prefs.getString('password');
+    final loggedInUser = prefs.getString('loggedInUser');
 
-    if (savedEmail != null && savedPassword != null) {
-      _email = savedEmail;
-      _password = savedPassword;
-      _isLoggedIn = true;
+    if (loggedInUser != null) {
+      _isAuthenticated = true;
+      _username = loggedInUser;
     } else {
-      _isLoggedIn = false;
+      _isAuthenticated = false;
+      _username = null;
     }
+
     notifyListeners();
   }
 }

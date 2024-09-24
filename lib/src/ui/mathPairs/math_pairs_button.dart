@@ -38,11 +38,11 @@ class MathPairsButton extends StatelessWidget {
         child: Container(
           decoration: !mathPairs.isActive
               ? getDefaultDecorationWithBorder(
-                  borderColor: Theme.of(context).textTheme.subtitle2!.color,
+                  borderColor: Theme.of(context).textTheme.titleSmall!.color,
                   radius: radius)
               : getDefaultDecorationWithGradient(
                   radius: radius,
-                  borderColor: Theme.of(context).textTheme.subtitle2!.color,
+                  borderColor: Theme.of(context).textTheme.titleSmall!.color,
                   // bgColor: colorTuple.item1
                   colors: LinearGradient(
                     colors: [colorTuple.item2, colorTuple.item2],
@@ -70,7 +70,7 @@ class MathPairsButton extends StatelessWidget {
             fit: BoxFit.contain,
 
             child: getTextWidget(
-                Theme.of(context).textTheme.subtitle1!.copyWith(
+                Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: mathPairs.isActive ? Colors.black : null,
                     // color: Colors.black,
                     fontWeight: FontWeight.bold),

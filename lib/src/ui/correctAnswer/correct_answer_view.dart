@@ -107,7 +107,7 @@ class CorrectAnswerView extends StatelessWidget {
                                                   return getTextWidget(
                                                       Theme.of(context)
                                                           .textTheme
-                                                          .subtitle2!,
+                                                          .titleSmall!,
                                                       result == ""
                                                           ? "?"
                                                           : result,

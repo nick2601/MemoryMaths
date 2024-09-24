@@ -118,9 +118,7 @@ Future<void> main() async {
         ChangeNotifierProvider<CoinProvider>(
           create: (context) => GetIt.I.get<CoinProvider>(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => AuthProvider()..checkLoginStatus(),
-        ),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
       child: MyApp(),
     ),
