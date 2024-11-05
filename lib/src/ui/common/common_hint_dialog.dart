@@ -4,8 +4,6 @@ import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/resizer/widget_utils.dart';
 import 'package:mathsgames/src/utility/Constants.dart';
 import 'package:tuple/tuple.dart';
-
-import '../../ads/AdsFile.dart';
 import '../../core/app_assets.dart';
 import '../app/game_provider.dart';
 import '../model/gradient_model.dart';

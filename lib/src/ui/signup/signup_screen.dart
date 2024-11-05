@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../utility/Constants.dart';
 import '../app/auth_provider.dart';
 import '../login/login_view.dart';
 
@@ -18,10 +19,8 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Create Account'),
-        automaticallyImplyLeading: false,
-      ),
+      backgroundColor:Colors.orange ,
+     appBar:  getNoneAppBar(context),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -31,12 +30,12 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               Text(
                 'Sign Up',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                style: TextStyle(color:Colors.white,fontSize: 28, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
               Text(
                 'Create a new account',
-                style: TextStyle(color: Colors.grey[600]),
+                style: TextStyle(color: Colors.white),
               ),
               SizedBox(height: 20),
               TextFormField(
@@ -44,9 +43,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 decoration: InputDecoration(
                   labelText: 'Username',
                   border: OutlineInputBorder(
+
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.person),
+                  prefixIcon: Icon(Icons.person,color: Colors.white,),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -64,9 +64,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: Icon(color:Colors.white,Icons.lock),
                   suffixIcon: IconButton(
+                    color: Colors.white,
                     icon: Icon(
+                      color: Colors.white,
                       _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
                     ),
                     onPressed: () {

@@ -18,7 +18,7 @@ import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/picturePuzzle/picture_puzzle_view.dart';
 import 'package:mathsgames/src/ui/numberPyramid/number_pyramid_view.dart';
 import 'package:mathsgames/src/ui/quickCalculation/quick_calculation_view.dart';
-import 'package:mathsgames/src/ui/signup/SignupScreen.dart';
+import 'package:mathsgames/src/ui/signup/signup_screen.dart';
 import 'package:mathsgames/src/ui/splash/splash_view.dart';
 import 'package:mathsgames/src/ui/squareRoot/square_root_view.dart';
 import 'package:mathsgames/src/ui/guessTheSign/guess_sign_view.dart';

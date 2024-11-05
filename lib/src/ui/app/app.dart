@@ -7,7 +7,6 @@ import 'package:mathsgames/src/core/app_routes.dart';
 import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
-import 'package:mathsgames/src/ui/home/home_view.dart';
 import 'package:provider/provider.dart';
 
 import '../login/login_view.dart';

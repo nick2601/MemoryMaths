@@ -13,7 +13,6 @@ import 'package:mathsgames/src/ui/resizer/widget_utils.dart';
 import 'package:mathsgames/src/utility/Constants.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-
 import '../core/app_assets.dart';
 import 'app/auth_provider.dart';
 import 'app/theme_provider.dart';
@@ -64,7 +63,6 @@ class _SettingScreen extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
     FetchPixels(context);
     int selection = 1;
 
@@ -76,16 +74,7 @@ class _SettingScreen extends State<SettingScreen> {
 
     return WillPopScope(
       child: Scaffold(
-        appBar: AppBar(actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              Provider.of<AuthProvider>(context, listen: false).logout();
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-            },
-          ),
-        ],)
-        ,
+        appBar:getNoneAppBar(context),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: margin),
@@ -107,6 +96,13 @@ class _SettingScreen extends State<SettingScreen> {
                             child: getCustomFont(
                                 'Settings', 35, theme.color!, 1,
                                 fontWeight: FontWeight.w600))),
+                    IconButton(
+                      icon: Icon(Icons.logout,color: Colors.black,),
+                      onPressed: () {
+                        Provider.of<AuthProvider>(context, listen: false).logout();
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                      },
+                    ),
                   ],
                 ),
                 buildExpandedData(
@@ -131,7 +127,6 @@ class _SettingScreen extends State<SettingScreen> {
     Widget verSpace,
     BuildContext context,
   ) {
-    final authProvider = Provider.of<AuthProvider>(context);
     return Expanded(
       child: SizedBox(
         width: double.infinity,

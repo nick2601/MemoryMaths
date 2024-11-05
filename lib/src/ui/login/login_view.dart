@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
-import 'package:mathsgames/src/ui/signup/SignupScreen.dart';
+import 'package:mathsgames/src/ui/signup/signup_screen.dart';
 import 'package:provider/provider.dart';
+import '../../core/app_constant.dart';
 import '../app/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,8 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await Provider.of<AuthProvider>(context, listen: false)
           .login(_usernameController.text, _passwordController.text);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => DashboardView()));
+      Navigator.pushReplacementNamed(context, KeyUtil.dashboard);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -55,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.blue.shade900, Colors.blueAccent],
+                colors: [Colors.orange.shade900, Colors.yellowAccent],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -80,9 +79,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Column(
                             children: [
                               Icon(
-                                Icons.lock_outline,
+                                Icons.login,
                                 size: 80,
-                                color: Colors.blue.shade700,
+                                color: Colors.orangeAccent.shade700,
                               ),
                               SizedBox(height: 8),
                               Text(
