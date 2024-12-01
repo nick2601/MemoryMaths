@@ -19,6 +19,12 @@ import 'app/theme_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'common/common_alert_dialog.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'dart:html' as html;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -43,6 +49,14 @@ class _SettingScreen extends State<SettingScreen> {
   ValueNotifier soundOn = ValueNotifier(false);
   ValueNotifier darkMode = ValueNotifier(false);
   ValueNotifier vibrateOn = ValueNotifier(false);
+
+  final TextEditingController emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -342,11 +356,89 @@ class _SettingScreen extends State<SettingScreen> {
                 function: () async {
                   _launchURL();
                 }),
+            getDivider(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter your email',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      final email = emailController.text;
+                      if (email.isNotEmpty) {
+                        // Call the function to generate and send the report
+                        generateAndSendReport('User Name', email, [
+                          GameCategory('Math', 90),
+                          GameCategory('Science', 80),
+                        ]);
+                      }
+                    },
+                    child: Text('Send Progress Report'),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
       flex: 1,
     );
+  }
+
+  Future<void> generateAndSendReport(String userName, String email, List<GameCategory> gameCategories) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Text('Progress Report', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+              pw.SizedBox(height: 20),
+              pw.Text('Name: $userName', style: pw.TextStyle(fontSize: 18)),
+              pw.SizedBox(height: 10),
+              pw.Text('Scores:', style: pw.TextStyle(fontSize: 18)),
+              pw.SizedBox(height: 10),
+              ...gameCategories.map((game) => pw.Text('${game.name}: ${game.score}', style: pw.TextStyle(fontSize: 16))).toList(),
+            ],
+          );
+        },
+      ),
+    );
+
+    if (kIsWeb) {
+      final bytes = await pdf.save();
+      final blob = html.Blob([bytes], 'application/pdf');
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      final anchor = html.AnchorElement(href: url)
+        ..setAttribute('download', 'report.pdf')
+        ..click();
+      html.Url.revokeObjectUrl(url);
+    } else {
+      final output = await getApplicationDocumentsDirectory();
+      final file = File('${output.path}/report.pdf');
+      await file.writeAsBytes(await pdf.save());
+
+      final Email emailToSend = Email(
+        body: 'Please find attached your progress report.',
+        subject: 'Progress Report',
+        recipients: [email],
+        attachmentPaths: [file.path],
+        isHTML: false,
+      );
+
+      await FlutterEmailSender.send(emailToSend);
+    }
   }
 
   _launchURL() async {
@@ -511,4 +603,11 @@ class SliderThumbShape extends SliderComponentShape {
       }
     }
   }
+}
+
+class GameCategory {
+  String name;
+  int score;
+
+  GameCategory(this.name, this.score);
 }
