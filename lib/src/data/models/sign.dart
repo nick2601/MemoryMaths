@@ -1,9 +1,25 @@
+/// Model class representing a mathematical operation with two operands and a sign.
+/// Used for basic arithmetic operations like addition, subtraction, multiplication, etc.
 class Sign {
+  /// First operand in the mathematical expression
   String firstDigit;
+
+  /// Mathematical operator/sign (e.g., +, -, ×, ÷)
   String sign;
+
+  /// Second operand in the mathematical expression
   String secondDigit;
+
+  /// The result of the mathematical operation
   String answer;
 
+  /// Creates a new Sign instance.
+  ///
+  /// Parameters:
+  /// - [firstDigit]: First number in the expression
+  /// - [sign]: Mathematical operator
+  /// - [secondDigit]: Second number in the expression
+  /// - [answer]: Result of the operation
   Sign({
     required this.firstDigit,
     required this.sign,

@@ -1,9 +1,5 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+/// Widget testing file for the Memory Math application.
+/// Contains test cases to verify the functionality of widgets and their interactions.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,20 +7,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mathsgames/main.dart';
 import 'package:mathsgames/src/ui/app/app.dart';
 
+/// Main test function containing widget tests for the application.
 void main() {
+  /// Test case to verify basic counter functionality
+  /// This is a template test that should be replaced with actual app-specific tests
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+    // Initialize the app widget for testing
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
+    // Test initial counter state
     expect(find.text('0'), findsOneWidget);
     expect(find.text('1'), findsNothing);
 
-    // Tap the '+' icon and trigger a frame.
+    // Simulate user interaction
     await tester.tap(find.byIcon(Icons.add));
     await tester.pump();
 
-    // Verify that our counter has incremented.
+    // Verify counter state after interaction
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });

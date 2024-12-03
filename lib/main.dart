@@ -94,30 +94,39 @@ import 'package:shared_preferences/shared_preferences.dart';
 //   service.startService();
 // }
 
+/// Main entry point of the application.
+/// Initializes necessary services and runs the app with required providers.
 Future<void> main() async {
+  // Ensure Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
-  //MobileAds.instance.initialize();
 
-  // await initializeService();
-  if (kDebugMode) {}
+  // Initialize shared preferences for persistent storage
   final sharedPreferences = await SharedPreferences.getInstance();
 
+  // Debug print statement for formatted string
   print("va===${getFormattedString(19.2)}");
 
+  // Set up dependency injection
   setupServiceLocator(sharedPreferences);
+
+  // Run the app with multiple providers for state management
   runApp(
     MultiProvider(
       providers: [
+        // Theme provider for app-wide theme management
         ChangeNotifierProvider(
           create: (context) =>
               ThemeProvider(sharedPreferences: sharedPreferences),
         ),
+        // Dashboard provider for managing dashboard state
         ChangeNotifierProvider<DashboardProvider>(
           create: (context) => GetIt.I.get<DashboardProvider>(),
         ),
+        // Coin provider for managing in-game currency
         ChangeNotifierProvider<CoinProvider>(
           create: (context) => GetIt.I.get<CoinProvider>(),
         ),
+        // Authentication provider for user management
         ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
       child: MyApp(),
@@ -125,6 +134,10 @@ Future<void> main() async {
   );
 }
 
+/// Sets up dependency injection using GetIt service locator.
+/// Registers singleton instances of providers that require shared preferences.
+///
+/// @param sharedPreferences Instance of SharedPreferences for persistent storage
 setupServiceLocator(SharedPreferences sharedPreferences) {
   GetIt.I.registerSingleton<DashboardProvider>(
       DashboardProvider(preferences: sharedPreferences));
