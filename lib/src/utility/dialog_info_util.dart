@@ -1,14 +1,27 @@
+/// Utility class providing dialog information for various math game categories.
+/// Contains methods to generate game-specific dialog information including
+/// titles, descriptions, scoring rules, and visual assets.
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/game_info_dialog.dart';
 import 'package:tuple/tuple.dart';
 
 class DialogInfoUtil {
+  /// Generates dialog information for a specific game category.
+  ///
+  /// Returns a [GameInfoDialog] containing the game's:
+  /// * Title
+  /// * Description
+  /// * Scoring rules
+  /// * Visual assets
+  /// * Theme colors
   static GameInfoDialog getInfoDialogData(GameCategoryType gameCategoryType) {
+    // Theme color combinations for different game types
     var tuple1 = Tuple2(KeyUtil.primaryColor1, KeyUtil.bgColor1);
     var tuple2 = Tuple2(KeyUtil.primaryColor2, KeyUtil.bgColor2);
     var tuple3 = Tuple2(KeyUtil.primaryColor3, KeyUtil.bgColor3);
     switch (gameCategoryType) {
       case GameCategoryType.CALCULATOR:
+        // Basic calculator game where players solve mathematical equations
         return GameInfoDialog(
             title: "Calculator",
             image: "assets/gif/calculator-intro.gif",
@@ -17,6 +30,7 @@ class DialogInfoUtil {
             wrongAnswerScore: KeyUtil.calculatorScoreMinus,
             colorTuple: tuple1);
       case GameCategoryType.GUESS_SIGN:
+        // Players must identify the correct mathematical operator
         return GameInfoDialog(
             title: "Guess The Sign",
             image: "assets/gif/whats-the-sign-intro.gif",
@@ -26,6 +40,7 @@ class DialogInfoUtil {
             wrongAnswerScore: KeyUtil.guessSignScoreMinus,
             colorTuple: tuple1);
       case GameCategoryType.SQUARE_ROOT:
+        // Calculate the square root of given numbers
         return GameInfoDialog(
             title: "Square Root",
             image: "assets/gif/sqroot-intro.gif",
@@ -35,6 +50,7 @@ class DialogInfoUtil {
             colorTuple: tuple2);
 
       case GameCategoryType.FIND_MISSING:
+        // Find the missing number in mathematical equations
         return GameInfoDialog(
             title: "Find Missing",
             image: "assets/gif/correct-answer.gif",
@@ -43,6 +59,7 @@ class DialogInfoUtil {
             wrongAnswerScore: KeyUtil.findMissingScoreMinus,
             colorTuple: tuple1);
       case GameCategoryType.TRUE_FALSE:
+        // Answer true or false to mathematical statements
         return GameInfoDialog(
             title: "True False",
             image: "assets/gif/correct-answer.gif",
@@ -52,6 +69,7 @@ class DialogInfoUtil {
             colorTuple: tuple1);
 
       case GameCategoryType.DUAL_GAME:
+        // Dual game mode with two mathematical operations
         return GameInfoDialog(
             title: "Dual Game",
             image: "assets/gif/correct-answer.gif",
@@ -61,6 +79,7 @@ class DialogInfoUtil {
             colorTuple: tuple1);
 
       case GameCategoryType.COMPLEX_CALCULATION:
+        // Complex mathematical calculations with multiple operations
         return GameInfoDialog(
             title: "Complex Calculation",
             image: "assets/gif/whats-the-sign-intro.gif",
@@ -71,6 +90,7 @@ class DialogInfoUtil {
             colorTuple: tuple1);
 
       case GameCategoryType.CUBE_ROOT:
+        // Calculate the cube root of given numbers
         return GameInfoDialog(
             title: "Cube Root",
             image: "assets/gif/correct-answer.gif",
@@ -80,6 +100,7 @@ class DialogInfoUtil {
             colorTuple: tuple1);
 
       case GameCategoryType.NUMERIC_MEMORY:
+        // Memory game with numerical sequences
         return GameInfoDialog(
             title: "Numeric Memory",
             image: "assets/gif/correct-answer.gif",
@@ -88,6 +109,7 @@ class DialogInfoUtil {
             wrongAnswerScore: KeyUtil.numericMemoryScoreMinus,
             colorTuple: tuple1);
       case GameCategoryType.CONCENTRATION:
+        // Concentration game with mathematical patterns
         return GameInfoDialog(
             title: "Concentration",
             image: "assets/gif/correct-answer.gif",
@@ -96,6 +118,7 @@ class DialogInfoUtil {
             wrongAnswerScore: KeyUtil.concentrationScoreMinus,
             colorTuple: tuple1);
       case GameCategoryType.MATH_PAIRS:
+        // Match mathematical equations with their solutions
         return GameInfoDialog(
             title: "Math Pairs",
             image: "assets/gif/math-pair-intro.gif",
@@ -105,6 +128,7 @@ class DialogInfoUtil {
             wrongAnswerScore: KeyUtil.mathematicalPairsScoreMinus,
             colorTuple: tuple2);
       case GameCategoryType.CORRECT_ANSWER:
+        // Select the correct answer from multiple options
         return GameInfoDialog(
             title: "Correct Answer",
             image: "assets/gif/correct-answer.gif",
@@ -113,6 +137,7 @@ class DialogInfoUtil {
             wrongAnswerScore: KeyUtil.correctAnswerScoreMinus,
             colorTuple: tuple1);
       case GameCategoryType.MAGIC_TRIANGLE:
+        // Solve the magic triangle puzzle
         return GameInfoDialog(
           title: "Magic Triangle",
           image: "assets/gif/magic-triangle-intro.gif",
@@ -123,6 +148,7 @@ class DialogInfoUtil {
           wrongAnswerScore: KeyUtil.magicTriangleScore,
         );
       case GameCategoryType.MENTAL_ARITHMETIC:
+        // Mental arithmetic game with mathematical operations
         return GameInfoDialog(
           title: "Mental Arithmetic",
           colorTuple: tuple2,
@@ -133,6 +159,7 @@ class DialogInfoUtil {
           wrongAnswerScore: KeyUtil.mentalArithmeticScoreMinus,
         );
       case GameCategoryType.QUICK_CALCULATION:
+        // Quick calculation game with time limits
         return GameInfoDialog(
           title: "Quick Calculation",
           colorTuple: tuple1,
@@ -143,6 +170,7 @@ class DialogInfoUtil {
           wrongAnswerScore: KeyUtil.quickCalculationScoreMinus,
         );
       case GameCategoryType.MATH_GRID:
+        // Grid-based math puzzle where players select numbers to reach a target sum
         return GameInfoDialog(
           title: "Math Grid",
           colorTuple: tuple2,
@@ -153,6 +181,7 @@ class DialogInfoUtil {
           wrongAnswerScore: KeyUtil.mathGridScore,
         );
       case GameCategoryType.PICTURE_PUZZLE:
+        // Visual math puzzles using shapes to represent numbers
         return GameInfoDialog(
           title: "Picture Puzzle",
           colorTuple: tuple3,
@@ -163,6 +192,7 @@ class DialogInfoUtil {
           wrongAnswerScore: KeyUtil.picturePuzzleScore,
         );
       case GameCategoryType.NUMBER_PYRAMID:
+        // Pyramid puzzle where each cell is the sum of the two cells below it
         return GameInfoDialog(
           title: "Number Pyramid",
           colorTuple: tuple3,
