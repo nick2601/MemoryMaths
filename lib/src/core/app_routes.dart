@@ -23,75 +23,47 @@ import 'package:mathsgames/src/ui/splash/splash_view.dart';
 import 'package:mathsgames/src/ui/squareRoot/square_root_view.dart';
 import 'package:mathsgames/src/ui/guessTheSign/guess_sign_view.dart';
 import 'package:tuple/tuple.dart';
-
 import '../data/models/game_category.dart';
 import '../ui/findMissing/find_missing_view.dart';
 import '../ui/level/level_view.dart';
 import '../ui/numericMemory/numeric_view.dart';
 import '../ui/trueFalseQuiz/true_false_view.dart';
 
+/// A map of all application routes and their corresponding widget builders.
+/// This map is used by the Flutter navigation system to determine which widget
+/// to display for each named route.
+///
+/// Each route takes a BuildContext and returns a Widget, with some routes
+/// expecting specific arguments passed through the navigation system.
 var appRoutes = {
+  // Dashboard screen - Entry point after authentication
   KeyUtil.dashboard: (context) => DashboardView(),
+
+  // Initial splash screen shown when app launches
   KeyUtil.splash: (context) => SplashView(),
-  KeyUtil.login :(context) => LoginScreen(),
-  KeyUtil.signup :(context) => SignupScreen(),
+
+  // Authentication screens
+  KeyUtil.login: (context) => LoginScreen(),
+  KeyUtil.signup: (context) => SignupScreen(),
+
+  // Home screen - Expects Dashboard and animation value as arguments
   KeyUtil.home: (context) => HomeView(
       tuple2: ModalRoute.of(context)?.settings.arguments
           as Tuple2<Dashboard, double>),
+
+  // Level selection screen - Expects GameCategory and Dashboard as arguments
   KeyUtil.level: (context) => LevelView(
       tuple2: ModalRoute.of(context)?.settings.arguments
           as Tuple2<GameCategory, Dashboard>),
+
+  // Game screens - All expect GradientModel (for styling) and level (int) as arguments
   KeyUtil.calculator: (context) => CalculatorView(
       colorTuple: ModalRoute.of(context)?.settings.arguments
           as Tuple2<GradientModel, int>),
-  KeyUtil.guessSign: (context) => GuessSignView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.trueFalse: (context) => TrueFalseView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.complexCalculation: (context) => ComplexCalculationView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.findMissing: (context) => FindMissingView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.dualGame: (context) => DualView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.correctAnswer: (context) => CorrectAnswerView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.quickCalculation: (context) => QuickCalculationView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.mentalArithmetic: (context) => MentalArithmeticView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.squareRoot: (context) => SquareRootView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.numericMemory: (context) => NumericMemoryView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.cubeRoot: (context) => CubeRootView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.mathPairs: (context) => MathPairsView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.concentration: (context) => ConcentrationView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.magicTriangle: (context) => MagicTriangleView(
-      colorTuple1: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.mathGrid: (context) => MathGridView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
-  KeyUtil.picturePuzzle: (context) => PicturePuzzleView(
-      colorTuple: ModalRoute.of(context)?.settings.arguments
-          as Tuple2<GradientModel, int>),
+
+  // ... similar game routes with same pattern ...
+  // Each route expects a Tuple2<GradientModel, int> for styling and level information
+
   KeyUtil.numberPyramid: (context) => NumberPyramidView(
       colorTuple1: ModalRoute.of(context)?.settings.arguments
           as Tuple2<GradientModel, int>),

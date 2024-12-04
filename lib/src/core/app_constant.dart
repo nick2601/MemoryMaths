@@ -4,6 +4,7 @@ import 'package:tuple/tuple.dart';
 
 import 'app_assets.dart';
 
+/// Enum representing different types of math games available in the application
 enum GameCategoryType {
   CALCULATOR,
   GUESS_SIGN,
@@ -25,26 +26,32 @@ enum GameCategoryType {
   NUMERIC_MEMORY,
 }
 
+/// Enum for categorizing puzzles into main categories
 enum PuzzleType { MATH_PUZZLE, MEMORY_PUZZLE, BRAIN_PUZZLE }
 
+/// Enum for managing timer states in games
 enum TimerStatus {
   restart,
   play,
   pause,
 }
 
+/// Enum for different types of dialog boxes shown in the app
 enum DialogType {
-  non,
-  info,
-  over,
-  pause,
-  exit,
-  hint,
+  non, // No dialog
+  info, // Information dialog
+  over, // Game over dialog
+  pause, // Pause game dialog
+  exit, // Exit confirmation dialog
+  hint, // Hint dialog
 }
 
+/// Utility class containing constants and helper methods for the application
 class KeyUtil {
+  /// Dark mode preference key
   static const IS_DARK_MODE = "isDarkMode";
 
+  /// Route names for navigation
   static const String splash = 'Splash';
   static const String dashboard = 'Dashboard';
   static const String login = 'Login';
@@ -87,6 +94,7 @@ class KeyUtil {
   static String themeOrangeFolder = 'imgGreen/';
   static String themeBlueFolder = 'imgBlue/';
 
+  /// List of dashboard items defining the main menu structure
   static List<Dashboard> dashboardItems = [
     Dashboard(
         puzzleType: PuzzleType.MATH_PUZZLE,
@@ -143,6 +151,9 @@ class KeyUtil {
     bgColor3,
   ];
 
+  /// Returns the time limit for a specific game category
+  /// [gameCategoryType] The type of game to get the time limit for
+  /// Returns the time limit in seconds
   static int getTimeUtil(GameCategoryType gameCategoryType) {
     switch (gameCategoryType) {
       case GameCategoryType.CALCULATOR:
@@ -189,6 +200,9 @@ class KeyUtil {
     }
   }
 
+  /// Returns the score value for correct answers in a specific game category
+  /// [gameCategoryType] The type of game to get the score for
+  /// Returns the score value as a double
   static double getScoreUtil(GameCategoryType gameCategoryType) {
     switch (gameCategoryType) {
       case GameCategoryType.CALCULATOR:
@@ -232,6 +246,9 @@ class KeyUtil {
     }
   }
 
+  /// Returns the penalty score for incorrect answers in a specific game category
+  /// [gameCategoryType] The type of game to get the penalty score for
+  /// Returns the penalty score value as a double
   static double getScoreMinusUtil(GameCategoryType gameCategoryType) {
     switch (gameCategoryType) {
       case GameCategoryType.CALCULATOR:
@@ -275,6 +292,9 @@ class KeyUtil {
     }
   }
 
+  /// Returns the coin reward for completing a game in a specific category
+  /// [gameCategoryType] The type of game to get the coin reward for
+  /// Returns the coin value as a double
   static double getCoinUtil(GameCategoryType gameCategoryType) {
     switch (gameCategoryType) {
       case GameCategoryType.CALCULATOR:
@@ -316,9 +336,9 @@ class KeyUtil {
     }
   }
 
-  //Game TimeOut Constant
-  static int calculatorTimeOut = 20;
-  static int guessSignTimeOut = 20;
+  /// Game timeout constants (in seconds)
+  static int calculatorTimeOut = 20; // Time limit for calculator game
+  static int guessSignTimeOut = 20; // Time limit for guess sign game
   static int correctAnswerTimeOut = 20;
   static int quickCalculationTimeOut = 20;
   static int quickCalculationPlusTime = 1;
@@ -351,9 +371,10 @@ class KeyUtil {
   static int picturePuzzleTimeOut = 90;
   static int numPyramidTimeOut = 120;
 
-  //Game Score Constant
-  static double calculatorScore = 1;
-  static double calculatorScoreMinus = -1;
+  /// Score constants for each game type
+  static double calculatorScore = 1; // Points for correct calculator answer
+  static double calculatorScoreMinus =
+      -1; // Penalty for wrong calculator answer
 
   static double complexCalculationScore = 1;
   static double complexCalculationScoreMinus = -1;
@@ -406,9 +427,9 @@ class KeyUtil {
   static double numberPyramidScore = 5;
   static double numberPyramidScoreMinus = 0;
 
-  //Game Coin Constant
-  static double calculatorCoin = 0.5;
-  static double guessSignCoin = 0.5;
+  /// Coin reward constants for each game type
+  static double calculatorCoin = 0.5; // Coins earned in calculator game
+  static double guessSignCoin = 0.5; // Coins earned in guess sign game
   static double correctAnswerCoin = 0.5;
   static double quickCalculationCoin = 0.5;
 
@@ -429,7 +450,10 @@ class KeyUtil {
   static double numericMemoryCoin = 1;
 }
 
+/// Extension to convert hex color strings to Color objects
 extension ColorExtension on String {
+  /// Converts a hex color string to a Color object
+  /// Supports both 6-digit (RRGGBB) and 8-digit (AARRGGBB) hex codes
   toColor() {
     var hexColor = this.replaceAll("#", "");
     if (hexColor.length == 6) {

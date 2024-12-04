@@ -3,25 +3,41 @@ import 'dart:math';
 import 'RandomFindMissingData.dart';
 import 'models/true_false_model.dart';
 
-  String strFalse = "false";
-  String strTrue = "true";
+/// Constants for true/false string values
+String strFalse = "false";
+String strTrue = "true";
 
+/// A class that generates random mathematical problems and their solutions
+/// for different difficulty levels and operation types (addition, subtraction,
+/// multiplication, division)
 class RandomOptionData {
+  // Basic properties for calculations
   int levelNo = 0;
   int firstDigit = 0;
   int secondDigit = 0;
   int answer = 0;
   double doubleAnswer = 0;
+
+  // Question formatting properties
   String? question, tableName;
   String? multiplicationSign,
       space,
       additionSign,
       subtractionSign,
       divisionSign;
-  int? dataTypeNumber = 1;
-  String currentSign="+";
-  RandomOptionData(   int levelNo) {
 
+  /// Determines difficulty level of questions:
+  /// 1: Easy (levels 1-10)
+  /// 2: Medium (levels 11-20)
+  /// 3: Hard (levels 21-30)
+  int? dataTypeNumber = 1;
+
+  /// Tracks current mathematical operation being used
+  String currentSign = "+";
+
+  /// Constructor initializes the object with a specific level number
+  /// and sets up the mathematical operators
+  RandomOptionData(int levelNo) {
     this.levelNo = levelNo;
     if (levelNo > 10 && levelNo <= 20) {
       dataTypeNumber = 2;
@@ -36,32 +52,35 @@ class RandomOptionData {
     space = "\u0020";
   }
 
+  /// Flag to determine if questions should be generated in true/false format
   bool isTrueFalseQuiz = false;
 
   void setTrueFalseQuiz(bool isTrueFalseQuiz) {
     this.isTrueFalseQuiz = isTrueFalseQuiz;
   }
 
+  /// Randomly selects and returns a mathematical operation
+  /// Returns a TrueFalseModel containing the problem and its solution
   TrueFalseModel getMethods() {
-
     int i = new Random().nextInt((4 - 1) + 1) + 1;
-    currentSign=additionSign!;
-    if (i ==1 ) {
-      currentSign=additionSign!;
+    currentSign = additionSign!;
+    if (i == 1) {
+      currentSign = additionSign!;
       return getAddition();
-    } else if (i==2) {
-      currentSign=subtractionSign!;
+    } else if (i == 2) {
+      currentSign = subtractionSign!;
       return getSubtraction();
-    } else if (i==3) {
-      currentSign=multiplicationSign!;
+    } else if (i == 3) {
+      currentSign = multiplicationSign!;
       return getMultiplication();
     } else if (i == 4) {
-      currentSign=divisionSign!;
+      currentSign = divisionSign!;
       return getDivision();
     }
     return getAddition();
   }
 
+  /// Generates an addition problem based on the current difficulty level
   TrueFalseModel getAddition() {
     int firstMin = getFirstMinNumber();
     int secondMin = getSecondMinNumber();
@@ -76,6 +95,7 @@ class RandomOptionData {
     return addModel();
   }
 
+  /// Generates a subtraction problem with numbers appropriate for the current level
   TrueFalseModel getSubtraction() {
     if (dataTypeNumber == 1) {
       firstDigit = new Random().nextInt(50) + 10;
@@ -93,6 +113,7 @@ class RandomOptionData {
     return addModel();
   }
 
+  /// Creates a multiplication problem with difficulty-appropriate factors
   TrueFalseModel getMultiplication() {
     if (dataTypeNumber == 1) {
       firstDigit = new Random().nextInt(5) + 1;
@@ -110,6 +131,7 @@ class RandomOptionData {
     return addModel();
   }
 
+  /// Generates a division problem that results in a decimal answer
   TrueFalseModel getDivision() {
     double n1, n2;
 
@@ -132,7 +154,8 @@ class RandomOptionData {
     return addDoubleModel();
   }
 
-
+  /// Creates a complex division problem involving multiple operations
+  /// Returns a problem in the format: n1 + (±n2 / n3)
   TrueFalseModel getComplicatedDivision() {
     Random random = new Random();
     double n1, n2, n3;
@@ -145,15 +168,10 @@ class RandomOptionData {
       n2 = random.nextInt(15) + 1;
       n3 = random.nextInt(5) + 1;
     } else if (dataTypeNumber == 2) {
-
-
       n1 = random.nextInt(50) + 1;
       n2 = random.nextInt(40) + 1;
       n3 = random.nextInt(20) + 1;
-
-
     } else {
-
       n1 = random.nextInt(200) + 1;
       n2 = random.nextInt(150) + 1;
       n3 = random.nextInt(100) + 1;
@@ -165,60 +183,65 @@ class RandomOptionData {
           space! +
           additionSign! +
           space! +
-          "(" +"(" +
+          "(" +
+          "(" +
           subtractionSign! +
           n2.toInt().toString() +
           ")" +
           space! +
           divisionSign! +
           space! +
-          n3.toInt().toString()+")";
+          n3.toInt().toString() +
+          ")";
     } else {
       doubleAnswer = n1 + (n2 / n3);
 
       question = n1.toInt().toString() +
           space! +
           additionSign! +
-          space! +"(" +
+          space! +
+          "(" +
           n2.toInt().toString() +
           space! +
           divisionSign! +
           space! +
-          n3.toInt().toString()+")";
+          n3.toInt().toString() +
+          ")";
     }
 
     return addDoubleModel();
   }
 
+  /// Helper methods to determine number ranges based on difficulty level
   int getFirstMinNumber() {
     int number = 30;
-    if(dataTypeNumber == 1){
+    if (dataTypeNumber == 1) {
       number = 10;
-    }else if(dataTypeNumber==2){
+    } else if (dataTypeNumber == 2) {
       number = 150;
     }
 
     return number;
   }
+
   int getFirstMaxNumber() {
     int number = 50;
 
-
-    if(dataTypeNumber == 1){
+    if (dataTypeNumber == 1) {
       number = 50;
-    }else if(dataTypeNumber==2){
+    } else if (dataTypeNumber == 2) {
       number = 200;
     }
 
     return number;
   }
+
   int getSecondMaxNumber() {
     int number = 150;
 
-
-    if(dataTypeNumber == 1){
+    if (dataTypeNumber == 1) {
       number = 100;
-    }else if(dataTypeNumber==2){
+    } else if (dataTypeNumber == 2) {
       number = 250;
     }
 
@@ -228,15 +251,16 @@ class RandomOptionData {
   int getSecondMinNumber() {
     int number = 150;
 
-
-    if(dataTypeNumber == 1){
+    if (dataTypeNumber == 1) {
       number = 50;
-    }else if(dataTypeNumber==2){
+    } else if (dataTypeNumber == 2) {
       number = 200;
     }
     return number;
   }
 
+  /// Creates a TrueFalseModel with the correct answer and three wrong options
+  /// If isTrueFalseQuiz is true, generates a true/false question instead
   TrueFalseModel addModel() {
     int op_1 = answer + 10;
     int op_2 = answer - 10;
@@ -308,6 +332,7 @@ class RandomOptionData {
     return trueFalseModel;
   }
 
+  /// Similar to addModel() but handles decimal answers from division operations
   TrueFalseModel addDoubleModel() {
     double opDouble1 = doubleAnswer + 10;
     double opDouble2 = doubleAnswer - 10;
@@ -375,6 +400,6 @@ class RandomOptionData {
     }
     shuffle(stringList);
     trueFalseModel.optionList = (stringList);
-    return trueFalseModel ;
+    return trueFalseModel;
   }
 }

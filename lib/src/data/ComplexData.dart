@@ -3,22 +3,33 @@ import 'dart:math';
 import 'package:mathsgames/src/data/RandomFindMissingData.dart';
 import 'package:mathsgames/src/data/models/ComplexModel.dart';
 
+/// A class that generates complex mathematical equations with random values
+/// for educational math games. It creates equations in the format:
+/// n1 (+/-) n2 (+/-) ? = answer
 class ComplexData {
-  String? question;
-  String? answerString;
-  String? sign;
-  String? randomSign;
-  int finalAnswer = 0;
-  int answer = 0;
-  int n1 = 0;
-  int n2 = 0;
-  int n3 = 0;
-  int op_1 = 0;
-  int op_2 = 0;
-  int op_3 = 0;
-  int value1 = 0;
-  int value2 = 0;
+  // Properties to store equation components
+  String? question; // The formatted question string
+  String? answerString; // The complete equation with answer
+  String? sign; // First operator (+/-)
+  String? randomSign; // Second operator (+/-)
+  int finalAnswer = 0; // The value that replaces the question mark
+  int answer = 0; // The final result of the equation
+  int n1 = 0; // First number in equation
+  int n2 = 0; // Second number in equation
+  int n3 = 0; // Third number (becomes the missing value)
+  int op_1 = 0; // Option 1 for multiple choice
+  int op_2 = 0; // Option 2 for multiple choice
+  int op_3 = 0; // Option 3 for multiple choice
+  int value1 = 0; // Unused property
+  int value2 = 0; // Unused property
 
+  /// Generates a complex mathematical equation with random values based on difficulty type
+  ///
+  /// Parameters:
+  ///   type: Integer representing difficulty level (1: Easy, 2: Medium, 3: Hard)
+  ///
+  /// Returns:
+  ///   ComplexModel containing the generated question, answer, and multiple choice options
   static ComplexModel getComplexValues(int type) {
     int operator = new Random().nextInt(2) + 1;
     bool isMinus = operator == 1;
@@ -129,6 +140,16 @@ class ComplexData {
     return complexModel;
   }
 
+  /// Generates random numbers for the equation based on difficulty type
+  ///
+  /// Parameters:
+  ///   type: Integer representing difficulty level
+  ///     1 (Easy): Numbers between 1-40
+  ///     2 (Medium): First number 90-1000, others 1-550
+  ///     3 (Hard): First number 500-2000, others 1-800
+  ///
+  /// Returns:
+  ///   List of three random integers [n1, n2, n3]
   static List<int> getAdditionRandomValues(int type) {
     Random random = new Random();
 

@@ -3,7 +3,8 @@ import 'dart:math';
 import 'models/find_missing_model.dart';
 import 'package:intl/intl.dart';
 
-
+/// A class that generates random math problems for a "find the missing number" game
+/// Supports addition, subtraction, multiplication, and division operations
 class RandomFindMissingData {
   int levelNo = 0;
   int firstDigit = 0;
@@ -24,41 +25,45 @@ class RandomFindMissingData {
   int helpTag = 0;
   double digit_1 = 0, digit_2 = 0, digit_3 = 0, digit_4 = 0;
   FindMissingQuizModel quizModel = new FindMissingQuizModel();
-  String currentSign="+";
+  String currentSign = "+";
 
-  RandomFindMissingData(  int levelNo) {
+  /// Creates a new instance with specified difficulty level
+  /// @param levelNo Determines the difficulty (1-5: easy, 6-20: medium, 21-30: hard)
+  RandomFindMissingData(int levelNo) {
     this.levelNo = levelNo;
     if (levelNo <= 5) {
       dataTypeNumber = 1;
-    }else if (levelNo > 5 && levelNo <= 20) {
+    } else if (levelNo > 5 && levelNo <= 20) {
       dataTypeNumber = 2;
     } else if (levelNo > 20 && levelNo <= 30) {
       dataTypeNumber = 3;
     }
 
-      additionSign = "+";
-      multiplicationSign = "*";
-      divisionSign = "/";
-      subtractionSign = "-";
-      space = "\u0020";
+    additionSign = "+";
+    multiplicationSign = "*";
+    divisionSign = "/";
+    subtractionSign = "-";
+    space = "\u0020";
   }
 
+  /// Randomly selects and returns a math problem
+  /// @return FindMissingQuizModel containing the generated problem
   FindMissingQuizModel getMethods() {
     quizModel = new FindMissingQuizModel();
 
     int i = new Random().nextInt((4 - 1) + 1) + 1;
-    currentSign=additionSign!;
-    if (i ==1 ) {
-      currentSign=additionSign!;
+    currentSign = additionSign!;
+    if (i == 1) {
+      currentSign = additionSign!;
       return getAddition();
-    } else if (i==2) {
-      currentSign=subtractionSign!;
+    } else if (i == 2) {
+      currentSign = subtractionSign!;
       return getSubtraction();
-    } else if (i==3) {
-      currentSign=multiplicationSign!;
+    } else if (i == 3) {
+      currentSign = multiplicationSign!;
       return getMultiplication();
     } else if (i == 4) {
-      currentSign=divisionSign!;
+      currentSign = divisionSign!;
       return getDivision();
     }
     return getAddition();
@@ -66,33 +71,33 @@ class RandomFindMissingData {
 
   int getFirstMinNumber() {
     int number = 30;
-    if(dataTypeNumber == 1){
+    if (dataTypeNumber == 1) {
       number = 10;
-    }else if(dataTypeNumber==2){
+    } else if (dataTypeNumber == 2) {
       number = 150;
     }
 
     return number;
   }
+
   int getFirstMaxNumber() {
     int number = 50;
 
-
-    if(dataTypeNumber == 1){
+    if (dataTypeNumber == 1) {
       number = 50;
-    }else if(dataTypeNumber==2){
+    } else if (dataTypeNumber == 2) {
       number = 200;
     }
 
     return number;
   }
+
   int getSecondMaxNumber() {
     int number = 150;
 
-
-    if(dataTypeNumber == 1){
+    if (dataTypeNumber == 1) {
       number = 100;
-    }else if(dataTypeNumber==2){
+    } else if (dataTypeNumber == 2) {
       number = 250;
     }
 
@@ -102,17 +107,16 @@ class RandomFindMissingData {
   int getSecondMinNumber() {
     int number = 150;
 
-
-    if(dataTypeNumber == 1){
+    if (dataTypeNumber == 1) {
       number = 50;
-    }else if(dataTypeNumber==2){
+    } else if (dataTypeNumber == 2) {
       number = 200;
     }
     return number;
   }
 
-
-
+  /// Generates an addition problem based on current difficulty
+  /// @return FindMissingQuizModel with addition problem
   FindMissingQuizModel getAddition() {
     int firstMin = getFirstMinNumber();
     int secondMin = getSecondMinNumber();
@@ -150,8 +154,6 @@ class RandomFindMissingData {
     quizModel.question = question;
     return quizModel;
   }
-
-
 
   FindMissingQuizModel getSubtraction() {
     if (dataTypeNumber == 1) {
@@ -262,15 +264,13 @@ class RandomFindMissingData {
           " " +
           secondDoubleDigit.toInt().toString() +
           " = " +
-          getFormattedString(
-              (firstDoubleDigit / secondDoubleDigit));
+          getFormattedString((firstDoubleDigit / secondDoubleDigit));
     } else if (helpTag == 2) {
       question = firstDoubleDigit.toInt().toString() +
           " " +
           currentSign +
           " ? = " +
-          getFormattedString(
-              (firstDoubleDigit / secondDoubleDigit));
+          getFormattedString((firstDoubleDigit / secondDoubleDigit));
     } else {
       question = firstDoubleDigit.toInt().toString() +
           " " +
@@ -283,12 +283,8 @@ class RandomFindMissingData {
     return quizModel;
   }
 
-
-
-
-
-
-
+  /// Helper method to create answer options and shuffle them
+  /// Used for problems with integer answers
   void addModel() {
     helpTag = new Random().nextInt(3) + 1;
     if (helpTag == 1) {
@@ -396,12 +392,16 @@ class RandomFindMissingData {
     quizModel.question = question;
   }
 }
+
+/// Shuffles a list using Fisher-Yates algorithm
+/// @param items The list to shuffle
+/// @return The shuffled list
 List shuffle(List items) {
   var random = new Random();
 
   // Go through all elements.
   for (var i = items.length - 1; i > 0; i--) {
-      var n = random.nextInt(i + 1);
+    var n = random.nextInt(i + 1);
 
     var temp = items[i];
     items[i] = items[n];
@@ -410,11 +410,12 @@ List shuffle(List items) {
 
   return items;
 }
-String getFormattedString(double d){
 
+/// Formats a double number to have exactly 2 decimal places
+/// @param d The number to format
+/// @return Formatted string representation
+String getFormattedString(double d) {
   NumberFormat numberFormat = NumberFormat(".00", "en_US");
-
-
 
   return numberFormat.format(d);
   // return d.toStringAsPrecision(4);

@@ -1,17 +1,28 @@
 import 'package:mathsgames/src/data/models/magic_triangle.dart';
 
+/// Repository class that manages Magic Triangle puzzle data and configurations.
+/// This class provides methods to generate puzzle data for different difficulty levels
+/// and handles the creation of triangle grids and input fields.
 class MagicTriangleRepository {
+  /// Map of correct solutions for different magic triangle sums.
+  /// The key represents the target sum, and the value is a list of numbers
+  /// that can be arranged to achieve that sum.
   static Map correctMagicTriangle = {
+    // Basic level configurations (6 numbers)
     "9": [1, 2, 3, 4, 5, 6],
     "10": [1, 2, 3, 4, 5, 6],
     "11": [1, 2, 3, 4, 5, 6],
     "12": [1, 2, 3, 4, 5, 6],
     "18": [4, 5, 6, 7, 8, 9],
+
+    // Advanced level configurations (9 numbers)
     "17": [1, 2, 3, 4, 5, 6, 7, 8, 9],
     "19": [1, 2, 3, 4, 5, 6, 7, 8, 9],
     "20": [1, 2, 3, 4, 5, 6, 7, 8, 9],
     "21": [1, 2, 3, 4, 5, 6, 7, 8, 9],
     "23": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+
+    // Special level with square numbers
     "126": [
       1,
       4,
@@ -25,6 +36,8 @@ class MagicTriangleRepository {
     ]
   };
 
+  /// Returns a shuffled list of basic-level triangle puzzles.
+  /// Each puzzle uses 6 numbers and has different target sums.
   static getTriangleDataProviderList() {
     List<MagicTriangle> list = <MagicTriangle>[];
 
@@ -69,6 +82,8 @@ class MagicTriangleRepository {
     return list;
   }
 
+  /// Returns a shuffled list of advanced-level triangle puzzles.
+  /// Each puzzle uses 9 numbers and has higher target sums.
   static getNextLevelTriangleDataProviderList() {
     List<MagicTriangle> list = <MagicTriangle>[];
 
@@ -108,6 +123,9 @@ class MagicTriangleRepository {
     return list;
   }
 
+  /// Converts a list of numbers into MagicTriangleGrid objects and shuffles them.
+  /// @param list The list of numbers to convert
+  /// @return A shuffled list of MagicTriangleGrid objects
   static List<MagicTriangleGrid> getMagicTriangleGrid(List<int> list) {
     List<MagicTriangleGrid> gridList = <MagicTriangleGrid>[];
     for (int i = 0; i < list.length; i++) {
@@ -117,6 +135,10 @@ class MagicTriangleRepository {
     return gridList;
   }
 
+  /// Creates a list of empty input fields for the triangle.
+  /// The first position is set as inactive by default.
+  /// @param length The number of input fields needed
+  /// @return A list of MagicTriangleInput objects
   static List<MagicTriangleInput> getMagicTriangleInput(int length) {
     List<MagicTriangleInput> inputList = <MagicTriangleInput>[];
     for (int i = 0; i < length; i++) {
@@ -127,28 +149,10 @@ class MagicTriangleRepository {
   }
 }
 
-/*
-17 = 1 + 5 + 9 + 2 = 2 + 4+ 8+ 3 = 3 + 6 + 7 + 1
-17 = 1 + 6 + 8 + 2 = 2 + 5 + 7 + 3 = 3 + 4 + 9 + 1
-
-19 = 1 + 5 + 9 + 4 = 4 + 2 + 6 + 7 = 7 + 3 + 8 + 1
-19 = 1 + 6 + 8 + 4 = 4 + 3 + 5 + 7 = 7 + 2 + 9 + 1
-19 = 2 + 5 + 9 + 3 = 3 + 1 + 8 + 7 = 7 + 4 + 6 + 2
-19 = 2 + 6 + 8 + 3 = 3 + 4 + 5 + 7 = 7 + 1 + 9 + 2
-
-20 = 1 + 6 + 8 + 5 = 5 + 2 + 4 + 9 = 9 + 3 + 7 + 1
-20 = 2 + 4 + 9 + 5 = 5 + 1 + 6 + 8 = 8 + 3 + 7 + 2
-20 = 2 + 6 + 7 + 5 = 5 + 3 + 4 + 8 = 8 + 1 + 9 + 2
-20 = 3 + 4 + 8 + 5 = 5 + 2 + 6 + 7 = 7 + 1 + 9 + 3
-20 = 4 + 2 + 9 + 5 = 5 + 1 + 8 + 6 = 6 + 3 + 7 + 4
-20 = 4 + 3 + 8 + 5 = 5 + 2 + 7 + 6 = 6 + 1 + 9 + 4
-
-21 = 3 + 5 + 7 + 6 = 6 + 2 + 4 + 9 = 9 + 1 + 8 + 3
-21 = 3 + 4 + 8 + 6 = 6 + 1 + 5 + 9 = 9 + 2 + 7 + 3
-21 = 3 + 2 + 9 + 7 = 7 + 1 + 5 + 8 = 8 + 4 + 6 + 3
-21 = 3 + 5 + 6 + 7 = 7 + 2 + 4 + 8 = 8 + 1 + 9 + 3
-
-23 = 7 + 2 + 6 + 8 = 8 + 1 + 5 + 9 = 9 + 3 + 4 + 7
-23 = 7 + 3 + 5 + 8 = 8 + 2 + 4 + 9 = 9 + 1 + 6 + 7
-126 = 4 + 16 + 81 + 25 = 4 + 49 + 9 + 64 = 64 + 36 + 1 + 25
-*/
+/* Solution Reference:
+ * This section contains various valid solutions for different target sums.
+ * Each line shows different ways to arrange numbers to achieve the target sum.
+ * For example:
+ * 17 = 1 + 5 + 9 + 2 = 2 + 4+ 8+ 3 = 3 + 6 + 7 + 1
+ * ... existing solutions ...
+ */

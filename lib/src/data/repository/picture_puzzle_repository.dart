@@ -1,10 +1,17 @@
 import 'package:mathsgames/src/data/models/picture_puzzle.dart';
 import 'package:mathsgames/src/utility/math_util.dart';
 
+/// Repository class that manages picture puzzle data and generation
+/// This class creates mathematical puzzles using shapes and operators
 class PicturePuzzleRepository {
+  /// Keeps track of previously generated puzzle codes to avoid duplicates
   static List<int> listHasCode = <int>[];
 
+  /// Generates a list of picture puzzles for a given level
+  /// [level] determines the difficulty and complexity of the puzzles
+  /// Returns a list of 5 [PicturePuzzle] objects
   static getPicturePuzzleDataList(int level) {
+    // Reset hash codes when starting level 1
     if (level == 1) {
       listHasCode.clear();
     }
@@ -63,19 +70,27 @@ class PicturePuzzleRepository {
     return list;
   }
 
+  /// Creates a matrix of shape-based mathematical expressions
+  /// [level] determines the difficulty of calculations
+  /// [index] determines the pattern of operators used
   static List<PicturePuzzleData> getNewShapeMatrix(int level, int index) {
     List<PicturePuzzleData> list = <PicturePuzzleData>[];
     List<String> listDigit = <String>[];
     List<String> listSign = <String>[];
+
+    // Initialize available shapes and shuffle them
     List<PicturePuzzleShapeType> listShape = [
       PicturePuzzleShapeType.CIRCLE,
       PicturePuzzleShapeType.TRIANGLE,
       PicturePuzzleShapeType.SQUARE
     ]..shuffle();
+
+    // Level 1 has specific patterns based on index
     if (level == 1) {
       switch (index) {
         case 0:
         case 1:
+          // Simple addition patterns
           listSign = ["+", "+", "+"];
           while (listDigit.length < 3) {
             MathUtil.generateRandomNumber(1, 10, 3).forEach((digit) {
@@ -100,9 +115,11 @@ class PicturePuzzleRepository {
               listDigit[1],
               listDigit[2]));
           break;
+
         case 2:
         case 3:
         case 4:
+          // Mixed operator patterns
           listSign = ["+", "-", "*"]
             ..shuffle()
             ..removeAt(1);
@@ -125,6 +142,7 @@ class PicturePuzzleRepository {
           break;
       }
     } else {
+      // Higher levels use random operators and larger numbers
       while (listDigit.length < 3) {
         MathUtil.generateRandomNumber(level, 10 + level, 3).forEach((digit) {
           if (!listDigit.contains(digit)) {
@@ -145,6 +163,8 @@ class PicturePuzzleRepository {
     return list;
   }
 
+  /// Generates the first row of the puzzle matrix
+  /// Uses the same shape with different operators
   static PicturePuzzleData getRowFirst(
       PicturePuzzleShapeType picturePuzzleShapeType1,
       String sign1,
@@ -159,6 +179,8 @@ class PicturePuzzleRepository {
         getResult(op1, sign1, op1, sign2, op1));
   }
 
+  /// Generates the second row of the puzzle matrix
+  /// Introduces a second shape type
   static PicturePuzzleData getRowSecond(
       PicturePuzzleShapeType picturePuzzleShapeType1,
       String sign1,
@@ -167,6 +189,7 @@ class PicturePuzzleRepository {
       String op1,
       String op2,
       String op3) {
+    // Adjust operators to avoid invalid combinations
     if ((sign1 == "-" && sign2 == "+") || sign1 == "+" && sign2 == "-") {
       sign1 = "*";
     }
@@ -179,6 +202,8 @@ class PicturePuzzleRepository {
         getResult(op1, sign1, op2, sign2, op2));
   }
 
+  /// Generates the third row of the puzzle matrix
+  /// Introduces a third shape type
   static PicturePuzzleData getRowThird(
       String sign1,
       PicturePuzzleShapeType picturePuzzleShapeType2,
@@ -200,6 +225,8 @@ class PicturePuzzleRepository {
         getResult(op2, sign1, op3, sign2, op3));
   }
 
+  /// Generates the final row of the puzzle matrix
+  /// This row contains the question that players need to solve
   static PicturePuzzleData getRowLast(
       PicturePuzzleShapeType picturePuzzleShapeType1,
       String sign1,
@@ -219,6 +246,9 @@ class PicturePuzzleRepository {
             sign2 == "-" ? "+" : sign2, op3));
   }
 
+  /// Calculates the result of a mathematical expression
+  /// Handles operator precedence correctly
+  /// Returns the result as a String
   static String getResult(
       String op1, String sign1, String op2, String sign2, String op3) {
     return "${(MathUtil.getPrecedence(sign1) >= MathUtil.getPrecedence(sign2)) ? (MathUtil.evaluate(MathUtil.evaluate(int.parse(op1), sign1, int.parse(op2)), sign2, int.parse(op3))) : (MathUtil.evaluate(int.parse(op1), sign1, MathUtil.evaluate(int.parse(op2), sign2, int.parse(op3))))}";
