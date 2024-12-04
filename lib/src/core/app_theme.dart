@@ -19,11 +19,22 @@ class AppTheme {
     return base.copyWith(
       scaffoldBackgroundColor: Colors.white70,
       cardColor: Colors.white,
-      textTheme: base.textTheme.copyWith(
-        bodySmall: base.textTheme.bodySmall!.copyWith(
-          color: Color(0xff757575), // Medium grey color for small body text
-        ),
+      typography:
+          Typography.material2021(platform: TargetPlatform.android).copyWith(
+        black: Typography.material2021(platform: TargetPlatform.android)
+            .black
+            .apply(fontFamily: 'OpenDyslexic'),
+        white: Typography.material2021(platform: TargetPlatform.android)
+            .white
+            .apply(fontFamily: 'OpenDyslexic'),
       ),
+      textTheme: base.textTheme
+          .copyWith(
+            bodySmall: base.textTheme.bodySmall!.copyWith(
+              color: Color(0xff757575), // Medium grey color for small body text
+            ),
+          )
+          .apply(fontFamily: 'OpenDyslexic'),
       brightness: Brightness.light,
       appBarTheme: const AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.dark, // Dark status bar icons
@@ -47,11 +58,13 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: Colors.black,
       cardColor: Colors.black,
-      textTheme: base.textTheme.copyWith(
-        bodySmall: base.textTheme.bodySmall!.copyWith(
-          color: Color(0xff616161), // Darker grey color for small body text
-        ),
-      ),
+      textTheme: base.textTheme
+          .copyWith(
+            bodySmall: base.textTheme.bodySmall!.copyWith(
+              color: Color(0xff616161), // Darker grey color for small body text
+            ),
+          )
+          .apply(fontFamily: 'OpenDyslexic'),
       brightness: Brightness.dark,
       appBarTheme: const AppBarTheme(
         systemOverlayStyle:

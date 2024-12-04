@@ -19,10 +19,8 @@ import 'app/theme_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'common/common_alert_dialog.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'dart:html' as html;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
@@ -88,7 +86,7 @@ class _SettingScreen extends State<SettingScreen> {
 
     return WillPopScope(
       child: Scaffold(
-        appBar:getNoneAppBar(context),
+        appBar: getNoneAppBar(context),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: margin),
@@ -111,10 +109,15 @@ class _SettingScreen extends State<SettingScreen> {
                                 'Settings', 35, theme.color!, 1,
                                 fontWeight: FontWeight.w600))),
                     IconButton(
-                      icon: Icon(Icons.logout,color: Colors.black,),
+                      icon: Icon(
+                        Icons.logout,
+                        color: Colors.black,
+                      ),
                       onPressed: () {
-                        Provider.of<AuthProvider>(context, listen: false).logout();
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                        Provider.of<AuthProvider>(context, listen: false)
+                            .logout();
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (_) => LoginScreen()));
                       },
                     ),
                   ],
@@ -394,7 +397,8 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
-  Future<void> generateAndSendReport(String userName, String email, List<GameCategory> gameCategories) async {
+  Future<void> generateAndSendReport(
+      String userName, String email, List<GameCategory> gameCategories) async {
     final pdf = pw.Document();
 
     pdf.addPage(
@@ -403,41 +407,72 @@ class _SettingScreen extends State<SettingScreen> {
           return pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
-              pw.Text('Progress Report', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+              pw.Text('Progress Report',
+                  style: pw.TextStyle(
+                      fontSize: 24, fontWeight: pw.FontWeight.bold)),
               pw.SizedBox(height: 20),
               pw.Text('Name: $userName', style: pw.TextStyle(fontSize: 18)),
               pw.SizedBox(height: 10),
               pw.Text('Scores:', style: pw.TextStyle(fontSize: 18)),
               pw.SizedBox(height: 10),
-              ...gameCategories.map((game) => pw.Text('${game.name}: ${game.score}', style: pw.TextStyle(fontSize: 16))).toList(),
+              ...gameCategories
+                  .map((game) => pw.Text('${game.name}: ${game.score}',
+                      style: pw.TextStyle(fontSize: 16)))
+                  .toList(),
             ],
           );
         },
       ),
     );
 
-    if (kIsWeb) {
+    try {
       final bytes = await pdf.save();
-      final blob = html.Blob([bytes], 'application/pdf');
-      final url = html.Url.createObjectUrlFromBlob(blob);
-      final anchor = html.AnchorElement(href: url)
-        ..setAttribute('download', 'report.pdf')
-        ..click();
-      html.Url.revokeObjectUrl(url);
-    } else {
-      final output = await getApplicationDocumentsDirectory();
-      final file = File('${output.path}/report.pdf');
-      await file.writeAsBytes(await pdf.save());
+      if (kIsWeb) {
+        // For web, just show a message that download isn't supported
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Info'),
+            content: Text('PDF generation is not supported on web version.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        final output = await getApplicationDocumentsDirectory();
+        final file = File('${output.path}/report.pdf');
+        await file.writeAsBytes(bytes);
 
-      final Email emailToSend = Email(
-        body: 'Please find attached your progress report.',
-        subject: 'Progress Report',
-        recipients: [email],
-        attachmentPaths: [file.path],
-        isHTML: false,
+        final Email emailToSend = Email(
+          body: 'Please find attached your progress report.',
+          subject: 'Progress Report',
+          recipients: [email],
+          attachmentPaths: [file.path],
+          isHTML: false,
+        );
+
+        await FlutterEmailSender.send(emailToSend);
+      }
+    } catch (e) {
+      print('Error generating/sending report: $e');
+      // Show error dialog to user
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text('Failed to generate or send report. Please try again.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('OK'),
+            ),
+          ],
+        ),
       );
-
-      await FlutterEmailSender.send(emailToSend);
     }
   }
 

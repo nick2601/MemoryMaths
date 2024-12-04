@@ -1,4 +1,4 @@
-# Memory Math - Inclusive Educational Math Game for Dyslexia and Dementia Support
+# Memory Math - Educational Math Game
 
 Memory Math is a specially designed educational Flutter application that creates an inclusive learning environment for students with dyslexia and those experiencing early-onset dementia. The app combines evidence-based learning approaches with adaptive technology to make mathematics accessible and enjoyable for all learners.
 
@@ -80,7 +80,6 @@ Memory Math is a specially designed educational Flutter application that creates
 - **Progress Tracking**
   - Personal statistics
   - Achievement system
-  - Performance analytics
   - Progress persistence
 
 - **Audio Feedback**
@@ -190,7 +189,6 @@ lib/
 ## Support
 
 For support, email mule.nikhil@gmail.com or create an issue in the repository.
-
 ## Screenshots
 
 [Add screenshots of different game modes and features here]
@@ -299,30 +297,6 @@ A mathematical puzzle mode where players complete equations by identifying missi
   - Undo/redo functionality
   - Error forgiveness system
 
-### Learning Support Tools
-
-**Reading Assistance:**
-- **Text-to-Speech:**
-  - Problem narration
-  - Answer feedback
-  - Menu navigation
-  - Instructions reading
-  - Custom speed controls
-
-- **Visual Aids:**
-  - Symbol-based instructions
-  - Animated demonstrations
-  - Step-by-step guides
-  - Visual timers
-  - Progress visualization
-
-**Memory Support:**
-- **Pattern Recognition:**
-  - Color coding for different operations
-  - Shape-based number grouping
-  - Visual relationship maps
-  - Number line representations
-  - Spatial organization tools
 
 ### Personalization Options
 
@@ -333,13 +307,6 @@ A mathematical puzzle mode where players complete equations by identifying missi
 - Difficulty level management
 - Custom color schemes
 
-**Performance Monitoring:**
-- **Analytics:**
-  - Reading speed tracking
-  - Error pattern analysis
-  - Time-on-task measurements
-  - Success rate monitoring
-  - Learning curve visualization
 
 **Adaptive Learning:**
 - Dynamic difficulty adjustment
@@ -471,3 +438,4 @@ A memory-based mathematical game designed to enhance both cognitive and mathemat
 - Social engagement opportunities
 - Structured learning routines
 - Achievement-based motivation
+

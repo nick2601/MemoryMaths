@@ -103,6 +103,7 @@ flutter:
     - assets/wrong.mp3
     - assets/right.mp3
     - assets/gameover.mp3
+    - assets/fonts/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -139,6 +140,16 @@ flutter:
       fonts:
         - asset: assets/fonts/Latinotype - Moranga Bold.otf
           weight: 800
+    - family: OpenDyslexic
+      fonts:
+        - asset: assets/fonts/OpenDyslexic-Regular.otf
+        - asset: assets/fonts/OpenDyslexic-Bold.otf
+          weight: 700
+        - asset: assets/fonts/OpenDyslexic-Italic.otf
+          style: italic
+        - asset: assets/fonts/OpenDyslexic-BoldItalic.otf
+          weight: 700
+          style: italic
   # fonts:
   #   - family: Schyler
   #     fonts:
