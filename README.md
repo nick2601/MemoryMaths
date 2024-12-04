@@ -1,6 +1,47 @@
-# Memory Math - Educational Math Game
+# Memory Math - Inclusive Educational Math Game for Dyslexia and Dementia Support
 
-Memory Math is an engaging educational Flutter application designed to enhance mathematical skills through interactive gameplay. The app offers various game modes to make learning mathematics fun and effective.
+Memory Math is a specially designed educational Flutter application that creates an inclusive learning environment for students with dyslexia and those experiencing early-onset dementia. The app combines evidence-based learning approaches with adaptive technology to make mathematics accessible and enjoyable for all learners.
+
+## Specialized Learning Features
+
+### Adaptive Game Modes
+
+1. **Find Missing Numbers**
+   - Dyslexia-friendly number presentation with OpenDyslexic font
+   - High-contrast, customizable visual displays
+   - Multi-sensory learning approach with audio support
+   - Adjustable pace for processing needs
+   - Step-by-step problem solving with visual guides
+
+2. **Quick Math**
+   - Flexible timing to accommodate different processing speeds
+   - Clear, uncluttered interface with consistent layouts
+   - Multi-modal input options (touch, voice, keyboard)
+   - Confidence-building progression system
+   - Short, focused practice sessions
+
+3. **Math Memory**
+   - Pattern-based learning for enhanced retention
+   - Visual and spatial memory exercises
+   - Cognitive skill reinforcement
+   - Social interaction through multiplayer modes
+   - Success-oriented gameplay design
+
+### Accessibility Features
+
+- **Dyslexia Support**
+  - OpenDyslexic font option
+  - Adjustable text sizing and spacing
+  - Color overlay options
+  - Text-to-speech functionality
+  - Visual pattern recognition tools
+
+- **Cognitive Support**
+  - Clear, consistent navigation
+  - Step-by-step instructions
+  - Regular skill reinforcement
+  - Memory-friendly interface
+  - Progress tracking for caregivers
 
 ## Features
 
@@ -414,3 +455,19 @@ A memory-based mathematical game designed to enhance both cognitive and mathemat
 - Achievement celebrations
 - Family/caregiver insights
 - Professional assessment tools
+
+## Educational Benefits
+
+### For Dyslexic Learners
+- Enhanced number recognition
+- Reduced visual stress
+- Improved mathematical confidence
+- Personalized learning pace
+- Multi-sensory engagement
+
+### For Dementia Support
+- Cognitive function maintenance
+- Memory exercise through repetition
+- Social engagement opportunities
+- Structured learning routines
+- Achievement-based motivation
