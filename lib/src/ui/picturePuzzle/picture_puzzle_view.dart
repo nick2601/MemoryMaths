@@ -55,6 +55,7 @@ class PicturePuzzleView extends StatelessWidget {
     // double _aspectRatio = widthItem / height;
     //
     // double mainHeight = getMainHeight(context);
+
     double remainHeight = getRemainHeight(context: context);
     int _crossAxisCount = 3;
 
@@ -101,7 +102,7 @@ class PicturePuzzleView extends StatelessWidget {
           color: colorTuple.item1.bgColor!,
           primaryColor: colorTuple.item1.primaryColor!,
           subChild: Container(
-            margin: EdgeInsets.only(top: getPercentSize(mainHeight, 40)),
+            margin: EdgeInsets.only(top: getPercentSize(mainHeight, 50)),
             child: Container(
               child: Column(
                 children: <Widget>[

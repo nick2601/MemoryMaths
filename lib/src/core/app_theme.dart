@@ -23,10 +23,10 @@ class AppTheme {
           Typography.material2021(platform: TargetPlatform.android).copyWith(
         black: Typography.material2021(platform: TargetPlatform.android)
             .black
-            .apply(fontFamily: 'OpenDyslexic'),
+            .apply(fontFamily: 'Montserrat'),
         white: Typography.material2021(platform: TargetPlatform.android)
             .white
-            .apply(fontFamily: 'OpenDyslexic'),
+            .apply(fontFamily: 'Montserrat'),
       ),
       textTheme: base.textTheme
           .copyWith(
@@ -34,7 +34,7 @@ class AppTheme {
               color: Color(0xff757575), // Medium grey color for small body text
             ),
           )
-          .apply(fontFamily: 'OpenDyslexic'),
+          .apply(fontFamily: 'Montserrat'),
       brightness: Brightness.light,
       appBarTheme: const AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.dark, // Dark status bar icons
@@ -64,7 +64,7 @@ class AppTheme {
               color: Color(0xff616161), // Darker grey color for small body text
             ),
           )
-          .apply(fontFamily: 'OpenDyslexic'),
+          .apply(fontFamily: 'Montserrat'),
       brightness: Brightness.dark,
       appBarTheme: const AppBarTheme(
         systemOverlayStyle:

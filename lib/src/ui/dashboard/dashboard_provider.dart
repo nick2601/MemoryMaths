@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:mathsgames/src/core/app_assets.dart';
 import 'package:mathsgames/src/data/models/score_board.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/app/coin_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../data/models/game_category.dart';
 import '../../utility/Constants.dart';
 
