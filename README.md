@@ -145,60 +145,13 @@ lib/
 For support, email mule.nikhil@gmail.com or create an issue in the repository.
 ## Screenshots
 
-<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-    <div>
-        <img src="lib/screenshots/FindMissing.png" width="200"/>
-        <p><em>Find Missing Numbers</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/Quick Calculation.png" width="200"/>
-        <p><em>Quick Math</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/mental_arithmetic.png" width="200"/>
-        <p><em>Math Memory</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/Complex Calculation.png" width="200"/>
-        <p><em>Complex Calculations</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/concentration.png" width="200"/>
-        <p><em>Concentration</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/Correct Answer.png" width="200"/>
-        <p><em>Feedback Screen</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/cube_root.png.png" width="200"/>
-        <p><em>Cube Root</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/magic_triangle.png" width="200"/>
-        <p><em>Magic Triangle</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/maths_pairs.png" width="200"/>
-        <p><em>Math Pairs</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/pic_puzzle.png" width="200"/>
-        <p><em>Picture Puzzle</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/dual_game.png" width="200"/>
-        <p><em>Dual Game</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/math_grid.png" width="200"/>
-        <p><em>Math Grid</em></p>
-    </div>
-    <div>
-        <img src="lib/screenshots/numeric_memory.png" width="200"/>
-        <p><em>Numeric Memory</em></p>
-    </div>
-</div>
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img src="lib/screenshots/FindMissing.png" width="200"/> <br> *Find Missing Numbers*|<img src="lib/screenshots/Quick Calculation.png" width="200"/> <br> *Quick Math*|<img src="lib/screenshots/mental_arithmetic.png" width="200"/> <br> *Math Memory*|
+|<img src="lib/screenshots/Complex Calculation.png" width="200"/> <br> *Complex Calculations*|<img src="lib/screenshots/concentration.png" width="200"/> <br> *Concentration*|<img src="lib/screenshots/Correct Answer.png" width="200"/> <br> *Feedback Screen*|
+|<img src="lib/screenshots/cube_root.png.png" width="200"/> <br> *Cube Root*|<img src="lib/screenshots/magic_triangle.png" width="200"/> <br> *Magic Triangle*|<img src="lib/screenshots/maths_pairs.png" width="200"/> <br> *Math Pairs*|
+|<img src="lib/screenshots/pic_puzzle.png" width="200"/> <br> *Picture Puzzle*|<img src="lib/screenshots/dual_game.png" width="200"/> <br> *Dual Game*|<img src="lib/screenshots/math_grid.png" width="200"/> <br> *Math Grid*|
+|<img src="lib/screenshots/numeric_memory.png" width="200"/> <br> *Numeric Memory*| | |
 
 ## Game Descriptions
 
