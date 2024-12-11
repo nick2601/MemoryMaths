@@ -4,33 +4,6 @@ Memory Math is a specially designed educational Flutter application that creates
 
 ## Specialized Learning Features
 
-### Adaptive Game Modes
-
-1. **Find Missing Numbers**
-   - Dyslexia-friendly number presentation with OpenDyslexic font
-   - High-contrast, customizable visual displays
-   - Multi-sensory learning approach with audio support
-   - Adjustable pace for processing needs
-   - Step-by-step problem solving with visual guides
-   <img src="lib/screenshots/FindMissing.png" width="200"/>
-
-2. **Quick Math**
-   - Flexible timing to accommodate different processing speeds
-   - Clear, uncluttered interface with consistent layouts
-   - Multi-modal input options (touch, voice, keyboard)
-   - Confidence-building progression system
-   - Short, focused practice sessions
-   <img src="lib/screenshots/Quick Calculation.png" width="200"/>
-
-3. **Math Memory**
-   - Pattern-based learning for enhanced retention
-   - Visual and spatial memory exercises
-   - Cognitive skill reinforcement
-   - Social interaction through multiplayer modes
-   - Success-oriented gameplay design
-  <img src="lib/screenshots/mental_arithmetic.png" width="200"/>
-
-
 ### Accessibility Features
 
 - **Dyslexia Support**
@@ -171,16 +144,147 @@ lib/
 
 For support, email mule.nikhil@gmail.com or create an issue in the repository.
 ## Screenshots
-<img src="lib/screenshots/Complex Calculation.png" width="200"/>
-<img src="lib/screenshots/concentration.png" width="200"/>
-<img src="lib/screenshots/Correct Answer.png" width="200"/>
-<img src="lib/screenshots/cube_root.png.png" width="200"/>
-<img src="lib/screenshots/magic_triangle.png" width="200"/>
-<img src="lib/screenshots/maths_pairs.png" width="200"/>
-<img src="lib/screenshots/pic_puzzle.png" width="200"/>
-<img src="lib/screenshots/dual_game.png" width="200"/>
-<img src="lib/screenshots/math_grid.png" width="200"/>
-<img src="lib/screenshots/numeric_memory.png" width="200"/>
+
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+    <div>
+        <img src="lib/screenshots/FindMissing.png" width="200"/>
+        <p><em>Find Missing Numbers</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/Quick Calculation.png" width="200"/>
+        <p><em>Quick Math</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/mental_arithmetic.png" width="200"/>
+        <p><em>Math Memory</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/Complex Calculation.png" width="200"/>
+        <p><em>Complex Calculations</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/concentration.png" width="200"/>
+        <p><em>Concentration</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/Correct Answer.png" width="200"/>
+        <p><em>Feedback Screen</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/cube_root.png.png" width="200"/>
+        <p><em>Cube Root</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/magic_triangle.png" width="200"/>
+        <p><em>Magic Triangle</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/maths_pairs.png" width="200"/>
+        <p><em>Math Pairs</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/pic_puzzle.png" width="200"/>
+        <p><em>Picture Puzzle</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/dual_game.png" width="200"/>
+        <p><em>Dual Game</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/math_grid.png" width="200"/>
+        <p><em>Math Grid</em></p>
+    </div>
+    <div>
+        <img src="lib/screenshots/numeric_memory.png" width="200"/>
+        <p><em>Numeric Memory</em></p>
+    </div>
+</div>
+
+## Game Descriptions
+
+### Core Game Modes
+
+1. **Find Missing Numbers**
+   - Practice arithmetic with missing numbers
+   - Adaptive difficulty levels
+   - Visual aids and step-by-step guidance
+   - Perfect for building number sense
+
+2. **Quick Math**
+   - Fast-paced arithmetic challenges
+   - Customizable time limits
+   - Multiple operation types (+ - × ÷)
+   - Great for mental math practice
+
+3. **Math Memory**
+   - Memory-based mathematical challenges
+   - Pattern recognition exercises
+   - Sequential number recall
+   - Builds cognitive and mathematical skills
+
+4. **Complex Calculations**
+   - Multi-step mathematical problems
+   - Advanced operation combinations
+   - Strategic problem-solving focus
+   - Suitable for advanced learners
+
+### Additional Game Modes
+
+5. **Concentration**
+   - Memory matching with mathematical elements
+   - Improves focus and retention
+   - Progressive difficulty levels
+   - Combines memory and math skills
+
+6. **Magic Triangle**
+   - Geometric puzzle solving
+   - Number placement challenges
+   - Logic and strategy development
+   - Visual-spatial reasoning practice
+
+7. **Math Pairs**
+   - Match equivalent expressions
+   - Various mathematical concepts
+   - Time-based challenges
+   - Reinforces mathematical relationships
+
+8. **Picture Puzzle**
+   - Visual math problems
+   - Real-world applications
+   - Interactive problem solving
+   - Enhances mathematical visualization
+
+9. **Dual Game**
+   - Two-player competitive mode
+   - Real-time math challenges
+   - Social learning opportunities
+   - Motivational competitive element
+
+10. **Math Grid**
+    - Grid-based number puzzles
+    - Pattern completion challenges
+    - Spatial reasoning development
+    - Multiple difficulty levels
+
+11. **Numeric Memory**
+    - Number sequence memorization
+    - Working memory enhancement
+    - Progressive sequence length
+    - Cognitive skill development
+
+12. **Cube Root**
+    - Advanced calculation practice
+    - Root finding challenges
+    - Mathematical estimation skills
+    - Higher-order thinking development
+
+Each game mode is designed with:
+- Dyslexia-friendly interface options
+- Adjustable difficulty settings
+- Progress tracking
+- Immediate feedback system
+- Audio and visual support
+- Achievement rewards
 
 ## Architecture Details
 
