@@ -191,7 +191,25 @@ lib/
 For support, email mule.nikhil@gmail.com or create an issue in the repository.
 ## Screenshots
 
-[Add screenshots of different game modes and features here]
+### Find Missing Numbers Mode
+![Find Missing Numbers](screenshots/FindMissing.png)
+*Practice arithmetic with dyslexia-friendly interface and adjustable settings*
+
+### Quick Math Mode
+![Quick Math](screenshots/Quick Calculation.png)
+*Speed-based challenges with customizable timing and difficulty*
+
+### Math Memory Mode
+![Math Memory](screenshots/mental_arithmetic.png)
+*Memory-based puzzles with pattern recognition features*
+
+### Accessibility Features
+![Accessibility Settings](screenshots/accessibility.png)
+*Customizable fonts, colors, and support features*
+
+### Progress Tracking
+![Progress Dashboard](screenshots/progress.png)
+*Track learning progress and achievements*
 
 ## Architecture Details
 
