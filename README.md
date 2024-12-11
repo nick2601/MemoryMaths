@@ -12,6 +12,7 @@ Memory Math is a specially designed educational Flutter application that creates
    - Multi-sensory learning approach with audio support
    - Adjustable pace for processing needs
    - Step-by-step problem solving with visual guides
+   <img src="lib/screenshots/FindMissing.png" width="200"/>
 
 2. **Quick Math**
    - Flexible timing to accommodate different processing speeds
@@ -19,6 +20,7 @@ Memory Math is a specially designed educational Flutter application that creates
    - Multi-modal input options (touch, voice, keyboard)
    - Confidence-building progression system
    - Short, focused practice sessions
+   <img src="lib/screenshots/Quick Calculation.png" width="200"/>
 
 3. **Math Memory**
    - Pattern-based learning for enhanced retention
@@ -26,6 +28,8 @@ Memory Math is a specially designed educational Flutter application that creates
    - Cognitive skill reinforcement
    - Social interaction through multiplayer modes
    - Success-oriented gameplay design
+      <img src="lib/screenshots/mental_arithmetic.png" width="200"/>
+
 
 ### Accessibility Features
 
@@ -42,28 +46,6 @@ Memory Math is a specially designed educational Flutter application that creates
   - Regular skill reinforcement
   - Memory-friendly interface
   - Progress tracking for caregivers
-
-## Features
-
-### Game Modes
-
-1. **Find Missing Numbers**
-   - Practice arithmetic by finding missing numbers in equations
-   - Progressive difficulty levels
-   - Instant feedback on answers
-   - Score tracking and performance metrics
-
-2. **Quick Math**
-   - Speed-based mathematical challenges
-   - Multiple operations (Addition, Subtraction, Multiplication, Division)
-   - Time-based scoring system
-   - Personal best tracking
-
-3. **Math Memory**
-   - Memory-based mathematical puzzles
-   - Pattern recognition challenges
-   - Cognitive skill development
-   - Difficulty progression system
 
 ### Core Features
 
@@ -192,16 +174,6 @@ For support, email mule.nikhil@gmail.com or create an issue in the repository.
 ## Screenshots
 
 ### Find Missing Numbers Mode
-![Find Missing Numbers](lib/screenshots/FindMissing.png)
-*Practice arithmetic with dyslexia-friendly interface and adjustable settings*
-
-### Quick Math Mode
-![Quick Math](lib/screenshots/Quick Calculation.png)
-*Speed-based challenges with customizable timing and difficulty*
-
-### Math Memory Mode
-![Math Memory](lib/screenshots/mental_arithmetic.png)
-*Memory-based puzzles with pattern recognition features*
 
 
 ## Architecture Details
