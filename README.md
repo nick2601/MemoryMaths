@@ -28,7 +28,7 @@ Memory Math is a specially designed educational Flutter application that creates
    - Cognitive skill reinforcement
    - Social interaction through multiplayer modes
    - Success-oriented gameplay design
-      <img src="lib/screenshots/mental_arithmetic.png" width="200"/>
+  <img src="lib/screenshots/mental_arithmetic.png" width="200"/>
 
 
 ### Accessibility Features
@@ -60,7 +60,6 @@ Memory Math is a specially designed educational Flutter application that creates
   - Custom color schemes
 
 - **Progress Tracking**
-  - Personal statistics
   - Achievement system
   - Progress persistence
 
@@ -172,9 +171,16 @@ lib/
 
 For support, email mule.nikhil@gmail.com or create an issue in the repository.
 ## Screenshots
-
-### Find Missing Numbers Mode
-
+<img src="lib/screenshots/Complex Calculation.png" width="200"/>
+<img src="lib/screenshots/concentration.png" width="200"/>
+<img src="lib/screenshots/Correct Answer.png" width="200"/>
+<img src="lib/screenshots/cube_root.png.png" width="200"/>
+<img src="lib/screenshots/magic_triangle.png" width="200"/>
+<img src="lib/screenshots/maths_pairs.png" width="200"/>
+<img src="lib/screenshots/pic_puzzle.png" width="200"/>
+<img src="lib/screenshots/dual_game.png" width="200"/>
+<img src="lib/screenshots/math_grid.png" width="200"/>
+<img src="lib/screenshots/numeric_memory.png" width="200"/>
 
 ## Architecture Details
 
@@ -222,12 +228,6 @@ lib/
     └── utils/         # Helper functions
 ```
 
-## Game Modes - Comprehensive Details
-
-### 1. Find Missing Numbers
-
-**Core Concept:**
-A mathematical puzzle mode where players complete equations by identifying missing values, designed to build fundamental arithmetic understanding.
 
 **Accessibility Features for Dyslexic Users**
 
@@ -263,48 +263,24 @@ A mathematical puzzle mode where players complete equations by identifying missi
   - Visual progress indicators
   - Simplified menu structures
 
-### Interactive Features
-
-**Input Methods:**
-- **Multi-Modal Input:**
-  - Voice recognition for number input
-  - Touch-based number selection
-  - Gesture controls
-  - Virtual keyboard with word prediction
-  - Handwriting recognition option
-
-- **Error Prevention:**
-  - Auto-correction suggestions
-  - Input validation
-  - Confirmation dialogs
-  - Undo/redo functionality
-  - Error forgiveness system
-
 
 ### Personalization Options
 
 **User Profiles:**
 - Individual setting preferences
 - Progress tracking
-- Learning style adaptation
 - Difficulty level management
 - Custom color schemes
 
 
 **Adaptive Learning:**
 - Dynamic difficulty adjustment
-- Personalized problem selection
-- Custom practice sessions
 - Strength-based progression
-- Gap-focused exercises
 
 ### Support Features
 
 **Help System:**
 - Context-sensitive help
-- Video tutorials
-- Interactive guides
-- Quick reference cards
 - Simplified instructions
 
 **Feedback Mechanisms:**
@@ -312,99 +288,7 @@ A mathematical puzzle mode where players complete equations by identifying missi
 - Positive reinforcement
 - Progress celebrations
 - Achievement system
-- Confidence building markers
 
-### Benefits for Dementia Patients
-
-- Structured problem progression
-- Repetitive pattern recognition
-- Clear, single-focus tasks
-- Immediate feedback system
-- Memory reinforcement through regular practice
-
-### 2. Quick Math
-
-**Core Concept:**
-Time-based mathematical challenges with adaptable timing to accommodate different processing speeds.
-
-**Dyslexia-Friendly Features:**
-- **Interface Design:**
-  - Simplified number presentation
-  - Large, clear digits
-  - Consistent layout patterns
-  - Reduced visual clutter
-  - Optional grid guidelines
-
-- **Interaction Methods:**
-  - Multi-modal input options (touch, voice, keyboard)
-  - Gesture-based number input
-  - Visual number pad with audio feedback
-
-**Dementia Support Features:**
-- Adjustable time limits
-- Progressive difficulty scaling
-- Regular reinforcement of basic skills
-- Familiar number patterns
-- Short, focused sessions
-
-### 3. Math Memory
-
-**Core Concept:**
-A memory-based mathematical game designed to enhance both cognitive and mathematical abilities.
-
-**Dyslexia Accommodations:**
-- **Visual Memory Aids:**
-  - Pattern-based number grouping
-  - Visual relationship mapping
-  - Symbol-to-number associations
-  - Color-coded matching pairs
-  - Spatial organization tools
-
-- **Learning Support:**
-  - Multi-sensory feedback
-  - Error pattern analysis
-  - Personalized learning paths
-  - Progress visualization
-
-**Dementia Care Benefits:**
-- **Cognitive Exercise:**
-  - Short-term memory training
-  - Pattern recognition practice
-  - Spatial awareness development
-  - Social interaction through multiplayer modes
-
-- **Adaptive Features:**
-  - Difficulty auto-adjustment
-  - Success-oriented gameplay
-  - Familiar mathematical concepts
-  - Confidence-building progression
-
-### Performance Analytics
-
-**Accessibility-Focused Metrics:**
-- Processing speed tracking
-- Error pattern identification
-- Learning style analysis
-- Attention span monitoring
-
-**Personalized Support:**
-- **For Dyslexia:**
-  - Individual learning pace adjustment
-  - Preferred presentation method identification
-  - Strength-based learning recommendations
-  - Visual processing pattern analysis
-
-- **For Dementia:**
-  - Cognitive function monitoring
-  - Memory retention tracking
-  - Task completion trends
-  - Engagement level assessment
-
-**Progress Reporting:**
-- Visual progress charts
-- Achievement celebrations
-- Family/caregiver insights
-- Professional assessment tools
 
 ## Educational Benefits
 
