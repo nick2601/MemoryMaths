@@ -28,7 +28,7 @@ Memory Math is a specially designed educational Flutter application that creates
    - Cognitive skill reinforcement
    - Social interaction through multiplayer modes
    - Success-oriented gameplay design
-      <img src="lib/screenshots/mental_arithmetic.png" width="200"/>
+   <img src="lib/screenshots/mental_arithmetic.png" width="200"/>
 
 
 ### Accessibility Features
