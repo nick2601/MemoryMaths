@@ -1,0 +1,59 @@
+<svg width="374" height="187" viewBox="0 0 374 187" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="365.035" height="165.988" rx="20" transform="matrix(0.998397 0.0565914 -0.0539107 0.998546 9.54883 0.202271)" fill="black"/>
+<rect x="5" y="10.2023" width="365" height="166" rx="20" fill="#AAE37B"/>
+<mask id="mask0_4706_8507" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="4" y="10" width="366" height="167">
+<rect x="4.99805" y="10.2023" width="365" height="166" rx="20" fill="#FFCB43"/>
+</mask>
+<g mask="url(#mask0_4706_8507)">
+<circle cx="380.299" cy="165.404" r="85" stroke="white" stroke-width="30"/>
+<mask id="mask1_4706_8507" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="280" y="65" width="201" height="201">
+<circle cx="380.299" cy="165.404" r="85" stroke="white" stroke-width="30"/>
+</mask>
+<g mask="url(#mask1_4706_8507)">
+<circle cx="286.799" cy="96.9044" r="1.5" fill="black"/>
+<circle cx="286.799" cy="109.904" r="1.5" fill="black"/>
+<circle cx="286.799" cy="122.904" r="1.5" fill="black"/>
+<circle cx="286.799" cy="134.904" r="1.5" fill="black"/>
+<circle cx="286.799" cy="147.904" r="1.5" fill="black"/>
+<circle cx="286.799" cy="160.904" r="1.5" fill="black"/>
+<circle cx="299.799" cy="96.9044" r="1.5" fill="black"/>
+<circle cx="299.799" cy="109.904" r="1.5" fill="black"/>
+<circle cx="299.799" cy="122.904" r="1.5" fill="black"/>
+<circle cx="299.799" cy="134.904" r="1.5" fill="black"/>
+<circle cx="299.799" cy="147.904" r="1.5" fill="black"/>
+<circle cx="299.799" cy="160.904" r="1.5" fill="black"/>
+<circle cx="311.799" cy="96.9044" r="1.5" fill="black"/>
+<circle cx="311.799" cy="109.904" r="1.5" fill="black"/>
+<circle cx="311.799" cy="122.904" r="1.5" fill="black"/>
+<circle cx="311.799" cy="134.904" r="1.5" fill="black"/>
+<circle cx="311.799" cy="147.904" r="1.5" fill="black"/>
+<circle cx="311.799" cy="160.904" r="1.5" fill="black"/>
+<circle cx="324.799" cy="96.9044" r="1.5" fill="black"/>
+<circle cx="324.799" cy="109.904" r="1.5" fill="black"/>
+<circle cx="324.799" cy="122.904" r="1.5" fill="black"/>
+<circle cx="324.799" cy="134.904" r="1.5" fill="black"/>
+<circle cx="324.799" cy="147.904" r="1.5" fill="black"/>
+<circle cx="324.799" cy="160.904" r="1.5" fill="black"/>
+<circle cx="324.799" cy="70.9043" r="1.5" fill="black"/>
+<circle cx="324.799" cy="83.9043" r="1.5" fill="black"/>
+<circle cx="324.799" cy="96.9043" r="1.5" fill="black"/>
+<circle cx="337.799" cy="70.9043" r="1.5" fill="black"/>
+<circle cx="337.799" cy="83.9043" r="1.5" fill="black"/>
+<circle cx="337.799" cy="96.9043" r="1.5" fill="black"/>
+<circle cx="350.799" cy="70.9043" r="1.5" fill="black"/>
+<circle cx="350.799" cy="83.9043" r="1.5" fill="black"/>
+<circle cx="350.799" cy="96.9043" r="1.5" fill="black"/>
+<circle cx="362.799" cy="70.9043" r="1.5" fill="black"/>
+<circle cx="362.799" cy="83.9043" r="1.5" fill="black"/>
+<circle cx="362.799" cy="96.9043" r="1.5" fill="black"/>
+<circle cx="286.799" cy="171.904" r="1.5" fill="black"/>
+<circle cx="299.799" cy="171.904" r="1.5" fill="black"/>
+<circle cx="311.799" cy="171.904" r="1.5" fill="black"/>
+<circle cx="324.799" cy="171.904" r="1.5" fill="black"/>
+</g>
+</g>
+<rect x="120.299" y="31.5137" width="2" height="21" transform="rotate(-38.45 120.299 31.5137)" fill="black"/>
+<rect x="245.586" y="127.404" width="2" height="21" transform="rotate(60.55 245.586 127.404)" fill="black"/>
+<rect x="248.336" y="28.4043" width="2" height="21" transform="rotate(28.55 248.336 28.4043)" fill="white"/>
+<rect x="137.299" y="138.664" width="3" height="34.8479" transform="rotate(-58.4151 137.299 138.664)" fill="white"/>
+</svg>
