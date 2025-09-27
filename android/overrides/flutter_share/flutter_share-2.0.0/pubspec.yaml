@@ -1,0 +1,26 @@
+name: flutter_share
+description: Simple way to share message, links or files from your flutter app for Android and IOS (Enter to see some gifs).
+version: 2.0.0
+homepage: https://github.com/lubritto/flutter_share
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.example.fluttershare
+        pluginClass: FlutterSharePlugin
+      ios:
+        pluginClass: FlutterSharePlugin
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  pedantic: ^1.11.0
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+  flutter: '>=1.10.0'
