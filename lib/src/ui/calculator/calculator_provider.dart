@@ -1,70 +1,78 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
-import 'package:mathsgames/src/data/models/calculator.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/ui/app/game_provider.dart';
-import 'package:mathsgames/src/ui/soundPlayer/audio_file.dart';
+import 'package:mathsgames/src/data/models/calculator.dart';
+import 'package:tuple/tuple.dart';
 
-class CalculatorProvider extends GameProvider<Calculator> {
-  late String result;
+import '../app/game_provider.dart'; // <- your generic GameNotifier/GameState
 
-  BuildContext? context;
-  int? level;
+/// --- CALCULATOR NOTIFIER --- ///
+class CalculatorNotifier extends GameNotifier<Calculator> {
+  final BuildContext context;
+  final int level;
 
-  CalculatorProvider(
-      {required TickerProvider vsync,
-      required int level,
-      required BuildContext context})
-      : super(vsync: vsync, gameCategoryType: GameCategoryType.CALCULATOR,c: context) {
-    this.level = level;
-    this.context = context;
-    startGame(level: this.level == null ? null : level);
-  }
-
+  String result = "";
   bool isClick = false;
 
-  void checkResult(String answer ) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
+  CalculatorNotifier({
+    required this.context,
+    required this.level,
+  }) : super(GameCategoryType.CALCULATOR) {
+    startGame(level: level);
+  }
 
-    if (result.length < currentState.answer.toString().length &&
-        timerStatus != TimerStatus.pause) {
-      result = result + answer;
-      notifyListeners();
+  /// Handles digit/answer input
+  Future<void> checkResult(String answer) async {
+    if (!state.isTimerRunning || state.currentState == null) return;
 
-      if (int.parse(result) == currentState.answer) {
 
-        notifyListeners();
+    // Append digit
+    if (result.length < state.currentState!.answer.toString().length) {
+      result += answer;
+      state = state.copyWith(); // trigger UI update
+    }
 
-        audioPlayer.playRightSound();
-        isClick = false;
+    // ✅ Correct answer
+    if (int.tryParse(result) == state.currentState!.answer) {
+      isClick = false;
 
-        await Future.delayed(Duration(milliseconds: 300));
-        loadNewDataIfRequired(level: level == null ? null : level);
-        if (timerStatus != TimerStatus.pause) {
-          restartTimer();
-        }
+      await Future.delayed(const Duration(milliseconds: 300));
+      next(); // go to next question
 
-        currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-        addCoin();
-        notifyListeners();
-      } else if (result.length == currentState.answer.toString().length) {
-        minusCoin();
-        audioPlayer.playWrongSound();
-        wrongAnswer();
-      }
+      rightAnswer(); // adds score
+      clearResult();
+      return;
+    }
+
+    if (result.length == state.currentState!.answer.toString().length) {
+      wrongAnswer(); // penalty
+      clearResult();
     }
   }
 
+  /// Remove last digit
   void backPress() {
-    if (result.length > 0) {
+    if (result.isNotEmpty) {
       result = result.substring(0, result.length - 1);
-      notifyListeners();
+      state = state.copyWith(); // notify UI
     }
   }
 
+  /// Clears current input
   void clearResult() {
     result = "";
-    notifyListeners();
+    state = state.copyWith(); // notify UI
   }
 }
 
+/// --- PROVIDER --- ///
+final calculatorProvider = StateNotifierProvider.family<
+    CalculatorNotifier, GameState<Calculator>, Tuple2<BuildContext, int>>(
+      (ref, params) {
+    return CalculatorNotifier(
+      context: params.item1,
+      level: params.item2,
+    );
+  },
+);

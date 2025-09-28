@@ -1,6 +1,4 @@
-import 'dart:async';
-import 'package:flutter/cupertino.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/repository/calculator_repository.dart';
 import 'package:mathsgames/src/data/repository/complex_calcualtion_repository.dart';
@@ -18,310 +16,201 @@ import 'package:mathsgames/src/data/repository/quick_calculation_repository.dart
 import 'package:mathsgames/src/data/repository/sign_repository.dart';
 import 'package:mathsgames/src/data/repository/square_root_repository.dart';
 import 'package:mathsgames/src/data/repository/true_false_repository.dart';
-import 'package:mathsgames/src/ui/app/time_provider.dart';
-import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
 import '../../data/repository/numeric_memory_repository.dart';
 
-int rightCoin = 10;
-int wrongCoin = 5;
-int hintCoin = 10;
+class GameState<T> {
+  final List<T> list;
+  final int index;
+  final double currentScore;
+  final int rightCount;
+  final int wrongCount;
+  final DialogType dialogType;
+  final bool isTimerRunning;
+  final T? currentState;
 
-class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
-  final GameCategoryType gameCategoryType;
-  final _homeViewModel = GetIt.I<DashboardProvider>();
-  final homeViewModel = GetIt.I<DashboardProvider>();
+  const GameState({
+    this.list = const [],
+    this.index = 0,
+    this.currentScore = 0,
+    this.rightCount = 0,
+    this.wrongCount = 0,
+    this.dialogType = DialogType.non,
+    this.isTimerRunning = false,
+    this.currentState,
+  });
 
-  late List<T> list;
-  late int index;
-  late double currentScore;
-  late double score1 = 0;
-  late double score2 = 0;
-  late int rightCount = 0;
-  late int wrongCount = 0;
-  late double oldScore;
-  late T currentState;
-  late String result;
-  late bool isTimer;
-  late bool isRewardedComplete = false;
-  late int levelNo;
- // late AdsFile adsFile;
-  late BuildContext c;
-
-  GameProvider(
-      {required TickerProvider vsync,
-      required this.gameCategoryType,
-      required this.c,
-      bool? isTimer})
-      : super(
-          vsync: vsync,
-          totalTime: KeyUtil.getTimeUtil(gameCategoryType),
-        ) {
-    this.isTimer = (isTimer == null) ? true : isTimer;
-    // adsFile = new AdsFile(c);
-    //
-    // adsFile.createRewardedAd();
-    print("isTimer12===$isTimer");
+  GameState<T> copyWith({
+    List<T>? list,
+    int? index,
+    double? currentScore,
+    int? rightCount,
+    int? wrongCount,
+    DialogType? dialogType,
+    bool? isTimerRunning,
+    T? currentState,
+  }) {
+    return GameState<T>(
+      list: list ?? this.list,
+      index: index ?? this.index,
+      currentScore: currentScore ?? this.currentScore,
+      rightCount: rightCount ?? this.rightCount,
+      wrongCount: wrongCount ?? this.wrongCount,
+      dialogType: dialogType ?? this.dialogType,
+      isTimerRunning: isTimerRunning ?? this.isTimerRunning,
+      currentState: currentState ?? this.currentState,
+    );
   }
+}
 
-  @override
-  void dispose() {
-    //disposeRewardedAd(adsFile);
-    WidgetsBinding.instance.removeObserver(this);
-    // TODO: implement dispose
-    super.dispose();
+class GameNotifier<T> extends StateNotifier<GameState<T>> {
+  final GameCategoryType type;
+
+  GameNotifier(this.type) : super(GameState<T>());
+
+  void startGame({int level = 1}) {
+    final newList = _getList(level);
+    state = state.copyWith(
+      list: newList,
+      index: 0,
+      currentScore: 0,
+      rightCount: 0,
+      wrongCount: 0,
+      currentState: newList.isNotEmpty ? newList.first : null,
+      dialogType: DialogType.non,
+      isTimerRunning: true,
+    );
   }
-
-  void startGame({int? level, bool? isTimer}) async {
-    isTimer = (isTimer == null) ? true : isTimer;
-    result = "";
-
-    list = [];
-    list = getList(level == null ? 1 : level);
-
-    print("list--${list.length}====");
-    index = 0;
-    currentScore = 0;
-    oldScore = 0;
-    currentState = list[index];
-    if (_homeViewModel.isFirstTime(gameCategoryType)) {
-      await Future.delayed(Duration(milliseconds: 100));
-      showInfoDialog();
-    } else {
-      print("isTimerStart==$isTimer");
-      if (isTimer) {
-        restartTimer();
-        notifyListeners();
-      }
-    }
-    getCoin();
-    WidgetsBinding.instance.addObserver(this);
+  void showInfoDialog() {
+    // Implement the logic for showing the info dialog
+    print("Info dialog shown");
   }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-
-    // These are the callbacks
-    switch (state) {
-      case AppLifecycleState.resumed:
-        break;
-      case AppLifecycleState.inactive:
-        // widget is inactive
-        break;
-      case AppLifecycleState.paused:
-        if (isTimer) {
-          pauseTimer();
-          dialogType = DialogType.pause;
-          notifyListeners();
-        }
-        break;
-      case AppLifecycleState.detached:
-        break;
-    }
-  }
-
-  void loadNewDataIfRequired({int? level, bool? isScoreAdd}) {
-    isFirstClick = false;
-    isSecondClick = false;
-    print("list12===${list.length}");
-
-    if (index < 19) {
-      if (gameCategoryType == GameCategoryType.QUICK_CALCULATION &&
-          list.length - 2 == index) {
-        list.addAll(getList(level == null ? index ~/ 5 + 1 : level));
-      } else if (list.length - 1 == index) {
-        print("level---${index ~/ 5 + 1}");
-        if (gameCategoryType == GameCategoryType.SQUARE_ROOT)
-          list.addAll(getList(level == null ? index ~/ 5 + 2 : level));
-        else
-          list.addAll(getList(level == null ? index ~/ 5 + 1 : level));
-      }
-      print("list1212===${list.length}");
-      result = "";
-      index = index + 1;
-
-      print("index===$index");
-      // if(isScoreAdd==null) {
-      //   oldScore = currentScore;
-      //   currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-      //
-      //
-      //   print("currentScore===$currentScore==${KeyUtil.getScoreUtil(
-      //       gameCategoryType)}");
-      // }
-      currentState = list[index];
-    } else {
-      dialogType = DialogType.over;
-      if (isTimer) {
-        pauseTimer();
-      }
-      notifyListeners();
-    }
-  }
-
-  bool isFirstClick = false;
-  bool isSecondClick = false;
-
-  void wrongDualAnswer(bool isFirst) {
-    if (isFirst) {
-      if (score1 > 0) {
-        score1--;
-        notifyListeners();
-      } else if (score1 == 0 && isSecondClick && score2 <= 0) {
-        dialogType = DialogType.over;
-        pauseTimer();
-        notifyListeners();
-      } else {
-        notifyListeners();
-      }
-    } else {}
-    if (score2 > 0) {
-      score2--;
-      notifyListeners();
-    } else if (score2 == 0 && isFirstClick && score1 <= 0) {
-      dialogType = DialogType.over;
-
-      pauseTimer();
-      notifyListeners();
-    } else {
-      notifyListeners();
-    }
-  }
-
   void rightAnswer() {
-    print("currentScoreRight===$currentScore");
-    oldScore = currentScore;
-    currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-
-    addCoin();
-
-    print("currentScore===12 $currentScore");
-    notifyListeners();
+    final newScore = state.currentScore + KeyUtil.getScoreUtil(type);
+    state = state.copyWith(
+      currentScore: newScore,
+      rightCount: state.rightCount + 1,
+    );
   }
 
   void wrongAnswer() {
-    minusCoin();
-    if (currentScore > 0) {
-      oldScore = currentScore;
-      double minusScore = KeyUtil.getScoreMinusUtil(gameCategoryType);
-      if (minusScore < 0) {
-        minusScore = minusScore.abs();
-      }
-      currentScore = currentScore - minusScore;
-      notifyListeners();
-    } else if (currentScore == 0) {
-      dialogType = DialogType.over;
-      pauseTimer();
-      notifyListeners();
+    double minusScore = KeyUtil.getScoreMinusUtil(type).abs();
+    double newScore =
+    (state.currentScore - minusScore).clamp(0, double.infinity);
+    state = state.copyWith(
+      currentScore: newScore,
+      wrongCount: state.wrongCount + 1,
+    );
+  }
+
+  void next() {
+    if (state.index + 1 < state.list.length) {
+      state = state.copyWith(
+        index: state.index + 1,
+        currentState: state.list[state.index + 1],
+        dialogType: DialogType.non,
+      );
+    } else {
+      state = state.copyWith(dialogType: DialogType.over);
     }
+  }
+
+  void pause() {
+    state = state.copyWith(
+      dialogType: DialogType.pause,
+      isTimerRunning: false,
+    );
+  }
+
+  void resume() {
+    state = state.copyWith(
+      dialogType: DialogType.non,
+      isTimerRunning: true,
+    );
+  }
+
+  void exit() {
+    state = state.copyWith(
+      dialogType: DialogType.exit,
+      isTimerRunning: false,
+    );
+  }
+  void updateScore() {
+    // Save to local storage, database, or just log
+    print("Score updated: ${state.currentScore}");
+  }
+
+  void resetGameCounters() {
+    state = state.copyWith(
+      rightCount: 0,
+      wrongCount: 0,
+      currentScore: 0,
+      index: 0,
+    );
   }
 
   void pauseResumeGame() {
-    dialogType = DialogType.non;
-    if (isTimer) {
-      if (timerStatus == TimerStatus.play) {
-        pauseTimer();
-        dialogType = DialogType.pause;
-        notifyListeners();
-      } else {
-        resumeTimer();
-        dialogType = DialogType.non;
-        notifyListeners();
-      }
-    }
-
-    print("dialogType====${dialogType}");
-  }
-
-  void showInfoDialog() {
-    pauseTimer();
-    dialogType = DialogType.info;
-    notifyListeners();
-  }
-
-  void showExitDialog() {
-    print("dialog---true2");
-    pauseTimer();
-    print("dialog---true3");
-    dialogType = DialogType.exit;
-    print("dialog---true1");
-    notifyListeners();
-  }
-
-  void showHintDialog() {
-    print("dialog---true2");
-    pauseTimer();
-    print("dialog---true3");
-    dialogType = DialogType.hint;
-    print("dialog---true1");
-    notifyListeners();
-  }
-
-  void updateScore() {
-    print("currentScore===$currentScore");
-    _homeViewModel.updateScoreboard(gameCategoryType, currentScore);
-  }
-
-  void gotItFromInfoDialog(int? level) {
-    if (_homeViewModel.isFirstTime(gameCategoryType)) {
-      _homeViewModel.setFirstTime(gameCategoryType);
-      if (gameCategoryType == GameCategoryType.MENTAL_ARITHMETIC) {
-        startGame(level: level);
-      }
-      if (isTimer) {
-        restartTimer();
-      }
+    if (state.isTimerRunning) {
+      pause();
     } else {
-      pauseResumeGame();
+      resume();
     }
-
-    print("home-==${_homeViewModel.isFirstTime(gameCategoryType)}");
   }
 
-  List<T> getList(int level) {
-    this.levelNo = level;
+  void gotItFromInfoDialog(int level) {
+    // Typically, resume game from tutorial/info state
+    startGame(level: level);
+  }
 
-    switch (gameCategoryType) {
+  List<T> _getList(int level) {
+    switch (type) {
       case GameCategoryType.CALCULATOR:
-        return CalculatorRepository.getCalculatorDataList(level);
+        return CalculatorRepository.getCalculatorDataList(level) as List<T>;
       case GameCategoryType.GUESS_SIGN:
-        return SignRepository.getSignDataList(level);
+        return SignRepository.getSignDataList(level) as List<T>;
       case GameCategoryType.FIND_MISSING:
-        return FindMissingRepository.getFindMissingDataList(level);
+        return FindMissingRepository.getFindMissingDataList(level) as List<T>;
       case GameCategoryType.TRUE_FALSE:
-        return TrueFalseRepository.getTrueFalseDataList(level);
+        return TrueFalseRepository.getTrueFalseDataList(level) as List<T>;
       case GameCategoryType.SQUARE_ROOT:
-        return SquareRootRepository.getSquareDataList(level);
+        return SquareRootRepository.getSquareDataList(level) as List<T>;
       case GameCategoryType.MATH_PAIRS:
-        return MathPairsRepository.getMathPairsDataList(level);
+        return MathPairsRepository.getMathPairsDataList(level) as List<T>;
       case GameCategoryType.CONCENTRATION:
-        return MathPairsRepository.getMathPairsDataList(level);
+        return MathPairsRepository.getMathPairsDataList(level) as List<T>;
       case GameCategoryType.NUMERIC_MEMORY:
-        return NumericMemoryRepository.getNumericMemoryDataList(level);
+        return NumericMemoryRepository.getNumericMemoryDataList(level) as List<T>;
       case GameCategoryType.CORRECT_ANSWER:
-        return CorrectAnswerRepository.getCorrectAnswerDataList(level);
+        return CorrectAnswerRepository.getCorrectAnswerDataList(level) as List<T>;
       case GameCategoryType.MAGIC_TRIANGLE:
-        if (level > 15) {
-          return MagicTriangleRepository.getNextLevelTriangleDataProviderList();
-        } else {
-          return MagicTriangleRepository.getTriangleDataProviderList();
-        }
+        return (level > 15)
+            ? MagicTriangleRepository.getNextLevelTriangleDataProviderList()
+        as List<T>
+            : MagicTriangleRepository.getTriangleDataProviderList() as List<T>;
       case GameCategoryType.MENTAL_ARITHMETIC:
-        return MentalArithmeticRepository.getMentalArithmeticDataList(level);
+        return MentalArithmeticRepository.getMentalArithmeticDataList(level)
+        as List<T>;
       case GameCategoryType.QUICK_CALCULATION:
-        return QuickCalculationRepository.getQuickCalculationDataList(level, 5);
+        return QuickCalculationRepository.getQuickCalculationDataList(level, 5)
+        as List<T>;
       case GameCategoryType.MATH_GRID:
-        return MathGridRepository.getMathGridData(level);
+        return MathGridRepository.getMathGridData(level) as List<T>;
       case GameCategoryType.PICTURE_PUZZLE:
-        return PicturePuzzleRepository.getPicturePuzzleDataList(level);
+        return PicturePuzzleRepository.getPicturePuzzleDataList(level) as List<T>;
       case GameCategoryType.NUMBER_PYRAMID:
-        return NumberPyramidRepository.getPyramidDataList(level);
+        return NumberPyramidRepository.getPyramidDataList(level) as List<T>;
       case GameCategoryType.DUAL_GAME:
-        return DualRepository.getDualData(level);
+        return DualRepository.getDualData(level) as List<T>;
       case GameCategoryType.COMPLEX_CALCULATION:
-        return ComplexCalculationRepository.getComplexData(level);
+        return ComplexCalculationRepository.getComplexData(level) as List<T>;
       case GameCategoryType.CUBE_ROOT:
-        return CubeRootRepository.getCubeDataList(level);
+        return CubeRootRepository.getCubeDataList(level) as List<T>;
     }
   }
 }
+
+final gameProvider = StateNotifierProvider.family<
+    GameNotifier<dynamic>,
+    GameState<dynamic>,
+    GameCategoryType>(
+      (ref, type) => GameNotifier(type),
+);

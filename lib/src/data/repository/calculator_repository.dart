@@ -1,65 +1,61 @@
 import 'package:mathsgames/src/data/models/calculator.dart';
 import 'package:mathsgames/src/utility/math_util.dart';
 
-/// Repository class that handles the generation and management of calculator problems
-/// for the math games application.
+/// Repository class that handles the generation and management of
+/// calculator problems for the math games application.
 class CalculatorRepository {
-  /// Stores hash codes of previously generated calculator problems to avoid duplicates
-  static List<int> listHasCode = <int>[];
+  /// Stores hash codes of generated calculator problems
+  /// to avoid duplicates within a session.
+  static final Set<int> _generatedHashes = <int>{};
 
-  /// Generates a list of calculator problems for a specific difficulty level
+  /// Generates a list of unique calculator problems for a specific difficulty level.
   ///
   /// Parameters:
-  ///   - level: Integer representing the difficulty level (1-8)
+  /// - [level]: Difficulty level (1–8).
   ///
   /// Returns:
-  ///   A list of [Calculator] objects containing math problems and their answers
-  static getCalculatorDataList(int level) {
-    // Reset hash list when starting from level 1
+  /// A list of [Calculator] objects containing math problems and their answers.
+  static List<Calculator> getCalculatorDataList(int level) {
+    // Reset when starting from level 1
     if (level == 1) {
-      listHasCode.clear();
+      _generatedHashes.clear();
     }
 
-    // Initialize empty list to store calculator problems
-    List<Calculator> list = <Calculator>[];
+    final List<Calculator> calculators = <Calculator>[];
 
     // Generate problems until we have 5 unique ones
-    while (list.length < 5) {
-      // Generate mathematical expressions based on the level
-      MathUtil.generate(level, 5 - list.length)
-          .forEach((Expression expression) {
-        Calculator calculatorQandS;
+    while (calculators.length < 5) {
+      final expressions = MathUtil.generate(level, 5 - calculators.length);
 
-        // Create calculator problem based on whether it's a two-operand
-        // or three-operand expression
-        if (expression.operator2 == null) {
-          // Two-operand expression (e.g., "2 + 3")
-          calculatorQandS = Calculator(
-              question:
-                  "${expression.firstOperand} ${expression.operator1} ${expression.secondOperand}",
-              answer: expression.answer);
-        } else {
-          // Three-operand expression (e.g., "2 + 3 * 4")
-          calculatorQandS = Calculator(
-              question:
-                  "${expression.firstOperand} ${expression.operator1} ${expression.secondOperand} ${expression.operator2} ${expression.thirdOperand}",
-              answer: expression.answer);
-        }
+      for (final expression in expressions) {
+        final calculator = expression.operator2 == null
+            ? Calculator(
+          question:
+          "${expression.firstOperand} ${expression.operator1} ${expression.secondOperand}",
+          answer: expression.answer,
+        )
+            : Calculator(
+          question:
+          "${expression.firstOperand} ${expression.operator1} ${expression.secondOperand} ${expression.operator2} ${expression.thirdOperand}",
+          answer: expression.answer,
+        );
 
-        // Only add the problem if it's unique (not seen before)
-        if (!listHasCode.contains(calculatorQandS.hashCode)) {
-          listHasCode.add(calculatorQandS.hashCode);
-          list.add(calculatorQandS);
+        // Ensure uniqueness
+        if (_generatedHashes.add(calculator.hashCode)) {
+          calculators.add(calculator);
         }
-      });
+      }
     }
-    return list;
+
+    return calculators;
   }
 }
 
-/// Test function to generate calculator problems for all levels
+/// Test function to generate calculator problems for all levels.
 void main() {
   for (int i = 1; i <= 8; i++) {
-    CalculatorRepository.getCalculatorDataList(i);
+    final problems = CalculatorRepository.getCalculatorDataList(i);
+    print("Level $i => ${problems.length} problems");
+    problems.forEach(print);
   }
 }

@@ -4,14 +4,21 @@ import 'package:tuple/tuple.dart';
 
 class CommonTextButton extends StatelessWidget {
   final String text;
-  final Function onTab;
+  final VoidCallback onTab;
   final Tuple2<Color, Color> colorTuple;
+  final double fontSize;
+  final double borderRadius;
+  final EdgeInsetsGeometry padding;
 
-  CommonTextButton({
+  const CommonTextButton({
+    Key? key,
     required this.text,
     required this.onTab,
     required this.colorTuple,
-  });
+    this.fontSize = 24,
+    this.borderRadius = 24,
+    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,25 +26,28 @@ class CommonTextButton extends StatelessWidget {
       onTab: onTab,
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         elevation: 2,
+        margin: EdgeInsets.zero, // avoid extra spacing
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(24)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
             gradient: LinearGradient(
               colors: [colorTuple.item1, colorTuple.item2],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
           ),
+          padding: padding,
           alignment: Alignment.center,
           child: Text(
             text,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(fontSize: 24, color: Colors.white),
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              fontSize: fontSize,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

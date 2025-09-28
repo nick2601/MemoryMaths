@@ -1,74 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// AppTheme defines the light and dark theme configurations for the application.
-/// This class provides static getters for both theme variants, ensuring consistent
-/// styling throughout the app.
+/// AppTheme defines vibrant light and dark themes for the app.
+/// Colors are inspired by playful puzzle/game palettes.
 class AppTheme {
-  /// Returns the light theme configuration for the application.
-  ///
-  /// This theme uses a light color palette with:
-  /// - White-tinted background
-  /// - Pure white cards
-  /// - Custom text styling
-  /// - Light brightness mode
-  /// - Dark system overlay for status bar
+  /// Vibrant Light Theme
   static ThemeData get theme {
-    ThemeData base = ThemeData.light();
+    final base = ThemeData.light();
 
     return base.copyWith(
-      scaffoldBackgroundColor: Colors.white70,
-      cardColor: Colors.white,
-      typography:
-          Typography.material2021(platform: TargetPlatform.android).copyWith(
-        black: Typography.material2021(platform: TargetPlatform.android)
-            .black
-            .apply(fontFamily: 'Montserrat'),
-        white: Typography.material2021(platform: TargetPlatform.android)
-            .white
-            .apply(fontFamily: 'Montserrat'),
+      colorScheme: ColorScheme.light(
+        primary: const Color(0xFFFF6B6B), // Coral Red
+        secondary: const Color(0xFF4ECDC4), // Teal Mint
+        surface: Colors.white,
+        error: const Color(0xFFFF4C4C),
+        onPrimary: Colors.white,
+        onSecondary: Colors.black,
+        onSurface: Colors.black,
+        onBackground: Colors.black,
+        onError: Colors.white,
       ),
+      scaffoldBackgroundColor: const Color(0xFFF7F7F7),
+      cardColor: Colors.white,
       textTheme: base.textTheme
+          .apply(
+        fontFamily: 'Montserrat',
+        bodyColor: Colors.black87,
+        displayColor: Colors.black87,
+      )
           .copyWith(
-            bodySmall: base.textTheme.bodySmall!.copyWith(
-              color: Color(0xff757575), // Medium grey color for small body text
-            ),
-          )
-          .apply(fontFamily: 'Montserrat'),
-      brightness: Brightness.light,
+        headlineMedium: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: const Color(0xFF1D3557), // Deep Navy
+        ),
+        bodySmall: base.textTheme.bodySmall!.copyWith(
+          color: Colors.grey.shade600,
+        ),
+      ),
       appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFFFF6B6B),
+        foregroundColor: Colors.white,
         systemOverlayStyle: SystemUiOverlayStyle.dark, // Dark status bar icons
+        elevation: 0,
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: Color(0xFF4ECDC4),
+        foregroundColor: Colors.white,
       ),
     );
   }
 
-  /// Returns the dark theme configuration for the application.
-  ///
-  /// This theme uses a dark color palette with:
-  /// - Pure black background and surfaces
-  /// - Custom text styling
-  /// - Dark brightness mode
-  /// - Light system overlay for status bar
+  /// Vibrant Dark Theme
   static ThemeData get darkTheme {
-    ThemeData base = ThemeData.dark();
+    final base = ThemeData.dark();
 
     return base.copyWith(
-      colorScheme: const ColorScheme.dark(
-        surface: Colors.black,
+      colorScheme: ColorScheme.dark(
+        primary: const Color(0xFF00BFA6), // Teal Green
+        secondary: const Color(0xFFFFC857), // Vibrant Yellow
+        surface: const Color(0xFF2B2D42),
+        background: const Color(0xFF1D1E2C),
+        error: const Color(0xFFFF6B6B),
+        onPrimary: Colors.white,
+        onSecondary: Colors.black,
+        onSurface: Colors.white,
+        onBackground: Colors.white,
+        onError: Colors.white,
       ),
-      scaffoldBackgroundColor: Colors.black,
-      cardColor: Colors.black,
+      scaffoldBackgroundColor: const Color(0xFF1D1E2C),
+      cardColor: const Color(0xFF2B2D42),
       textTheme: base.textTheme
+          .apply(
+        fontFamily: 'Montserrat',
+        bodyColor: Colors.white,
+        displayColor: Colors.white,
+      )
           .copyWith(
-            bodySmall: base.textTheme.bodySmall!.copyWith(
-              color: Color(0xff616161), // Darker grey color for small body text
-            ),
-          )
-          .apply(fontFamily: 'Montserrat'),
-      brightness: Brightness.dark,
+        headlineMedium: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: const Color(0xFFFFC857), // Accent Yellow
+        ),
+        bodySmall: base.textTheme.bodySmall!.copyWith(
+          color: Colors.grey.shade400,
+        ),
+      ),
       appBarTheme: const AppBarTheme(
-        systemOverlayStyle:
-            SystemUiOverlayStyle.light, // Light status bar icons
+        backgroundColor: Color(0xFF00BFA6),
+        foregroundColor: Colors.white,
+        systemOverlayStyle: SystemUiOverlayStyle.light, // Light status bar icons
+        elevation: 0,
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: Color(0xFFFFC857),
+        foregroundColor: Colors.black,
       ),
     );
   }

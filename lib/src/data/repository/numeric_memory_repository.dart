@@ -1,71 +1,58 @@
-import 'package:mathsgames/src/data/RandomFindMissingData.dart';
 import 'package:mathsgames/src/data/models/numeric_memory_answer_pair.dart';
 import 'package:mathsgames/src/data/models/numeric_memory_pair.dart';
 import 'package:mathsgames/src/utility/math_util.dart';
 
-/// Repository class that handles the generation of numeric memory pairs for the memory game
+/// Repository class that handles the generation of numeric memory pairs
+/// for the memory game.
 class NumericMemoryRepository {
   /// Keeps track of previously generated math pairs to avoid duplicates
-  static List<int> listHasCode = <int>[];
+  static final List<int> _listHasCode = <int>[];
 
-  /// Generates a list of numeric memory pairs for a given difficulty level
+  /// Generates a list of numeric memory pairs for a given difficulty level.
   ///
-  /// [level] - The difficulty level of the game (1-5)
-  /// Returns a list of [NumericMemoryPair] objects containing questions and possible answers
-  static getNumericMemoryDataList(int level) {
-    // Reset hash codes when starting a new game at level 1
+  /// [level] - The difficulty level of the game (1-5).
+  /// Returns a list of [NumericMemoryPair] objects containing questions
+  /// and possible answers.
+  static List<NumericMemoryPair> getNumericMemoryDataList(int level) {
     if (level == 1) {
-      listHasCode.clear();
+      _listHasCode.clear();
     }
 
-    // Set number of total pairs based on level
-    int totalPairs = level <= 2 ? 12 : 18;
+    final int totalPairs = level <= 2 ? 12 : 18;
+    final List<NumericMemoryPair> memoryList = <NumericMemoryPair>[];
 
-    List<NumericMemoryPair> memoryList = <NumericMemoryPair>[];
-
-    // Generate pairs until we have at least one valid pair
-    while (memoryList.length < 1) {
-      // Get math expressions for current level
+    // Generate until we fill required pairs
+    while (memoryList.length < totalPairs) {
       MathUtil.getMathPair(level, (totalPairs ~/ 2) - (memoryList.length ~/ 2))
-          .forEach((Expression expression) {
-        // Only use expressions with positive answers
+          .forEach((expression) {
         if (expression.answer > 0) {
-          NumericMemoryPair numericMemoryPair = new NumericMemoryPair();
-          // The question is the answer to the expression
-          numericMemoryPair.question = expression.answer;
-          // The answer is the expression itself
-          numericMemoryPair.answer =
-              "${expression.firstOperand} ${expression.operator1} ${expression.secondOperand}";
+          // Create answer options
+          final List<NumericMemoryAnswerPair> options = [
+            getModel("${expression.firstOperand} + ${expression.secondOperand}"),
+            getModel("${expression.firstOperand} - ${expression.secondOperand}"),
+            getModel("${expression.firstOperand} / ${expression.secondOperand}"),
+            getModel("${expression.firstOperand} * ${expression.secondOperand}"),
+          ];
 
-          // Generate list of possible answers including all operations
-          List<NumericMemoryAnswerPair> list = [];
+          // Add empty options for difficulty
+          for (int i = 0; i < 8; i++) {
+            options.add(getModel(""));
+          }
 
-          // Add all possible operations between the operands
-          list.add(getModel(
-              "${expression.firstOperand} + ${expression.secondOperand}"));
-          list.add(getModel(
-              "${expression.firstOperand} - ${expression.secondOperand}"));
-          list.add(getModel(
-              "${expression.firstOperand} / ${expression.secondOperand}"));
-          list.add(getModel(
-              "${expression.firstOperand} * ${expression.secondOperand}"));
+          options.shuffle();
 
-          // Add empty options to increase difficulty
-          list.add(getModel(""));
-          list.add(getModel(""));
-          list.add(getModel(""));
-          list.add(getModel(""));
-          list.add(getModel(""));
-          list.add(getModel(""));
-          list.add(getModel(""));
-          list.add(getModel(""));
+          final numericMemoryPair = NumericMemoryPair(
+            question: expression.answer,
+            answer:
+            "${expression.firstOperand} ${expression.operator1} ${expression.secondOperand}",
+            options: options,
+          );
 
-          // Shuffle the list twice to ensure randomness
-          shuffle(list);
-          shuffle(list);
-
-          numericMemoryPair.list = list;
-          memoryList.add(numericMemoryPair);
+          // Prevent duplicates
+          if (!_listHasCode.contains(numericMemoryPair.hashCode)) {
+            _listHasCode.add(numericMemoryPair.hashCode);
+            memoryList.add(numericMemoryPair);
+          }
         }
       });
     }
@@ -73,19 +60,16 @@ class NumericMemoryRepository {
     return memoryList;
   }
 
-  /// Creates a new [NumericMemoryAnswerPair] with the given string as key
-  ///
-  /// [s] - The string to use as the key for the answer pair
+  /// Creates a [NumericMemoryAnswerPair] with the given string as key.
   static NumericMemoryAnswerPair getModel(String s) {
-    NumericMemoryAnswerPair model = new NumericMemoryAnswerPair();
-    model.key = s;
-    return model;
+    return NumericMemoryAnswerPair(key: s);
   }
 }
 
 /// Test function to generate memory pairs for levels 1-5
 void main() {
   for (int i = 1; i < 6; i++) {
-    NumericMemoryRepository.getNumericMemoryDataList(i);
+    final data = NumericMemoryRepository.getNumericMemoryDataList(i);
+    print("Level $i generated ${data.length} memory pairs");
   }
 }

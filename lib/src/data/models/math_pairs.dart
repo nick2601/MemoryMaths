@@ -1,59 +1,92 @@
+import 'package:collection/collection.dart';
+import 'package:hive/hive.dart';
+
+part 'math_pairs.g.dart';
+
 /// Model class representing a matching pairs math game.
 /// Contains a list of pairs and tracks available items for matching.
+@HiveType(typeId: 30)
 class MathPairs {
   /// List of all pairs in the game
-  List<Pair> list;
+  @HiveField(0)
+  final List<Pair> list;
 
   /// Number of items still available for matching
-  int availableItem;
+  int get availableItem => list.where((p) => p.isVisible).length;
 
   /// Creates a new MathPairs instance.
-  ///
-  /// Parameters:
-  /// - [list]: List of pairs to match
-  /// - [availableItem]: Number of available items
-  MathPairs(this.list, this.availableItem);
+  MathPairs({required this.list});
+
+  MathPairs copyWith({List<Pair>? list}) {
+    return MathPairs(list: list ?? this.list);
+  }
 
   @override
-  String toString() {
-    return 'MathPairs{list: $list}';
-  }
-}
-
-/// Model class representing a single pair item in the matching game.
-/// Contains information about the item's state and display text.
-class Pair {
-  /// Unique identifier for the pair
-  int uid;
-
-  /// Text to display for this pair item
-  String text;
-
-  /// Whether this pair is currently active/selected
-  bool isActive;
-
-  /// Whether this pair is visible on the game board
-  bool isVisible;
-
-  /// Creates a new Pair instance.
-  ///
-  /// Parameters:
-  /// - [uid]: Unique identifier
-  /// - [text]: Display text
-  /// - [isActive]: Initial active state
-  /// - [isVisible]: Initial visibility state
-  Pair(this.uid, this.text, this.isActive, this.isVisible);
-
-  @override
-  String toString() {
-    return 'Pair{text: $text, uid: $uid}';
-  }
+  String toString() => 'MathPairs(availableItem: $availableItem, list: $list)';
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Pair && runtimeType == other.runtimeType && text == other.text;
+          other is MathPairs &&
+              const DeepCollectionEquality().equals(list, other.list);
 
   @override
-  int get hashCode => text.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(list);
+}
+
+/// Model class representing a single pair item in the matching game.
+/// Contains information about the item's state and display text.
+@HiveType(typeId: 31)
+class Pair {
+  /// Unique identifier for the pair
+  @HiveField(0)
+  final int uid;
+
+  /// Text to display for this pair item
+  @HiveField(1)
+  final String text;
+
+  /// Whether this pair is currently active/selected
+  @HiveField(2)
+  final bool isActive;
+
+  /// Whether this pair is visible on the game board
+  @HiveField(3)
+  final bool isVisible;
+
+  Pair({
+    required this.uid,
+    required this.text,
+    this.isActive = false,
+    this.isVisible = true,
+  });
+
+  Pair copyWith({
+    int? uid,
+    String? text,
+    bool? isActive,
+    bool? isVisible,
+  }) {
+    return Pair(
+      uid: uid ?? this.uid,
+      text: text ?? this.text,
+      isActive: isActive ?? this.isActive,
+      isVisible: isVisible ?? this.isVisible,
+    );
+  }
+
+  @override
+  String toString() =>
+      'Pair(uid: $uid, text: $text, active: $isActive, visible: $isVisible)';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Pair &&
+              runtimeType == other.runtimeType &&
+              uid == other.uid &&
+              text == other.text;
+
+  @override
+  int get hashCode => uid.hashCode ^ text.hashCode;
 }

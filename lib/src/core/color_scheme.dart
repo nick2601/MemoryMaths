@@ -1,63 +1,61 @@
 import 'package:flutter/material.dart';
 
-/// Extension on [ColorScheme] that provides custom colors for light and dark themes.
-/// Each getter returns a different color based on the current brightness setting.
+/// Extension on [ColorScheme] that provides custom vibrant colors
+/// for a playful, game-like app.
 extension CustomColorScheme on ColorScheme {
-  /// Base background color: white for light theme, black for dark theme
+  /// Base background color
   Color get baseColor =>
-      brightness == Brightness.light ? Colors.white : Colors.black;
+      brightness == Brightness.light ? const Color(0xFFFDF6F0) : const Color(0xFF1B1B2F);
 
-  /// Semi-transparent base color: white60 for light theme, black54 for dark theme
+  /// Semi-transparent base color
   Color get baseLightColor =>
-      brightness == Brightness.light ? Colors.white60 : Colors.black54;
+      brightness == Brightness.light ? const Color(0xFFFFEEDD) : const Color(0xFF2E2E3A);
 
-  /// Contrasting color: black for light theme, white for dark theme
-  /// Typically used for text and icons that need to stand out against baseColor
+  /// Main contrasting color (text/icons on primary surfaces)
   Color get crossColor =>
-      brightness == Brightness.light ? Colors.black : Colors.white;
+      brightness == Brightness.light ? const Color(0xFF1D3557) : Colors.white;
 
-  /// Light contrasting color: light grey for light theme, semi-transparent white for dark theme
+  /// Lighter contrasting color for subtitles and hints
   Color get crossLightColor =>
-      brightness == Brightness.light ? Color(0xffcdcdcd) : Colors.white60;
+      brightness == Brightness.light ? const Color(0xFF8D99AE) : Colors.white70;
 
-  /// Color used for dividers and separators
+  /// Divider lines
   Color get dividerColor =>
-      brightness == Brightness.light ? Color(0xFFeeeeee) : Color(0xFFeeeeee);
+      brightness == Brightness.light ? const Color(0xFFFFC857) : const Color(0xFF4ECDC4);
 
-  /// Background color for cards
+  /// Card background
   Color get cardBgColor =>
-      brightness == Brightness.light ? Color(0xffF5F5F5) : Color(0xff212121);
+      brightness == Brightness.light ? const Color(0xFFFFF3E0) : const Color(0xFF2C2C54);
 
-  /// Background color for cards containing icons
+  /// Icon card background
   Color get iconCardBgColor =>
-      brightness == Brightness.light ? Color(0xffF5F5F5) : Colors.black;
+      brightness == Brightness.light ? const Color(0xFFE0F7FA) : const Color(0xFF3A3A6A);
 
-  /// Color for expanded toolbar state
+  /// Expanded toolbar
   Color get toolbarExpandedColor =>
-      brightness == Brightness.light ? Color(0xFFffffff) : Color(0xFF000000);
+      brightness == Brightness.light ? const Color(0xFFEDF6F9) : const Color(0xFF1F2235);
 
-  /// Color for collapsed toolbar state
+  /// Collapsed toolbar
   Color get toolbarCollapsedColor =>
-      brightness == Brightness.light ? Color(0xFFffffff) : Color(0xFF212121);
+      brightness == Brightness.light ? const Color(0xFFFFD6A5) : const Color(0xFF2C2C54);
 
-  /// Background color for standard dialogs
+  /// Standard dialog background
   Color get dialogBgColor =>
-      brightness == Brightness.light ? Colors.white : Color(0xff212121);
+      brightness == Brightness.light ? const Color(0xFFFFFDF9) : const Color(0xFF24243E);
 
-  /// Background color for information dialogs
+  /// Info dialog background
   Color get infoDialogBgColor =>
-      brightness == Brightness.light ? Color(0xFFf7f7f7) : Color(0xff212121);
+      brightness == Brightness.light ? const Color(0xFFE6F7FF) : const Color(0xFF1B2430);
 
-  /// Background color for dialogs containing GIFs
+  /// GIF dialog background
   Color get dialogGifBgColor =>
-      brightness == Brightness.light ? Colors.white : Color(0xff424242);
+      brightness == Brightness.light ? const Color(0xFFFDE2E4) : const Color(0xFF3D2C8D);
 
-  /// Color for triangle lines or borders
+  /// Triangle lines / borders
   Color get triangleLineColor =>
-      brightness == Brightness.light ? Color(0xffeeeeee) : Color(0xff424242);
+      brightness == Brightness.light ? const Color(0xFFBDE0FE) : const Color(0xFF5E60CE);
 
-  /// Color for unselected progress indicators
-  Color get unSelectedProgressColor => brightness == Brightness.light
-      ? Colors.grey.shade100
-      : Colors.grey.shade700;
+  /// Progress indicator (unselected)
+  Color get unSelectedProgressColor =>
+      brightness == Brightness.light ? const Color(0xFFFFC8DD) : const Color(0xFF6A4C93);
 }

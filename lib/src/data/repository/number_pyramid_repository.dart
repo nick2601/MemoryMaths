@@ -1,20 +1,14 @@
 import 'dart:math';
-
 import 'package:mathsgames/src/data/models/number_pyramid.dart';
 import 'package:mathsgames/src/utility/math_util.dart';
 import 'package:tuple/tuple.dart';
 
-/// Repository class responsible for managing number pyramid game data and generation
-/// A number pyramid is a triangular arrangement of numbers where each number is the
-/// sum of the two numbers below it
 class NumberPyramidRepository {
-  // List to store cells of a single pyramid instance
-  static List<NumPyramidCellModel> singlePyramidList = <NumPyramidCellModel>[];
-  static late int counter;
+  static const int _baseRowLength = 7;
+  static const int _totalCells = 28;
+  static const int _pyramidsPerLevel = 20;
 
-  // Predefined hint patterns for different pyramid configurations
-  // Each list contains cell indices that should be revealed as hints
-  static List<List<int>> hintLists = [
+  static const List<List<int>> _hintLists = [
     [0, 6, 9, 10, 17, 20, 26],
     [1, 5, 10, 13, 19, 21, 22, 25],
     [3, 4, 8, 12, 16, 18, 24, 26],
@@ -45,103 +39,75 @@ class NumberPyramidRepository {
     [2, 3, 7, 8, 11, 12, 14],
   ];
 
-  /// Generates a list of number pyramids for a given level
-  /// [level] - The difficulty level of the pyramids
-  /// Returns a list of [NumberPyramid] objects
-  static getPyramidDataList(int level) {
-    List<NumberPyramid> pyramidsList = <NumberPyramid>[];
+  static List<NumberPyramid> getPyramidDataList(int level) {
+    final List<NumberPyramid> pyramidsList = <NumberPyramid>[];
 
-    for (int i = 0; i < 20; i++) {
-      var singlePyramidResult = generateSinglePyramidValues();
-      pyramidsList.add(NumberPyramid(
-          i, singlePyramidResult.item1, singlePyramidResult.item2 + 1));
+    for (int i = 0; i < _pyramidsPerLevel; i++) {
+      final tuple = _generateSinglePyramidValues();
+      pyramidsList.add(NumberPyramid(id: i, list: tuple.item1, remainingCell: tuple.item2));
     }
-
     return pyramidsList;
   }
 
-  /// Generates values for a single pyramid instance
-  /// Returns a tuple containing:
-  /// - List of pyramid cells
-  /// - Number of cells to be filled by the player
-  static Tuple2<List<NumPyramidCellModel>, int> generateSinglePyramidValues() {
-    singlePyramidList = <NumPyramidCellModel>[];
-    counter = 1;
-    // Define range for base numbers
-    int min = 1;
-    int max = 8;
+  static Tuple2<List<NumPyramidCellModel>, int> _generateSinglePyramidValues() {
+    final List<NumPyramidCellModel> singlePyramidList = <NumPyramidCellModel>[];
+    int counter = 1;
 
-    // Generate the bottom row of the pyramid
-    List<NumPyramidCellModel> baseLineList =
-        generateBaseLineOfPyramid(min, max);
-    singlePyramidList.addAll(baseLineList);
+    final baseLineList = _generateBaseLineOfPyramid(1, 8, counter);
+    singlePyramidList.addAll(baseLineList.item1);
+    counter = baseLineList.item2;
 
-    // Generate upper rows by calculating sums
-    generateUpperLineOfPyramid(baseLineList, counter);
+    _generateUpperLineOfPyramid(baseLineList.item1, 6, counter, singlePyramidList);
 
-    // Randomly select and apply hints
-    final _random = new Random();
-    var selectedHintList = hintLists[_random.nextInt(hintLists.length)];
+    final random = Random();
+    final selectedHintList = _hintLists[random.nextInt(_hintLists.length)];
 
-    // Reveal selected cells as hints
-    for (int i = 0; i < selectedHintList.length; i++) {
-      singlePyramidList[selectedHintList[i]].isHidden = false;
-      singlePyramidList[selectedHintList[i]].isHint = true;
+    for (final index in selectedHintList) {
+      if (index < singlePyramidList.length) {
+        singlePyramidList[index] = NumPyramidCellModel(
+          id: singlePyramidList[index].id,
+          text: singlePyramidList[index].text,
+          numberOnCell: singlePyramidList[index].numberOnCell,
+          isHidden: false,
+          isHint: true,
+          isCorrect: singlePyramidList[index].isCorrect,
+        );
+      }
     }
 
-    return new Tuple2(singlePyramidList, (27 - selectedHintList.length));
+    final cellsToFill = _totalCells - selectedHintList.length;
+    return Tuple2(singlePyramidList, cellsToFill);
   }
 
-  /// Initiates the generation of upper pyramid rows
-  /// [baseLineCellList] - The bottom row cells
-  /// [counter] - Current cell counter
-  static generateUpperLineOfPyramid(
-      List<NumPyramidCellModel> baseLineCellList, int counter) {
-    makeSumForPyramid(baseLineCellList, 6, counter);
-  }
+  static void _generateUpperLineOfPyramid(
+      List<NumPyramidCellModel> baseLine,
+      int rowsToGenerate,
+      int counter,
+      List<NumPyramidCellModel> pyramidList,
+      ) {
+    if (rowsToGenerate == 0) return;
 
-  /// Recursively generates upper rows of the pyramid
-  /// [list] - Current row cells
-  /// [loopTime] - Number of remaining rows to generate
-  /// [counter] - Current cell counter
-  static makeSumForPyramid(
-      List<NumPyramidCellModel> list, int loopTime, int counter) {
-    // Base case: stop when all rows are generated
-    if (loopTime == 0) {
-      return;
-    }
-
-    // Generate next row by summing adjacent cells
-    List<NumPyramidCellModel> tempList = <NumPyramidCellModel>[];
-    for (int k = 0; k < list.length - 1; k++) {
-      int sum = list[k].numberOnCell + list[k + 1].numberOnCell;
-      var newCell = NumPyramidCellModel(
-          counter, "", sum, false, false, true, false, false);
-      singlePyramidList.add(newCell);
-      tempList.add(newCell);
+    final List<NumPyramidCellModel> nextRow = [];
+    for (int k = 0; k < baseLine.length - 1; k++) {
+      final sum = baseLine[k].numberOnCell + baseLine[k + 1].numberOnCell;
+      final newCell = NumPyramidCellModel(
+          id: counter, text: "", numberOnCell: sum, isHidden: false, isHint: false, isCorrect: false);
+      pyramidList.add(newCell);
+      nextRow.add(newCell);
       counter++;
     }
-
-    // Recursive call for next row
-    loopTime--;
-    makeSumForPyramid(tempList, loopTime, counter);
+    _generateUpperLineOfPyramid(nextRow, rowsToGenerate - 1, counter, pyramidList);
   }
 
-  /// Generates the base row of the pyramid with random numbers
-  /// [min] - Minimum value for random numbers
-  /// [max] - Maximum value for random numbers
-  /// Returns a list of [NumPyramidCellModel] for the base row
-  static List<NumPyramidCellModel> generateBaseLineOfPyramid(int min, int max) {
-    List<NumPyramidCellModel> cellList = <NumPyramidCellModel>[];
-    cellList.clear();
-
-    // Generate 7 random numbers for the base
-    for (int i = 0; i < 7; i++) {
-      int randomNum = MathUtil.generateRandomAnswer(min, max);
-      cellList.add(NumPyramidCellModel(
-          counter, "", randomNum, false, false, true, false, false));
+  static Tuple2<List<NumPyramidCellModel>, int> _generateBaseLineOfPyramid(
+      int min, int max, int counter) {
+    final List<NumPyramidCellModel> baseRow = [];
+    for (int i = 0; i < _baseRowLength; i++) {
+      final randomNum = MathUtil.generateRandomAnswer(min, max);
+      baseRow.add(
+          NumPyramidCellModel(id: counter, text: "", numberOnCell: randomNum, isHidden: false, isHint: false, isCorrect: false));
       counter++;
     }
-    return cellList;
+    return Tuple2(baseRow, counter);
   }
 }

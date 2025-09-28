@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 
-String lightFolder = 'assets/light/';
-String darkFolder = 'assets/dark/';
-ThemeMode themeMode = ThemeMode.light;
+final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
+  return ThemeNotifier();
+});
 
-class ThemeProvider extends ChangeNotifier {
-  final SharedPreferences sharedPreferences;
-
-  ThemeProvider({required this.sharedPreferences}) {
-    themeMode =
-        ThemeMode.values[sharedPreferences.getInt(KeyUtil.IS_DARK_MODE) ?? 1];
+class ThemeNotifier extends StateNotifier<ThemeMode> {
+  ThemeNotifier() : super(ThemeMode.light) {
+    _loadTheme();
   }
 
-  void changeTheme() async {
-    if (themeMode == ThemeMode.light)
-      themeMode = ThemeMode.dark;
-    else
-      themeMode = ThemeMode.light;
+  bool get isDarkMode => state == ThemeMode.dark;
 
-    notifyListeners();
-    await sharedPreferences.setInt(KeyUtil.IS_DARK_MODE, themeMode.index);
+  void _loadTheme() {
+    final box = Hive.box('settings');
+    final isDark = box.get('isDarkMode', defaultValue: false);
+    state = isDark ? ThemeMode.dark : ThemeMode.light;
+  }
+
+  void toggleTheme() {
+    final newTheme =
+    state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    state = newTheme;
+    Hive.box('settings').put('isDarkMode', newTheme == ThemeMode.dark);
   }
 }

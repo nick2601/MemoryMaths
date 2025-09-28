@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/ui/common/common_tab_animation_view.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
-import 'package:mathsgames/src/ui/soundPlayer/audio_file.dart';
 import 'package:mathsgames/src/utility/Constants.dart';
 import 'package:tuple/tuple.dart';
 
 class CommonNumberButton extends StatelessWidget {
-  final Function onTab;
+  final VoidCallback onTab;
   final String text;
 
   final double totalHeight;
@@ -33,45 +32,39 @@ class CommonNumberButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AudioPlayer audioPlayer = new AudioPlayer(context);
 
-    double radius =
-        btnRadius == null ? getCommonCalculatorRadius(context) : btnRadius;
+
+    final radius = btnRadius ?? getCommonCalculatorRadius(context);
 
     return CommonTabAnimationView(
       onTab: () {
         onTab();
-        audioPlayer.playTickSound();
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(radius),
         child: Container(
-            alignment: Alignment.center,
-            // height: height,
-
-            decoration: getDefaultDecoration(
-                // bgColor: "#FFDB7C".toColor(),
-                bgColor: colorTuple.item1.backgroundColor,
-                radius: radius,
-                borderColor: Theme.of(context).textTheme.titleMedium!.color,
-                borderWidth: 1.2),
-            margin: EdgeInsets.symmetric(
-                horizontal: getWidthPercentSize(context, 2), vertical: 2),
-            // decoration: getDefaultDecorationWithGradient(radius: radius,bgColor:
-            // colorTuple.item1.primaryColor!,isShadow: true,colors: LinearGradient(
-            //   colors:
-            //   [ colorTuple.item1.primaryColor!,darken(colorTuple.item1.primaryColor!,0.1)],
-            //   begin: Alignment.topCenter,
-            //   end: Alignment.bottomCenter,
-            // )),
-            child: Center(
-              child: getTextWidget(
-                  Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                  text,
-                  TextAlign.center,
-                  getPercentSize(height, 28)),
-            )),
+          alignment: Alignment.center,
+          height: height, // ← kept for flexibility (uncomment if needed)
+          margin: EdgeInsets.symmetric(
+            horizontal: getWidthPercentSize(context, 2),
+            vertical: 2,
+          ),
+          decoration: getDefaultDecoration(
+            bgColor: colorTuple.item1.backgroundColor,
+            radius: radius,
+            borderColor: Theme.of(context).textTheme.titleMedium?.color,
+            borderWidth: 1.2,
+          ),
+          child: getTextWidget(
+            Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+            text,
+            TextAlign.center,
+            getPercentSize(height, 28),
+          ),
+        ),
       ),
     );
   }

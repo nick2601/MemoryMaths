@@ -4,72 +4,85 @@ import 'package:mathsgames/src/utility/math_util.dart';
 /// Repository class responsible for generating square root math problems
 /// with multiple choice answers based on different difficulty levels.
 class SquareRootRepository {
-  /// Keeps track of previously generated questions to avoid duplicates
-  static List<int> listHasCode = <int>[];
+  /// Tracks unique problem keys to avoid duplicates
+  static final Set<String> _uniqueQuestions = <String>{};
 
   /// Generates a list of square root problems for a given difficulty level
   ///
   /// [level] determines the range of numbers used:
-  /// - Level 1: Numbers between 1-10
-  /// - Level n: Numbers between (5n-5) to (5n+5)
+  /// - Level 1: Numbers between 1–10
+  /// - Level n: Numbers between (5n–5) to (5n+5)
   ///
   /// Returns a list of [SquareRoot] objects containing questions and answers
-  static getSquareDataList(int level) {
-    // Reset tracking list when starting from level 1
+  static List<SquareRoot> getSquareDataList(int level) {
     if (level == 1) {
-      listHasCode.clear();
+      _uniqueQuestions.clear(); // reset for new game session
     }
-    List<SquareRoot> list = <SquareRoot>[];
 
-    // Calculate range based on level
-    int min =
-        level == 1 ? 1 : (5 * level) - 5; // Examples: 1, 5, 10, 15, 20, 25
-    int max =
-        level == 1 ? 10 : (5 * level) + 5; // Examples: 10, 15, 20, 25, 30, 35
+    final List<SquareRoot> list = <SquareRoot>[];
 
-    // Generate 5 unique square root problems
-    while (list.length < 5) {
-      // Generate random numbers within the range
-      MathUtil.generateRandomNumber(min, max, 5 - list.length)
-          .map((String x1) => int.parse(x1))
+    final int min = (level == 1) ? 1 : (5 * level) - 5;
+    final int max = (level == 1) ? 10 : (5 * level) + 5;
+
+    int attempts = 0;
+    const int maxAttempts = 200;
+
+    // Generate 5 unique problems
+    while (list.length < 5 && attempts < maxAttempts) {
+      attempts++;
+
+      MathUtil.generateRandomNumbers(min, max, 5 - list.length)
+          .map(int.parse)
           .forEach((int x1) {
-        // Create list for multiple choice answers
-        List<int> operandList = <int>[];
-        operandList.add(x1); // Add correct answer first
+        final question = (x1 * x1).toString();
+        final key = "$question:$x1";
 
-        // Generate 3 incorrect answers within range [x1-5, x1+5]
-        while (operandList.length < 4) {
-          int operand =
-              MathUtil.generateRandomAnswer((x1 - 5) < 1 ? 2 : x1 - 5, x1 + 5);
-          if (!operandList.contains(operand)) operandList.add(operand);
-        }
+        if (_uniqueQuestions.contains(key)) return;
 
-        // Randomize answer positions
-        operandList.shuffle();
+        final options = _generateOptions(x1);
 
-        // Create square root problem with question (x1²) and multiple choice answers
-        SquareRoot squareRootQandS = SquareRoot(
-            (x1 * x1).toString(), // Question is the square
-            operandList[0].toString(),
-            operandList[1].toString(),
-            operandList[2].toString(),
-            operandList[3].toString(),
-            x1); // Correct answer is the original number
+        final squareRootQandS = SquareRoot(
+          question, // Question is the square
+          options[0],
+          options[1],
+          options[2],
+          options[3],
+          x1, // Correct answer
+        );
 
-        // Only add if this exact problem hasn't been generated before
-        if (!listHasCode.contains(squareRootQandS.hashCode)) {
-          listHasCode.add(squareRootQandS.hashCode);
-          list.add(squareRootQandS);
-        }
+        _uniqueQuestions.add(key);
+        list.add(squareRootQandS);
       });
     }
+
     return list;
+  }
+
+  /// Generates 4 options (1 correct + 3 distractors) for a square root problem
+  static List<String> _generateOptions(int correct) {
+    final List<int> options = [correct];
+
+    while (options.length < 4) {
+      final int distractor =
+      MathUtil.generateRandomAnswer((correct - 5).clamp(1, correct), correct + 5);
+
+      if (!options.contains(distractor)) {
+        options.add(distractor);
+      }
+    }
+
+    options.shuffle();
+    return options.map((e) => e.toString()).toList();
   }
 }
 
-// Test function to generate problems for levels 1-4
+// Test function to generate problems for levels 1–4
 void main() {
   for (int i = 1; i < 5; i++) {
-    SquareRootRepository.getSquareDataList(i);
+    final problems = SquareRootRepository.getSquareDataList(i);
+    print("Level $i:");
+    for (final p in problems) {
+      print("√${p.question} = ?  Options: [${p.firstAns}, ${p.secondAns}, ${p.thirdAns}, ${p.fourthAns}]  Answer: ${p.answer}");
+    }
   }
 }

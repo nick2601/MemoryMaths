@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_share/flutter_share.dart';
+import 'package:mathsgames/src/core/app_assets.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/ui/common/common_score_widget.dart';
-import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
 import 'package:mathsgames/src/utility/Constants.dart';
 import 'package:tuple/tuple.dart';
+
 import '../model/gradient_model.dart';
-import '../soundPlayer/audio_file.dart';
 
 class CommonGameOverDialogView extends StatelessWidget {
   final GameCategoryType gameCategoryType;
@@ -16,10 +14,12 @@ class CommonGameOverDialogView extends StatelessWidget {
   final int level;
   final int totalQuestion;
   final Tuple2<GradientModel, int> colorTuple;
-  final Function function;
-  final Function updateFunction;
+  final VoidCallback? onRestart;
+  final VoidCallback? onHome;
+  final VoidCallback? onShare;
 
   const CommonGameOverDialogView({
+    Key? key,
     required this.gameCategoryType,
     required this.score,
     required this.right,
@@ -27,89 +27,104 @@ class CommonGameOverDialogView extends StatelessWidget {
     required this.level,
     required this.totalQuestion,
     required this.colorTuple,
-    required this.function,
-    required this.updateFunction,
-    Key? key,
+    this.onRestart,
+    this.onHome,
+    this.onShare,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    AudioPlayer audioPlayer = new AudioPlayer(context);
-   // AdsFile? adsFile = new AdsFile(context);
-   // adsFile.createInterstitialAd();
+    final textTheme = Theme.of(context).textTheme;
 
-    audioPlayer.playGameOverSound();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Back Icon
+        Align(
+          alignment: Alignment.topLeft,
+          child: IconButton(
+            icon: Image.asset(AppAssets.backIcon),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        SizedBox(height: getScreenPercentSize(context, 1.8)),
 
-    double percentage = (score * 100) / 20;
-    int star = 0;
+        // Title
+        Text(
+          "Game Over!!!",
+          style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
 
-    if (percentage < 35) {
-      star = 1;
-    } else if (percentage > 35 && percentage < 75) {
-      star = 2;
-    } else if (percentage > 75) {
-      star = 3;
-    }
+        SizedBox(height: getScreenPercentSize(context, 2)),
 
-    print("start---$star");
+        // Score Display
+        Text(
+          "Score: $score",
+          style: textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: colorTuple.item1.primaryColor,
+          ),
+        ),
 
-    return CommonScoreWidget(
-      context: context,
-      colorTuple: colorTuple,
-      totalLevel: defaultLevelSize,
-      currentLevel: level,
-      gameCategoryType: gameCategoryType,
-      score: score,
-      right: right,
-      totalQuestion: totalQuestion,
-      wrong: wrong,
-      function: function,
-      closeClick: () {
-        Navigator.pop(context);
-      },
-      homeClick: () {
-        updateFunction();
+        SizedBox(height: getScreenPercentSize(context, 1.5)),
 
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DashboardView(),
-            ));
-      },
-      restartClick: () {
-        // showInterstitialAd(adsFile, () {
-        //   disposeInterstitialAd(adsFile);
-        //
-        // });
-        Navigator.pop(context, true);
-      },
-      nextClick: () {
-        if (star >= 2) {
-          // showInterstitialAd(adsFile, () {
-          //   disposeInterstitialAd(adsFile);
-          //
-          // });
-          if (colorTuple.item2 < defaultLevelSize) {
-            function(colorTuple.item2 + 1);
-          }
-          Navigator.pop(context, true);
-        }
-      },
-      shareClick: () {
-        share();
-      },
+        // Correct / Wrong counts
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "✔ $right",
+              style: textTheme.titleMedium?.copyWith(color: Colors.green),
+            ),
+            SizedBox(width: 16),
+            Text(
+              "✘ $wrong",
+              style: textTheme.titleMedium?.copyWith(color: Colors.red),
+            ),
+          ],
+        ),
+
+        SizedBox(height: getScreenPercentSize(context, 2.5)),
+
+        // Total Question Info
+        Text(
+          "You attempted $totalQuestion questions",
+          style: textTheme.bodyMedium,
+        ),
+
+        SizedBox(height: getScreenPercentSize(context, 3)),
+
+        // Buttons: Restart, Share, Home
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colorTuple.item1.primaryColor!,
+              ),
+              onPressed: onRestart ?? () => Navigator.pop(context, true),
+              child: const Text("Restart"),
+            ),
+            const SizedBox(width: 12),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+              ),
+              onPressed: onShare ?? () {}, // TODO: implement share
+              child: const Text("Share"),
+            ),
+            const SizedBox(width: 12),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey,
+              ),
+              onPressed: onHome ?? () => Navigator.pop(context),
+              child: const Text("Home"),
+            ),
+          ],
+        ),
+      ],
     );
-
-    // return Container(
-    //   height: 400,
-    // );
-  }
-
-  share() async {
-    await FlutterShare.share(
-        title: 'Math Games',
-        text: 'Your highest score is $score\n ${getAppLink()}',
-        linkUrl: '',
-        chooserTitle: 'Share');
   }
 }

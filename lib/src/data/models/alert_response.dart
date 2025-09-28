@@ -1,24 +1,21 @@
-/// Model class representing the user's response to an alert dialog.
-/// Tracks the user's decision when presented with game-related alerts.
+import 'package:hive/hive.dart';
+
+part 'alert_response.g.dart';
+
+@HiveType(typeId: 1) // Make sure it's unique!
 class AlertResponse {
-  /// Whether the user chose to exit the current game
+  @HiveField(0)
   final bool exit;
-  
-  /// Whether the user chose to restart the current game
+
+  @HiveField(1)
   final bool restart;
-  
-  /// Whether the user chose to continue playing
+
+  @HiveField(2)
   final bool play;
 
-  /// Creates a new AlertResponse instance.
-  /// 
-  /// Parameters:
-  /// - [exit]: True if user wants to exit
-  /// - [restart]: True if user wants to restart
-  /// - [play]: True if user wants to continue playing
   AlertResponse({
     required this.exit,
-    required this.restart, 
-    required this.play
+    required this.restart,
+    required this.play,
   });
 }

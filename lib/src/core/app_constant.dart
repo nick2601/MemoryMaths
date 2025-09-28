@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:tuple/tuple.dart';
-
 import 'app_assets.dart';
 
 /// Enum representing different types of math games available in the application
@@ -30,33 +29,18 @@ enum GameCategoryType {
 enum PuzzleType { MATH_PUZZLE, MEMORY_PUZZLE, BRAIN_PUZZLE }
 
 /// Enum for managing timer states in games
-enum TimerStatus {
-  restart,
-  play,
-  pause,
-}
+enum TimerStatus { restart, play, pause , running }
 
 /// Enum for different types of dialog boxes shown in the app
-enum DialogType {
-  non, // No dialog
-  info, // Information dialog
-  over, // Game over dialog
-  pause, // Pause game dialog
-  exit, // Exit confirmation dialog
-  hint, // Hint dialog
-}
+enum DialogType { non, info, over, pause, exit, hint }
 
 /// Utility class containing constants and helper methods for the application
 class KeyUtil {
-  /// Dark mode preference key
-  static const IS_DARK_MODE = "isDarkMode";
-
-  /// Route names for navigation
+  /// ---------------- ROUTES ----------------
   static const String splash = 'Splash';
   static const String dashboard = 'Dashboard';
   static const String login = 'Login';
   static const String signup = 'Signup';
-
   static const String home = 'Home';
   static const String level = 'Level';
   static const String dual = 'Dual';
@@ -74,88 +58,186 @@ class KeyUtil {
   static const String mathPairs = 'MathPairs';
   static const String concentration = 'concentration';
   static const String cubeRoot = 'cubeRoot';
-
   static const String magicTriangle = 'MagicTriangle';
   static const String picturePuzzle = 'PicturePuzzle';
   static const String mathGrid = 'MathGrid';
   static const String numberPyramid = "NumberPyramid";
   static const String numericMemory = "numericMemory";
+
+  /// ---------------- COLORS ----------------
   static Color primaryColor1 = "#FFCB43".toColor();
   static Color bgColor1 = "#FFF2D5".toColor();
   static Color backgroundColor1 = "#FFDB7C".toColor();
-  static Color backgroundColor2 = "#C2ECA3".toColor();
-  static Color backgroundColor3 = "#E3D9FF".toColor();
+
   static Color primaryColor2 = "#AAE37B".toColor();
   static Color bgColor2 = "#EAF9DF".toColor();
+  static Color backgroundColor2 = "#C2ECA3".toColor();
+
   static Color primaryColor3 = "#C3AEFF".toColor();
   static Color bgColor3 = "#EFEBFE".toColor();
+  static Color backgroundColor3 = "#E3D9FF".toColor();
+
   static Color blackTransparentColor = "#BF000000".toColor();
+
   static String themeYellowFolder = 'imgYellow/';
   static String themeOrangeFolder = 'imgGreen/';
   static String themeBlueFolder = 'imgBlue/';
 
-  /// List of dashboard items defining the main menu structure
+  static List<Color> bgColorList = [bgColor1, bgColor2, bgColor3];
+
+  /// ---------------- DASHBOARD ----------------
   static List<Dashboard> dashboardItems = [
     Dashboard(
-        puzzleType: PuzzleType.MATH_PUZZLE,
-        colorTuple: Tuple2(Color(0xff4895EF), Color(0xff3f37c9)),
-        opacity: 0.07,
-        outlineIcon: AppAssets.icMathPuzzleOutline,
-        subtitle: "Each game with simple calculation with different approach.",
-        title: "Mental Maths",
-        gridColor: bgColor1,
-        fillIconColor: Color(0xff4895ef),
-        position: 0,
-        outlineIconColor: Color(0xff436add),
-        bgColor: bgColor1,
-        backgroundColor: backgroundColor1,
-        folder: themeYellowFolder,
-        primaryColor: primaryColor1),
+      puzzleType: PuzzleType.MATH_PUZZLE,
+      colorTuple: Tuple2(Color(0xff4895EF), Color(0xff3f37c9)),
+      opacity: 0.07,
+      outlineIcon: AppAssets.icMathPuzzleOutline,
+      subtitle: "Each game with simple calculation with different approach.",
+      title: "Mental Maths",
+      gridColor: bgColor1,
+      fillIconColor: Color(0xff4895ef),
+      position: 0,
+      outlineIconColor: Color(0xff436add),
+      bgColor: bgColor1,
+      backgroundColor: backgroundColor1,
+      folder: themeYellowFolder,
+      primaryColor: primaryColor1,
+    ),
     Dashboard(
-        position: 1,
-        backgroundColor: backgroundColor2,
-        puzzleType: PuzzleType.MEMORY_PUZZLE,
-        colorTuple: Tuple2(Color(0xff9f2beb), Color(0xff560bad)),
-        opacity: 0.07,
-        outlineIcon: AppAssets.icMemoryPuzzleOutline,
-        gridColor: bgColor2,
-        subtitle:
-            "Memorise numbers & signs before applying calculation to them.",
-        title: "Memory Puzzle",
-        fillIconColor: Color(0xff9f2beb),
-        outlineIconColor: Color(0xff560BAD),
-        bgColor: bgColor2,
-        folder: themeOrangeFolder,
-        primaryColor: primaryColor2),
+      position: 1,
+      backgroundColor: backgroundColor2,
+      puzzleType: PuzzleType.MEMORY_PUZZLE,
+      colorTuple: Tuple2(Color(0xff9f2beb), Color(0xff560bad)),
+      opacity: 0.07,
+      outlineIcon: AppAssets.icMemoryPuzzleOutline,
+      gridColor: bgColor2,
+      subtitle: "Memorise numbers & signs before applying calculation to them.",
+      title: "Memory Puzzle",
+      fillIconColor: Color(0xff9f2beb),
+      outlineIconColor: Color(0xff560BAD),
+      bgColor: bgColor2,
+      folder: themeOrangeFolder,
+      primaryColor: primaryColor2,
+    ),
     Dashboard(
-        position: 2,
-        gridColor: bgColor3,
-        backgroundColor: backgroundColor3,
-        puzzleType: PuzzleType.BRAIN_PUZZLE,
-        colorTuple: Tuple2(Color(0xfff72585), Color(0xffb5179e)),
-        opacity: 0.12,
-        outlineIcon: AppAssets.icTrainBrainOutline,
-        subtitle:
-            "Enhance logical thinking, concentration and core cognitive skills.",
-        title: "Train Your Brain",
-        folder: themeBlueFolder,
-        fillIconColor: Color(0xfff72585),
-        outlineIconColor: Color(0xffB5179E),
-        bgColor: bgColor3,
-        primaryColor: primaryColor3),
+      position: 2,
+      gridColor: bgColor3,
+      backgroundColor: backgroundColor3,
+      puzzleType: PuzzleType.BRAIN_PUZZLE,
+      colorTuple: Tuple2(Color(0xfff72585), Color(0xffb5179e)),
+      opacity: 0.12,
+      outlineIcon: AppAssets.icTrainBrainOutline,
+      subtitle:
+      "Enhance logical thinking, concentration and core cognitive skills.",
+      title: "Train Your Brain",
+      folder: themeBlueFolder,
+      fillIconColor: Color(0xfff72585),
+      outlineIconColor: Color(0xffB5179E),
+      bgColor: bgColor3,
+      primaryColor: primaryColor3,
+    ),
   ];
 
-  static List<Color> bgColorList = [
-    bgColor1,
-    bgColor2,
-    bgColor3,
-  ];
+  /// ---------------- TIMEOUTS (seconds) ----------------
+  static const int calculatorTimeOut = 20;
+  static const int guessSignTimeOut = 20;
+  static const int correctAnswerTimeOut = 20;
+  static const int quickCalculationTimeOut = 20;
+  static const int quickCalculationPlusTime = 1;
+  static const int findMissingTimeOut = 20;
+  static const int trueFalseTimeOut = 20;
+  static const int numericMemoryTimeOut = 5;
+  static const int complexCalculationTimeOut = 20;
+  static const int dualTimeOut = 20;
+  static const int mentalArithmeticTimeOut = 60;
+  static const int mentalArithmeticLocalTimeOut = 4;
+  static const int squareRootTimeOut = 15;
+  static const int cubeRootTimeOut = 15;
+  static const int mathGridTimeOut = 120;
+  static const int mathematicalPairsTimeOut = 60;
+  static const int concentrationTimeOut = 15;
+  static const int magicTriangleTimeOut = 60;
+  static const int picturePuzzleTimeOut = 90;
+  static const int numPyramidTimeOut = 120;
 
-  /// Returns the time limit for a specific game category
-  /// [gameCategoryType] The type of game to get the time limit for
-  /// Returns the time limit in seconds
-  static int getTimeUtil(GameCategoryType gameCategoryType) {
-    switch (gameCategoryType) {
+  /// ---------------- SCORES ----------------
+  static const double calculatorScore = 1;
+  static const double calculatorScoreMinus = -1;
+
+  static const double guessSignScore = 1;
+  static const double guessSignScoreMinus = -1;
+
+  static const double squareRootScore = 1;
+  static const double squareRootScoreMinus = -1;
+
+  static const double cubeRootScore = 1;
+  static const double cubeRootScoreMinus = -1;
+
+  static const double correctAnswerScore = 1;
+  static const double correctAnswerScoreMinus = -1;
+
+  static const double quickCalculationScore = 1;
+  static const double quickCalculationScoreMinus = -1;
+
+  static const double findMissingScore = 1;
+  static const double findMissingScoreMinus = -1;
+
+  static const double trueFalseScore = 1;
+  static const double trueFalseScoreMinus = -1;
+
+  static const double dualScore = 1;
+  static const double dualScoreMinus = -1;
+
+  static const double complexCalculationScore = 1;
+  static const double complexCalculationScoreMinus = -1;
+
+  static const double numericMemoryScore = 1;
+  static const double numericMemoryScoreMinus = -1;
+
+  static const double mentalArithmeticScore = 2;
+  static const double mentalArithmeticScoreMinus = -1;
+
+  static const double mathematicalPairsScore = 5;
+  static const double mathematicalPairsScoreMinus = -5;
+
+  static const double mathGridScore = 5;
+  static const double mathGridScoreMinus = 0;
+
+  static const double concentrationScore = 5;
+  static const double concentrationScoreMinus = 0;
+
+  static const double magicTriangleScore = 5;
+  static const double magicTriangleScoreMinus = 0;
+
+  static const double picturePuzzleScore = 2;
+  static const double picturePuzzleScoreMinus = -1;
+
+  static const double numberPyramidScore = 5;
+  static const double numberPyramidScoreMinus = 0;
+
+  /// ---------------- COINS ----------------
+  static const double calculatorCoin = 0.5;
+  static const double guessSignCoin = 0.5;
+  static const double correctAnswerCoin = 0.5;
+  static const double quickCalculationCoin = 0.5;
+  static const double mentalArithmeticCoin = 1;
+  static const double squareRootCoin = 0.5;
+  static const double cubeRootCoin = 0.5;
+  static const double mathGridCoin = 3;
+  static const double mathematicalPairsCoin = 1;
+  static const double concentrationCoin = 1;
+  static const double magicTriangleCoin = 3;
+  static const double picturePuzzleCoin = 1;
+  static const double numberPyramidCoin = 3;
+  static const double findMissingCoin = 1;
+  static const double truFalseCoin = 1;
+  static const double dualGameCoin = 1;
+  static const double complexCalculationCoin = 1;
+  static const double numericMemoryCoin = 1;
+
+  /// ---------------- HELPERS ----------------
+  static int getTimeUtil(GameCategoryType type) {
+    switch (type) {
       case GameCategoryType.CALCULATOR:
         return calculatorTimeOut;
       case GameCategoryType.GUESS_SIGN:
@@ -182,40 +264,31 @@ class KeyUtil {
         return picturePuzzleTimeOut;
       case GameCategoryType.NUMBER_PYRAMID:
         return numPyramidTimeOut;
-      case GameCategoryType.NUMBER_PYRAMID:
-        return numPyramidTimeOut;
       case GameCategoryType.FIND_MISSING:
         return findMissingTimeOut;
-
       case GameCategoryType.TRUE_FALSE:
         return trueFalseTimeOut;
-
       case GameCategoryType.DUAL_GAME:
         return dualTimeOut;
       case GameCategoryType.COMPLEX_CALCULATION:
         return complexCalculationTimeOut;
-
       case GameCategoryType.NUMERIC_MEMORY:
         return numericMemoryTimeOut;
     }
   }
 
-  /// Returns the score value for correct answers in a specific game category
-  /// [gameCategoryType] The type of game to get the score for
-  /// Returns the score value as a double
-  static double getScoreUtil(GameCategoryType gameCategoryType) {
-    switch (gameCategoryType) {
+  static double getScoreUtil(GameCategoryType type) {
+    switch (type) {
+      case GameCategoryType.MATH_PAIRS:
+        return mathematicalPairsScore;
       case GameCategoryType.CALCULATOR:
         return calculatorScore;
       case GameCategoryType.GUESS_SIGN:
         return guessSignScore;
       case GameCategoryType.SQUARE_ROOT:
         return squareRootScore;
-
       case GameCategoryType.CUBE_ROOT:
         return cubeRootScore;
-      case GameCategoryType.MATH_PAIRS:
-        return mathGridScore;
       case GameCategoryType.CONCENTRATION:
         return concentrationScore;
       case GameCategoryType.CORRECT_ANSWER:
@@ -240,17 +313,15 @@ class KeyUtil {
         return dualScore;
       case GameCategoryType.COMPLEX_CALCULATION:
         return complexCalculationScore;
-
       case GameCategoryType.NUMERIC_MEMORY:
         return numericMemoryScore;
     }
   }
 
-  /// Returns the penalty score for incorrect answers in a specific game category
-  /// [gameCategoryType] The type of game to get the penalty score for
-  /// Returns the penalty score value as a double
-  static double getScoreMinusUtil(GameCategoryType gameCategoryType) {
-    switch (gameCategoryType) {
+  static double getScoreMinusUtil(GameCategoryType type) {
+    switch (type) {
+      case GameCategoryType.MATH_PAIRS:
+        return mathematicalPairsScoreMinus;
       case GameCategoryType.CALCULATOR:
         return calculatorScoreMinus;
       case GameCategoryType.GUESS_SIGN:
@@ -259,8 +330,6 @@ class KeyUtil {
         return squareRootScoreMinus;
       case GameCategoryType.CUBE_ROOT:
         return cubeRootScoreMinus;
-      case GameCategoryType.MATH_PAIRS:
-        return mathematicalPairsScoreMinus;
       case GameCategoryType.CONCENTRATION:
         return concentrationScoreMinus;
       case GameCategoryType.CORRECT_ANSWER:
@@ -283,20 +352,17 @@ class KeyUtil {
         return trueFalseScoreMinus;
       case GameCategoryType.DUAL_GAME:
         return dualScoreMinus;
-
       case GameCategoryType.COMPLEX_CALCULATION:
         return complexCalculationScoreMinus;
-
       case GameCategoryType.NUMERIC_MEMORY:
         return numericMemoryScoreMinus;
     }
   }
 
-  /// Returns the coin reward for completing a game in a specific category
-  /// [gameCategoryType] The type of game to get the coin reward for
-  /// Returns the coin value as a double
-  static double getCoinUtil(GameCategoryType gameCategoryType) {
-    switch (gameCategoryType) {
+  static double getCoinUtil(GameCategoryType type) {
+    switch (type) {
+      case GameCategoryType.MATH_PAIRS:
+        return mathematicalPairsCoin;
       case GameCategoryType.CALCULATOR:
         return calculatorCoin;
       case GameCategoryType.GUESS_SIGN:
@@ -305,8 +371,6 @@ class KeyUtil {
         return squareRootCoin;
       case GameCategoryType.CUBE_ROOT:
         return cubeRootCoin;
-      case GameCategoryType.MATH_PAIRS:
-        return mathematicalPairsCoin;
       case GameCategoryType.CONCENTRATION:
         return concentrationCoin;
       case GameCategoryType.CORRECT_ANSWER:
@@ -335,132 +399,16 @@ class KeyUtil {
         return numericMemoryCoin;
     }
   }
-
-  /// Game timeout constants (in seconds)
-  static int calculatorTimeOut = 20; // Time limit for calculator game
-  static int guessSignTimeOut = 20; // Time limit for guess sign game
-  static int correctAnswerTimeOut = 20;
-  static int quickCalculationTimeOut = 20;
-  static int quickCalculationPlusTime = 1;
-
-  static int findMissingTimeOut = 20;
-  static int findMissingTime = 1;
-
-  static int trueFalseTimeOut = 20;
-  static int trueFalseTime = 1;
-
-  static int numericMemoryTimeOut = 5;
-  static int numericMemoryTime = 1;
-
-  static int complexCalculationTimeOut = 20;
-  static int complexCalculationTime = 1;
-
-  static int dualTimeOut = 20;
-  static int dualTime = 1;
-
-  static int mentalArithmeticTimeOut = 60;
-  static int mentalArithmeticLocalTimeOut = 4;
-  static int squareRootTimeOut = 15;
-  static int cubeRootTimeOut = 15;
-  static int mathGridTimeOut = 120;
-
-  static int mathematicalPairsTimeOut = 60;
-  static int concentrationTimeOut = 15;
-
-  static int magicTriangleTimeOut = 60;
-  static int picturePuzzleTimeOut = 90;
-  static int numPyramidTimeOut = 120;
-
-  /// Score constants for each game type
-  static double calculatorScore = 1; // Points for correct calculator answer
-  static double calculatorScoreMinus =
-      -1; // Penalty for wrong calculator answer
-
-  static double complexCalculationScore = 1;
-  static double complexCalculationScoreMinus = -1;
-
-  static double numericMemoryScore = 1;
-  static double numericMemoryScoreMinus = -1;
-
-  static double guessSignScore = 1;
-  static double guessSignScoreMinus = -1;
-
-  static double correctAnswerScore = 1;
-  static double correctAnswerScoreMinus = -1;
-
-  static double findMissingScore = 1;
-  static double findMissingScoreMinus = -1;
-
-  static double dualScore = 1;
-  static double dualScoreMinus = -1;
-
-  static double trueFalseScore = 1;
-  static double trueFalseScoreMinus = -1;
-
-  static double quickCalculationScore = 1;
-  static double quickCalculationScoreMinus = -1;
-
-  static double mentalArithmeticScore = 2;
-  static double mentalArithmeticScoreMinus = -1;
-
-  static double squareRootScore = 1;
-  static double squareRootScoreMinus = -1;
-
-  static double cubeRootScore = 1;
-  static double cubeRootScoreMinus = -1;
-
-  static double mathematicalPairsScore = 5;
-  static double mathematicalPairsScoreMinus = -5;
-
-  static double mathGridScore = 5;
-  static double mathGridScoreMinus = 0;
-
-  static double concentrationScore = 5;
-  static double concentrationScoreMinus = 0;
-
-  static double magicTriangleScore = 5;
-  static double magicTriangleScoreMinus = 0;
-
-  static double picturePuzzleScore = 2;
-  static double picturePuzzleScoreMinus = -1;
-
-  static double numberPyramidScore = 5;
-  static double numberPyramidScoreMinus = 0;
-
-  /// Coin reward constants for each game type
-  static double calculatorCoin = 0.5; // Coins earned in calculator game
-  static double guessSignCoin = 0.5; // Coins earned in guess sign game
-  static double correctAnswerCoin = 0.5;
-  static double quickCalculationCoin = 0.5;
-
-  static double mentalArithmeticCoin = 1;
-  static double squareRootCoin = 0.5;
-  static double cubeRootCoin = 0.5;
-  static double mathGridCoin = 3;
-  static double mathematicalPairsCoin = 1;
-  static double concentrationCoin = 1;
-
-  static double magicTriangleCoin = 3;
-  static double picturePuzzleCoin = 1;
-  static double numberPyramidCoin = 3;
-  static double findMissingCoin = 1;
-  static double truFalseCoin = 1;
-  static double dualGameCoin = 1;
-  static double complexCalculationCoin = 1;
-  static double numericMemoryCoin = 1;
 }
 
-/// Extension to convert hex color strings to Color objects
+/// Extension to convert hex color strings to [Color] objects
 extension ColorExtension on String {
-  /// Converts a hex color string to a Color object
-  /// Supports both 6-digit (RRGGBB) and 8-digit (AARRGGBB) hex codes
-  toColor() {
-    var hexColor = this.replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
-    }
+  Color toColor() {
+    var hexColor = replaceAll("#", "");
+    if (hexColor.length == 6) hexColor = "FF$hexColor";
     if (hexColor.length == 8) {
       return Color(int.parse("0x$hexColor"));
     }
+    throw FormatException("Invalid hex color string: $this");
   }
 }

@@ -4,53 +4,50 @@ import 'package:mathsgames/src/data/models/ComplexModel.dart';
 /// Repository class that handles complex calculation data generation
 /// and management for different game levels.
 class ComplexCalculationRepository {
-  /// Static list to store hash codes of previously generated values
-  /// to potentially avoid duplicates
-  static List<int> listHasCode = <int>[];
+  /// Stores hash codes of generated values to avoid duplicates
+  static final Set<int> _generatedHashes = <int>{};
 
-  /// Generates a list of complex calculation data based on the game level
+  /// Generates a list of unique complex calculation data based on the game level.
   ///
   /// Parameters:
-  ///   - level: Current game level (integer)
+  /// - [level]: Current game level
   ///
   /// Returns:
-  ///   List of [ComplexModel] containing calculation data
-  static getComplexData(int level) {
-    // Reset hash codes when starting from level 1
+  /// A list of [ComplexModel] objects
+  static List<ComplexModel> getComplexData(int level) {
+    // Reset for a fresh start at level 1
     if (level == 1) {
-      listHasCode.clear();
+      _generatedHashes.clear();
     }
 
-    // Determine calculation type based on level difficulty
-    int type = 1;
+    // Determine difficulty type based on level
+    final int type = level < 7
+        ? 1 // Basic
+        : level <= 13
+        ? 2 // Intermediate
+        : 3; // Advanced
 
-    // Level-based calculation type assignment:
-    // Type 1: Levels 1-6 (Basic)
-    // Type 2: Levels 7-13 (Intermediate)
-    // Type 3: Levels 14+ (Advanced)
-    if (level < 7) {
-      type = 1;
-    } else if (level <= 13) {
-      type = 2;
-    } else {
-      // level > 13
-      type = 3;
+    final List<ComplexModel> models = [];
+
+    // Generate until we have 5 unique problems
+    while (models.length < 5) {
+      final model = ComplexData.getComplexValues(type);
+
+      // Only add if unique
+      if (_generatedHashes.add(model.hashCode)) {
+        models.add(model);
+      }
     }
 
-    // Generate list of 5 complex calculations
-    List<ComplexModel> list = <ComplexModel>[];
-
-    while (list.length < 5) {
-      list.add(ComplexData.getComplexValues(type));
-    }
-
-    return list;
+    return models;
   }
 }
 
 /// Test function to demonstrate repository usage
 void main() {
-  for (int i = 1; i < 5; i++) {
-    ComplexCalculationRepository.getComplexData(i);
+  for (int i = 1; i <= 5; i++) {
+    final problems = ComplexCalculationRepository.getComplexData(i);
+    print("Level $i => ${problems.length} problems");
+    problems.forEach(print);
   }
 }

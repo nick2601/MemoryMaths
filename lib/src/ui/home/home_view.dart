@@ -315,7 +315,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
         });
   }
 
-  getCell(String s, bool isSelect, int type, ThemeProvider themeProvider) {
+  getCell(String s, bool isSelect, int type, ThemeNotifier themeProvider) {
     double cellHeight = getScreenPercentSize(context, 10);
     return InkWell(
       child: Container(

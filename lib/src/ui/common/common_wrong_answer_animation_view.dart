@@ -1,18 +1,19 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+/// A sine wave curve used for smooth shake effect.
 class SineCurve extends Curve {
   final double count;
 
-  SineCurve({this.count = 3});
+  const SineCurve({this.count = 3});
 
   @override
   double transformInternal(double t) {
-    var val = sin(count * 2 * pi * t) * 0.5 + 0.5;
-    return val;
+    return sin(count * 2 * pi * t) * 0.5 + 0.5;
   }
 }
 
+/// Widget to animate "wrong answer" by shaking horizontally.
 class CommonWrongAnswerAnimationView extends StatefulWidget {
   final int currentScore;
   final int oldScore;
@@ -32,9 +33,9 @@ class CommonWrongAnswerAnimationView extends StatefulWidget {
 
 class _CommonWrongAnswerAnimationViewState
     extends State<CommonWrongAnswerAnimationView>
-    with TickerProviderStateMixin {
-  late AnimationController _controller;
-  late final Animation<double> _opacityAnimationOut;
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _shakeAnimation;
 
   @override
   void initState() {
@@ -44,36 +45,33 @@ class _CommonWrongAnswerAnimationViewState
       vsync: this,
     );
 
-    _opacityAnimationOut = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: SineCurve(count: 3),
-    ));
+    _shakeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: const SineCurve(count: 3)),
+    );
   }
 
   @override
   void didUpdateWidget(CommonWrongAnswerAnimationView oldWidget) {
-    if (oldWidget.currentScore != widget.currentScore) {
-      if (widget.oldScore > widget.currentScore) {
-        _controller.forward(from: 0.0);
-      }
-    }
     super.didUpdateWidget(oldWidget);
+
+    // Trigger animation only when score decreases
+    if (oldWidget.currentScore != widget.currentScore &&
+        widget.oldScore > widget.currentScore) {
+      _controller.forward(from: 0.0);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: _opacityAnimationOut,
+      animation: _shakeAnimation,
+      child: widget.child, // child passed outside builder (optimization)
       builder: (context, child) {
         return Transform.translate(
-          offset: Offset(_opacityAnimationOut.value * 4, 0),
+          offset: Offset(_shakeAnimation.value * 4, 0), // Shake offset
           child: child,
         );
       },
-      child: widget.child,
     );
   }
 

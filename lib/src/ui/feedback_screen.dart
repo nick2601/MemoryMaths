@@ -29,7 +29,6 @@ class _FeedbackScreen extends State<FeedbackScreen> {
     }
   }
 
-  ValueNotifier soundOn = ValueNotifier(false);
   ValueNotifier darkMode = ValueNotifier(false);
   ValueNotifier vibrateOn = ValueNotifier(false);
 
@@ -42,8 +41,6 @@ class _FeedbackScreen extends State<FeedbackScreen> {
   }
 
   getSpeakerVol() async {
-    soundOn.value = await getSound();
-    vibrateOn.value = await getVibration();
     Future.delayed(Duration.zero, () {
       darkMode.value = Theme.of(context).brightness != Brightness.light;
     });

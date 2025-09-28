@@ -5,7 +5,7 @@ import 'package:mathsgames/src/utility/Constants.dart';
 import 'package:tuple/tuple.dart';
 
 import '../model/gradient_model.dart';
-import '../soundPlayer/audio_file.dart';
+import '../resizer/widget_utils.dart';
 import 'common_dual_score_widget.dart';
 
 class CommonDualGameOverDialogView extends StatelessWidget {
@@ -17,66 +17,71 @@ class CommonDualGameOverDialogView extends StatelessWidget {
   final Tuple2<GradientModel, int> colorTuple;
 
   const CommonDualGameOverDialogView({
+    Key? key,
     required this.gameCategoryType,
     required this.score1,
     required this.score2,
     required this.index,
     required this.totalQuestion,
     required this.colorTuple,
-    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    AudioPlayer audioPlayer = new AudioPlayer(context);
-
-    audioPlayer.playGameOverSound();
+    final textTheme = Theme.of(context).textTheme;
 
     return Column(
-      mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        getDefaultIconWidget(context,
-            icon: AppAssets.backIcon,
-            folder: colorTuple.item1.folderName, function: () {
-          Navigator.pop(context);
-        }),
+        // Back Icon
+        getDefaultIconWidget(
+          context,
+          icon: AppAssets.backIcon,
+          folder: colorTuple.item1.folderName!,
+          function: () => Navigator.pop(context),
+        ),
         SizedBox(height: getScreenPercentSize(context, 1.8)),
+
+        // Title
         Center(
           child: getTextWidget(
-              Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(fontWeight: FontWeight.bold),
-              "Game Over!!!",
-              TextAlign.center,
-              getScreenPercentSize(context, 3)),
+            textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
+            "Game Over!!!",
+            TextAlign.center,
+            getScreenPercentSize(context, 3),
+          ),
         ),
+
+        SizedBox(height: getScreenPercentSize(context, 1)),
+
+        // Scores
         Expanded(
-            child: Container(
           child: CommonDualScoreWidget(
-            context: context,
             colorTuple: colorTuple,
             totalLevel: defaultLevelSize,
             currentLevel: 1,
             gameCategoryType: gameCategoryType,
             score1: score1,
             score2: score2,
-            right: 1,
+            right: index,
+            wrong: totalQuestion - index,
             totalQuestion: totalQuestion,
             index: index,
-            wrong: 1,
-            homeClick: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardView(),));
-            },
+            homeClick: () => Navigator.pop(context),
             shareClick: () {
-              // share();
+              // TODO: implement share logic
             },
           ),
-        )),
-        getButtonWidget(context, "Restart", colorTuple.item1.primaryColor, () {
-          Navigator.pop(context, true);
-        }, textColor: Colors.black),
+        ),
+
+        // Restart Button
+        getButtonWidget(
+          context,
+          "Restart",
+          colorTuple.item1.primaryColor!,
+              () => Navigator.pop(context, true),
+          textColor: Colors.black,
+        ),
       ],
     );
   }

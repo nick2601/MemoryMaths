@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/ui/common/common_tab_animation_view.dart';
-
-import '../../utility/Constants.dart';
-import '../soundPlayer/audio_file.dart';
+import 'package:mathsgames/src/utility/Constants.dart';
 
 class CommonBackButton extends StatelessWidget {
-  final Function onTab;
+  final VoidCallback onTab;
   final double height;
   final double? btnRadius;
 
@@ -18,59 +16,33 @@ class CommonBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AudioPlayer audioPlayer = new AudioPlayer(context);
-
-    double radius =
-        btnRadius == null ? getCommonCalculatorRadius(context) : btnRadius;
-
-    // return CommonTabAnimationView(
-    //   onTab: (){
-    //     onTab();
-    //     audioPlayer.playTickSound();
-    //   },
-    //   child: Container(
-    //       alignment: Alignment.center,
-    //       // color: Theme.of(context).colorScheme.cardBgColor,
-    //       decoration: getDefaultDecoration(isShadow: themeMode==ThemeMode.light?true:false,shadowColor: getShadowColor(context),
-    //           bgColor: getBgColor(themeProvider, Theme.of(context).scaffoldBackgroundColor),radius: radius),
-    //
-    //
-    //       child: Center(
-    //         child: Icon(
-    //           Icons.backspace,
-    //           size: getPercentSize(height, 20 ),
-    //           color: Theme.of(context).colorScheme.crossColor,
-    //         ),
-    //       )),
-    // );
+    final double radius = btnRadius ?? getCommonCalculatorRadius(context);
 
     return CommonTabAnimationView(
-        onTab: () {
-          onTab();
-          audioPlayer.playTickSound();
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(radius),
-          child: Container(
-            alignment: Alignment.center,
-            // height: height,
-
-            decoration: getDefaultDecoration(
-                bgColor: Colors.white,
-                radius: radius,
-                borderColor: Theme.of(context).textTheme.titleMedium!.color,
-                borderWidth: 1.2),
-            margin: EdgeInsets.symmetric(
-                horizontal: getWidthPercentSize(context, 2), vertical: 2),
-
-            child: Center(
-              child: Icon(
-                Icons.backspace,
-                size: getPercentSize(height, 20),
-                color: Colors.black,
-              ),
-            ),
+      onTab: () {
+        onTab();
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(radius),
+        child: Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.symmetric(
+            horizontal: getWidthPercentSize(context, 2),
+            vertical: 2,
           ),
-        ));
+          decoration: getDefaultDecoration(
+            bgColor: Theme.of(context).scaffoldBackgroundColor,
+            radius: radius,
+            borderColor: Theme.of(context).dividerColor,
+            borderWidth: 1.2,
+          ),
+          child: Icon(
+            Icons.backspace,
+            size: getPercentSize(height, 20),
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
+      ),
+    );
   }
 }

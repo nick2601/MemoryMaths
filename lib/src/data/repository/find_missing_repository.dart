@@ -1,44 +1,48 @@
 import 'package:mathsgames/src/data/models/find_missing_model.dart';
-
 import '../RandomFindMissingData.dart';
 
-/// Repository class responsible for generating math quiz questions with missing numbers
+/// Repository class that generates "Find the Missing Number" quiz questions
 /// for different difficulty levels.
 class FindMissingRepository {
-  /// Keeps track of previously generated questions to avoid duplicates
-  static List<int> listHasCode = <int>[];
+  /// Stores hash codes of generated quiz models to avoid duplicates
+  static final Set<int> _generatedHashes = <int>{};
 
-  /// Generates a list of 5 "Find the Missing Number" quiz questions for a given level
+  /// Generates a list of 5 unique "Find the Missing Number" quiz questions
+  /// for the given [level].
   ///
-  /// [level] The difficulty level of the questions (1-5)
-  /// Returns a List of [FindMissingQuizModel] containing the generated questions
-  static getFindMissingDataList(int level) {
-    // Reset tracking list when starting level 1
+  /// Parameters:
+  /// - [level]: Difficulty level of the questions (1–5).
+  ///
+  /// Returns:
+  /// A [List] of [FindMissingQuizModel] containing 5 unique questions.
+  static List<FindMissingQuizModel> getFindMissingDataList(int level) {
+    // Reset tracking set at level 1
     if (level == 1) {
-      listHasCode.clear();
+      _generatedHashes.clear();
     }
 
-    // Initialize empty list to store quiz questions
-    List<FindMissingQuizModel> list = <FindMissingQuizModel>[];
+    final List<FindMissingQuizModel> list = [];
+    final RandomFindMissingData generator = RandomFindMissingData(level);
 
-    // Create data generator for current level
-    RandomFindMissingData learnData = RandomFindMissingData(level);
-
-    // Generate 5 unique questions
+    // Generate until 5 unique questions are added
     while (list.length < 5) {
-      list.add(learnData.getMethods());
+      final quiz = generator.getMethods();
+
+      // Only add if unique
+      if (_generatedHashes.add(quiz.hashCode)) {
+        list.add(quiz);
+      }
     }
 
     return list;
   }
 }
 
-/// Test function to generate questions for levels 1-4
+/// Test function to generate and display quiz questions for levels 1–4
 void main() {
-  for (int i = 1; i < 5; i++) {
-    FindMissingRepository.getFindMissingDataList(i);
+  for (int i = 1; i <= 4; i++) {
+    final data = FindMissingRepository.getFindMissingDataList(i);
+    print("Level $i generated ${data.length} questions:");
+    data.forEach(print);
   }
 }
-
-// Note: Commented out code below contains alternative implementation
-// that generates questions using MathUtil and Expression classes

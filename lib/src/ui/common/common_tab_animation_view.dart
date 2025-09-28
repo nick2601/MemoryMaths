@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CommonTabAnimationView extends StatefulWidget {
-  final Function onTab;
+  final VoidCallback onTab;
   final Widget child;
   final bool isDelayed;
 
@@ -13,47 +13,54 @@ class CommonTabAnimationView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CommonTabAnimationViewState createState() => _CommonTabAnimationViewState();
+  State<CommonTabAnimationView> createState() =>
+      _CommonTabAnimationViewState();
 }
 
 class _CommonTabAnimationViewState extends State<CommonTabAnimationView>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+  late final AnimationController _controller;
 
   @override
   void initState() {
+    super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(
-        milliseconds: 100,
-      ),
+      duration: const Duration(milliseconds: 100),
       lowerBound: 0.0,
       upperBound: 0.1,
-    )..addListener(() {
-        setState(() {});
-      });
-    super.initState();
+    );
   }
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleTap() async {
+    await _controller.forward();
+    await _controller.reverse();
+    if (widget.isDelayed) {
+      await Future.delayed(const Duration(milliseconds: 195));
+    }
+    widget.onTab();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Transform.scale(
-      scale: 1 - _controller.value,
-      child: GestureDetector(
-        onTap: () async {
-          _controller.forward().then((value) => _controller.reverse());
-          if (widget.isDelayed)
-            await Future.delayed(Duration(milliseconds: 195));
-          widget.onTab();
-        },
-        child: widget.child,
-      ),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.scale(
+          scale: 1 - _controller.value,
+          child: GestureDetector(
+            onTap: _handleTap,
+            child: child,
+          ),
+        );
+      },
+      child: widget.child,
     );
   }
 }

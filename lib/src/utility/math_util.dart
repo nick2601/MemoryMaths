@@ -1,523 +1,259 @@
 import 'dart:math';
 
+/// Utility class providing math expression generation and evaluation.
 class MathUtil {
-  static int evaluate(int x1, String sign, int x3) {
+  static final Random _random = Random();
+
+  /// Evaluates a binary operation between two integers.
+  static int evaluate(int x1, String sign, int x2) {
     switch (sign) {
       case "+":
-        return x1 + x3;
+        return x1 + x2;
       case "-":
-        return x1 - x3;
+        return x1 - x2;
       case "*":
-        return x1 * x3;
+        return x1 * x2;
+      case "/":
+        return x2 == 0 ? 0 : x1 ~/ x2; // Guard against divide by zero
       default:
-        return x1 ~/ x3;
+        throw ArgumentError("Unsupported operator: $sign");
     }
   }
 
-  static bool isOperator(String sign) {
-    return ["+", "-", "*", "/"].contains(sign);
-  }
+  /// Returns true if [sign] is a valid operator.
+  static bool isOperator(String sign) => ["+", "-", "*", "/"].contains(sign);
 
-  // ignore: missing_return
+  /// Returns operator precedence. Higher means stronger binding.
   static int getPrecedence(String sign) {
     switch (sign) {
       case "+":
-        return 1;
       case "-":
         return 1;
       case "*":
         return 2;
-      default:
+      case "/":
         return 3;
+      default:
+        throw ArgumentError("Invalid operator: $sign");
     }
   }
 
-  static int generateRandomAnswer(int min, int max) {
-    final _random = new Random();
-    int result = min + _random.nextInt(max - min);
-    return result;
-  }
+  /// Generates a random integer between [min] and [max] (exclusive).
+  static int generateRandomAnswer(int min, int max) =>
+      min + _random.nextInt(max - min);
 
+  /// Returns a random arithmetic operator.
   static String generateRandomSign() {
-    var x = ['/', '*', '-', '+'];
-    final _random = new Random();
-    int result = _random.nextInt(4);
-    return x[result];
+    const ops = ['/', '*', '-', '+'];
+    return ops[_random.nextInt(ops.length)];
   }
 
-  static List<String> generateRandomSign1(int count) {
-    var listOfSign = <String>[];
-    var list = [
-      ['/', '*', '-', '+'],
-      ['/', '*', '-', '+'],
-      ['/', '*', '-', '+'],
-      ['/', '*', '-', '+']
-    ];
+  /// Generates [count] random operators.
+  static List<String> generateRandomSigns(int count) =>
+      List.generate(count, (_) => generateRandomSign());
 
-    while (listOfSign.length < count) {
-      int row = Random().nextInt(4);
-      int col = Random().nextInt(4);
-      if (listOfSign.length == 0 || list[row][col] != listOfSign.last)
-        listOfSign.add(list[row][col]);
-    }
-    return listOfSign;
+  /// Generates [count] random numbers in string form.
+  static List<String> generateRandomNumbers(int min, int max, int count) {
+    return List.generate(count, (_) => generateRandomAnswer(min, max).toString());
   }
 
-  static List<String> generateRandomNumber(int min, int max, int count) {
-    var list = <List<int>>[];
-    var listOfSign = <String>[];
-    var listTemp = <int>[];
-
-    for (int i = min; i <= max; i++) {
-      listTemp.add(i);
-    }
-    for (int i = min; i <= max; i++) {
-      list.add(listTemp);
-    }
-    while (listOfSign.length < count) {
-      int row = Random().nextInt(max - min);
-      int col = Random().nextInt(max - min);
-      if (listOfSign.length == 0 ||
-          list[row][col].toString() != listOfSign.last)
-        listOfSign.add(list[row][col].toString());
-    }
-    return listOfSign;
-  }
-
-  static Expression getPlusSignExp(int min, int max) {
-    var x = MathUtil.generateRandomNumber(min, max, 2);
+  /// Expression with addition.
+  static Expression getPlusExp(int min, int max) {
+    var nums = generateRandomNumbers(min, max, 2);
     return Expression(
-      firstOperand: x[0],
+      firstOperand: nums[0],
       operator1: "+",
-      secondOperand: x[1],
-      answer: int.parse(x[0]) + int.parse(x[1]),
-      thirdOperand: '',
-      operator2: null,
+      secondOperand: nums[1],
+      answer: int.parse(nums[0]) + int.parse(nums[1]),
     );
   }
 
-  static Expression getMinusSignExp(int min, int max) {
-    var x1 = MathUtil.generateRandomNumber(max ~/ 2, max, 1);
-    var x2 = MathUtil.generateRandomNumber(min, max, 1);
-    while (int.parse(x2[0]) > int.parse(x1[0])) {
-      x2 = MathUtil.generateRandomNumber(min, max, 1);
-    }
+  /// Expression with subtraction ensuring non-negative result.
+  static Expression getMinusExp(int min, int max) {
+    var x1 = generateRandomAnswer(max ~/ 2, max);
+    var x2 = generateRandomAnswer(min, max ~/ 2);
     return Expression(
-      firstOperand: x1[0],
+      firstOperand: "$x1",
       operator1: "-",
-      secondOperand: x2[0],
-      answer: int.parse(x1[0]) - int.parse(x2[0]),
-      thirdOperand: '',
-      operator2: null,
+      secondOperand: "$x2",
+      answer: x1 - x2,
     );
   }
 
-  static Expression getMultiplySignExp(int min, int max) {
-    var x = MathUtil.generateRandomNumber(min, max, 2);
-
+  /// Expression with multiplication.
+  static Expression getMultiplyExp(int min, int max) {
+    var nums = generateRandomNumbers(min, max, 2);
     return Expression(
-      firstOperand: x[0],
+      firstOperand: nums[0],
       operator1: "*",
-      secondOperand: x[1],
-      answer: int.parse(x[0]) * int.parse(x[1]),
-      thirdOperand: '',
-      operator2: null,
+      secondOperand: nums[1],
+      answer: int.parse(nums[0]) * int.parse(nums[1]),
     );
   }
 
-  static Expression? getDivideSignExp(int min, int max) {
-    var listTemp = <Map<String, String>>[];
+  /// Expression with division ensuring clean division.
+  static Expression? getDivideExp(int min, int max) {
+    var pairs = <MapEntry<int, int>>[];
+
     for (int i = min; i <= max; i++) {
       for (int j = min; j <= max; j++) {
-        if (i != 1 && j != 1 && j != i && j % i == 0) {
-          listTemp.add({j.toString(): i.toString()});
+        if (i != 0 && j % i == 0 && j != i) {
+          pairs.add(MapEntry(j, i));
         }
       }
     }
-    listTemp.shuffle();
-    if (listTemp.length > 0) {
-      var x = listTemp[Random().nextInt(listTemp.length)];
-      return Expression(
-        firstOperand: x.keys.first,
-        operator1: "/",
-        secondOperand: x.values.first,
-        answer: int.parse(x.keys.first) ~/ int.parse(x.values.first),
-        thirdOperand: '',
-        operator2: null,
-      );
-    } else {
-      return null;
-    }
+
+    if (pairs.isEmpty) return null;
+
+    var pair = pairs[_random.nextInt(pairs.length)];
+    return Expression(
+      firstOperand: "${pair.key}",
+      operator1: "/",
+      secondOperand: "${pair.value}",
+      answer: pair.key ~/ pair.value,
+    );
   }
 
-  static Expression? getMixExp(int min, int max) {
-    int operand = int.parse(MathUtil.generateRandomNumber(min, max, 1).first);
-    var signList = MathUtil.generateRandomSign1(2);
-    String firstSign = (MathUtil.getPrecedence(signList[0]) >=
-            MathUtil.getPrecedence(signList[1]))
-        ? signList[0]
-        : "";
-    String secondSign = (MathUtil.getPrecedence(signList[0]) >=
-            MathUtil.getPrecedence(signList[1]))
-        ? ""
-        : signList[1];
-    Expression? expression;
-    Expression? finalExpression;
+  /// Expression generator combining multiple operators.
+  static Expression? getMixedExp(int min, int max) {
+    var baseExp = _pickExpression(min, max);
+    if (baseExp == null) return null;
 
-    switch (firstSign != "" ? firstSign : secondSign) {
-      case "+":
-        expression = MathUtil.getPlusSignExp(min, max);
-        break;
-      case "-":
-        expression = MathUtil.getMinusSignExp(min, max);
-        break;
-      case "*":
-        expression = MathUtil.getMultiplySignExp(1, 15);
-        break;
-      case "/":
-        expression = MathUtil.getDivideSignExp(min, max);
-        break;
-    }
-    if (expression != null) {
-      switch (firstSign != "" ? signList[1] : signList[0]) {
-        case "+":
-          if (firstSign != "")
-            finalExpression = Expression(
-                firstOperand: expression.firstOperand,
-                operator1: expression.operator1,
-                secondOperand: expression.secondOperand,
-                operator2: "+",
-                thirdOperand: operand.toString(),
-                answer: expression.answer + operand);
-          else
-            finalExpression = Expression(
-                firstOperand: operand.toString(),
-                operator1: "+",
-                secondOperand: expression.firstOperand,
-                operator2: expression.operator1,
-                thirdOperand: expression.secondOperand,
-                answer: operand + expression.answer);
-          break;
-        case "-":
-          if (firstSign != "") {
-            if ((expression.answer - operand) < 0) {
-              finalExpression = null;
-            } else {
-              finalExpression = Expression(
-                  firstOperand: expression.firstOperand,
-                  operator1: expression.operator1,
-                  secondOperand: expression.secondOperand,
-                  operator2: "-",
-                  thirdOperand: operand.toString(),
-                  answer: expression.answer - operand);
-            }
-          } else {
-            if ((operand - expression.answer) < 0) {
-              finalExpression = null;
-            } else {
-              finalExpression = Expression(
-                  firstOperand: operand.toString(),
-                  operator1: "-",
-                  secondOperand: expression.firstOperand,
-                  operator2: expression.operator1,
-                  thirdOperand: expression.secondOperand,
-                  answer: operand - expression.answer);
-            }
-          }
-          break;
-        case "*":
-          if (firstSign != "")
-            finalExpression = Expression(
-                firstOperand: expression.firstOperand,
-                operator1: expression.operator1,
-                secondOperand: expression.secondOperand,
-                operator2: "*",
-                thirdOperand: operand.toString(),
-                answer: expression.answer * operand);
-          else
-            finalExpression = Expression(
-                firstOperand: operand.toString(),
-                operator1: "*",
-                secondOperand: expression.firstOperand,
-                operator2: expression.operator1,
-                thirdOperand: expression.secondOperand,
-                answer: operand * expression.answer);
+    var operand = generateRandomAnswer(min, max);
+    var sign = generateRandomSign();
 
-          break;
-        case "/":
-          if (firstSign != "") {
-            if (expression.answer % operand == 0) {
-              finalExpression = null;
-            } else {
-              finalExpression = Expression(
-                  firstOperand: expression.firstOperand,
-                  operator1: expression.operator1,
-                  secondOperand: expression.secondOperand,
-                  operator2: "/",
-                  thirdOperand: operand.toString(),
-                  answer: expression.answer ~/ operand);
-            }
-          } else {
-            if (operand % expression.answer == 0) {
-              finalExpression = null;
-            } else {
-              finalExpression = Expression(
-                  firstOperand: operand.toString(),
-                  operator1: "/",
-                  secondOperand: expression.firstOperand,
-                  operator2: expression.operator1,
-                  thirdOperand: expression.secondOperand,
-                  answer: operand ~/ expression.answer);
-            }
-          }
-          break;
-      }
-    } else {
-      finalExpression = expression;
-    }
-    return finalExpression;
+    return _combineExpression(baseExp, sign, operand);
   }
 
-  static Expression? getMentalExp(int level) {
-    int min;
-    int max;
-    if (level <= 3) {
-      min = level = 1;
-      max = level = 10;
-    } else if (level <= 6) {
-      min = level = 5;
-      max = level = 20;
-    } else {
-      min = level = 10;
-      max = level = 30;
-    }
-    int operand = int.parse(MathUtil.generateRandomNumber(min, max, 1).first);
-    var signList = MathUtil.generateRandomSign1(2);
-    Expression? expression;
-    Expression? finalExpression;
-
-    switch (signList[0]) {
-      case "+":
-        expression = MathUtil.getPlusSignExp(min, max);
-        break;
-      case "-":
-        expression = MathUtil.getMinusSignExp(min, max);
-        break;
-      case "*":
-        expression = MathUtil.getMultiplySignExp(1, 15);
-        break;
-      case "/":
-        expression = MathUtil.getDivideSignExp(min, max);
-        break;
-    }
-    if (expression != null) {
-      switch (signList[1]) {
-        case "+":
-          finalExpression = Expression(
-              firstOperand: expression.firstOperand,
-              operator1: expression.operator1,
-              secondOperand: expression.secondOperand,
-              operator2: signList[1],
-              thirdOperand: operand.toString(),
-              answer: operand + expression.answer);
-          break;
-        case "-":
-          finalExpression = Expression(
-              firstOperand: expression.firstOperand,
-              operator1: expression.operator1,
-              secondOperand: expression.secondOperand,
-              operator2: signList[1],
-              thirdOperand: operand.toString(),
-              answer: expression.answer - operand);
-          break;
-        case "*":
-          finalExpression = Expression(
-              firstOperand: expression.firstOperand,
-              operator1: expression.operator1,
-              secondOperand: expression.secondOperand,
-              operator2: signList[1],
-              thirdOperand: operand.toString(),
-              answer: expression.answer * operand);
-
-          break;
-        case "/":
-          if (expression.answer % operand != 0) {
-            finalExpression = null;
-          } else {
-            finalExpression = Expression(
-                firstOperand: expression.firstOperand,
-                operator1: expression.operator1,
-                secondOperand: expression.secondOperand,
-                operator2: signList[1],
-                thirdOperand: operand.toString(),
-                answer: expression.answer ~/ operand);
-          }
-          break;
-      }
-    } else {
-      finalExpression = expression;
-    }
-    return finalExpression;
-  }
-
+  /// Returns list of expressions for Math Pairs game.
   static List<Expression> getMathPair(int level, int count) {
-    var list = <Expression>[];
-    int min = level == 1 ? 1 : (5 * level) - 5; //1 5 10 15 20 25
-    int max = level == 1 ? 10 : (10 * level); //10 20 30 40 50 60
-    while (list.length < count) {
-      MathUtil.generateRandomSign1(count - list.length).forEach((String sign) {
-        Expression? expression;
-        if (level <= 2) {
-          switch (sign) {
-            case "+":
-              expression = MathUtil.getPlusSignExp(min, max);
-              break;
-            case "-":
-              expression = MathUtil.getMinusSignExp(min, max);
-              break;
-            case "*":
-              expression = MathUtil.getMultiplySignExp(1, 10);
-              break;
-            case "/":
-              expression = MathUtil.getDivideSignExp(1, 10);
-              break;
-          }
-        } else if (level <= 3) {
-          switch (sign) {
-            case "+":
-              expression = MathUtil.getPlusSignExp(min, max);
-              break;
-            case "-":
-              expression = MathUtil.getMinusSignExp(min, max);
-              break;
-            case "*":
-              expression = MathUtil.getMultiplySignExp(1, 15);
-              break;
-            case "/":
-              expression = MathUtil.getDivideSignExp(1, 15);
-              break;
-          }
-        } else {
-          switch (sign) {
-            case "+":
-              expression = MathUtil.getPlusSignExp(min, max);
-              break;
-            case "-":
-              expression = MathUtil.getMinusSignExp(min, max);
-              break;
-            case "*":
-              expression = MathUtil.getMultiplySignExp(5, 30);
-              break;
-            case "/":
-              expression = MathUtil.getDivideSignExp(5, 30);
-              break;
-          }
-        }
-        if (expression != null && !list.contains(expression)) {
-          list.add(expression);
-        }
-      });
-    }
-    return list;
+    return List.generate(count, (_) => _pickExpressionForLevel(level)!)
+        .whereType<Expression>()
+        .toList();
   }
 
+  /// Returns a set of generated expressions for given level and count.
   static List<Expression> generate(int level, int count) {
-    var list = <Expression>[];
-    int min = level == 1 ? 1 : (5 * level) - 5; //1 5 10 15 20 25
-    int max = level == 1 ? 10 : (10 * level); //10 20 30 40 50 60
-    while (list.length < count) {
-      MathUtil.generateRandomSign1(count - list.length).forEach((String sign) {
-        Expression? expression;
-        if (level <= 2) {
-          switch (sign) {
-            case "+":
-              expression = MathUtil.getPlusSignExp(min, max);
-              break;
-            case "-":
-              expression = MathUtil.getMinusSignExp(min, max);
-              break;
-            case "*":
-              expression = MathUtil.getMultiplySignExp(1, 15);
-              break;
-            case "/":
-              expression = MathUtil.getDivideSignExp(min, max);
-              break;
-          }
-        } else if (level <= 4) {
-          switch (sign) {
-            case "+":
-              expression = MathUtil.getPlusSignExp(min, max);
-              break;
-            case "-":
-              expression = MathUtil.getMinusSignExp(min, max);
-              break;
-            case "*":
-              expression = MathUtil.getMixExp(1, 15);
-              break;
-            case "/":
-              expression = MathUtil.getDivideSignExp(min, max);
-              break;
-          }
-        } else if (level < 5) {
-          expression = MathUtil.getMixExp(1, 25);
-        } else if (level < 6) {
-          expression = MathUtil.getMixExp(1, 30);
-        } else {
-          expression = MathUtil.getMixExp(1, 50);
-        }
-        if (expression != null && !list.contains(expression)) {
-          list.add(expression);
-        }
-      });
+    return List.generate(count, (_) => _pickExpressionForLevel(level)!)
+        .whereType<Expression>()
+        .toList();
+  }
+
+  // --- Private helpers ---
+
+  static Expression? _pickExpression(int min, int max) {
+    switch (generateRandomSign()) {
+      case "+":
+        return getPlusExp(min, max);
+      case "-":
+        return getMinusExp(min, max);
+      case "*":
+        return getMultiplyExp(min, max);
+      case "/":
+        return getDivideExp(min, max);
+      default:
+        return null;
     }
-    return list;
+  }
+
+  static Expression? _pickExpressionForLevel(int level) {
+    int min = level == 1 ? 1 : (5 * level) - 5;
+    int max = level == 1 ? 10 : (10 * level);
+    return _pickExpression(min, max);
+  }
+
+  /// Returns an expression for mental math game based on level.
+  static Expression? getMentalExp(int level) {
+    return _pickExpressionForLevel(level);
+  }
+
+  static Expression? _combineExpression(
+      Expression base, String sign, int operand) {
+    switch (sign) {
+      case "+":
+        return base.copyWith(
+          operator2: "+",
+          thirdOperand: "$operand",
+          answer: base.answer + operand,
+        );
+      case "-":
+        if (base.answer - operand < 0) return null;
+        return base.copyWith(
+          operator2: "-",
+          thirdOperand: "$operand",
+          answer: base.answer - operand,
+        );
+      case "*":
+        return base.copyWith(
+          operator2: "*",
+          thirdOperand: "$operand",
+          answer: base.answer * operand,
+        );
+      case "/":
+        if (operand == 0 || base.answer % operand != 0) return null;
+        return base.copyWith(
+          operator2: "/",
+          thirdOperand: "$operand",
+          answer: base.answer ~/ operand,
+        );
+      default:
+        return null;
+    }
   }
 }
 
-void main() {
-
-}
-
+/// Represents a mathematical expression with up to two operators.
 class Expression {
   final String firstOperand;
   final String operator1;
   final String secondOperand;
   final String? operator2;
-  final String thirdOperand;
+  final String? thirdOperand;
   final int answer;
 
   Expression({
     required this.firstOperand,
     required this.operator1,
     required this.secondOperand,
-    required this.operator2,
-    required this.thirdOperand,
     required this.answer,
+    this.operator2,
+    this.thirdOperand,
   });
 
-  @override
-  String toString() {
-    return 'Expression{firstOperand: $firstOperand, operator1: $operator1, secondOperand: $secondOperand, operator2: $operator2, thirdOperand: $thirdOperand, answer: $answer}';
+  Expression copyWith({
+    String? firstOperand,
+    String? operator1,
+    String? secondOperand,
+    String? operator2,
+    String? thirdOperand,
+    int? answer,
+  }) {
+    return Expression(
+      firstOperand: firstOperand ?? this.firstOperand,
+      operator1: operator1 ?? this.operator1,
+      secondOperand: secondOperand ?? this.secondOperand,
+      operator2: operator2 ?? this.operator2,
+      thirdOperand: thirdOperand ?? this.thirdOperand,
+      answer: answer ?? this.answer,
+    );
   }
+
+  @override
+  String toString() =>
+      "$firstOperand $operator1 $secondOperand ${operator2 ?? ""} ${thirdOperand ?? ""} = $answer";
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Expression &&
-          runtimeType == other.runtimeType &&
-          firstOperand == other.firstOperand &&
-          operator1 == other.operator1 &&
-          secondOperand == other.secondOperand &&
-          operator2 == other.operator2 &&
-          thirdOperand == other.thirdOperand &&
-          answer == other.answer;
+          other is Expression &&
+              firstOperand == other.firstOperand &&
+              operator1 == other.operator1 &&
+              secondOperand == other.secondOperand &&
+              operator2 == other.operator2 &&
+              thirdOperand == other.thirdOperand &&
+              answer == other.answer;
 
   @override
   int get hashCode =>
-      firstOperand.hashCode ^
-      operator1.hashCode ^
-      secondOperand.hashCode ^
-      operator2.hashCode ^
-      thirdOperand.hashCode ^
-      answer.hashCode;
+      Object.hash(firstOperand, operator1, secondOperand, operator2, thirdOperand, answer);
 }

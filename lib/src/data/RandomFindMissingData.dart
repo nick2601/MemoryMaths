@@ -1,422 +1,146 @@
 import 'dart:math';
-
-import 'models/find_missing_model.dart';
 import 'package:intl/intl.dart';
+import 'models/find_missing_model.dart';
 
-/// A class that generates random math problems for a "find the missing number" game
-/// Supports addition, subtraction, multiplication, and division operations
+/// Generates random math problems for a "find the missing number" game.
+/// Supports addition, subtraction, multiplication, and division.
 class RandomFindMissingData {
-  int levelNo = 0;
+  final int levelNo;
+  late final int dataTypeNumber;
+  final Random _random = Random();
+
   int firstDigit = 0;
   int secondDigit = 0;
   int answer = 0;
   double doubleAnswer = 0;
-  String? question, tableName;
-  String? multiplicationSign,
-      space,
-      additionSign,
-      subtractionSign,
-      divisionSign;
-  int? dataTypeNumber = 1;
 
   double firstDoubleDigit = 0;
   double secondDoubleDigit = 0;
 
-  int helpTag = 0;
-  double digit_1 = 0, digit_2 = 0, digit_3 = 0, digit_4 = 0;
-  FindMissingQuizModel quizModel = new FindMissingQuizModel();
   String currentSign = "+";
+  String? question;
+  int helpTag = 0;
 
-  /// Creates a new instance with specified difficulty level
-  /// @param levelNo Determines the difficulty (1-5: easy, 6-20: medium, 21-30: hard)
-  RandomFindMissingData(int levelNo) {
-    this.levelNo = levelNo;
-    if (levelNo <= 5) {
-      dataTypeNumber = 1;
-    } else if (levelNo > 5 && levelNo <= 20) {
-      dataTypeNumber = 2;
-    } else if (levelNo > 20 && levelNo <= 30) {
-      dataTypeNumber = 3;
-    }
+  RandomFindMissingData(this.levelNo)
+      : dataTypeNumber = (levelNo <= 5)
+      ? 1
+      : (levelNo <= 20)
+      ? 2
+      : 3;
 
-    additionSign = "+";
-    multiplicationSign = "*";
-    divisionSign = "/";
-    subtractionSign = "-";
-    space = "\u0020";
-  }
+  // ---------- Ranges ----------
+  int getFirstMinNumber() => dataTypeNumber == 1 ? 10 : (dataTypeNumber == 2 ? 150 : 200);
+  int getFirstMaxNumber() => dataTypeNumber == 1 ? 50 : (dataTypeNumber == 2 ? 200 : 500);
+  int getSecondMinNumber() => dataTypeNumber == 1 ? 50 : (dataTypeNumber == 2 ? 200 : 300);
+  int getSecondMaxNumber() => dataTypeNumber == 1 ? 100 : (dataTypeNumber == 2 ? 250 : 500);
 
-  /// Randomly selects and returns a math problem
-  /// @return FindMissingQuizModel containing the generated problem
+  // ---------- Public Entry ----------
   FindMissingQuizModel getMethods() {
-    quizModel = new FindMissingQuizModel();
-
-    int i = new Random().nextInt((4 - 1) + 1) + 1;
-    currentSign = additionSign!;
-    if (i == 1) {
-      currentSign = additionSign!;
-      return getAddition();
-    } else if (i == 2) {
-      currentSign = subtractionSign!;
-      return getSubtraction();
-    } else if (i == 3) {
-      currentSign = multiplicationSign!;
-      return getMultiplication();
-    } else if (i == 4) {
-      currentSign = divisionSign!;
-      return getDivision();
+    switch (_random.nextInt(4)) {
+      case 0:
+        currentSign = "+";
+        return getAddition();
+      case 1:
+        currentSign = "-";
+        return getSubtraction();
+      case 2:
+        currentSign = "×";
+        return getMultiplication();
+      case 3:
+      default:
+        currentSign = "÷";
+        return getDivision();
     }
-    return getAddition();
   }
 
-  int getFirstMinNumber() {
-    int number = 30;
-    if (dataTypeNumber == 1) {
-      number = 10;
-    } else if (dataTypeNumber == 2) {
-      number = 150;
-    }
-
-    return number;
-  }
-
-  int getFirstMaxNumber() {
-    int number = 50;
-
-    if (dataTypeNumber == 1) {
-      number = 50;
-    } else if (dataTypeNumber == 2) {
-      number = 200;
-    }
-
-    return number;
-  }
-
-  int getSecondMaxNumber() {
-    int number = 150;
-
-    if (dataTypeNumber == 1) {
-      number = 100;
-    } else if (dataTypeNumber == 2) {
-      number = 250;
-    }
-
-    return number;
-  }
-
-  int getSecondMinNumber() {
-    int number = 150;
-
-    if (dataTypeNumber == 1) {
-      number = 50;
-    } else if (dataTypeNumber == 2) {
-      number = 200;
-    }
-    return number;
-  }
-
-  /// Generates an addition problem based on current difficulty
-  /// @return FindMissingQuizModel with addition problem
+  // ---------- Operations ----------
   FindMissingQuizModel getAddition() {
-    int firstMin = getFirstMinNumber();
-    int secondMin = getSecondMinNumber();
-    int firstMax = getFirstMaxNumber();
-    int secondMax = getSecondMaxNumber();
-
-    firstDigit = new Random().nextInt((firstMax - firstMin) + 1) + firstMin;
-    secondDigit = new Random().nextInt((secondMax - secondMin) + 1) + secondMin;
-
+    firstDigit = _randomInRange(getFirstMinNumber(), getFirstMaxNumber());
+    secondDigit = _randomInRange(getSecondMinNumber(), getSecondMaxNumber());
     answer = firstDigit + secondDigit;
-    addModel();
-
-    if (helpTag == 1) {
-      question = "? " +
-          currentSign +
-          " " +
-          secondDigit.toString() +
-          " = " +
-          (firstDigit + secondDigit).toString();
-    } else if (helpTag == 2) {
-      question = firstDigit.toString() +
-          " " +
-          currentSign +
-          " ? = " +
-          (firstDigit + secondDigit).toString();
-    } else {
-      question = firstDigit.toString() +
-          " " +
-          currentSign +
-          " " +
-          secondDigit.toString() +
-          " = ?";
-    }
-
-    quizModel.question = question;
-    return quizModel;
+    return _buildModel(answer, isDouble: false);
   }
 
   FindMissingQuizModel getSubtraction() {
-    if (dataTypeNumber == 1) {
-      firstDigit = new Random().nextInt(50) + 10;
-      secondDigit = new Random().nextInt(30) + 3;
-    } else if (dataTypeNumber == 2) {
-      firstDigit = new Random().nextInt((100 - 50) + 1) + 50;
-      secondDigit = new Random().nextInt((50 - 10) + 1) + 10;
-    } else {
-      firstDigit = new Random().nextInt((500 - 200) + 1) + 200;
-      secondDigit = new Random().nextInt((200 - 100) + 1) + 100;
+    firstDigit = _randomInRange(getFirstMinNumber(), getFirstMaxNumber());
+    secondDigit = _randomInRange(getSecondMinNumber(), getSecondMaxNumber());
+
+    if (secondDigit > firstDigit) {
+      final tmp = firstDigit;
+      firstDigit = secondDigit;
+      secondDigit = tmp;
     }
 
     answer = firstDigit - secondDigit;
-
-    addModel();
-
-    if (helpTag == 1) {
-      question = "? " +
-          currentSign +
-          " " +
-          secondDigit.toString() +
-          " = " +
-          (firstDigit - secondDigit).toString();
-    } else if (helpTag == 2) {
-      question = firstDigit.toString() +
-          " " +
-          currentSign +
-          " ? = " +
-          (firstDigit - secondDigit).toString();
-    } else {
-      question = firstDigit.toString() +
-          " " +
-          currentSign +
-          " " +
-          secondDigit.toString() +
-          " = ?";
-    }
-    quizModel.question = question;
-    return quizModel;
+    return _buildModel(answer, isDouble: false);
   }
 
   FindMissingQuizModel getMultiplication() {
-    if (dataTypeNumber == 1) {
-      firstDigit = new Random().nextInt(5) + 1;
-      secondDigit = new Random().nextInt(5) + 1;
-    } else if (dataTypeNumber == 2) {
-      firstDigit = new Random().nextInt(30) + 1;
-      secondDigit = new Random().nextInt(30) + 1;
-    } else {
-      firstDigit = new Random().nextInt(80) + 5;
-      secondDigit = new Random().nextInt(30) + 5;
-    }
-
+    firstDigit = dataTypeNumber == 1 ? _randomInRange(1, 5) : _randomInRange(5, 20);
+    secondDigit = dataTypeNumber == 1 ? _randomInRange(1, 5) : _randomInRange(5, 20);
     answer = firstDigit * secondDigit;
-
-    addModel();
-
-    if (helpTag == 1) {
-      question = "? " +
-          currentSign +
-          " " +
-          secondDigit.toString() +
-          " = " +
-          (firstDigit * secondDigit).toString();
-    } else if (helpTag == 2) {
-      question = firstDigit.toString() +
-          " " +
-          currentSign +
-          " ? = " +
-          (firstDigit * secondDigit).toString();
-    } else {
-      question = firstDigit.toString() +
-          " " +
-          currentSign +
-          " " +
-          secondDigit.toString() +
-          " = ?";
-    }
-    quizModel.question = question;
-    return quizModel;
+    return _buildModel(answer, isDouble: false);
   }
 
   FindMissingQuizModel getDivision() {
-    double n1, n2;
+    // Ensure integer division
+    secondDigit = _randomInRange(2, 12);
+    answer = _randomInRange(2, 20);
+    firstDigit = secondDigit * answer;
 
-    if (dataTypeNumber == 1) {
-      n1 = new Random().nextInt((40 - 10) + 1) + 5;
-      n2 = new Random().nextInt((10 - 5) + 1) + 5;
-    } else if (dataTypeNumber == 2) {
-      n1 = new Random().nextInt((100 - 50) + 1) + 50;
-      n2 = new Random().nextInt((10 - 5) + 1) + 5;
-    } else {
-      n1 = new Random().nextInt((200 - 100) + 1) + 100;
-      n2 = new Random().nextInt((100 - 50) + 1) + 50;
-    }
-
-    doubleAnswer = n1 / n2;
-
-    firstDoubleDigit = n1;
-    secondDoubleDigit = n2;
-
-    addDoubleModel();
-
-    if (helpTag == 1) {
-      question = "? " +
-          currentSign +
-          " " +
-          secondDoubleDigit.toInt().toString() +
-          " = " +
-          getFormattedString((firstDoubleDigit / secondDoubleDigit));
-    } else if (helpTag == 2) {
-      question = firstDoubleDigit.toInt().toString() +
-          " " +
-          currentSign +
-          " ? = " +
-          getFormattedString((firstDoubleDigit / secondDoubleDigit));
-    } else {
-      question = firstDoubleDigit.toInt().toString() +
-          " " +
-          currentSign +
-          " " +
-          secondDoubleDigit.toInt().toString() +
-          " = ?";
-    }
-    quizModel.question = question;
-    return quizModel;
+    doubleAnswer = firstDigit / secondDigit;
+    return _buildModel(doubleAnswer, isDouble: true);
   }
 
-  /// Helper method to create answer options and shuffle them
-  /// Used for problems with integer answers
-  void addModel() {
-    helpTag = new Random().nextInt(3) + 1;
-    if (helpTag == 1) {
-      answer = firstDigit;
-    } else if (helpTag == 2) {
-      answer = secondDigit;
+  // ---------- Build QuizModel ----------
+  FindMissingQuizModel _buildModel(num correct, {required bool isDouble}) {
+    helpTag = _random.nextInt(3) + 1; // Decide where '?' goes
+
+    // Build question text
+    switch (helpTag) {
+      case 1:
+        question = "? $currentSign $secondDigit = $correct";
+        break;
+      case 2:
+        question = "$firstDigit $currentSign ? = $correct";
+        break;
+      default:
+        question = "$firstDigit $currentSign $secondDigit = ?";
     }
 
-    int op_1 = answer + 10;
-    int op_2 = answer - 10;
-    if (op_2 < 0) {
-      op_2 = answer + 15;
-    }
-    int op_3 = answer + 20;
+    // Generate options
+    final options = isDouble
+        ? _generateDoubleOptions(correct.toDouble())
+        : _generateOptions(correct.toInt());
 
-    List<String> stringList = [];
-    stringList.add(op_1.toString());
-    stringList.add(op_2.toString());
-    stringList.add(op_3.toString());
-    stringList.add(answer.toString());
-
-    quizModel.answer = answer.toString();
-
-    shuffle(stringList);
-    quizModel.optionList = (stringList);
-    quizModel.question = question;
+    return FindMissingQuizModel(
+      question: question,
+      answer: isDouble ? _formatDouble(correct.toDouble()) : correct.toString(),
+      optionList: options,
+    );
   }
 
-  void addSingleModel() {
-    helpTag = new Random().nextInt(2) + 1;
-    if (helpTag == 1) {
-      answer = firstDigit;
+  // ---------- Option Generators ----------
+  List<String> _generateOptions(int correct) {
+    final set = <int>{correct};
+    while (set.length < 4) {
+      set.add(correct + _random.nextInt(21) - 10);
     }
-
-    int op_1 = answer + 10;
-    int op_2 = answer - 10;
-    if (op_2 < 0) {
-      op_2 = answer + 15;
-    }
-    int op_3 = answer + 20;
-
-    List<String> stringList = [];
-    stringList.add(op_1.toString());
-    stringList.add(op_2.toString());
-    stringList.add(op_3.toString());
-    stringList.add(answer.toString());
-
-    quizModel.answer = answer.toString();
-    shuffle(stringList);
-    quizModel.optionList = (stringList);
-    quizModel.question = question;
+    return set.map((e) => e.toString()).toList()..shuffle();
   }
 
-  void addDoubleModel() {
-    helpTag = new Random().nextInt(3) + 1;
-    if (helpTag == 1) {
-      doubleAnswer = firstDoubleDigit;
-    } else if (helpTag == 2) {
-      doubleAnswer = secondDoubleDigit;
+  List<String> _generateDoubleOptions(double correct) {
+    final set = <String>{_formatDouble(correct)};
+    while (set.length < 4) {
+      final variation = correct + (_random.nextDouble() * 10 - 5);
+      set.add(_formatDouble(variation));
     }
-
-    double opDouble1 = doubleAnswer + 10;
-    double opDouble2 = doubleAnswer - 10;
-    double opDouble3 = doubleAnswer + 20;
-
-    if (opDouble2 < 0) {
-      opDouble2 = doubleAnswer + 15;
-    }
-
-    List<String> stringList = [];
-    stringList.add(getFormattedString(opDouble1));
-    stringList.add(getFormattedString(opDouble2));
-    stringList.add(getFormattedString(opDouble3));
-    stringList.add(getFormattedString(doubleAnswer));
-
-    quizModel.answer = getFormattedString(doubleAnswer);
-
-    shuffle(stringList);
-    quizModel.optionList = (stringList);
-    quizModel.question = question;
+    return set.toList()..shuffle();
   }
 
-  void addDoubleSingleModel() {
-    helpTag = new Random().nextInt(2) + 1;
-    if (helpTag == 1) {
-      doubleAnswer = firstDoubleDigit;
-    }
+  String _formatDouble(double value) =>
+      value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 2);
 
-    double opDouble1 = doubleAnswer + 10;
-    double opDouble2 = doubleAnswer - 10;
-    if (opDouble2 < 0) {
-      opDouble2 = doubleAnswer + 15;
-    }
-    double opDouble3 = doubleAnswer + 20;
-    List<String> stringList = [];
-    stringList.add(getFormattedString(opDouble1));
-    stringList.add(getFormattedString(opDouble2));
-    stringList.add(getFormattedString(opDouble3));
-    stringList.add(getFormattedString(doubleAnswer));
-
-    quizModel.answer = getFormattedString(doubleAnswer);
-
-    shuffle(stringList);
-    quizModel.optionList = (stringList);
-    quizModel.question = question;
-  }
-}
-
-/// Shuffles a list using Fisher-Yates algorithm
-/// @param items The list to shuffle
-/// @return The shuffled list
-List shuffle(List items) {
-  var random = new Random();
-
-  // Go through all elements.
-  for (var i = items.length - 1; i > 0; i--) {
-    var n = random.nextInt(i + 1);
-
-    var temp = items[i];
-    items[i] = items[n];
-    items[n] = temp;
-  }
-
-  return items;
-}
-
-/// Formats a double number to have exactly 2 decimal places
-/// @param d The number to format
-/// @return Formatted string representation
-String getFormattedString(double d) {
-  NumberFormat numberFormat = NumberFormat(".00", "en_US");
-
-  return numberFormat.format(d);
-  // return d.toStringAsPrecision(4);
+  // ---------- Helpers ----------
+  int _randomInRange(int min, int max) => _random.nextInt(max - min + 1) + min;
 }

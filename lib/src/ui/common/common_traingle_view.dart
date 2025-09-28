@@ -3,11 +3,11 @@ import 'package:mathsgames/src/utility/Constants.dart';
 
 class CommonTriangleView extends StatelessWidget {
   final Widget child;
-  final double? height;
-  final double? width;
-  final bool isLarge;
+  final double height;
+  final double width;
   final bool isMargin;
   final Color color;
+  final double borderRadiusFactor;
 
   const CommonTriangleView({
     Key? key,
@@ -15,8 +15,8 @@ class CommonTriangleView extends StatelessWidget {
     required this.height,
     required this.width,
     this.color = Colors.red,
-    this.isLarge = false,
     this.isMargin = false,
+    this.borderRadiusFactor = 20, // default
   }) : super(key: key);
 
   @override
@@ -26,9 +26,12 @@ class CommonTriangleView extends StatelessWidget {
       width: width,
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(
-          horizontal: isMargin ? 0 : getHorizontalSpace(context)),
+        horizontal: isMargin ? 0 : getHorizontalSpace(context),
+      ),
       decoration: getDefaultDecoration(
-          bgColor: lighten(color), radius: getPercentSize(height!, 20)),
+        bgColor: lighten(color), // if needed, otherwise just `color`
+        radius: getPercentSize(height, borderRadiusFactor),
+      ),
       child: child,
     );
   }

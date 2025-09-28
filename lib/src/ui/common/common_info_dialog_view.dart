@@ -4,6 +4,8 @@ import 'package:mathsgames/src/data/models/game_info_dialog.dart';
 import 'package:mathsgames/src/utility/Constants.dart';
 import 'package:mathsgames/src/utility/dialog_info_util.dart';
 
+import '../resizer/widget_utils.dart';
+
 class CommonInfoDialogView extends StatelessWidget {
   final GameCategoryType gameCategoryType;
   final Color color;
@@ -16,56 +18,48 @@ class CommonInfoDialogView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GameInfoDialog gameInfoDialog =
-        DialogInfoUtil.getInfoDialogData(gameCategoryType);
+    final GameInfoDialog gameInfoDialog =
+    DialogInfoUtil.getInfoDialogData(gameCategoryType);
 
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: getScreenPercentSize(context, 2),
-          horizontal: getHorizontalSpace(context)),
+        vertical: getScreenPercentSize(context, 2),
+        horizontal: getHorizontalSpace(context),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // Title
           getTextWidget(
-              Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(fontWeight: FontWeight.bold),
-              gameInfoDialog.title,
-              TextAlign.center,
-              getScreenPercentSize(context, 3.5)),
+            Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            gameInfoDialog.title,
+            TextAlign.center,
+            getScreenPercentSize(context, 3.5),
+          ),
 
           SizedBox(height: getScreenPercentSize(context, 5)),
-          // Container(
-          //   height: getScreenPercentSize(context, 25),
-          //   width: double.infinity,
-          //   decoration: BoxDecoration(
-          //     color: gameInfoDialog.colorTuple.item2,
-          //     borderRadius: BorderRadius.all(Radius.circular(radius)),
-          //   ),
-          //   child: ClipRRect(
-          //     borderRadius: BorderRadius.all(Radius.circular(radius)),
-          //     child: Image.asset(
-          //       gameInfoDialog.image,
-          //       fit: BoxFit.fill,
-          //     ),
-          //   ),
-          // ),
-          // SizedBox(height: getScreenPercentSize(context, 3.5)),
+
+          // Description
           Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: getWidthPercentSize(context, 10)),
+              horizontal: getWidthPercentSize(context, 10),
+            ),
             child: getTextWidgetWithMaxLine(
-                Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontWeight: FontWeight.w400),
-                gameInfoDialog.dec,
-                TextAlign.center,
-                getScreenPercentSize(context, 2),
-                4),
+              Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontWeight: FontWeight.w400,
+              ),
+              gameInfoDialog.dec,
+              TextAlign.center,
+              getScreenPercentSize(context, 2),
+              4,
+            ),
           ),
+
           SizedBox(height: getScreenPercentSize(context, 4)),
+
+          // Score info (Correct / Wrong)
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -73,24 +67,22 @@ class CommonInfoDialogView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   getTextWidget(
-                      Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w700),
-                      "${gameInfoDialog.correctAnswerScore}",
-                      TextAlign.center,
-                      getScreenPercentSize(context, 2)),
-                  SizedBox(
-                    height: getScreenPercentSize(context, 1.8),
+                    Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                    "${gameInfoDialog.correctAnswerScore}",
+                    TextAlign.center,
+                    getScreenPercentSize(context, 2),
                   ),
+                  SizedBox(height: getScreenPercentSize(context, 1.8)),
                   getTextWidget(
-                      Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w700),
-                      "${gameInfoDialog.wrongAnswerScore}",
-                      TextAlign.center,
-                      getScreenPercentSize(context, 2)),
+                    Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                    "${gameInfoDialog.wrongAnswerScore}",
+                    TextAlign.center,
+                    getScreenPercentSize(context, 2),
+                  ),
                 ],
               ),
               SizedBox(width: getWidthPercentSize(context, 2)),
@@ -98,98 +90,53 @@ class CommonInfoDialogView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   getTextWidget(
-                      Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w700),
-                      "for correct answer",
-                      TextAlign.center,
-                      getScreenPercentSize(context, 2)),
-
-                  SizedBox(
-                    height: getScreenPercentSize(context, 1.8),
+                    Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                    "for correct answer",
+                    TextAlign.center,
+                    getScreenPercentSize(context, 2),
                   ),
+                  SizedBox(height: getScreenPercentSize(context, 1.8)),
                   getTextWidget(
-                      Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w700),
-                      "for wrong answer",
-                      TextAlign.center,
-                      getScreenPercentSize(context, 2)),
-
-                  // Text(
-                  //   "for correct answer",
-                  //   textAlign: TextAlign.center,
-                  //   style: Theme.of(context)
-                  //       .textTheme
-                  //       .subtitle1!
-                  //       .copyWith(fontSize: 14),
-                  // ),
-                  // SizedBox(height: 8),
-                  // Text(
-                  //   "for wrong answer",
-                  //   textAlign: TextAlign.center,
-                  //   style: Theme.of(context)
-                  //       .textTheme
-                  //       .subtitle1!
-                  //       .copyWith(fontSize: 14),
-                  // ),
+                    Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                    "for wrong answer",
+                    TextAlign.center,
+                    getScreenPercentSize(context, 2),
+                  ),
                 ],
               ),
             ],
           ),
+
           SizedBox(height: getScreenPercentSize(context, 5)),
 
+          // Buttons
           Row(
             children: [
               Expanded(
-                  child: getButtonWidget(context, "Cancel",
-                      Theme.of(context).textTheme.bodyLarge!.color, () {
-                Navigator.pop(context);
-              },
-                      isBorder: true,
-                      textColor: Theme.of(context).textTheme.bodyLarge!.color)),
-              SizedBox(
-                width: getWidthPercentSize(context, 5),
+                child: getButtonWidget(
+                  context,
+                  "Cancel",
+                  Theme.of(context).scaffoldBackgroundColor,
+                      () => Navigator.pop(context),
+                  textColor: Theme.of(context).textTheme.bodyLarge!.color,
+                ),
               ),
+              SizedBox(width: getWidthPercentSize(context, 5)),
               Expanded(
-                  child: getButtonWidget(context, "Go", color, () {
-                Navigator.pop(context);
-              }, textColor: Colors.black))
+                child: getButtonWidget(
+                  context,
+                  "Go",
+                  color,
+                      () => Navigator.pop(context),
+                  textColor: Colors.black,
+                ),
+              ),
             ],
           ),
-          // Card(
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(12),
-          //   ),
-          //   elevation: 2,
-          //   child: InkWell(
-          //     onTap: () {
-          //       Navigator.pop(context);
-          //     },
-          //     borderRadius: BorderRadius.all(Radius.circular(12)),
-          //     child: ClipRRect(
-          //       borderRadius: BorderRadius.circular(12),
-          //       child: Container(
-          //           alignment: Alignment.center,
-          //           height: 44,
-          //           width: 164,
-          //           decoration: BoxDecoration(
-          //             gradient: LinearGradient(
-          //               colors: [Color(0xffF48C06), Color(0xffD00000)],
-          //               begin: Alignment.topCenter,
-          //               end: Alignment.bottomCenter,
-          //             ),
-          //           ),
-          //           child: Text("GOT IT!",
-          //               style: Theme.of(context)
-          //                   .textTheme
-          //                   .subtitle1!
-          //                   .copyWith(fontSize: 18, color: Colors.white))),
-          //     ),
-          //   ),
-          // )
         ],
       ),
     );

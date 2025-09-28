@@ -1,37 +1,66 @@
-/// Model class representing an alert request in the game.
-/// This class encapsulates information needed to display game alerts and notifications.
+import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 
-/// AlertRequest holds information about game alerts and notifications.
-/// Used to communicate game state changes and achievements to the user.
-class AlertRequest {
+part 'alert_request.g.dart';
+/// Model class representing an alert request in the game.
+/// Supports Hive persistence & Riverpod state management.
+@HiveType(typeId: 0) //
+class AlertRequest extends Equatable {
   /// The type of game category this alert is associated with
+  @HiveField(0)
   final GameCategoryType gameCategoryType;
-  
-  /// The type of alert to be displayed
+
+  /// The type of alert to be displayed (e.g., "pause", "achievement")
+  @HiveField(1)
   final String type;
-  
+
   /// The score achieved in the game
+  @HiveField(2)
   final double score;
-  
+
   /// The number of coins earned or affected
+  @HiveField(3)
   final double coin;
-  
+
   /// Indicates if the game is in a paused state
+  @HiveField(4)
   final bool isPause;
 
   /// Creates a new AlertRequest instance.
-  /// 
-  /// Parameters:
-  /// - [type]: The type of alert to be shown
-  /// - [gameCategoryType]: The category of game generating this alert
-  /// - [score]: The current score in the game
-  /// - [coin]: The number of coins involved
-  /// - [isPause]: Whether the game is paused
-  AlertRequest(
-      {required this.type,
-      required this.gameCategoryType,
-      required this.score,
-      required this.coin,
-      required this.isPause});
+  const AlertRequest({
+    required this.type,
+    required this.gameCategoryType,
+    required this.score,
+    required this.coin,
+    required this.isPause,
+  });
+
+  /// Creates a copy with overridden values (useful for Riverpod notifiers)
+  AlertRequest copyWith({
+    String? type,
+    GameCategoryType? gameCategoryType,
+    double? score,
+    double? coin,
+    bool? isPause,
+  }) {
+    return AlertRequest(
+      type: type ?? this.type,
+      gameCategoryType: gameCategoryType ?? this.gameCategoryType,
+      score: score ?? this.score,
+      coin: coin ?? this.coin,
+      isPause: isPause ?? this.isPause,
+    );
+  }
+
+  @override
+  List<Object?> get props => [type, gameCategoryType, score, coin, isPause];
+
+  @override
+  String toString() {
+    return 'AlertRequest(type: $type, '
+        'gameCategoryType: $gameCategoryType, '
+        'score: $score, coin: $coin, '
+        'isPause: $isPause)';
+  }
 }
