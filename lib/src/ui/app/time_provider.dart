@@ -3,11 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'coin_provider.dart';
 
+/// Provider for managing the game timer and dialog state.
+/// Handles timer start, pause, resume, reset, and disposal.
 class TimeProvider extends CoinProvider {
   Timer? timer;
-
   int currentTime = 0;
 
+  /// Total time for the timer in seconds.
+  final int totalTime;
+
+  /// Current dialog type (info, pause, over, etc.).
+  DialogType dialogType = DialogType.non;
+  /// Current timer status (play, pause, restart).
+  TimerStatus timerStatus = TimerStatus.restart;
+
+  /// Creates a TimeProvider with the given vsync and total time.
   TimeProvider({
     required TickerProvider vsync,
     required this.totalTime,
@@ -32,6 +42,7 @@ class TimeProvider extends CoinProvider {
     });
   }
 
+  /// Starts the timer with the specified number of seconds.
   startMethod(int seconds) {
     if (timer != null) {
       timer!.cancel();
@@ -58,14 +69,7 @@ class TimeProvider extends CoinProvider {
     });
   }
 
-  final int totalTime;
-
-  DialogType dialogType = DialogType.non;
-  TimerStatus timerStatus = TimerStatus.restart;
-
-  // late final AnimationController _animationController;
-  // Animation<double> get animation => _animationController;
-
+  /// Starts the timer for the game.
   void startTimer() {
     // _animationController.reverse();
     startMethod(totalTime);
@@ -73,14 +77,15 @@ class TimeProvider extends CoinProvider {
     dialogType = DialogType.non;
   }
 
+  /// Pauses the timer.
   void pauseTimer() {
     if (timer != null) {
       timer!.cancel();
     }
-    // _animationController.stop();
     timerStatus = TimerStatus.pause;
   }
 
+  /// Resumes the timer from the current time.
   void resumeTimer() {
     if (timer != null) {
       timer!.cancel();
@@ -90,11 +95,13 @@ class TimeProvider extends CoinProvider {
     timerStatus = TimerStatus.play;
   }
 
+  /// Resets the timer to the total time.
   void reset() {
     startMethod(totalTime);
     // _animationController.value = 1.0;
   }
 
+  /// Restarts the timer for a new round.
   void restartTimer() {
     // _animationController.reverse(from: 1.0);
     startMethod(totalTime);
@@ -102,16 +109,9 @@ class TimeProvider extends CoinProvider {
     dialogType = DialogType.non;
   }
 
-  void increase() {
-    // print("timerval===${_animationController.value}");
-    // _animationController.value = _animationController.value + 0.05;
-    // _animationController.reverse();
-  }
 
   @override
   void dispose() {
-    print("dispose---true");
-    // _animationController.dispose();
     if (timer != null) {
       timer!.cancel();
     }

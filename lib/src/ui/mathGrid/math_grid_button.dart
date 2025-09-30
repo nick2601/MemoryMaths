@@ -9,11 +9,18 @@ import 'package:tuple/tuple.dart';
 
 import '../soundPlayer/audio_file.dart';
 
+/// A button widget representing a single cell in the Math Grid game.
+/// Displays the cell value and handles user interaction for selecting cells.
+///
+/// [gridModel] - The model representing the cell's state and value.
+/// [index] - The index of the cell in the grid.
+/// [colorTuple] - A tuple containing the primary and background colors for the cell.
 class MathGridButton extends StatelessWidget {
   final MathGridCellModel gridModel;
   final int index;
   final Tuple2<Color, Color> colorTuple;
 
+  /// Creates a MathGridButton.
   MathGridButton({
     required this.gridModel,
     required this.index,

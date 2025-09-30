@@ -419,5 +419,4 @@ String getFormattedString(double d) {
   NumberFormat numberFormat = NumberFormat(".00", "en_US");
 
   return numberFormat.format(d);
-  // return d.toStringAsPrecision(4);
 }

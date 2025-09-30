@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Provider for managing user authentication state.
+/// Handles signup, login, logout, and authentication status checks.
 class AuthProvider with ChangeNotifier {
   bool _isAuthenticated = false;
   String? _username;
 
+  /// Returns whether the user is authenticated.
   bool get isAuthenticated => _isAuthenticated;
+  /// Returns the current username.
   String? get username => _username;
 
+  /// Signs up a new user with the given username and password.
+  /// Throws an exception if the username already exists.
   Future<void> signup(String username, String password) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -25,6 +31,8 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Logs in a user with the given username and password.
+  /// Throws an exception if credentials are invalid.
   Future<void> login(String username, String password) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -38,6 +46,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  /// Logs out the current user.
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('loggedInUser');
@@ -47,6 +56,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Checks the current authentication status.
   Future<void> checkAuthStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final loggedInUser = prefs.getString('loggedInUser');

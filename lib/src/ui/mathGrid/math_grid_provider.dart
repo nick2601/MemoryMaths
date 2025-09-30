@@ -6,11 +6,14 @@ import 'package:mathsgames/src/ui/app/game_provider.dart';
 
 import '../soundPlayer/audio_file.dart';
 
+/// Provider for managing the state and logic of the Math Grid game.
+/// Handles cell selection, answer checking, score updates, and game progression.
 class MathGridProvider extends GameProvider<MathGrid> {
   int answerIndex = 0;
   int? level;
   BuildContext? context;
 
+  /// Creates a MathGridProvider for the specified level and context.
   MathGridProvider(
       {required TickerProvider vsync,
       required int level,
@@ -24,6 +27,8 @@ class MathGridProvider extends GameProvider<MathGrid> {
     startGame(level: this.level == null ? 1 : level);
   }
 
+  /// Checks the result when a grid cell is tapped.
+  /// Toggles the cell's active state and checks for correct answer.
   void checkResult(int index, MathGridCellModel gridModel) {
     if (timerStatus != TimerStatus.pause) {
       if (gridModel.isActive) {
@@ -37,6 +42,8 @@ class MathGridProvider extends GameProvider<MathGrid> {
     }
   }
 
+  /// Checks if the selected cells match the current answer.
+  /// Updates cell states, score, and loads new data if required.
   Future<void> checkForCorrectAnswer() async {
     AudioPlayer audioPlayer = new AudioPlayer(context!);
     int total = 0;
@@ -74,6 +81,7 @@ class MathGridProvider extends GameProvider<MathGrid> {
     }
   }
 
+  /// Clears the provider state and notifies listeners.
   clear() {
     notifyListeners();
   }

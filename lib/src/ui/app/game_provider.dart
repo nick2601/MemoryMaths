@@ -26,6 +26,8 @@ int rightCoin = 10;
 int wrongCoin = 5;
 int hintCoin = 10;
 
+/// Base provider for managing game state, score, timer, and lifecycle events.
+/// Generic over the game model type [T].
 class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
   final GameCategoryType gameCategoryType;
   final _homeViewModel = GetIt.I<DashboardProvider>();
@@ -47,6 +49,7 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
  // late AdsFile adsFile;
   late BuildContext c;
 
+  /// Creates a GameProvider for the specified game category and context.
   GameProvider(
       {required TickerProvider vsync,
       required this.gameCategoryType,
@@ -71,6 +74,7 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     super.dispose();
   }
 
+  /// Starts the game, initializes state, and handles first-time info dialog.
   void startGame({int? level, bool? isTimer}) async {
     isTimer = (isTimer == null) ? true : isTimer;
     result = "";
@@ -120,6 +124,7 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     }
   }
 
+  /// Loads new data for the next round or ends the game if finished.
   void loadNewDataIfRequired({int? level, bool? isScoreAdd}) {
     isFirstClick = false;
     isSecondClick = false;
@@ -162,6 +167,7 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
   bool isFirstClick = false;
   bool isSecondClick = false;
 
+  /// Handles wrong answer logic for dual games.
   void wrongDualAnswer(bool isFirst) {
     if (isFirst) {
       if (score1 > 0) {
@@ -188,6 +194,7 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     }
   }
 
+  /// Handles correct answer logic and updates score.
   void rightAnswer() {
     print("currentScoreRight===$currentScore");
     oldScore = currentScore;
@@ -199,6 +206,7 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     notifyListeners();
   }
 
+  /// Handles wrong answer logic and updates score.
   void wrongAnswer() {
     minusCoin();
     if (currentScore > 0) {
@@ -216,6 +224,7 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     }
   }
 
+  /// Pauses or resumes the game timer and updates dialog state.
   void pauseResumeGame() {
     dialogType = DialogType.non;
     if (isTimer) {
@@ -233,12 +242,14 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     print("dialogType====${dialogType}");
   }
 
+  /// Shows the info dialog and pauses the timer.
   void showInfoDialog() {
     pauseTimer();
     dialogType = DialogType.info;
     notifyListeners();
   }
 
+  /// Shows the exit dialog and pauses the timer.
   void showExitDialog() {
     print("dialog---true2");
     pauseTimer();
@@ -248,6 +259,7 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     notifyListeners();
   }
 
+  /// Shows the hint dialog and pauses the timer.
   void showHintDialog() {
     print("dialog---true2");
     pauseTimer();
@@ -257,11 +269,13 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     notifyListeners();
   }
 
+  /// Updates the score in the dashboard provider.
   void updateScore() {
     print("currentScore===$currentScore");
     _homeViewModel.updateScoreboard(gameCategoryType, currentScore);
   }
 
+  /// Handles "Got It" action from info dialog.
   void gotItFromInfoDialog(int? level) {
     if (_homeViewModel.isFirstTime(gameCategoryType)) {
       _homeViewModel.setFirstTime(gameCategoryType);
@@ -278,6 +292,7 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     print("home-==${_homeViewModel.isFirstTime(gameCategoryType)}");
   }
 
+  /// Returns the list of game models for the given level.
   List<T> getList(int level) {
     this.levelNo = level;
 
