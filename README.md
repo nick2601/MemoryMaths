@@ -55,10 +55,13 @@ Memory Math is a specially designed educational Flutter application that creates
 
 ### Architecture
 
-- **State Management**: Provider pattern
+- **Architecture Pattern**: Clean Architecture (see [CLEAN_ARCHITECTURE.md](./CLEAN_ARCHITECTURE.md))
+- **State Management**: Provider pattern with ViewModels
 - **Dependency Injection**: GetIt service locator
 - **Local Storage**: SharedPreferences
 - **Design Pattern**: MVVM (Model-View-ViewModel)
+
+> **🎉 New!** The project now includes a complete Clean Architecture implementation alongside the existing code. See [QUICK_START.md](./QUICK_START.md) for getting started with the new architecture.
 
 ## Getting Started
 
@@ -114,16 +117,36 @@ flutter build macos
 ## Development
 
 ### Project Structure
+
+**Clean Architecture (New)**
 ```
 lib/
-├── src/
-│   ├── core/          # Core utilities and constants
-│   ├── data/          # Data models and repositories
-│   ├── ui/            # UI components and screens
-│   └── utility/       # Helper functions and utilities
-├── generated/         # Generated localization files
-└── main.dart         # Application entry point
+├── domain/            # Business logic layer (NEW)
+│   ├── entities/      # Business objects
+│   ├── repositories/  # Repository interfaces
+│   └── usecases/      # Application business rules
+├── data/              # Data layer (NEW)
+│   ├── datasources/   # Data source implementations
+│   └── repositories_impl/ # Repository implementations
+├── presentation/      # Presentation layer (NEW)
+│   ├── viewmodels/    # State management
+│   ├── screens/       # UI screens
+│   └── widgets/       # Reusable components
+├── core/              # Core utilities (NEW)
+│   ├── di/           # Dependency injection
+│   └── error/        # Error handling
+└── src/              # Existing code (Unchanged)
+    ├── core/         # Constants and themes
+    ├── data/         # Models and repositories
+    ├── ui/           # UI components
+    └── utility/      # Helper functions
 ```
+
+> **📚 Documentation**:
+> - [Clean Architecture Guide](./CLEAN_ARCHITECTURE.md) - Complete architecture documentation
+> - [Quick Start Guide](./QUICK_START.md) - Get started with examples
+> - [Migration Guide](./MIGRATION_GUIDE.md) - Migration strategies
+> - [Architecture Summary](./ARCHITECTURE_SUMMARY.md) - Overview and summary
 
 ### Contributing
 
@@ -241,27 +264,53 @@ Each game mode is designed with:
 
 ## Architecture Details
 
-### Clean Architecture Implementation
+### Clean Architecture Implementation ✨
 
-The application follows Clean Architecture principles, organized in layers:
+The application now features a **complete Clean Architecture implementation** that coexists with the existing code. This provides improved testability, maintainability, and scalability while maintaining 100% backward compatibility.
 
-1. **Domain Layer**
+> **🚀 Quick Links**:
+> - [Clean Architecture Guide](./CLEAN_ARCHITECTURE.md) - Complete architecture documentation
+> - [Quick Start Guide](./QUICK_START.md) - Get started quickly with examples
+> - [Migration Guide](./MIGRATION_GUIDE.md) - How to migrate existing code
+> - [Architecture Summary](./ARCHITECTURE_SUMMARY.md) - Overview and metrics
+
+The architecture is organized in layers following the Dependency Rule:
+
+1. **Domain Layer** (`lib/domain/`)
    - Contains business logic and entities
    - Pure Dart code with no dependencies
    - Use cases define application-specific business rules
    - Repository interfaces define data contracts
+   - **Example**: `CalculatorEntity`, `GetCalculatorProblemsUseCase`
 
-2. **Data Layer**
-   - Implements repository interfaces
-   - Handles data sources (local storage, API)
-   - Data mapping and transformation
-   - Cache management
+2. **Data Layer** (`lib/data/`)
+   - Implements repository interfaces from Domain layer
+   - Handles data sources (local storage, existing repositories)
+   - Data mapping and transformation between models and entities
+   - Bridges to existing code without modifications
+   - **Example**: `CalculatorRepositoryImpl`, `CalculatorDataSource`
 
-3. **Presentation Layer**
+3. **Presentation Layer** (`lib/presentation/`)
    - UI components and screens
-   - ViewModels handle UI logic
-   - State management using Provider
-   - Platform-specific implementations
+   - ViewModels handle UI logic and state management
+   - State management using Provider and ChangeNotifier
+   - Completely testable UI logic
+   - **Example**: `CalculatorViewModel`, `ExampleCalculatorScreen`
+
+4. **Core Layer** (`lib/core/`)
+   - Shared utilities across all layers
+   - Dependency injection setup (GetIt)
+   - Error handling (exceptions, failures)
+   - App-wide constants and configurations
+
+### Key Benefits
+
+✅ **Zero Breaking Changes**: All existing code (`lib/src/`) remains untouched  
+✅ **100% Backward Compatible**: Existing functionality continues to work  
+✅ **Improved Testability**: Each layer can be tested independently  
+✅ **Better Maintainability**: Clear separation of concerns  
+✅ **Enhanced Scalability**: Easy to add new features  
+✅ **Framework Independent**: Business logic doesn't depend on Flutter
 
 ### Code Organization
 
