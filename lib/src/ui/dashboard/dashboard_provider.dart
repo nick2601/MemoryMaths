@@ -18,7 +18,7 @@ class DashboardProvider extends CoinProvider {
 
   List<GameCategory> get list => _list;
 
-  DashboardProvider({required this.preferences}) {
+  DashboardProvider({required this.preferences}) : super(preferences: preferences) {
     _overallScore = getOverallScore();
     getCoin();
   }
@@ -336,7 +336,7 @@ class DashboardProvider extends CoinProvider {
   }
 
   int getOverallCoin() {
-    return preferences.getInt(CoinProvider().keyCoin) ?? 0;
+    return preferences.getInt(CoinProvider(preferences: preferences).keyCoin) ?? 0;
   }
 
   int getOverallScore() {

@@ -23,6 +23,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:mathsgames/src/ui/reports/user_report_view.dart';
+import 'package:mathsgames/src/ui/reports/user_report_provider.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -49,6 +51,8 @@ class _SettingScreen extends State<SettingScreen> {
   ValueNotifier vibrateOn = ValueNotifier(false);
 
   final TextEditingController emailController = TextEditingController();
+
+  bool _isGeneratingReport = false; // loading flag for report generation
 
   @override
   void dispose() {
@@ -155,6 +159,10 @@ class _SettingScreen extends State<SettingScreen> {
             SizedBox(
               height: FetchPixels.getPixelHeight(30),
             ),
+            // --- Added Progress Report Section ---
+            getTitleText("Progress Report"),
+            SizedBox(height: FetchPixels.getPixelHeight(20)),
+            _buildReportButton(context),
             verSpace,
             getTitleText("Sound"),
             verSpace,
@@ -394,6 +402,85 @@ class _SettingScreen extends State<SettingScreen> {
         ),
       ),
       flex: 1,
+    );
+  }
+
+  Widget _buildReportButton(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: FetchPixels.getPixelWidth(30),
+        vertical: FetchPixels.getPixelHeight(30),
+      ),
+      decoration: getDefaultDecoration(
+        radius: FetchPixels.getPixelHeight(30),
+        borderColor: Colors.grey,
+        bgColor: null,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                getSubTitleFonts("View Progress Report"),
+                SizedBox(height: 6),
+                Text(
+                  "Tap to generate your latest performance & learning report.",
+                  style: theme.textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+          _isGeneratingReport
+              ? SizedBox(
+                  width: FetchPixels.getPixelHeight(60),
+                  height: FetchPixels.getPixelHeight(60),
+                  child: const CircularProgressIndicator(strokeWidth: 3),
+                )
+              : ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: FetchPixels.getPixelWidth(30),
+                      vertical: FetchPixels.getPixelHeight(20),
+                    ),
+                  ),
+                  onPressed: () async {
+                    final auth = Provider.of<AuthProvider>(context, listen: false);
+                    if (!auth.isAuthenticated || (auth.userEmail == null || auth.userEmail!.isEmpty)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please log in to view your report.')),
+                      );
+                      return;
+                    }
+                    setState(() => _isGeneratingReport = true);
+                    try {
+                      final reportProv = Provider.of<UserReportProvider>(context, listen: false);
+                      await reportProv.generateReport(auth.userEmail!);
+                      if (!mounted) return;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => UserReportView(userEmail: auth.userEmail!),
+                        ),
+                      );
+                    } catch (e) {
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Failed to generate report: $e')),
+                        );
+                      }
+                    } finally {
+                      if (mounted) setState(() => _isGeneratingReport = false);
+                    }
+                  },
+                  icon: const Icon(Icons.analytics_outlined),
+                  label: const Text('View'),
+                ),
+        ],
+      ),
     );
   }
 

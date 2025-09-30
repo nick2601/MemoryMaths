@@ -8,9 +8,6 @@ import 'package:mathsgames/src/ui/soundPlayer/audio_file.dart';
 /// Provider for managing the state and logic of the Calculator game.
 /// Handles user input, answer checking, score updates, and game progression.
 class CalculatorProvider extends GameProvider<Calculator> {
-  /// Stores the current user input as a string.
-  late String result;
-
   /// The current build context.
   BuildContext? context;
   /// The current game level.
@@ -28,6 +25,7 @@ class CalculatorProvider extends GameProvider<Calculator> {
         ) {
     this.level = level;
     this.context = context;
+    result = ""; // initialize user input buffer
     startGame(level: this.level ?? level);
   }
 
@@ -39,29 +37,33 @@ class CalculatorProvider extends GameProvider<Calculator> {
   void checkResult(String answer) async {
     final audioPlayer = AudioPlayer(context!);
 
-    if (result.length < currentState.answer.toString().length &&
-        timerStatus != TimerStatus.pause) {
-      result += answer;
-      notifyListeners();
+    if (dialogType == DialogType.over) return; // game finished
+    if (timerStatus == TimerStatus.pause) return; // paused
 
-      if (int.parse(result) == currentState.answer) {
-        audioPlayer.playRightSound();
-        isClick = false;
+    final target = currentState.answer.toString();
+    if (result.length >= target.length) return; // ignore extra input
 
-        await Future.delayed(const Duration(milliseconds: 300));
-        loadNewDataIfRequired(level: level);
-        if (timerStatus != TimerStatus.pause) {
-          restartTimer();
-        }
+    result += answer;
+    notifyListeners();
 
-        currentScore += KeyUtil.getScoreUtil(gameCategoryType);
-        addCoin();
-        notifyListeners();
-      } else if (result.length == currentState.answer.toString().length) {
-        minusCoin();
-        audioPlayer.playWrongSound();
-        wrongAnswer();
+    if (result == target) {
+      audioPlayer.playRightSound();
+      // record correct answer via existing scoring helpers
+      rightAnswer();
+      isClick = false;
+      await Future.delayed(const Duration(milliseconds: 250));
+      loadNewDataIfRequired(level: level);
+      if (dialogType != DialogType.over && isTimer) {
+        restartTimer();
       }
+      result = ""; // reset for next question
+      notifyListeners();
+    } else if (result.length == target.length) {
+      // full length but incorrect
+      audioPlayer.playWrongSound();
+      wrongAnswer();
+      result = ""; // clear for new attempt / next question depending on rules
+      notifyListeners();
     }
   }
 

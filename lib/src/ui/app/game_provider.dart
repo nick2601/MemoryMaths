@@ -4,6 +4,9 @@ import 'package:get_it/get_it.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/app/time_provider.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
+import 'package:mathsgames/src/ui/app/auth_provider.dart';
+import 'package:mathsgames/src/ui/reports/user_report_provider.dart';
+import 'package:provider/provider.dart';
 import '../../data/repositories/calculator_repository.dart';
 import '../../data/repositories/complex_calcualtion_repository.dart';
 import '../../data/repositories/correct_answer_repository.dart';
@@ -21,6 +24,7 @@ import '../../data/repositories/quick_calculation_repository.dart';
 import '../../data/repositories/sign_repository.dart';
 import '../../data/repositories/square_root_repository.dart';
 import '../../data/repositories/true_false_repository.dart';
+import 'coin_provider.dart';
 
 int rightCoin = 10;
 int wrongCoin = 5;
@@ -28,11 +32,23 @@ int hintCoin = 10;
 
 /// Base provider for managing game state, score, timer, and lifecycle events.
 /// Generic over the game model type [T].
-class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
+/// Now includes user statistics tracking for comprehensive progress monitoring.
+class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
   final GameCategoryType gameCategoryType;
   final _homeViewModel = GetIt.I<DashboardProvider>();
   final homeViewModel = GetIt.I<DashboardProvider>();
 
+  // TimeProvider for handling the timer
+  final TimeProvider _timeProvider;
+
+  // Timer-related getters to access TimeProvider's properties
+  DialogType get dialogType => _timeProvider.dialogType;
+  set dialogType(DialogType value) => _timeProvider.dialogType = value;
+
+  TimerStatus get timerStatus => _timeProvider.timerStatus;
+  int get currentTime => _timeProvider.currentTime;
+
+  // Game state variables
   late List<T> list;
   late int index;
   late double currentScore;
@@ -46,25 +62,46 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
   late bool isTimer;
   late bool isRewardedComplete = false;
   late int levelNo;
- // late AdsFile adsFile;
   late BuildContext c;
 
+  // Statistics tracking variables
+  late DateTime gameStartTime;
+  late int totalCorrectAnswers = 0;
+  late int totalWrongAnswers = 0;
+  late int highestLevel = 1;
+
+  CoinProvider? _coinProvider; // reference to coin provider
+
   /// Creates a GameProvider for the specified game category and context.
-  GameProvider(
-      {required TickerProvider vsync,
-      required this.gameCategoryType,
-      required this.c,
-      bool? isTimer})
-      : super(
-          vsync: vsync,
-          totalTime: KeyUtil.getTimeUtil(gameCategoryType),
-        ) {
+  GameProvider({
+    required TickerProvider vsync,
+    required this.gameCategoryType,
+    required this.c,
+    bool? isTimer,
+  }) : _timeProvider = TimeProvider(
+         vsync: vsync,
+         totalTime: KeyUtil.getTimeUtil(gameCategoryType),
+       ) {
     this.isTimer = (isTimer == null) ? true : isTimer;
-    // adsFile = new AdsFile(c);
-    //
-    // adsFile.createRewardedAd();
+    // acquire coin provider (if available in tree) and listen for changes
+    try {
+      _coinProvider = Provider.of<CoinProvider>(c, listen: false);
+      _coinProvider?.addListener(() => notifyListeners());
+    } catch (_) {}
     print("isTimer12===$isTimer");
+
+    // Add listener to the timeProvider to propagate changes
+    _timeProvider.addListener(() {
+      notifyListeners();
+    });
   }
+
+  // Timer control methods that delegate to the TimeProvider
+  void pauseTimer() => _timeProvider.pauseTimer();
+  void resumeTimer() => _timeProvider.resumeTimer();
+  void restartTimer() => _timeProvider.restartTimer();
+  void reset() => _timeProvider.reset();
+  void startTimer() => _timeProvider.startTimer();
 
   @override
   void dispose() {
@@ -78,6 +115,12 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
   void startGame({int? level, bool? isTimer}) async {
     isTimer = (isTimer == null) ? true : isTimer;
     result = "";
+
+    // Initialize statistics tracking
+    gameStartTime = DateTime.now();
+    totalCorrectAnswers = 0;
+    totalWrongAnswers = 0;
+    highestLevel = level ?? 1;
 
     list = [];
     list = getList(level == null ? 1 : level);
@@ -146,20 +189,16 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
       index = index + 1;
 
       print("index===$index");
-      // if(isScoreAdd==null) {
-      //   oldScore = currentScore;
-      //   currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-      //
-      //
-      //   print("currentScore===$currentScore==${KeyUtil.getScoreUtil(
-      //       gameCategoryType)}");
-      // }
       currentState = list[index];
     } else {
       dialogType = DialogType.over;
       if (isTimer) {
         pauseTimer();
       }
+
+      // Track game completion statistics when game ends
+      _trackGameCompletion();
+
       notifyListeners();
     }
   }
@@ -200,6 +239,10 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     oldScore = currentScore;
     currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
 
+    // Track correct answer for statistics
+    totalCorrectAnswers++;
+    rightCount++;
+
     addCoin();
 
     print("currentScore===12 $currentScore");
@@ -208,6 +251,10 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
 
   /// Handles wrong answer logic and updates score.
   void wrongAnswer() {
+    // Track wrong answer for statistics
+    totalWrongAnswers++;
+    wrongCount++;
+
     minusCoin();
     if (currentScore > 0) {
       oldScore = currentScore;
@@ -220,6 +267,10 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     } else if (currentScore == 0) {
       dialogType = DialogType.over;
       pauseTimer();
+
+      // Track game completion when user runs out of score
+      _trackGameCompletion();
+
       notifyListeners();
     }
   }
@@ -273,9 +324,131 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
   void updateScore() {
     print("currentScore===$currentScore");
     _homeViewModel.updateScoreboard(gameCategoryType, currentScore);
+
+    // Track final game completion statistics
+    _trackGameCompletion();
   }
 
-  /// Handles "Got It" action from info dialog.
+  /// Tracks game completion statistics and sends to UserReportProvider
+  void _trackGameCompletion() async {
+    try {
+      final authProvider = Provider.of<AuthProvider>(c, listen: false);
+      final reportProvider = Provider.of<UserReportProvider>(c, listen: false);
+
+      if (authProvider.userEmail != null) {
+        // Calculate game duration in minutes
+        final gameDuration = DateTime.now().difference(gameStartTime).inMinutes.clamp(1, 999);
+
+        // Update level tracking
+        final currentLevel = levelNo;
+        if (currentLevel > highestLevel) {
+          highestLevel = currentLevel;
+        }
+
+        // Update user statistics
+        await reportProvider.updateUserStatistics(
+          email: authProvider.userEmail!,
+          gameType: gameCategoryType,
+          score: currentScore,
+          level: highestLevel,
+          correctAnswers: totalCorrectAnswers,
+          wrongAnswers: totalWrongAnswers,
+          durationMinutes: gameDuration,
+        );
+
+        print("Statistics tracked successfully for ${gameCategoryType.toString()}");
+        print("Score: $currentScore, Correct: $totalCorrectAnswers, Wrong: $totalWrongAnswers, Duration: ${gameDuration}min");
+      } else {
+        print("User not logged in, statistics not tracked");
+      }
+    } catch (e) {
+      print("Error tracking game statistics: $e");
+    }
+  }
+
+  /// Tracks individual answer for real-time statistics (optional for advanced tracking)
+  void _trackAnswer(bool isCorrect) {
+    if (isCorrect) {
+      totalCorrectAnswers++;
+      rightCount++;
+    } else {
+      totalWrongAnswers++;
+      wrongCount++;
+    }
+  }
+
+  /// Enhanced right answer method with immediate tracking
+  void rightAnswerWithTracking() {
+    rightAnswer();
+    _trackAnswer(true);
+  }
+
+  /// Enhanced wrong answer method with immediate tracking
+  void wrongAnswerWithTracking() {
+    wrongAnswer();
+    _trackAnswer(false);
+  }
+
+  /// Method to manually update level for statistics tracking
+  void updateLevel(int newLevel) {
+    if (newLevel > highestLevel) {
+      highestLevel = newLevel;
+    }
+    levelNo = newLevel;
+  }
+
+  /// Get current game statistics summary
+  Map<String, dynamic> getCurrentStatistics() {
+    return {
+      'gameType': gameCategoryType.toString(),
+      'currentScore': currentScore,
+      'totalCorrectAnswers': totalCorrectAnswers,
+      'totalWrongAnswers': totalWrongAnswers,
+      'currentLevel': levelNo,
+      'highestLevel': highestLevel,
+      'gameStartTime': gameStartTime.toIso8601String(),
+      'accuracy': totalCorrectAnswers + totalWrongAnswers > 0
+          ? (totalCorrectAnswers / (totalCorrectAnswers + totalWrongAnswers)) * 100
+          : 0.0,
+    };
+  }
+
+  /// Expose current coin balance (falls back to 0 if coin provider not found).
+  int get coin => _coinProvider?.coin ?? 0;
+
+  /// Gets current coin balance
+  void getCoin() async {
+    try {
+      final coinProvider = Provider.of<CoinProvider>(c, listen: false);
+      await coinProvider.getCoin();
+    } catch (e) {
+      print("Error getting coin: $e");
+    }
+  }
+
+  /// Add coins for correct answer
+  void addCoin() async {
+    try {
+      final coinProvider = _coinProvider ?? Provider.of<CoinProvider>(c, listen: false);
+      await coinProvider.addCoin();
+      notifyListeners();
+    } catch (e) {
+      print("Error adding coin: $e");
+    }
+  }
+
+  /// Subtract coins for wrong answer
+  void minusCoin({int? useCoin}) async {
+    try {
+      final coinProvider = _coinProvider ?? Provider.of<CoinProvider>(c, listen: false);
+      await coinProvider.minusCoin(useCoin: useCoin);
+      notifyListeners();
+    } catch (e) {
+      print("Error subtracting coin: $e");
+    }
+  }
+
+  /// Handles the acknowledgement action from the info dialog (restoring gameplay / starting timer on first play).
   void gotItFromInfoDialog(int? level) {
     if (_homeViewModel.isFirstTime(gameCategoryType)) {
       _homeViewModel.setFirstTime(gameCategoryType);
@@ -288,8 +461,7 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
     } else {
       pauseResumeGame();
     }
-
-    print("home-==${_homeViewModel.isFirstTime(gameCategoryType)}");
+    notifyListeners();
   }
 
   /// Returns the list of game models for the given level.
@@ -298,45 +470,47 @@ class GameProvider<T> extends TimeProvider with WidgetsBindingObserver {
 
     switch (gameCategoryType) {
       case GameCategoryType.CALCULATOR:
-        return CalculatorRepository.getCalculatorDataList(level);
+        return CalculatorRepository.getCalculatorDataList(level) as List<T>;
       case GameCategoryType.GUESS_SIGN:
-        return SignRepository.getSignDataList(level);
+        return SignRepository.getSignDataList(level) as List<T>;
       case GameCategoryType.FIND_MISSING:
-        return FindMissingRepository.getFindMissingDataList(level);
+        return FindMissingRepository.getFindMissingDataList(level) as List<T>;
       case GameCategoryType.TRUE_FALSE:
-        return TrueFalseRepository.getTrueFalseDataList(level);
+        return TrueFalseRepository.getTrueFalseDataList(level) as List<T>;
       case GameCategoryType.SQUARE_ROOT:
-        return SquareRootRepository.getSquareDataList(level);
+        return SquareRootRepository.getSquareDataList(level) as List<T>;
       case GameCategoryType.MATH_PAIRS:
-        return MathPairsRepository.getMathPairsDataList(level);
+        return MathPairsRepository.getMathPairsDataList(level) as List<T>;
       case GameCategoryType.CONCENTRATION:
-        return MathPairsRepository.getMathPairsDataList(level);
+        return MathPairsRepository.getMathPairsDataList(level) as List<T>;
       case GameCategoryType.NUMERIC_MEMORY:
-        return NumericMemoryRepository.getNumericMemoryDataList(level);
+        return NumericMemoryRepository.getNumericMemoryDataList(level) as List<T>;
       case GameCategoryType.CORRECT_ANSWER:
-        return CorrectAnswerRepository.getCorrectAnswerDataList(level);
+        return CorrectAnswerRepository.getCorrectAnswerDataList(level) as List<T>;
       case GameCategoryType.MAGIC_TRIANGLE:
         if (level > 15) {
-          return MagicTriangleRepository.getNextLevelTriangleDataProviderList();
+          return MagicTriangleRepository.getNextLevelTriangleDataProviderList() as List<T>;
         } else {
-          return MagicTriangleRepository.getTriangleDataProviderList();
+          return MagicTriangleRepository.getTriangleDataProviderList() as List<T>;
         }
       case GameCategoryType.MENTAL_ARITHMETIC:
-        return MentalArithmeticRepository.getMentalArithmeticDataList(level);
+        return MentalArithmeticRepository.getMentalArithmeticDataList(level) as List<T>;
       case GameCategoryType.QUICK_CALCULATION:
-        return QuickCalculationRepository.getQuickCalculationDataList(level, 5);
+        return QuickCalculationRepository.getQuickCalculationDataList(level, 5) as List<T>;
       case GameCategoryType.MATH_GRID:
-        return MathGridRepository.getMathGridData(level);
+        return MathGridRepository.getMathGridData(level) as List<T>;
       case GameCategoryType.PICTURE_PUZZLE:
-        return PicturePuzzleRepository.getPicturePuzzleDataList(level);
+        return PicturePuzzleRepository.getPicturePuzzleDataList(level) as List<T>;
       case GameCategoryType.NUMBER_PYRAMID:
-        return NumberPyramidRepository.getPyramidDataList(level);
+        return NumberPyramidRepository.getPyramidDataList(level) as List<T>;
       case GameCategoryType.DUAL_GAME:
-        return DualRepository.getDualData(level);
+        return DualRepository.getDualData(level) as List<T>;
       case GameCategoryType.COMPLEX_CALCULATION:
-        return ComplexCalculationRepository.getComplexData(level);
+        return ComplexCalculationRepository.getComplexData(level) as List<T>;
       case GameCategoryType.CUBE_ROOT:
-        return CubeRootRepository.getCubeDataList(level);
+        return CubeRootRepository.getCubeDataList(level) as List<T>;
+      default:
+        throw Exception("Unsupported game category type: $gameCategoryType");
     }
   }
 }

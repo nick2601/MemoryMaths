@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'coin_provider.dart';
 
 /// Provider for managing the game timer and dialog state.
 /// Handles timer start, pause, resume, reset, and disposal.
-class TimeProvider extends CoinProvider {
+class TimeProvider with ChangeNotifier {
   Timer? timer;
   int currentTime = 0;
 

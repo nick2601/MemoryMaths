@@ -63,124 +63,132 @@ class CalculatorView extends StatelessWidget {
           ),
         ),
       ],
-      child: DialogListener<CalculatorProvider>(
-        gameCategoryType: GameCategoryType.CALCULATOR,
-        colorTuple: colorTuple,
-        level: colorTuple.item2,
-        appBar: CommonAppBar<CalculatorProvider>(
-          infoView: CommonInfoTextView<CalculatorProvider>(
+      child: Builder(
+        builder: (providerContext) {
+          return DialogListener<CalculatorProvider>(
             gameCategoryType: GameCategoryType.CALCULATOR,
-            folder: colorTuple.item1.folderName!,
-            color: colorTuple.item1.cellColor!,
-          ),
-          gameCategoryType: GameCategoryType.CALCULATOR,
-          colorTuple: colorTuple,
-          context: context,
-        ),
-        child: CommonMainWidget<CalculatorProvider>(
-          gameCategoryType: GameCategoryType.CALCULATOR,
-          color: colorTuple.item1.bgColor!,
-          primaryColor: colorTuple.item1.primaryColor!,
-          subChild: Container(
-            margin: EdgeInsets.only(top: getPercentSize(mainHeight, 55)),
-            child: Stack(
-              children: [
-                Column(
+            colorTuple: colorTuple,
+            level: colorTuple.item2,
+            appBar: CommonAppBar<CalculatorProvider>(
+              infoView: CommonInfoTextView<CalculatorProvider>(
+                gameCategoryType: GameCategoryType.CALCULATOR,
+                folder: colorTuple.item1.folderName!,
+                color: colorTuple.item1.cellColor!,
+              ),
+              gameCategoryType: GameCategoryType.CALCULATOR,
+              colorTuple: colorTuple,
+              context: providerContext,
+            ),
+            child: CommonMainWidget<CalculatorProvider>(
+              gameCategoryType: GameCategoryType.CALCULATOR,
+              color: colorTuple.item1.bgColor!,
+              primaryColor: colorTuple.item1.primaryColor!,
+              subChild: Container(
+                margin: EdgeInsets.only(top: getPercentSize(mainHeight, 55)),
+                child: Stack(
                   children: [
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(top: getPercentSize(mainHeight, 3)),
-                        child: Consumer<CalculatorProvider>(
-                          builder: (context, calculatorProvider, child) {
-                            return getTextWidget(
-                              Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold),
-                              calculatorProvider.currentState.question,
-                              TextAlign.center,
-                              getPercentSize(remainHeight, 4),
-                            );
-                          },
+                    Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(top: getPercentSize(mainHeight, 3)),
+                            child: Consumer<CalculatorProvider>(
+                              builder: (context, calculatorProvider, child) {
+                                return getTextWidget(
+                                  Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold),
+                                  calculatorProvider.currentState.question,
+                                  TextAlign.center,
+                                  getPercentSize(remainHeight, 4),
+                                );
+                              },
+                            ),
+                          ),
                         ),
-                      ),
+                        Container(
+                          height: gridHeight,
+                          decoration: getCommonDecoration(context),
+                          alignment: Alignment.bottomCenter,
+                          child: GridView.count(
+                            crossAxisCount: crossAxisCount,
+                            childAspectRatio: aspectRatio,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.only(
+                              right: margin * 2,
+                              left: margin * 2,
+                              bottom: getHorizontalSpace(context),
+                            ),
+                            crossAxisSpacing: crossAxisSpacing,
+                            mainAxisSpacing: crossAxisSpacing,
+                            primary: false,
+                            children: List.generate(buttonLabels.length, (index) {
+                              String e = buttonLabels[index];
+                              if (e == "Clear") {
+                                return CommonClearButton(
+                                  text: "Clear",
+                                  height: buttonHeight,
+                                  onTab: () {
+                                    Provider.of<CalculatorProvider>(providerContext, listen: false).clearResult();
+                                  },
+                                );
+                              } else if (e == "Back") {
+                                return CommonBackButton(
+                                  onTab: () {
+                                    Provider.of<CalculatorProvider>(providerContext, listen: false).backPress();
+                                  },
+                                  height: buttonHeight,
+                                );
+                              } else {
+                                return CommonNumberButton(
+                                  text: e,
+                                  totalHeight: remainHeight,
+                                  height: buttonHeight,
+                                  onTab: () {
+                                    Provider.of<CalculatorProvider>(providerContext, listen: false).checkResult(e);
+                                  },
+                                  colorTuple: colorTuple,
+                                );
+                              }
+                            }),
+                          ),
+                        ),
+                      ],
                     ),
                     Container(
-                      height: gridHeight,
-                      decoration: getCommonDecoration(context),
-                      alignment: Alignment.bottomCenter,
-                      child: GridView.count(
-                        crossAxisCount: crossAxisCount,
-                        childAspectRatio: aspectRatio,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.only(
-                          right: margin * 2,
-                          left: margin * 2,
-                          bottom: getHorizontalSpace(context),
+                      margin: EdgeInsets.only(top: getPercentSize(gridHeight, 17)),
+                      child: CommonWrongAnswerAnimationView(
+                        currentScore: providerContext.watch<CalculatorProvider>().currentScore.toInt(),
+                        oldScore: providerContext.watch<CalculatorProvider>().oldScore.toInt(),
+                        child: CommonNeumorphicView(
+                          isLarge: true,
+                          isMargin: false,
+                          height: getPercentSize(gridHeight, 12),
+                          color: colorTuple.item1.bgColor!,
+                          child: Consumer<CalculatorProvider>(
+                            builder: (context, calculatorProvider, child) {
+                              return getTextWidget(
+                                Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(fontWeight: FontWeight.w600),
+                                calculatorProvider.result.isNotEmpty
+                                    ? calculatorProvider.result
+                                    : '?',
+                                TextAlign.center,
+                                getPercentSize(gridHeight, 7),
+                              );
+                            },
+                          ),
                         ),
-                        crossAxisSpacing: crossAxisSpacing,
-                        mainAxisSpacing: crossAxisSpacing,
-                        primary: false,
-                        children: List.generate(buttonLabels.length, (index) {
-                          String label = buttonLabels[index];
-                          if (label == "Clear") {
-                            return CommonClearButton(
-                              text: "Clear",
-                              height: buttonHeight,
-                              onTab: () => context.read<CalculatorProvider>().clearResult(),
-                            );
-                          } else if (label == "Back") {
-                            return CommonBackButton(
-                              onTab: () => context.read<CalculatorProvider>().backPress(),
-                              height: buttonHeight,
-                            );
-                          } else {
-                            return CommonNumberButton(
-                              text: label,
-                              totalHeight: remainHeight,
-                              height: buttonHeight,
-                              onTab: () => context.read<CalculatorProvider>().checkResult(label),
-                              colorTuple: colorTuple,
-                            );
-                          }
-                        }),
                       ),
                     ),
                   ],
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: getPercentSize(gridHeight, 17)),
-                  child: Selector<CalculatorProvider, Tuple2<double, double>>(
-                    selector: (p0, p1) => Tuple2(p1.currentScore, p1.oldScore),
-                    builder: (context, tuple2, child) {
-                      return CommonWrongAnswerAnimationView(
-                        currentScore: tuple2.item1.toInt(),
-                        oldScore: tuple2.item2.toInt(),
-                        child: child!,
-                      );
-                    },
-                    child: CommonNeumorphicView(
-                      isLarge: true,
-                      isMargin: false,
-                      height: getPercentSize(gridHeight, 12),
-                      color: getBackGroundColor(context),
-                      child: Selector<CalculatorProvider, String>(
-                        selector: (p0, p1) => p1.result,
-                        builder: (context, result, child) {
-                          return getTextWidget(
-                            Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
-                            result.isNotEmpty ? result : '?',
-                            TextAlign.center,
-                            getPercentSize(gridHeight, 7),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
+              context: providerContext,
+              isTopMargin: false,
             ),
-          ),
-          context: context,
-          isTopMargin: false,
-        ),
+          );
+        },
       ),
     );
   }

@@ -553,6 +553,9 @@ class KeyUtil {
   /// Coins awarded for completing the Numeric Memory game.
   static double numericMemoryCoin = 1;
   // endregion
+
+  // User Report and Analytics Constants
+
 }
 
 /// An extension on the [String] class to provide a method for converting a hex color string to a [Color] object.

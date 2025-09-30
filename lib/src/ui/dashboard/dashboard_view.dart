@@ -6,6 +6,8 @@ import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_button_view.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
+import 'package:mathsgames/src/ui/reports/user_report_view.dart';
+import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import '../app/theme_provider.dart';
@@ -95,7 +97,35 @@ class _DashboardViewState extends State<DashboardView>
                               child: getScoreWidget(context),
                               flex: 1,
                             ),
-                            getSettingWidget(context),
+                            Row(
+                              children: [
+                                // Reports button
+                                InkWell(
+                                  onTap: () {
+                                    // Navigate to user reports with current user email
+                                    // For now using a placeholder email - you'll update this with actual user email from AuthProvider
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => UserReportView(
+                                          userEmail: context.read<AuthProvider>().username ?? 'user@example.com',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(12),
+                                    child: Icon(
+                                      Icons.analytics_outlined,
+                                      size: FetchPixels.getPixelHeight(24),
+                                      color: Theme.of(context).textTheme.titleMedium!.color,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                getSettingWidget(context),
+                              ],
+                            ),
                           ],
                         ),
                         SizedBox(height: getVerticalSpace(context)),
