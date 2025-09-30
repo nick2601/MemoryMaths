@@ -1,4 +1,4 @@
-import 'package:mathsgames/src/data/random_duel_data.dart';
+import 'package:mathsgames/src/data/models/random_duel_data.dart';
 
 import 'package:mathsgames/src/data/models/quiz_model.dart';
 

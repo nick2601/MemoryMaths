@@ -1,4 +1,4 @@
-import 'package:mathsgames/src/data/random_option_data.dart';
+import 'package:mathsgames/src/data/models/random_option_data.dart';
 import 'package:mathsgames/src/data/models/true_false_model.dart';
 
 /// Repository class that handles the generation of true/false math questions
@@ -45,4 +45,4 @@ void main() {
 
 // Note: Commented out code below appears to be a different implementation
 // for generating "Find Missing" math problems. Consider moving to a
-// separate repository class if needed.
+// separate repositories class if needed.

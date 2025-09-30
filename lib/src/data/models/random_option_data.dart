@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'random_find_missing_data.dart';
-import 'models/true_false_model.dart';
+import '../random_find_missing_data.dart';
+import 'true_false_model.dart';
 
 /// Constants for true/false string values
 String strFalse = "false";

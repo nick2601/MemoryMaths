@@ -1,4 +1,4 @@
-import 'package:mathsgames/src/data/complex_data.dart';
+import 'package:mathsgames/src/data/models/complex_data.dart';
 import 'package:mathsgames/src/data/models/complex_model.dart';
 
 /// Repository class that handles complex calculation data generation
@@ -48,7 +48,7 @@ class ComplexCalculationRepository {
   }
 }
 
-/// Test function to demonstrate repository usage
+/// Test function to demonstrate repositories usage
 void main() {
   for (int i = 1; i < 5; i++) {
     ComplexCalculationRepository.getComplexData(i);
