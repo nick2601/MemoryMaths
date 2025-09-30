@@ -24,13 +24,14 @@ class GameCategoryAdapter extends TypeAdapter<GameCategory> {
       routePath: fields[4] as String,
       scoreboard: fields[5] as ScoreBoard,
       icon: fields[6] as String,
+      puzzleType: fields[7] as PuzzleType,
     );
   }
 
   @override
   void write(BinaryWriter writer, GameCategory obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class GameCategoryAdapter extends TypeAdapter<GameCategory> {
       ..writeByte(5)
       ..write(obj.scoreboard)
       ..writeByte(6)
-      ..write(obj.icon);
+      ..write(obj.icon)
+      ..writeByte(7)
+      ..write(obj.puzzleType);
   }
 
   @override
@@ -72,6 +75,7 @@ GameCategory _$GameCategoryFromJson(Map<String, dynamic> json) => GameCategory(
       scoreboard:
           ScoreBoard.fromJson(json['scoreboard'] as Map<String, dynamic>),
       icon: json['icon'] as String,
+      puzzleType: $enumDecode(_$PuzzleTypeEnumMap, json['puzzleType']),
     );
 
 Map<String, dynamic> _$GameCategoryToJson(GameCategory instance) =>
@@ -83,6 +87,7 @@ Map<String, dynamic> _$GameCategoryToJson(GameCategory instance) =>
       'routePath': instance.routePath,
       'scoreboard': instance.scoreboard,
       'icon': instance.icon,
+      'puzzleType': _$PuzzleTypeEnumMap[instance.puzzleType]!,
     };
 
 const _$GameCategoryTypeEnumMap = {
@@ -104,4 +109,10 @@ const _$GameCategoryTypeEnumMap = {
   GameCategoryType.CUBE_ROOT: 'CUBE_ROOT',
   GameCategoryType.CONCENTRATION: 'CONCENTRATION',
   GameCategoryType.NUMERIC_MEMORY: 'NUMERIC_MEMORY',
+};
+
+const _$PuzzleTypeEnumMap = {
+  PuzzleType.MATH_PUZZLE: 'MATH_PUZZLE',
+  PuzzleType.MEMORY_PUZZLE: 'MEMORY_PUZZLE',
+  PuzzleType.BRAIN_PUZZLE: 'BRAIN_PUZZLE',
 };

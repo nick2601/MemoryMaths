@@ -20,19 +20,21 @@ class MagicTriangleAdapter extends TypeAdapter<MagicTriangle> {
       listGrid: (fields[0] as List).cast<MagicTriangleGrid>(),
       listTriangle: (fields[1] as List).cast<MagicTriangleInput>(),
       answer: fields[2] as int,
-    );
+    )..availableDigit = fields[3] as int?;
   }
 
   @override
   void write(BinaryWriter writer, MagicTriangle obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.listGrid)
       ..writeByte(1)
       ..write(obj.listTriangle)
       ..writeByte(2)
-      ..write(obj.answer);
+      ..write(obj.answer)
+      ..writeByte(3)
+      ..write(obj.availableDigit);
   }
 
   @override

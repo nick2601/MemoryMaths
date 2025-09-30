@@ -33,12 +33,13 @@ class DashboardState {
   }
 }
 
-/// Dashboard Notifier (manages coins + scores + categories)
+/// Dashboard Notifier
 class DashboardNotifier extends StateNotifier<DashboardState> {
   final Box box;
 
   DashboardNotifier(this.box) : super(const DashboardState()) {
     _init();
+    _loadAllCategories(); // ✅ preload once
   }
 
   void _init() {
@@ -47,9 +48,84 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     state = state.copyWith(overallScore: score, coins: coins);
   }
 
-  // ===========================
-  // 🚀 Coins Management
-  // ===========================
+  /// ===========================
+  /// 🚀 Load All Categories
+  /// ===========================
+  void _loadAllCategories() {
+    final allCategories = <GameCategory>[
+      // MATH PUZZLES
+      GameCategory(
+        id: 1,
+        name: "Calculate For Me",
+        key: keyCalculator,
+        gameCategoryType: GameCategoryType.CALCULATOR,
+        routePath: KeyUtil.calculator,
+        scoreboard: getScoreboard(keyCalculator),
+        icon: AppAssets.icCalculator,
+        puzzleType: PuzzleType.MATH_PUZZLE,
+      ),
+      GameCategory(
+        id: 6,
+        name: "True or False",
+        key: keyTrueFalseCalculation,
+        gameCategoryType: GameCategoryType.TRUE_FALSE,
+        routePath: KeyUtil.trueFalse,
+        scoreboard: getScoreboard(keyTrueFalseCalculation),
+        icon: AppAssets.icTrueFalse,
+        puzzleType: PuzzleType.MATH_PUZZLE,
+      ),
+
+      // MEMORY PUZZLES
+      GameCategory(
+        id: 12,
+        name: "Mathematical Pairs",
+        key: keyMathPairs,
+        gameCategoryType: GameCategoryType.MATH_PAIRS,
+        routePath: KeyUtil.mathPairs,
+        scoreboard: getScoreboard(keyMathPairs),
+        icon: AppAssets.icMathematicalPairs,
+        puzzleType: PuzzleType.MEMORY_PUZZLE,
+      ),
+      GameCategory(
+        id: 14,
+        name: "Concentration",
+        key: keyConcentration,
+        gameCategoryType: GameCategoryType.CONCENTRATION,
+        routePath: KeyUtil.concentration,
+        scoreboard: getScoreboard(keyConcentration),
+        icon: AppAssets.icConcentration,
+        puzzleType: PuzzleType.MEMORY_PUZZLE,
+      ),
+
+      // BRAIN PUZZLES
+      GameCategory(
+        id: 15,
+        name: "Magic Triangle",
+        key: keyMagicTriangle,
+        gameCategoryType: GameCategoryType.MAGIC_TRIANGLE,
+        routePath: KeyUtil.magicTriangle,
+        scoreboard: getScoreboard(keyMagicTriangle),
+        icon: AppAssets.icMagicTriangle,
+        puzzleType: PuzzleType.BRAIN_PUZZLE,
+      ),
+      GameCategory(
+        id: 16,
+        name: "Picture Puzzle",
+        key: keyPicturePuzzle,
+        gameCategoryType: GameCategoryType.PICTURE_PUZZLE,
+        routePath: KeyUtil.picturePuzzle,
+        scoreboard: getScoreboard(keyPicturePuzzle),
+        icon: AppAssets.icPicturePuzzle,
+        puzzleType: PuzzleType.BRAIN_PUZZLE,
+      ),
+    ];
+
+    state = state.copyWith(categories: allCategories);
+  }
+
+  /// ===========================
+  /// 🚀 Coins Management
+  /// ===========================
   void addCoins(int value) {
     final newCoins = state.coins + value;
     box.put("coins", newCoins);
@@ -64,79 +140,14 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     }
   }
 
-  // ===========================
-  // 🚀 Scoreboard Management
-  // ===========================
+  /// ===========================
+  /// 🚀 Scoreboard Management
+  /// ===========================
   List<GameCategory> getGameByPuzzleType(PuzzleType puzzleType) {
-    final list = <GameCategory>[];
-
-    switch (puzzleType) {
-      case PuzzleType.MATH_PUZZLE:
-        list.add(GameCategory(
-          id: 1,
-          name: "Calculate For Me",
-          key: keyCalculator,
-          gameCategoryType: GameCategoryType.CALCULATOR,
-          routePath: KeyUtil.calculator,
-          scoreboard: getScoreboard(keyCalculator),
-          icon: AppAssets.icCalculator,
-        ));
-        list.add(GameCategory(
-          id: 6,
-          name: "True or False",
-          key: keyTrueFalseCalculation,
-          gameCategoryType: GameCategoryType.TRUE_FALSE,
-          routePath: KeyUtil.trueFalse,
-          scoreboard: getScoreboard(keyTrueFalseCalculation),
-          icon: AppAssets.icTrueFalse,
-        ));
-        break;
-
-      case PuzzleType.MEMORY_PUZZLE:
-        list.add(GameCategory(
-          id: 12,
-          name: "Mathematical pairs",
-          key: keyMathPairs,
-          gameCategoryType: GameCategoryType.MATH_PAIRS,
-          routePath: KeyUtil.mathPairs,
-          scoreboard: getScoreboard(keyMathPairs),
-          icon: AppAssets.icMathematicalPairs,
-        ));
-        list.add(GameCategory(
-          id: 14,
-          name: "Concentration",
-          key: keyConcentration,
-          gameCategoryType: GameCategoryType.CONCENTRATION,
-          routePath: KeyUtil.concentration,
-          scoreboard: getScoreboard(keyConcentration),
-          icon: AppAssets.icConcentration,
-        ));
-        break;
-
-      case PuzzleType.BRAIN_PUZZLE:
-        list.add(GameCategory(
-          id: 15,
-          name: "Magic triangle",
-          key: keyMagicTriangle,
-          gameCategoryType: GameCategoryType.MAGIC_TRIANGLE,
-          routePath: KeyUtil.magicTriangle,
-          scoreboard: getScoreboard(keyMagicTriangle),
-          icon: AppAssets.icMagicTriangle,
-        ));
-        list.add(GameCategory(
-          id: 16,
-          name: "Picture Puzzle",
-          key: keyPicturePuzzle,
-          gameCategoryType: GameCategoryType.PICTURE_PUZZLE,
-          routePath: KeyUtil.picturePuzzle,
-          scoreboard: getScoreboard(keyPicturePuzzle),
-          icon: AppAssets.icPicturePuzzle,
-        ));
-        break;
-    }
-
-    state = state.copyWith(categories: list);
-    return list;
+    // ✅ Pure filter — no state mutation here
+    return state.categories
+        .where((c) => c.puzzleType == puzzleType)
+        .toList();
   }
 
   ScoreBoard getScoreboard(String key) {
@@ -148,12 +159,6 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     box.put(key, json.encode(scoreboard.toJson()));
   }
 
-  /// Opens the settings (placeholder for future logic)
-  void openSettings() {
-    // Example: print('Settings opened');
-    // For now, just a placeholder
-    // Add any logic you want to run when settings is opened (analytics, logging, etc.)
-  }
   void updateScoreboard(GameCategoryType type, double newScore) {
     final updated = state.categories.map((gameCategory) {
       if (gameCategory.gameCategoryType == type) {
@@ -166,6 +171,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
             highestScore: newScore.toInt(),
           );
           setScoreboard(gameCategory.key, updatedScoreboard);
+          return gameCategory.copyWith(scoreboard: updatedScoreboard);
         }
       }
       return gameCategory;
@@ -174,22 +180,21 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     state = state.copyWith(categories: updated);
   }
 
-  // ===========================
-  // 🚀 Overall Score
-  // ===========================
+  /// ===========================
+  /// 🚀 Overall Score
+  /// ===========================
   void _setOverallScore(int oldScore, int newScore) {
     final updatedScore = state.overallScore - oldScore + newScore;
     box.put("overall_score", updatedScore);
     state = state.copyWith(overallScore: updatedScore);
   }
 
-  // ===========================
-  // 🚀 First-Time Flag
-  // ===========================
+  /// ===========================
+  /// 🚀 First-Time Flag
+  /// ===========================
   bool isFirstTime(GameCategoryType type) {
     return state.categories
-        .where((c) => c.gameCategoryType == type)
-        .first
+        .firstWhere((c) => c.gameCategoryType == type)
         .scoreboard
         .firstTime;
   }
@@ -200,27 +205,25 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         final updatedScoreboard =
         gameCategory.scoreboard.copyWith(firstTime: false);
         setScoreboard(gameCategory.key, updatedScoreboard);
+        return gameCategory.copyWith(scoreboard: updatedScoreboard);
       }
       return gameCategory;
     }).toList();
 
     state = state.copyWith(categories: updated);
   }
-  }
-    // Example: print('Settings opened');
-    // For now, just a placeholder
-    // Add any logic you want to run when settings is opened (analytics, logging, etc.)
-  void openSettings() {
-  // ===========================
-  // 🚀 Settings Logic
-  // ===========================
 
+  /// ===========================
+  /// 🚀 Settings Placeholder
+  /// ===========================
+  void openSettings() {
+    // For now: Add analytics/logging later if needed
+  }
 }
 
 /// Provider for Dashboard
 final dashboardProvider =
 StateNotifierProvider<DashboardNotifier, DashboardState>((ref) {
-  final box = Hive.box("dashboard"); // 👈 single Hive box for everything
+  final box = Hive.box("dashboard"); // single Hive box
   return DashboardNotifier(box);
 });
-

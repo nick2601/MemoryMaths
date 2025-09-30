@@ -38,6 +38,10 @@ class GameCategory {
   @HiveField(6)
   final String icon;
 
+  /// Puzzle type this category belongs to (MATH, MEMORY, BRAIN)
+  @HiveField(7)
+  final PuzzleType puzzleType;
+
   GameCategory({
     required this.id,
     required this.name,
@@ -46,6 +50,7 @@ class GameCategory {
     required this.routePath,
     required this.scoreboard,
     required this.icon,
+    required this.puzzleType,
   });
 
   /// JSON factory for Firebase/API integration
@@ -53,4 +58,27 @@ class GameCategory {
       _$GameCategoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$GameCategoryToJson(this);
+
+  /// ✅ copyWith for immutability
+  GameCategory copyWith({
+    int? id,
+    String? name,
+    String? key,
+    GameCategoryType? gameCategoryType,
+    String? routePath,
+    ScoreBoard? scoreboard,
+    String? icon,
+    PuzzleType? puzzleType,
+  }) {
+    return GameCategory(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      key: key ?? this.key,
+      gameCategoryType: gameCategoryType ?? this.gameCategoryType,
+      routePath: routePath ?? this.routePath,
+      scoreboard: scoreboard ?? this.scoreboard,
+      icon: icon ?? this.icon,
+      puzzleType: puzzleType ?? this.puzzleType,
+    );
+  }
 }
