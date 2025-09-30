@@ -30,19 +30,18 @@ dependencies:
   flutter:
     sdk: flutter
   pdf: ^3.4.1
-  flutter_email_sender: ^5.0.2
+  flutter_email_sender: ^8.0.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
   flutter_svg: ^2.0.10+1
-  get_it: ^7.2.0
+  get_it: ^8.2.0
   vsync_provider: ^0.5.0
   provider: ^6.0.2
   shared_preferences: ^2.0.15
   tuple: ^2.0.0
-  fluttertoast: ^8.0.9
-
-  figma_squircle: ^0.5.3
+  fluttertoast: ^9.0.0
+  figma_squircle: ^0.6.3
   #  package_info: ^2.0.2
   audioplayers: ^6.0.0
   step_progress_indicator: ^1.0.2
@@ -54,7 +53,7 @@ dependencies:
   flutter_share: ^2.0.0
   launch_review: ^3.0.1
   url_launcher: ^6.1.2
-  device_info_plus: ^10.1.0
+  device_info_plus: ^12.1.0
   flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
@@ -63,7 +62,7 @@ dev_dependencies:
   flutter_localizations:
     sdk: flutter
 
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.4
 #  google_mobile_ads: ^5.1.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
