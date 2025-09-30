@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:mathsgames/src/data/random_find_missing_data.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
@@ -11,6 +10,7 @@ import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
 
 import '../../data/models/cube_root.dart';
+import '../../data/models/random_find_missing_data.dart';
 import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';
 import '../common/common_vertical_button.dart';
@@ -114,16 +114,13 @@ class CubeRootView extends StatelessWidget {
                           return Selector<CubeRootProvider, CubeRoot>(
                               selector: (p0, p1) => p1.currentState,
                               builder: (context, currentState, child) {
-                                print("valueG===true");
-
-                                final list = [
+                                // Pre-shuffle the list once outside the builder to prevent animation lag
+                                List<String> list = [
                                   currentState.firstAns,
                                   currentState.secondAns,
                                   currentState.thirdAns,
                                   currentState.fourthAns,
-                                ];
-
-                                shuffle(list);
+                                ]..shuffle(); // Use built-in shuffle instead of custom function
 
                                 return Container(
                                   margin: EdgeInsets.symmetric(
@@ -145,18 +142,6 @@ class CubeRootView extends StatelessWidget {
                                   ),
                                 );
                               });
-
-                          // return ListView.builder(
-                          //   itemCount: list.length,
-                          //
-                          //   itemBuilder: (context, index) {
-                          //   return Container(
-                          //     height: btnHeight,
-                          //     decoration: getDefaultDecoration(
-                          //       bgColor: colorTuple.item1.backgroundColor
-                          //     ),
-                          //   );
-                          // },);
                         }),
                       ),
                     ],
@@ -168,106 +153,6 @@ class CubeRootView extends StatelessWidget {
           context: context,
           isTopMargin: false,
         ),
-        // child: getCommonWidget(context: context,
-        //   isTopMargin: true,
-        //   child: Column(
-        //   children: <Widget>[
-        //
-        //     Expanded(flex: 1,
-        //       child: Row(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         children: [
-        //           // Center(
-        //           //   child: Container(
-        //           //     margin: EdgeInsets.only(right: getWidthPercentSize(context, 15)),
-        //           //
-        //           //     child: Image.asset(AppAssets.icCubeRootIcon,height: getPercentSize(remainHeight, 6),
-        //           //       color: Theme
-        //           //           .of(context)
-        //           //           .textTheme
-        //           //           .subtitle2!.color,
-        //           //     ),
-        //           //   ),
-        //           // ),
-        //           getTextWidget(
-        //           Theme.of(context).textTheme.subtitle2!,
-        //       '∛',
-        //       TextAlign.start,
-        //       getPercentSize(remainHeight, 6)),
-        //
-        //           // SvgPicture.asset(
-        //           //   AppAssets.icRoot,
-        //           //   height: getPercentSize(remainHeight, 6),
-        //           //   color: Theme
-        //           //       .of(context)
-        //           //       .textTheme
-        //           //       .subtitle2!.color,
-        //           // ),
-        //           Center(
-        //             child: Container(
-        //               // margin: EdgeInsets.only(left: getWidthPercentSize(context, 1),top: getPercentSize(remainHeight, 1)),
-        //               child: Selector<CubeRootProvider, CubeRoot>(
-        //                   selector: (p0, p1) => p1.currentState,
-        //                   builder: (context, currentState, child) {
-        //
-        //                     print("currentState===${currentState.question}");
-        //
-        //                     return getTextWidget(
-        //                         Theme.of(context).textTheme.subtitle2!,
-        //                         currentState.question,
-        //                         TextAlign.start,
-        //                         getPercentSize(remainHeight, 4));
-        //
-        //
-        //                   }),
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //     Selector<CubeRootProvider, CubeRoot>(
-        //       selector: (p0, p1) => p1.currentState,
-        //       builder: (context, currentState, child) {
-        //
-        //         final list=[
-        //           currentState.firstAns,
-        //           currentState.secondAns,
-        //           currentState.thirdAns,
-        //           currentState.fourthAns,
-        //         ];
-        //
-        //         shuffle(list);
-        //         return GridView.count(
-        //           crossAxisCount: _crossAxisCount,
-        //           childAspectRatio: _aspectRatio,
-        //           shrinkWrap: true,
-        //           padding: EdgeInsets.symmetric(
-        //               horizontal: getHorizontalSpace(context),
-        //               vertical: getHorizontalSpace(context)),
-        //           crossAxisSpacing: _crossAxisSpacing,
-        //           mainAxisSpacing: _crossAxisSpacing,
-        //           primary: false,
-        //
-        //           children: List.generate(list.length, (index) {
-        //             String e = list[index];
-        //             return CommonNumberButton(
-        //               text: e,
-        //               is4Matrix: true,
-        //               totalHeight: remainHeight,
-        //               height: height,
-        //               onTab: () {
-        //                 context.read<CubeRootProvider>().checkResult(e);
-        //               },
-        //               colorTuple: colorTuple,
-        //             );
-        //           }),
-        //         );
-        //       },
-        //     ),
-        //   ],
-        // ), subChild:   CommonInfoTextView<CubeRootProvider>(
-        //       folder: colorTuple.item1.folderName!,
-        //       gameCategoryType: GameCategoryType.CUBE_ROOT,color: colorTuple.item1.cellColor!),),
       ),
     );
   }

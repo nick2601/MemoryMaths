@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:mathsgames/src/data/random_find_missing_data.dart';
 import 'package:mathsgames/src/data/models/complex_model.dart';
+import 'package:mathsgames/src/data/models/random_find_missing_data.dart';
 
 /// A class that generates complex mathematical equations with random values
 /// for educational math games. It creates equations in the format:
@@ -126,16 +126,6 @@ class ComplexData {
 
     shuffle(optionList);
     complexModel.optionList = optionList;
-
-    // ar[0] = String.valueOf(finalAnswer);
-    // ar[1] = question;
-    // ar[2] = String.valueOf(op_1);
-    // ar[3] = String.valueOf(op_2);
-    // ar[4] = String.valueOf(op_3);
-    // ar[5] = String.valueOf(n1);
-    // ar[6] = String.valueOf(n2);
-    // ar[7] = sign;
-    // ar[8] = answerString;
 
     return complexModel;
   }

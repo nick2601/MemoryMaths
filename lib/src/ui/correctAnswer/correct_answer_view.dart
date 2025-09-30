@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mathsgames/src/data/random_find_missing_data.dart';
 import 'package:mathsgames/src/data/models/correct_answer.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
@@ -132,16 +131,13 @@ class CorrectAnswerView extends StatelessWidget {
                           return Selector<CorrectAnswerProvider, CorrectAnswer>(
                               selector: (p0, p1) => p1.currentState,
                               builder: (context, currentState, child) {
-                                print("valueG===true");
-
-                                final list = [
+                                // Pre-shuffle the list once to prevent animation lag
+                                List<String> list = [
                                   currentState.firstAns,
                                   currentState.secondAns,
                                   currentState.thirdAns,
                                   currentState.fourthAns,
-                                ];
-
-                                shuffle(list);
+                                ]..shuffle(); // Use built-in shuffle instead of custom function
 
                                 return Container(
                                   margin: EdgeInsets.symmetric(

@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'models/find_missing_model.dart';
 import 'package:intl/intl.dart';
+
+import 'find_missing_model.dart';
 
 /// A class that generates random math problems for a "find the missing number" game
 /// Supports addition, subtraction, multiplication, and division operations

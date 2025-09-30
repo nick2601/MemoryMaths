@@ -19,32 +19,44 @@ class CommonTabAnimationView extends StatefulWidget {
 class _CommonTabAnimationViewState extends State<CommonTabAnimationView>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
+    super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(
-        milliseconds: 100,
-      ),
+      duration: Duration(milliseconds: 100),
       lowerBound: 0.0,
       upperBound: 0.1,
-    )..addListener(() {
-        setState(() {});
-      });
-    super.initState();
+    );
+
+    // Create animation instead of listening to controller directly
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.9,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
   }
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Transform.scale(
-      scale: 1 - _controller.value,
+    return AnimatedBuilder(
+      animation: _scaleAnimation,
+      builder: (context, child) {
+        return Transform.scale(
+          scale: _scaleAnimation.value,
+          child: child,
+        );
+      },
       child: GestureDetector(
         onTap: () async {
           _controller.forward().then((value) => _controller.reverse());

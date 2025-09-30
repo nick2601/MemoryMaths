@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathsgames/src/core/app_assets.dart';
-import 'package:mathsgames/src/data/random_find_missing_data.dart';
 import 'package:mathsgames/src/data/models/square_root.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
@@ -13,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
 
+import '../../data/models/random_find_missing_data.dart';
 import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';
 import '../common/common_vertical_button.dart';
@@ -102,16 +102,13 @@ class SquareRootView extends StatelessWidget {
                           return Selector<SquareRootProvider, SquareRoot>(
                               selector: (p0, p1) => p1.currentState,
                               builder: (context, currentState, child) {
-                                print("valueG===true");
-
-                                final list = [
+                                // Pre-shuffle the list once to prevent animation lag
+                                List<String> list = [
                                   currentState.firstAns,
                                   currentState.secondAns,
                                   currentState.thirdAns,
                                   currentState.fourthAns,
-                                ];
-
-                                shuffle(list);
+                                ]..shuffle(); // Use built-in shuffle instead of custom function
 
                                 return Container(
                                   margin: EdgeInsets.symmetric(
@@ -156,85 +153,7 @@ class SquareRootView extends StatelessWidget {
           context: context,
           isTopMargin: false,
         ),
-        // child: getCommonWidget(context: context,
-        //   isTopMargin: true,
-        //   child: Column(
-        //   children: <Widget>[
-        //
-        //     Expanded(flex: 1,
-        //       child: Row(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         children: [
-        //           SvgPicture.asset(
-        //             AppAssets.icRoot,
-        //             height: getPercentSize(remainHeight, 6),
-        //             color: Theme
-        //                 .of(context)
-        //                 .textTheme
-        //                 .subtitle2!.color,
-        //           ),
-        //           Selector<SquareRootProvider, SquareRoot>(
-        //               selector: (p0, p1) => p1.currentState,
-        //               builder: (context, currentState, child) {
-        //
-        //                 return getTextWidget(
-        //                     Theme.of(context).textTheme.subtitle2!,
-        //                     currentState.question,
-        //                     TextAlign.center,
-        //                     getPercentSize(remainHeight, 4));
-        //
-        //
-        //               }),
-        //         ],
-        //       ),
-        //     ),
-        //     Selector<SquareRootProvider, SquareRoot>(
-        //       selector: (p0, p1) => p1.currentState,
-        //       builder: (context, currentState, child) {
-        //
-        //         final list=[
-        //           currentState.firstAns,
-        //           currentState.secondAns,
-        //           currentState.thirdAns,
-        //           currentState.fourthAns,
-        //         ];
-        //
-        //         return GridView.count(
-        //           crossAxisCount: _crossAxisCount,
-        //           childAspectRatio: _aspectRatio,
-        //           shrinkWrap: true,
-        //           padding: EdgeInsets.symmetric(
-        //               horizontal: getHorizontalSpace(context),
-        //               vertical: getHorizontalSpace(context)),
-        //           crossAxisSpacing: _crossAxisSpacing,
-        //           mainAxisSpacing: _crossAxisSpacing,
-        //           primary: false,
-        //
-        //           children: List.generate(list.length, (index) {
-        //             String e = list[index];
-        //             return CommonNumberButton(
-        //               text: e,
-        //               is4Matrix: true,
-        //               totalHeight: remainHeight,
-        //               height: height,
-        //               onTab: () {
-        //                 context
-        //                     .read<SquareRootProvider>()
-        //                     .checkResult(e);
-        //               },
-        //               colorTuple: colorTuple,
-        //             );
-        //           }),
-        //         );
-        //
-        //
-        //       },
-        //     ),
-        //   ],
-        // ), subChild:   CommonInfoTextView<SquareRootProvider>(
-        //       folder: colorTuple.item1.folderName!,
-        //       gameCategoryType: GameCategoryType.SQUARE_ROOT,color: colorTuple.item1.cellColor!),),
-      ),
+        ),
     );
   }
 }

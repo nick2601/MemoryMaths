@@ -1,6 +1,7 @@
 import 'dart:math';
 
-import '../random_find_missing_data.dart';
+import 'package:mathsgames/src/data/models/random_find_missing_data.dart';
+
 import 'quiz_model.dart';
 
 /// A class that generates random mathematical problems for quizzes

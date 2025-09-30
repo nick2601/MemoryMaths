@@ -1,6 +1,7 @@
 import 'dart:math';
 
-import '../random_find_missing_data.dart';
+import 'package:mathsgames/src/data/models/random_find_missing_data.dart';
+
 import 'true_false_model.dart';
 
 /// Constants for true/false string values
