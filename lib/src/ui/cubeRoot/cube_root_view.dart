@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:mathsgames/src/data/RandomFindMissingData.dart';
+import 'package:mathsgames/src/data/random_find_missing_data.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
@@ -11,7 +11,7 @@ import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
 
 import '../../data/models/cube_root.dart';
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';
 import '../common/common_vertical_button.dart';
 import 'cube_root_provider.dart';

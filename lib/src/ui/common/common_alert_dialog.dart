@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 
 class CommonAlertDialog extends AlertDialog {
   final Widget child;

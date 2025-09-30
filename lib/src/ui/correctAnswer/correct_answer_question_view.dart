@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/data/models/correct_answer.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 
 class CorrectAnswerQuestionView extends StatelessWidget {
   final Question question;

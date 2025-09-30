@@ -3,7 +3,7 @@ import 'package:mathsgames/src/data/models/picture_puzzle.dart';
 import 'package:mathsgames/src/ui/picturePuzzle/circle_shape.dart';
 import 'package:mathsgames/src/ui/picturePuzzle/picture_puzzle_answer_button.dart';
 import 'package:mathsgames/src/ui/picturePuzzle/square_shape.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:tuple/tuple.dart';
 import 'triangle_shape.dart';
 

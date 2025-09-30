@@ -11,7 +11,7 @@ import 'package:mathsgames/src/ui/numericMemory/numeric_view.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../model/gradient_model.dart';
 import 'common_alert_over_dialog.dart';
 import 'common_dual_game_over_dialog_view.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/game_info_dialog.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:mathsgames/src/utility/dialog_info_util.dart';
 
 class CommonInfoDialogView extends StatelessWidget {

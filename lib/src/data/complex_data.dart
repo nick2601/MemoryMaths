@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:mathsgames/src/data/RandomFindMissingData.dart';
-import 'package:mathsgames/src/data/models/ComplexModel.dart';
+import 'package:mathsgames/src/data/random_find_missing_data.dart';
+import 'package:mathsgames/src/data/models/complex_model.dart';
 
 /// A class that generates complex mathematical equations with random values
 /// for educational math games. It creates equations in the format:

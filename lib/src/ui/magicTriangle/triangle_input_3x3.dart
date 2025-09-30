@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/ui/magicTriangle/magic_triangle_provider.dart';
 import 'package:mathsgames/src/ui/magicTriangle/triangle_button.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 

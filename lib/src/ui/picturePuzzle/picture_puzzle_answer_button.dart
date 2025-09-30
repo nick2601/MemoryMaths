@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mathsgames/src/data/models/picture_puzzle.dart';
 import 'package:mathsgames/src/ui/common/common_wrong_answer_animation_view.dart';
 import 'package:mathsgames/src/ui/picturePuzzle/picture_puzzle_provider.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 

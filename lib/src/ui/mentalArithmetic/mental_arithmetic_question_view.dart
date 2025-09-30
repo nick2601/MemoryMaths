@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/data/models/mental_arithmetic.dart';
 
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 
 class MentalArithmeticQuestionView extends StatefulWidget {
   final MentalArithmetic currentState;

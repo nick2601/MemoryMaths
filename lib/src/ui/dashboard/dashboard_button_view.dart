@@ -4,7 +4,7 @@ import 'package:mathsgames/src/core/app_assets.dart';
 import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
 import 'package:mathsgames/src/ui/common/common_tab_animation_view.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 
 class DashboardButtonView extends StatelessWidget {

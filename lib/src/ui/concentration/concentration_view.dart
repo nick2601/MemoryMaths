@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
 
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';
 import 'concentration_provider.dart';
 

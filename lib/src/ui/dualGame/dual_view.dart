@@ -12,7 +12,7 @@ import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
 import 'dart:math' as math;
 
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../common/common_dual_button.dart';
 
 class DualView extends StatelessWidget {

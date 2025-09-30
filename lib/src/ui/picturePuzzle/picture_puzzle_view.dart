@@ -14,7 +14,7 @@ import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
 import 'package:collection/collection.dart';
 
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';
 import '../common/common_number_button.dart';
 

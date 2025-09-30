@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/data/models/quick_calculation.dart';
 
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 
 class QuickCalculationQuestionView extends StatefulWidget {
   final QuickCalculation currentState;

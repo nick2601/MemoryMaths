@@ -1,5 +1,5 @@
-import 'package:mathsgames/src/data/ComplexData.dart';
-import 'package:mathsgames/src/data/models/ComplexModel.dart';
+import 'package:mathsgames/src/data/complex_data.dart';
+import 'package:mathsgames/src/data/models/complex_model.dart';
 
 /// Repository class that handles complex calculation data generation
 /// and management for different game levels.

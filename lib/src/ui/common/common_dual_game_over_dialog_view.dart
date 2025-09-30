@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_assets.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:tuple/tuple.dart';
 
 import '../model/gradient_model.dart';

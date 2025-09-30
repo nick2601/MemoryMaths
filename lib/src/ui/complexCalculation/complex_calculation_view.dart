@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/data/models/ComplexModel.dart';
+import 'package:mathsgames/src/data/models/complex_model.dart';
 
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
 
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';
 import '../common/common_vertical_button.dart';
 

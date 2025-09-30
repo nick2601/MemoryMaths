@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mathsgames/src/data/RandomFindMissingData.dart';
+import 'package:mathsgames/src/data/random_find_missing_data.dart';
 import 'package:mathsgames/src/data/models/correct_answer.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
@@ -12,7 +12,7 @@ import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';
 import '../common/common_neumorphic_view.dart';
 import '../common/common_vertical_button.dart';

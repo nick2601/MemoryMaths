@@ -6,7 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/resizer/fetch_pixels.dart';
 import 'package:mathsgames/src/ui/resizer/widget_utils.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import '../core/app_assets.dart';
 
 class FeedbackScreen extends StatefulWidget {

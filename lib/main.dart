@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mathsgames/src/data/RandomFindMissingData.dart';
+import 'package:mathsgames/src/data/random_find_missing_data.dart';
 
 import 'package:mathsgames/src/ui/app/app.dart';
 import 'package:mathsgames/src/ui/app/auth_provider.dart';

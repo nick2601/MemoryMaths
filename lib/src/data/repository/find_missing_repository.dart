@@ -1,6 +1,6 @@
 import 'package:mathsgames/src/data/models/find_missing_model.dart';
 
-import '../RandomFindMissingData.dart';
+import '../random_find_missing_data.dart';
 
 /// Repository class responsible for generating math quiz questions with missing numbers
 /// for different difficulty levels.

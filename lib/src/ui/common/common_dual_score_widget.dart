@@ -5,7 +5,7 @@ import 'package:tuple/tuple.dart';
 
 import '../../core/app_assets.dart';
 import '../../core/app_constant.dart';
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../model/gradient_model.dart';
 
 class CommonDualScoreWidget extends StatelessWidget {

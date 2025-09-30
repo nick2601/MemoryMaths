@@ -11,7 +11,7 @@ import 'package:tuple/tuple.dart';
 import '../../core/app_assets.dart';
 import '../../core/app_constant.dart';
 import '../../data/models/game_category.dart';
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../app/theme_provider.dart';
 import '../model/gradient_model.dart';
 

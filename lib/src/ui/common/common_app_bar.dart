@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_assets.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../utility/dialog_info_util.dart';
 import '../model/gradient_model.dart';
-import 'common_linear_percent_indicator3.dart';
+import 'common_linear_percent_indicator.dart';
 
 class CommonAppBar<T extends GameProvider> extends StatelessWidget {
   final Tuple2<GradientModel, int> colorTuple;

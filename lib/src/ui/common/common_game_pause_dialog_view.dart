@@ -6,7 +6,7 @@ import 'package:mathsgames/src/utility/dialog_info_util.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../core/app_assets.dart';
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../model/gradient_model.dart';
 
 class CommonGamePauseDialogView extends StatelessWidget {

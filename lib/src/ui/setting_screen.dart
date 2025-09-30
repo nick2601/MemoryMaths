@@ -10,7 +10,7 @@ import 'package:mathsgames/src/ui/login/login_view.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/resizer/fetch_pixels.dart';
 import 'package:mathsgames/src/ui/resizer/widget_utils.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import '../core/app_assets.dart';

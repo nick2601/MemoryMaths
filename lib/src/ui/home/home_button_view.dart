@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../data/models/dashboard.dart';
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../app/theme_provider.dart';
 import '../dashboard/dashboard_provider.dart';
 

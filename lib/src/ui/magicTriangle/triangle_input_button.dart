@@ -5,7 +5,7 @@ import 'package:mathsgames/src/ui/soundPlayer/audio_file.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../common/common_traingle_view.dart';
 
 class TriangleInputButton extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/common/common_score_widget.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:tuple/tuple.dart';
 import '../model/gradient_model.dart';
 import '../soundPlayer/audio_file.dart';

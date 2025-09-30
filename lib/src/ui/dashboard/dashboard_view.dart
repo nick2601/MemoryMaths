@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_button_view.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import '../app/theme_provider.dart';

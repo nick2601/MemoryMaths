@@ -148,11 +148,3 @@ class MagicTriangleRepository {
     return inputList;
   }
 }
-
-/* Solution Reference:
- * This section contains various valid solutions for different target sums.
- * Each line shows different ways to arrange numbers to achieve the target sum.
- * For example:
- * 17 = 1 + 5 + 9 + 2 = 2 + 4+ 8+ 3 = 3 + 6 + 7 + 1
- * ... existing solutions ...
- */

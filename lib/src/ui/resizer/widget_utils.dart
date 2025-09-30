@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mathsgames/src/core/app_assets.dart';
 
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import 'fetch_pixels.dart';
 
 void showCustomToast(String texts, BuildContext context) {

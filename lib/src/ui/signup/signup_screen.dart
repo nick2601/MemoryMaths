@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../app/auth_provider.dart';
 import '../login/login_view.dart';
 

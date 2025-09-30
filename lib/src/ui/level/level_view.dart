@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import '../../core/app_assets.dart';
 import '../../data/models/game_category.dart';
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../app/theme_provider.dart';
 import '../model/gradient_model.dart';
 
@@ -280,7 +280,7 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
 // import '../../ads/AdsFile.dart';
 // import '../../core/app_assets.dart';
 // import '../../data/models/game_category.dart';
-// import '../../utility/Constants.dart';
+// import '../../utility/global_constants.dart';
 // import '../app/theme_provider.dart';
 // import '../model/gradient_model.dart';
 //

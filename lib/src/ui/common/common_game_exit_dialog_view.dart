@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../core/app_assets.dart';
-import '../../utility/Constants.dart';
+import '../../utility/global_constants.dart';
 import '../model/gradient_model.dart';
 
 class CommonGameExitDialogView extends StatelessWidget {

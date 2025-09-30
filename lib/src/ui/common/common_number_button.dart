@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mathsgames/src/ui/common/common_tab_animation_view.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/soundPlayer/audio_file.dart';
-import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:tuple/tuple.dart';
 
 class CommonNumberButton extends StatelessWidget {

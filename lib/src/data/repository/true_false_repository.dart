@@ -1,4 +1,4 @@
-import 'package:mathsgames/src/data/RandomOptionData.dart';
+import 'package:mathsgames/src/data/random_option_data.dart';
 import 'package:mathsgames/src/data/models/true_false_model.dart';
 
 /// Repository class that handles the generation of true/false math questions
