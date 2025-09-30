@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,8 +7,7 @@ import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/app/svg_modify.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/resizer/fetch_pixels.dart';
-import 'package:mathsgames/src/ui/setting_screen.dart';
-import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart'; // Added this line
+import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
 import '../core/app_assets.dart';
 import '../ui/app/theme_provider.dart';
 
@@ -149,18 +147,58 @@ getDefaultDecoration( {
         ),
       ]
           : [],
-      shape: SmoothRectangleBorder(
-        side: BorderSide(
-          color: borderColor ?? Colors.transparent,
-          width: borderWidth ?? (borderColor != null ? 1 : 0),
-        ),
-        borderRadius: SmoothBorderRadius(
-          cornerRadius: radius ?? 0,
-          cornerSmoothing: 0.8,
-        ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(radius ?? 0),
       ),
     );
+/// Only border decoration, no background fill
+getDefaultDecorationWithBorder({
+  double? radius,
+  Color? borderColor,
+  double? borderWidth,
+  bool? isShadow,
+}) =>
+    BoxDecoration(
+      color: Colors.transparent,
+      border: Border.all(color: borderColor ?? Colors.black, width: borderWidth ?? 1),
+      borderRadius: BorderRadius.circular(radius ?? 0),
+      boxShadow: isShadow == true
+          ? [
+        BoxShadow(
+          color: Colors.grey.shade200,
+          blurRadius: 8,
+          offset: const Offset(0, 3),
+        ),
+      ]
+          : [],
+    );
 
+/// Gradient fill decoration
+getDefaultDecorationWithGradient({
+  double? radius,
+  Gradient? colors,
+  Color? borderColor,
+  double? borderWidth,
+  bool? isShadow,
+}) =>
+    BoxDecoration(
+      gradient: colors,
+      border: borderColor != null
+          ? Border.all(color: borderColor, width: borderWidth ?? 1)
+          : null,
+      borderRadius: BorderRadius.circular(radius ?? 0),
+      boxShadow: isShadow == true
+          ? [
+        BoxShadow(
+          color: Colors.grey.shade300,
+          blurRadius: 8,
+          offset: const Offset(0, 3),
+        ),
+      ]
+          : [],
+    );
+
+/// Side-specific decoration (already in your file)
 getDecorationWithSide({
   double? radius,
   Color? bgColor,
@@ -184,28 +222,24 @@ getDecorationWithSide({
         ),
       ]
           : [],
-      shape: SmoothRectangleBorder(
-        side: BorderSide(color: borderColor ?? Colors.transparent),
-        borderRadius: SmoothBorderRadius.only(
-          bottomRight: SmoothRadius(
-            cornerRadius: (isBottomRight ?? false) ? radius ?? 0 : 0,
-            cornerSmoothing: 1,
-          ),
-          bottomLeft: SmoothRadius(
-            cornerRadius: (isBottomLeft ?? false) ? radius ?? 0 : 0,
-            cornerSmoothing: 1,
-          ),
-          topLeft: SmoothRadius(
-            cornerRadius: (isTopLeft ?? false) ? radius ?? 0 : 0,
-            cornerSmoothing: 1,
-          ),
-          topRight: SmoothRadius(
-            cornerRadius: (isTopRight ?? false) ? radius ?? 0 : 0,
-            cornerSmoothing: 1,
-          ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomRight: (isBottomRight ?? false)
+              ? Radius.circular(radius ?? 0)
+              : Radius.zero,
+          bottomLeft: (isBottomLeft ?? false)
+              ? Radius.circular(radius ?? 0)
+              : Radius.zero,
+          topLeft: (isTopLeft ?? false)
+              ? Radius.circular(radius ?? 0)
+              : Radius.zero,
+          topRight: (isTopRight ?? false)
+              ? Radius.circular(radius ?? 0)
+              : Radius.zero,
         ),
       ),
     );
+
 
 /// -----------------
 /// ICON HELPERS
@@ -214,7 +248,7 @@ getHintIcon({required Function function, Color? color, bool? isWhite}) =>
     GestureDetector(
       onTap: () => function(),
       child: SvgPicture.string(
-        SvgModify.hintSvg(color ?? Colors.white, forceWhite: isWhite??false), // Changed to forceWhite
+        SvgModify.hintSvg(color ?? Colors.white, forceWhite: isWhite??false),
         height: 20,
       ),
     );
@@ -241,7 +275,7 @@ Color darken(Color color, [double amount = .1]) {
 /// -----------------
 Widget getScoreWidget(BuildContext context, WidgetRef ref,
     {Color? color, bool? isCenter}) {
-  final coin = ref.watch(dashboardProvider.select((s) => s.coin));
+  final coin = ref.watch(dashboardProvider.select((s) => s.coins));
   return Row(
     mainAxisAlignment:
     isCenter == true ? MainAxisAlignment.center : MainAxisAlignment.start,
@@ -261,8 +295,6 @@ Widget getScoreWidget(BuildContext context, WidgetRef ref,
   );
 }
 String getFolderName(BuildContext context, String folderName) {
-  // If your assets are organized by folders, return the path prefix.
-  // Example: assets/icons/dark/ or assets/icons/light/
   return "assets/images/$folderName/";
 }
 

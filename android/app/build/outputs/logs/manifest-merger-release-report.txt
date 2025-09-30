@@ -1,0 +1,619 @@
+-- Merging decision tree log ---
+application
+INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:3:5-34:19
+INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:3:5-34:19
+MERGED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:7:5-17:19
+MERGED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:7:5-17:19
+MERGED from [:firebase_auth] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_auth] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_core] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_core] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:7:5-13:19
+MERGED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:28:5-73:19
+MERGED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:28:5-73:19
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/5626cc8995b91a3fffe0275599490f75/transformed/jetified-firebase-common-ktx-20.4.3/AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/5626cc8995b91a3fffe0275599490f75/transformed/jetified-firebase-common-ktx-20.4.3/AndroidManifest.xml:8:5-16:19
+MERGED from [:url_launcher_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.20/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:7:5-12:19
+MERGED from [:url_launcher_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.20/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:7:5-12:19
+MERGED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:22:5-29:19
+MERGED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:22:5-29:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/c40d354b3ad3b463e087d1bd67206afe/transformed/jetified-firebase-auth-interop-20.0.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/c40d354b3ad3b463e087d1bd67206afe/transformed/jetified-firebase-auth-interop-20.0.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.android.play:integrity:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6ee0c5d5052e2adaaa7bfed2de6a6c5a/transformed/jetified-integrity-1.2.0/AndroidManifest.xml:5:5-6:19
+MERGED from [com.google.android.play:integrity:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6ee0c5d5052e2adaaa7bfed2de6a6c5a/transformed/jetified-integrity-1.2.0/AndroidManifest.xml:5:5-6:19
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/d7d59d6d0d265e33e2feb483e8a57d68/transformed/jetified-firebase-appcheck-interop-17.0.0/AndroidManifest.xml:23:5-20
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/d7d59d6d0d265e33e2feb483e8a57d68/transformed/jetified-firebase-appcheck-interop-17.0.0/AndroidManifest.xml:23:5-20
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/7bfde0404f7a344a829071f9c3ae852d/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/7bfde0404f7a344a829071f9c3ae852d/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/341dcb007051ccff61bd214b7481144f/transformed/jetified-play-services-tasks-18.1.0/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/341dcb007051ccff61bd214b7481144f/transformed/jetified-play-services-tasks-18.1.0/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5430efb66609aca7105ec8cf4782d4bb/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5430efb66609aca7105ec8cf4782d4bb/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:28:5-89
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e0b2ce753d1976acc60fae8f46094f82/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e0b2ce753d1976acc60fae8f46094f82/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/82e9441a307af2edb72cf69f3a4bb5b8/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/82e9441a307af2edb72cf69f3a4bb5b8/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/8c7f9335a8ead79717504fa083a76153/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/8c7f9335a8ead79717504fa083a76153/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+	android:extractNativeLibs
+		INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+	android:label
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:4:9-36
+	android:icon
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:6:9-43
+	android:name
+		INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:5:9-42
+manifest
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:1:1-46:12
+INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:1:1-46:12
+INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:1:1-46:12
+INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:1:1-46:12
+MERGED from [:device_info_plus] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/device_info_plus-12.1.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-7:12
+MERGED from [:shared_preferences_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.13/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-7:12
+MERGED from [:audioplayers_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/audioplayers_android-5.2.1/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-7:12
+MERGED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-19:12
+MERGED from [:fluttertoast] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/fluttertoast-9.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-7:12
+MERGED from [:firebase_auth] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-15:12
+MERGED from [:firebase_core] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-15:12
+MERGED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:17:1-75:12
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/5626cc8995b91a3fffe0275599490f75/transformed/jetified-firebase-common-ktx-20.4.3/AndroidManifest.xml:2:1-18:12
+MERGED from [:path_provider_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/path_provider_android-2.2.18/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-7:12
+MERGED from [:url_launcher_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.20/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-14:12
+MERGED from [androidx.preference:preference:1.2.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/baa7c7cb62ae4e3496003a5594525a68/transformed/preference-1.2.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/f46a4815dc5297977e6e328ac2c7cbc4/transformed/jetified-appcompat-resources-1.7.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.appcompat:appcompat:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/6336f778516f94d350b738b0fbe99627/transformed/appcompat-1.7.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.browser:browser:1.8.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/ac67fa2e7cda0cfa893747ea291b3432/transformed/browser-1.8.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5c83458cffb0d634a6e4ac8e6b6034ab/transformed/recyclerview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2434005029018f167ca81a87c74aa5c7/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/8fd3c712e859d30f586f92e566e700fe/transformed/slidingpanelayout-1.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:17:1-31:12
+MERGED from [androidx.window:window-java:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/691cd829e4b48d038a7115ab4f84dc4d/transformed/jetified-window-java-1.2.0/AndroidManifest.xml:17:1-21:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/3b72b682c07f1c9562dcfdea30ce7f26/transformed/drawerlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/00a48b069866a8305bf678c740c0eefe/transformed/jetified-emoji2-views-helper-1.3.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.fragment:fragment-ktx:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/22783ba6fdef14abe312af1a9bc733f0/transformed/jetified-fragment-ktx-1.7.1/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/c40d354b3ad3b463e087d1bd67206afe/transformed/jetified-firebase-auth-interop-20.0.0/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:15:1-41:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6c3672f0233bb141cc85ba67521f19b9/transformed/jetified-play-services-auth-api-phone-17.4.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/09614de0abc236572a6854331c87c9df/transformed/jetified-recaptcha-18.4.0/AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.play:integrity:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6ee0c5d5052e2adaaa7bfed2de6a6c5a/transformed/jetified-integrity-1.2.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/d7d59d6d0d265e33e2feb483e8a57d68/transformed/jetified-firebase-appcheck-interop-17.0.0/AndroidManifest.xml:15:1-25:12
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/59178a1917bab798e82e9b1c44c32a68/transformed/jetified-datastore-preferences-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-core-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/429531b3980ad3b5633e07b25fd6bfbb/transformed/jetified-datastore-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/3ba77e2feb9d4b2dd8316c0d831cfbcf/transformed/jetified-datastore-preferences-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/31dddd2deae0af6349fb7eac4687b56b/transformed/jetified-datastore-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/472a68461078d561a66bb8721eb2e9f6/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/b9b566b13eab6430099405403cc4cb94/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity-ktx:1.8.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/466fb32800540123598cacff0a240602/transformed/jetified-activity-ktx-1.8.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity:1.8.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/de27f0dafef1de092ca8875d35d420ec/transformed/jetified-activity-1.8.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/ac40bd1174a3d39fe48f04fa122b6f18/transformed/jetified-lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e08dc6a2af242680a025d5d63dd6b6ee/transformed/jetified-lifecycle-livedata-core-ktx-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e2005170bb078f0d7b021cf99fa3c879/transformed/jetified-lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/d46e491afe5acdcffe8cb8aa90f0eb55/transformed/jetified-lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2658bdfab706c68a1d27c38f538fc436/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/b28c494ce8ebdf7215e59474efd1e547/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e8c72135044a5dc7e3289f302a171807/transformed/lifecycle-livedata-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/7bfde0404f7a344a829071f9c3ae852d/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/341dcb007051ccff61bd214b7481144f/transformed/jetified-play-services-tasks-18.1.0/AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5430efb66609aca7105ec8cf4782d4bb/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.fragment:fragment:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/310af832b1b1561c68578ae64d40991c/transformed/fragment-1.7.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core-ktx:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/142070def8f50e606e83aa1cbacb76a4/transformed/jetified-core-ktx-1.13.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/fc5ddb0d930bf8ed0c863ac7737ed537/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/59a075ee03959607e581735217de146c/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/78a473a85b602f84a96b9e833e2d9f5e/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/077ffe49ea98a9adee0c1cd3ad9d4ab9/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5ee5af18898462e4911c837a74975627/transformed/customview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.4.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/02be01fdf69cb6fc4674f12f1a82e025/transformed/transition-1.4.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/12d4a498459fea7d16f8e51dcc6a413f/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/0c649d9b2bb184b335f0686402844f37/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/cf2c20435aee9308e52401c84c925dd0/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e0b2ce753d1976acc60fae8f46094f82/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/5967062964400ae95726e86f77deeb52/transformed/jetified-savedstate-ktx-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/12992326e216352ba0d5b220f11fe3d1/transformed/jetified-savedstate-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/82e9441a307af2edb72cf69f3a4bb5b8/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/406005feb42e1b7fd461552734a2ff12/transformed/jetified-tracing-1.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/52b136cd74a8cb9c0666c2d74c055383/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/eb1637207416c70afabd64b173252a8c/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/8c7f9335a8ead79717504fa083a76153/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a61642865a38173c74b68d5ee459d1c8/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5b833707ab7104b87bbfa0c953db7c89/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.firebase:firebase-components:17.1.5] /Users/nikhilmacbook/.gradle/caches/transforms-4/454a607e3f4a08ee88bda2916486de9c/transformed/jetified-firebase-components-17.1.5/AndroidManifest.xml:15:1-20:12
+MERGED from [androidx.window.extensions.core:core:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6a993a043f762dfb8811136921df914d/transformed/jetified-core-1.0.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5e11c60af3903c3e9fa0deeadcfe1956/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/b08419ccf129b3fef3fa58536708ba52/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/30780ffed194e5bc6d440dfd27923835/transformed/jetified-annotation-experimental-1.4.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.getkeepsafe.relinker:relinker:1.4.5] /Users/nikhilmacbook/.gradle/caches/transforms-4/f2f1bdd232a5695f645e298eaaa3df3d/transformed/jetified-relinker-1.4.5/AndroidManifest.xml:2:1-7:12
+	package
+		INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml
+	xmlns:tools
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:1:11-57
+	android:versionCode
+		INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:2:5-63
+queries
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:40:5-45:15
+intent#action:name:android.intent.action.PROCESS_TEXT+data:mimeType:text/plain
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:41:9-44:18
+action#android.intent.action.PROCESS_TEXT
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:42:13-72
+	android:name
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:42:21-70
+data
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:43:13-50
+	android:mimeType
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:43:19-48
+activity#com.example.mathsgames.MainActivity
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:7:9-28:20
+	android:launchMode
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:10:13-43
+	android:hardwareAccelerated
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:13:13-47
+	android:windowSoftInputMode
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:14:13-55
+	android:exported
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:9:13-36
+	android:configChanges
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:12:13-163
+	tools:targetApi
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:15:13-40
+	android:theme
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:11:13-47
+	android:name
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:8:13-63
+meta-data#io.flutter.embedding.android.NormalTheme
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:20:13-23:17
+	android:resource
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:22:15-52
+	android:name
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:21:15-70
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:24:13-27:29
+action#android.intent.action.MAIN
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:25:17-68
+	android:name
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:25:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:26:17-76
+	android:name
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:26:27-74
+meta-data#flutterEmbedding
+ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:31:9-33:33
+	android:value
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:33:13-30
+	android:name
+		ADDED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml:32:13-44
+uses-sdk
+INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml
+MERGED from [:device_info_plus] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/device_info_plus-12.1.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:device_info_plus] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/device_info_plus-12.1.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.13/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.13/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:audioplayers_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/audioplayers_android-5.2.1/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:audioplayers_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/audioplayers_android-5.2.1/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:fluttertoast] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/fluttertoast-9.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:fluttertoast] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/fluttertoast-9.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:21:5-23:64
+MERGED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:21:5-23:64
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/5626cc8995b91a3fffe0275599490f75/transformed/jetified-firebase-common-ktx-20.4.3/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/5626cc8995b91a3fffe0275599490f75/transformed/jetified-firebase-common-ktx-20.4.3/AndroidManifest.xml:5:5-44
+MERGED from [:path_provider_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/path_provider_android-2.2.18/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:path_provider_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/path_provider_android-2.2.18/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.20/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.20/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.preference:preference:1.2.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/baa7c7cb62ae4e3496003a5594525a68/transformed/preference-1.2.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.preference:preference:1.2.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/baa7c7cb62ae4e3496003a5594525a68/transformed/preference-1.2.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/f46a4815dc5297977e6e328ac2c7cbc4/transformed/jetified-appcompat-resources-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/f46a4815dc5297977e6e328ac2c7cbc4/transformed/jetified-appcompat-resources-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/6336f778516f94d350b738b0fbe99627/transformed/appcompat-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/6336f778516f94d350b738b0fbe99627/transformed/appcompat-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.browser:browser:1.8.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/ac67fa2e7cda0cfa893747ea291b3432/transformed/browser-1.8.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.browser:browser:1.8.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/ac67fa2e7cda0cfa893747ea291b3432/transformed/browser-1.8.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5c83458cffb0d634a6e4ac8e6b6034ab/transformed/recyclerview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5c83458cffb0d634a6e4ac8e6b6034ab/transformed/recyclerview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2434005029018f167ca81a87c74aa5c7/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2434005029018f167ca81a87c74aa5c7/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/8fd3c712e859d30f586f92e566e700fe/transformed/slidingpanelayout-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/8fd3c712e859d30f586f92e566e700fe/transformed/slidingpanelayout-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.window:window-java:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/691cd829e4b48d038a7115ab4f84dc4d/transformed/jetified-window-java-1.2.0/AndroidManifest.xml:19:5-44
+MERGED from [androidx.window:window-java:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/691cd829e4b48d038a7115ab4f84dc4d/transformed/jetified-window-java-1.2.0/AndroidManifest.xml:19:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/3b72b682c07f1c9562dcfdea30ce7f26/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/3b72b682c07f1c9562dcfdea30ce7f26/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/00a48b069866a8305bf678c740c0eefe/transformed/jetified-emoji2-views-helper-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/00a48b069866a8305bf678c740c0eefe/transformed/jetified-emoji2-views-helper-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.fragment:fragment-ktx:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/22783ba6fdef14abe312af1a9bc733f0/transformed/jetified-fragment-ktx-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.fragment:fragment-ktx:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/22783ba6fdef14abe312af1a9bc733f0/transformed/jetified-fragment-ktx-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/c40d354b3ad3b463e087d1bd67206afe/transformed/jetified-firebase-auth-interop-20.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/c40d354b3ad3b463e087d1bd67206afe/transformed/jetified-firebase-auth-interop-20.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:19:5-44
+MERGED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:19:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6c3672f0233bb141cc85ba67521f19b9/transformed/jetified-play-services-auth-api-phone-17.4.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6c3672f0233bb141cc85ba67521f19b9/transformed/jetified-play-services-auth-api-phone-17.4.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/09614de0abc236572a6854331c87c9df/transformed/jetified-recaptcha-18.4.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/09614de0abc236572a6854331c87c9df/transformed/jetified-recaptcha-18.4.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.play:integrity:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6ee0c5d5052e2adaaa7bfed2de6a6c5a/transformed/jetified-integrity-1.2.0/AndroidManifest.xml:4:5-44
+MERGED from [com.google.android.play:integrity:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6ee0c5d5052e2adaaa7bfed2de6a6c5a/transformed/jetified-integrity-1.2.0/AndroidManifest.xml:4:5-44
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/d7d59d6d0d265e33e2feb483e8a57d68/transformed/jetified-firebase-appcheck-interop-17.0.0/AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/d7d59d6d0d265e33e2feb483e8a57d68/transformed/jetified-firebase-appcheck-interop-17.0.0/AndroidManifest.xml:18:5-20:41
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/59178a1917bab798e82e9b1c44c32a68/transformed/jetified-datastore-preferences-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/59178a1917bab798e82e9b1c44c32a68/transformed/jetified-datastore-preferences-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/429531b3980ad3b5633e07b25fd6bfbb/transformed/jetified-datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/429531b3980ad3b5633e07b25fd6bfbb/transformed/jetified-datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/3ba77e2feb9d4b2dd8316c0d831cfbcf/transformed/jetified-datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/3ba77e2feb9d4b2dd8316c0d831cfbcf/transformed/jetified-datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/31dddd2deae0af6349fb7eac4687b56b/transformed/jetified-datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.7] /Users/nikhilmacbook/.gradle/caches/transforms-4/31dddd2deae0af6349fb7eac4687b56b/transformed/jetified-datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/472a68461078d561a66bb8721eb2e9f6/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/472a68461078d561a66bb8721eb2e9f6/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/b9b566b13eab6430099405403cc4cb94/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/b9b566b13eab6430099405403cc4cb94/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-ktx:1.8.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/466fb32800540123598cacff0a240602/transformed/jetified-activity-ktx-1.8.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.8.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/466fb32800540123598cacff0a240602/transformed/jetified-activity-ktx-1.8.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity:1.8.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/de27f0dafef1de092ca8875d35d420ec/transformed/jetified-activity-1.8.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.8.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/de27f0dafef1de092ca8875d35d420ec/transformed/jetified-activity-1.8.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/ac40bd1174a3d39fe48f04fa122b6f18/transformed/jetified-lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/ac40bd1174a3d39fe48f04fa122b6f18/transformed/jetified-lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e08dc6a2af242680a025d5d63dd6b6ee/transformed/jetified-lifecycle-livedata-core-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e08dc6a2af242680a025d5d63dd6b6ee/transformed/jetified-lifecycle-livedata-core-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e2005170bb078f0d7b021cf99fa3c879/transformed/jetified-lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e2005170bb078f0d7b021cf99fa3c879/transformed/jetified-lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/d46e491afe5acdcffe8cb8aa90f0eb55/transformed/jetified-lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/d46e491afe5acdcffe8cb8aa90f0eb55/transformed/jetified-lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2658bdfab706c68a1d27c38f538fc436/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2658bdfab706c68a1d27c38f538fc436/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/b28c494ce8ebdf7215e59474efd1e547/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/b28c494ce8ebdf7215e59474efd1e547/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e8c72135044a5dc7e3289f302a171807/transformed/lifecycle-livedata-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e8c72135044a5dc7e3289f302a171807/transformed/lifecycle-livedata-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/7bfde0404f7a344a829071f9c3ae852d/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/7bfde0404f7a344a829071f9c3ae852d/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/341dcb007051ccff61bd214b7481144f/transformed/jetified-play-services-tasks-18.1.0/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/341dcb007051ccff61bd214b7481144f/transformed/jetified-play-services-tasks-18.1.0/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5430efb66609aca7105ec8cf4782d4bb/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5430efb66609aca7105ec8cf4782d4bb/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:18:5-43
+MERGED from [androidx.fragment:fragment:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/310af832b1b1561c68578ae64d40991c/transformed/fragment-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.fragment:fragment:1.7.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/310af832b1b1561c68578ae64d40991c/transformed/fragment-1.7.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/142070def8f50e606e83aa1cbacb76a4/transformed/jetified-core-ktx-1.13.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/142070def8f50e606e83aa1cbacb76a4/transformed/jetified-core-ktx-1.13.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/fc5ddb0d930bf8ed0c863ac7737ed537/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/fc5ddb0d930bf8ed0c863ac7737ed537/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/59a075ee03959607e581735217de146c/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/59a075ee03959607e581735217de146c/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/78a473a85b602f84a96b9e833e2d9f5e/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/78a473a85b602f84a96b9e833e2d9f5e/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/077ffe49ea98a9adee0c1cd3ad9d4ab9/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/077ffe49ea98a9adee0c1cd3ad9d4ab9/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5ee5af18898462e4911c837a74975627/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5ee5af18898462e4911c837a74975627/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.4.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/02be01fdf69cb6fc4674f12f1a82e025/transformed/transition-1.4.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.4.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/02be01fdf69cb6fc4674f12f1a82e025/transformed/transition-1.4.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/12d4a498459fea7d16f8e51dcc6a413f/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/12d4a498459fea7d16f8e51dcc6a413f/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/0c649d9b2bb184b335f0686402844f37/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/0c649d9b2bb184b335f0686402844f37/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/cf2c20435aee9308e52401c84c925dd0/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/cf2c20435aee9308e52401c84c925dd0/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e0b2ce753d1976acc60fae8f46094f82/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e0b2ce753d1976acc60fae8f46094f82/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/5967062964400ae95726e86f77deeb52/transformed/jetified-savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/5967062964400ae95726e86f77deeb52/transformed/jetified-savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/12992326e216352ba0d5b220f11fe3d1/transformed/jetified-savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/12992326e216352ba0d5b220f11fe3d1/transformed/jetified-savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/82e9441a307af2edb72cf69f3a4bb5b8/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/82e9441a307af2edb72cf69f3a4bb5b8/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/406005feb42e1b7fd461552734a2ff12/transformed/jetified-tracing-1.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.tracing:tracing:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/406005feb42e1b7fd461552734a2ff12/transformed/jetified-tracing-1.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/52b136cd74a8cb9c0666c2d74c055383/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/52b136cd74a8cb9c0666c2d74c055383/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/eb1637207416c70afabd64b173252a8c/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/eb1637207416c70afabd64b173252a8c/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/8c7f9335a8ead79717504fa083a76153/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/8c7f9335a8ead79717504fa083a76153/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a61642865a38173c74b68d5ee459d1c8/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a61642865a38173c74b68d5ee459d1c8/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5b833707ab7104b87bbfa0c953db7c89/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5b833707ab7104b87bbfa0c953db7c89/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-components:17.1.5] /Users/nikhilmacbook/.gradle/caches/transforms-4/454a607e3f4a08ee88bda2916486de9c/transformed/jetified-firebase-components-17.1.5/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-components:17.1.5] /Users/nikhilmacbook/.gradle/caches/transforms-4/454a607e3f4a08ee88bda2916486de9c/transformed/jetified-firebase-components-17.1.5/AndroidManifest.xml:18:5-44
+MERGED from [androidx.window.extensions.core:core:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6a993a043f762dfb8811136921df914d/transformed/jetified-core-1.0.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.window.extensions.core:core:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/6a993a043f762dfb8811136921df914d/transformed/jetified-core-1.0.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5e11c60af3903c3e9fa0deeadcfe1956/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5e11c60af3903c3e9fa0deeadcfe1956/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/b08419ccf129b3fef3fa58536708ba52/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/b08419ccf129b3fef3fa58536708ba52/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/30780ffed194e5bc6d440dfd27923835/transformed/jetified-annotation-experimental-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/30780ffed194e5bc6d440dfd27923835/transformed/jetified-annotation-experimental-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [com.getkeepsafe.relinker:relinker:1.4.5] /Users/nikhilmacbook/.gradle/caches/transforms-4/f2f1bdd232a5695f645e298eaaa3df3d/transformed/jetified-relinker-1.4.5/AndroidManifest.xml:5:5-43
+MERGED from [com.getkeepsafe.relinker:relinker:1.4.5] /Users/nikhilmacbook/.gradle/caches/transforms-4/f2f1bdd232a5695f645e298eaaa3df3d/transformed/jetified-relinker-1.4.5/AndroidManifest.xml:5:5-43
+	tools:overrideLibrary
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:23:9-61
+	android:targetSdkVersion
+		INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/src/main/AndroidManifest.xml
+provider#com.sidlatau.flutteremailsender.FlutterEmailSenderFileProvider
+ADDED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:8:9-16:20
+	android:grantUriPermissions
+		ADDED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:12:13-47
+	android:authorities
+		ADDED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:10:13-65
+	android:exported
+		ADDED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:11:13-37
+	android:name
+		ADDED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:9:13-90
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:13:13-15:61
+	android:resource
+		ADDED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:15:17-58
+	android:name
+		ADDED from [:flutter_email_sender] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/flutter_email_sender-8.0.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:14:17-67
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [:firebase_auth] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_core] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_core] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:8:9-12:19
+MERGED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:66:9-72:19
+MERGED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:66:9-72:19
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/5626cc8995b91a3fffe0275599490f75/transformed/jetified-firebase-common-ktx-20.4.3/AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/5626cc8995b91a3fffe0275599490f75/transformed/jetified-firebase-common-ktx-20.4.3/AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:30:9-38:19
+MERGED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:30:9-38:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:68:13-37
+	tools:targetApi
+		ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:34:13-32
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:32:13-43
+	android:name
+		ADDED from [:firebase_auth] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:8:18-89
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar
+ADDED from [:firebase_auth] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:9:13-11:85
+	android:value
+		ADDED from [:firebase_auth] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:11:17-82
+	android:name
+		ADDED from [:firebase_auth] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:10:17-124
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
+ADDED from [:firebase_core] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:9:13-11:85
+	android:value
+		ADDED from [:firebase_core] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:11:17-82
+	android:name
+		ADDED from [:firebase_core] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:10:17-124
+uses-permission#android.permission.INTERNET
+ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:25:5-67
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/09614de0abc236572a6854331c87c9df/transformed/jetified-recaptcha-18.4.0/AndroidManifest.xml:7:5-67
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/09614de0abc236572a6854331c87c9df/transformed/jetified-recaptcha-18.4.0/AndroidManifest.xml:7:5-67
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:25:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:26:5-79
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/09614de0abc236572a6854331c87c9df/transformed/jetified-recaptcha-18.4.0/AndroidManifest.xml:8:5-79
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/09614de0abc236572a6854331c87c9df/transformed/jetified-recaptcha-18.4.0/AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:26:22-76
+activity#com.google.firebase.auth.internal.GenericIdpActivity
+ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:29:9-46:20
+	android:excludeFromRecents
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:31:13-46
+	android:launchMode
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:33:13-44
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:32:13-36
+	android:theme
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:34:13-72
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:30:13-80
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:firebase.auth+data:path:/+data:scheme:genericidp
+ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:35:13-45:29
+action#android.intent.action.VIEW
+ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:36:17-69
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:36:25-66
+category#android.intent.category.DEFAULT
+ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:38:17-76
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:38:27-73
+category#android.intent.category.BROWSABLE
+ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:39:17-78
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:39:27-75
+activity#com.google.firebase.auth.internal.RecaptchaActivity
+ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:47:9-64:20
+	android:excludeFromRecents
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:49:13-46
+	android:launchMode
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:51:13-44
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:50:13-36
+	android:theme
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:52:13-72
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:48:13-79
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:firebase.auth+data:path:/+data:scheme:recaptcha
+ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:53:13-63:29
+meta-data#com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar
+ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:69:13-71:85
+	android:value
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:71:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:22.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/55b80a17dac1bec9e2c3a130f8ff24eb/transformed/jetified-firebase-auth-22.3.1/AndroidManifest.xml:70:17-109
+meta-data#com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar
+ADDED from [com.google.firebase:firebase-common-ktx:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/5626cc8995b91a3fffe0275599490f75/transformed/jetified-firebase-common-ktx-20.4.3/AndroidManifest.xml:12:13-14:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common-ktx:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/5626cc8995b91a3fffe0275599490f75/transformed/jetified-firebase-common-ktx-20.4.3/AndroidManifest.xml:14:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common-ktx:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/5626cc8995b91a3fffe0275599490f75/transformed/jetified-firebase-common-ktx-20.4.3/AndroidManifest.xml:13:17-116
+activity#io.flutter.plugins.urllauncher.WebViewActivity
+ADDED from [:url_launcher_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.20/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:8:9-11:74
+	android:exported
+		ADDED from [:url_launcher_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.20/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:10:13-37
+	android:theme
+		ADDED from [:url_launcher_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.20/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:11:13-71
+	android:name
+		ADDED from [:url_launcher_android] /Users/nikhilmacbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.20/android/build/intermediates/merged_manifest/release/AndroidManifest.xml:9:13-74
+uses-library#androidx.window.extensions
+ADDED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:23:9-25:40
+	android:required
+		ADDED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:25:13-37
+	android:name
+		ADDED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:24:13-54
+uses-library#androidx.window.sidecar
+ADDED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:26:9-28:40
+	android:required
+		ADDED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:28:13-37
+	android:name
+		ADDED from [androidx.window:window:1.2.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/a98767af3186a0b820503407f023eaa2/transformed/jetified-window-1.2.0/AndroidManifest.xml:27:13-51
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e0b2ce753d1976acc60fae8f46094f82/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e0b2ce753d1976acc60fae8f46094f82/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/82e9441a307af2edb72cf69f3a4bb5b8/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/82e9441a307af2edb72cf69f3a4bb5b8/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/2c7232ca3d21b977445ef068350ad189/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:30:17-75
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:23:9-28:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:25:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:27:13-37
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:26:13-43
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:28:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:24:13-77
+meta-data#com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar
+ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:35:13-37:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:37:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common:20.4.3] /Users/nikhilmacbook/.gradle/caches/transforms-4/a2eb466a5232b4860644f032bb6edeb1/transformed/jetified-firebase-common-20.4.3/AndroidManifest.xml:36:17-109
+uses-permission#com.google.android.providers.gsf.permission.READ_GSERVICES
+ADDED from [com.google.android.recaptcha:recaptcha:18.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/09614de0abc236572a6854331c87c9df/transformed/jetified-recaptcha-18.4.0/AndroidManifest.xml:9:5-98
+	android:name
+		ADDED from [com.google.android.recaptcha:recaptcha:18.4.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/09614de0abc236572a6854331c87c9df/transformed/jetified-recaptcha-18.4.0/AndroidManifest.xml:9:22-95
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.0.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/7bfde0404f7a344a829071f9c3ae852d/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/7bfde0404f7a344a829071f9c3ae852d/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/7bfde0404f7a344a829071f9c3ae852d/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/7bfde0404f7a344a829071f9c3ae852d/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5430efb66609aca7105ec8cf4782d4bb/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5430efb66609aca7105ec8cf4782d4bb/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.3.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/5430efb66609aca7105ec8cf4782d4bb/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:22:13-58
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+permission#com.example.mathsgames.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+uses-permission#com.example.mathsgames.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/13400c184a049cb2eda2cb125303ece4/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e0b2ce753d1976acc60fae8f46094f82/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e0b2ce753d1976acc60fae8f46094f82/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/nikhilmacbook/.gradle/caches/transforms-4/e0b2ce753d1976acc60fae8f46094f82/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/nikhilmacbook/.gradle/caches/transforms-4/fd6519ee53dfa64e22e125593e3986e3/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:25-92

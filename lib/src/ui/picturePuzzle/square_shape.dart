@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SquareShape extends CustomPainter {
@@ -9,22 +8,24 @@ class SquareShape extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint();
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = color
+      ..strokeWidth = stroke
+      ..strokeJoin = StrokeJoin.round;
 
-    paint.style = PaintingStyle.stroke;
-    paint.color = color;
-    paint.strokeWidth = stroke;
-    paint.strokeJoin = StrokeJoin.round;
+    final path = Path()
+      ..moveTo(0, 0) // start at top-left
+      ..lineTo(size.width, 0) // top-right
+      ..lineTo(size.width, size.height) // bottom-right
+      ..lineTo(0, size.height) // bottom-left
+      ..close();
 
-    var path = Path();
-    path.lineTo(0, size.height);
-    path.lineTo(size.width, size.height);
-    path.lineTo(size.width, 0);
-    path.lineTo(0, 0);
-    path.close();
     canvas.drawPath(path, paint);
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant SquareShape oldDelegate) {
+    return oldDelegate.color != color || oldDelegate.stroke != stroke;
+  }
 }

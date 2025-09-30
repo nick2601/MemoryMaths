@@ -1,23 +1,34 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CircleShape extends CustomPainter {
   final Color color;
-  final double stroke;
+  final double strokeWidth;
 
-  CircleShape(this.color, this.stroke);
+  const CircleShape({
+    required this.color,
+    this.strokeWidth = 2.0,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
+    final radius = size.shortestSide / 2; // ensures circle fits in both directions
+
+    final paint = Paint()
       ..style = PaintingStyle.stroke
       ..color = color
-      ..strokeWidth = stroke;
+      ..strokeWidth = strokeWidth
+      ..isAntiAlias = true;
 
     canvas.drawCircle(
-        Offset(size.width / 2, size.height / 2), size.width / 2, paint);
+      Offset(size.width / 2, size.height / 2), // center
+      radius - strokeWidth / 2, // ensures stroke stays inside
+      paint,
+    );
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CircleShape oldDelegate) {
+    return oldDelegate.color != color ||
+        oldDelegate.strokeWidth != strokeWidth;
+  }
 }

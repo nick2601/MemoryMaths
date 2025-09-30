@@ -9,78 +9,76 @@ class NumericMemoryButton extends StatelessWidget {
   final Tuple2<Color, Color> colorTuple;
   final double height;
   final bool isContinue;
-  final Function function;
+  final VoidCallback onTap; // safer than raw Function
 
-  NumericMemoryButton({
+  const NumericMemoryButton({
+    Key? key,
     required this.mathPairs,
     required this.index,
     required this.height,
     required this.isContinue,
     required this.colorTuple,
-    required this.function,
-  });
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double radius = getPercentSize(height, 35);
 
-    Color borderColor = Theme.of(context).textTheme.titleSmall!.color!;
-    Color color = mathPairs.list[index].isCheck != null
-        ? mathPairs.list[index].isCheck!
-            ? Colors.green
-            : Colors.red
+    final borderColor = Theme.of(context).textTheme.titleSmall!.color!;
+    final checkState = mathPairs.options[index].isCheck;
+
+    // Decide color based on state
+    final color = checkState != null
+        ? (checkState ? Colors.green : Colors.red)
         : Colors.transparent;
+
     return InkWell(
       onTap: () {
-        print("isContinue123===$isContinue");
         if (isContinue) {
-          function();
+          onTap();
         }
       },
       child: Container(
-        decoration: mathPairs.list[index].isCheck == null
+        decoration: checkState == null
             ? !isContinue
-                ? getDefaultDecorationWithBorder(
-                    borderColor: borderColor, radius: radius)
-                : getDefaultDecorationWithGradient(
-                    radius: radius,
-                    borderColor: borderColor,
-                    colors: LinearGradient(
-                      colors: [
-                        colorTuple.item1,
-                        colorTuple.item1,
-                        // lighten(colorTuple.item1, 0.05),
-                        // darken(colorTuple.item1, 0.05)
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ))
+            ? getDefaultDecorationWithBorder(
+          borderColor: borderColor,
+          radius: radius,
+        )
             : getDefaultDecorationWithGradient(
-                radius: radius,
-                borderColor: borderColor,
-                colors: LinearGradient(
-                  colors: [
-                    // colorTuple.item1,
-                    // colorTuple.item1,
-                    color, color
-                    // lighten(color, 0.05),
-                    // darken(color, 0.05)
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                )),
+          radius: radius,
+          borderColor: borderColor,
+          colors: LinearGradient(
+            colors: [
+              colorTuple.item1,
+              colorTuple.item1,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        )
+            : getDefaultDecorationWithGradient(
+          radius: radius,
+          borderColor: borderColor,
+          colors: LinearGradient(
+            colors: [color, color],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         alignment: Alignment.center,
         child: getTextWidget(
-            Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: mathPairs.list[index].isCheck == null
-                    ? !isContinue
-                        ? null
-                        : Colors.transparent
-                    : Colors.white,
-                fontWeight: FontWeight.bold),
-            mathPairs.list[index].key!,
-            TextAlign.center,
-            getPercentSize(height, 20)),
+          Theme.of(context).textTheme.titleMedium!.copyWith(
+            color: checkState == null
+                ? (!isContinue ? null : Colors.transparent)
+                : Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+          mathPairs.options[index].key!,
+          TextAlign.center,
+          getPercentSize(height, 20),
+        ),
       ),
     );
   }

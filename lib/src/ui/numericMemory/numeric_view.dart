@@ -1,22 +1,18 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/data/models/numeric_memory_pair.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/numericMemory/numeric_button.dart';
-import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-import 'package:vsync_provider/vsync_provider.dart';
-
 import '../../utility/Constants.dart';
 import '../common/common_main_widget.dart';
 import 'numeric_provider.dart';
 
-class NumericMemoryView extends StatelessWidget {
+class NumericMemoryView extends ConsumerStatefulWidget {
   final Tuple2<GradientModel, int> colorTuple;
 
   const NumericMemoryView({
@@ -25,278 +21,160 @@ class NumericMemoryView extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    bool isFirstTime = true;
+  ConsumerState<NumericMemoryView> createState() =>
+      _NumericMemoryViewState();
+}
 
-    bool isContinue = false;
-    double remainHeight = getRemainHeight(context: context);
-    int _crossAxisCount = 3;
-    double height1 = getScreenPercentSize(context, 57);
-    double height = getPercentSize(remainHeight, 70) / 5;
+class _NumericMemoryViewState extends ConsumerState<NumericMemoryView> {
+  bool isContinue = false;
 
-    double _crossAxisSpacing = getPercentSize(height, 14);
-    var widthItem = (getWidthPercentSize(context, 100) -
-            ((_crossAxisCount - 1) * _crossAxisSpacing)) /
-        _crossAxisCount;
-
-    double _aspectRatio = widthItem / height;
-
-    double mainHeight = getMainHeight(context);
-
-    return StatefulBuilder(builder: (context, snapshot) {
-      if (isFirstTime) {
-        Future.delayed(
-          Duration(seconds: 2),
-          () {
-            snapshot(() {
-              isContinue = true;
-              isFirstTime = false;
-            });
-          },
-        );
+  @override
+  void initState() {
+    super.initState();
+    // Initial delay before enabling taps
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() => isContinue = true);
       }
-      print("hello===true");
-      return MultiProvider(
-        providers: [
-          const VsyncProvider(),
-          ChangeNotifierProvider<NumericMemoryProvider>(
-              create: (context) => NumericMemoryProvider(
-                  vsync: VsyncProvider.of(context),
-                  level: colorTuple.item2,
-                  isTimer: false,
-                  nextQuiz: () {
-                    snapshot(() {
-                      isContinue = false;
-                    });
-                    print("isContinue====$isContinue");
-                    Future.delayed(
-                      Duration(seconds: 2),
-                      () {
-                        snapshot(() {
-                          isContinue = true;
-                        });
-                      },
-                    );
+    });
+  }
 
-                    // print("isContinue====$isContinue");
-                    // snapshot((){
-                    //   isContinue = false;
-                    // });
-                  },
-                  context: context))
-        ],
-        child: DialogListener<NumericMemoryProvider>(
-          colorTuple: colorTuple,
+  void _lockAndUnlock() {
+    setState(() => isContinue = false);
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) setState(() => isContinue = true);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final remainHeight = getRemainHeight(context: context);
+    const crossAxisCount = 3;
+    final height1 = getScreenPercentSize(context, 57);
+    final height = getPercentSize(remainHeight, 70) / 5;
+    final crossAxisSpacing = getPercentSize(height, 14);
+    final widthItem = (getWidthPercentSize(context, 100) -
+        ((crossAxisCount - 1) * crossAxisSpacing)) /
+        crossAxisCount;
+    final aspectRatio = widthItem / height;
+    final mainHeight = getMainHeight(context);
+
+    final level = widget.colorTuple.item2;
+    final provider = numericMemoryProvider(level);
+
+    final state = ref.watch(provider);
+    final notifier = ref.read(provider.notifier);
+
+    // Add null safety check
+    if (state.currentState == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    return DialogListener(
+      colorTuple: widget.colorTuple,
+      gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
+      level: level,
+      nextQuiz: _lockAndUnlock,
+      appBar: CommonAppBar(
+        infoView: CommonInfoTextView(
           gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
-          level: colorTuple.item2,
-          nextQuiz: () {
-            print("isNewData===true");
-            // snapshot(() {
-            //   isContinue = false;
-            // });
-            // Future.delayed(
-            //   Duration(seconds: 2),
-            //       () {
-            //     snapshot(() {
-            //       isContinue = true;
-            //     });
-            //   },
-            // );
-          },
-
-          appBar: CommonAppBar<NumericMemoryProvider>(
-              hint: false,
-              infoView: CommonInfoTextView<NumericMemoryProvider>(
-                  gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
-                  folder: colorTuple.item1.folderName!,
-                  color: colorTuple.item1.cellColor!),
-              gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
-              colorTuple: colorTuple,
-              context: context,
-              isTimer: false),
-
-          child: CommonMainWidget<NumericMemoryProvider>(
-            gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
-            color: colorTuple.item1.bgColor!,
-            isTimer: false,
-            primaryColor: colorTuple.item1.primaryColor!,
-            subChild: StatefulBuilder(
-              builder: (context, setState) {
-                return Container(
-                  margin: EdgeInsets.only(top: getPercentSize(mainHeight, 55)),
-                  child: Container(
-                    child: Stack(
-                      children: [
-                        Column(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                // color: Colors.red,
-                                margin: EdgeInsets.only(
-                                    bottom: getPercentSize(mainHeight, 10)),
-
-                                child: Selector<NumericMemoryProvider,
-                                        NumericMemoryPair>(
-                                    selector: (p0, p1) => p1.currentState,
-                                    builder: (context, currentState, child) {
-                                      return Center(
-                                        child: getTextWidget(
-                                            Theme.of(context)
-                                                .textTheme
-                                                .titleSmall!
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                            currentState.question.toString(),
-                                            TextAlign.center,
-                                            getPercentSize(remainHeight, 5)),
-                                      );
-                                    }),
-                              ),
-                            ),
-                            Container(
-                              height: height1,
-                              decoration: getCommonDecoration(context),
-                              alignment: Alignment.bottomCenter,
-                              child: Consumer<NumericMemoryProvider>(
-                                  builder: (context, provider, child) {
-                                return GridView.count(
-                                  crossAxisCount: _crossAxisCount,
-                                  childAspectRatio: _aspectRatio,
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: getHorizontalSpace(context),
-                                      vertical: getHorizontalSpace(context)),
-                                  crossAxisSpacing: _crossAxisSpacing,
-                                  mainAxisSpacing: _crossAxisSpacing,
-                                  primary: false,
-                                  children: List.generate(
-                                      provider.currentState.list.length,
-                                      (index) {
-                                    return Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal:
-                                              getHorizontalSpace(context) / 1.5,
-                                          vertical:
-                                              getHorizontalSpace(context) /
-                                                  1.5),
-                                      child: NumericMemoryButton(
-                                        height: height,
-                                        mathPairs: provider.currentState,
-                                        index: index,
-                                        function: () {
-                                          if (provider.currentState.list[index]
-                                                  .key ==
-                                              provider.currentState.answer) {
-                                            provider.currentState.list[index]
-                                                .isCheck = true;
-                                          } else {
-                                            provider.currentState.list[index]
-                                                .isCheck = false;
-                                          }
-                                          setState(() {
-                                            isContinue = false;
-                                          });
-                                          context
-                                              .read<NumericMemoryProvider>()
-                                              .checkResult(
-                                                  provider.currentState
-                                                      .list[index].key!,
-                                                  index);
-                                        },
-                                        isContinue: isContinue,
-                                        colorTuple: Tuple2(
-                                            colorTuple.item1.primaryColor!,
-                                            colorTuple.item1.backgroundColor!),
-                                      ),
-                                    );
-                                  }),
-                                );
-                              }),
-                            ),
-                          ],
-                        ),
-                      ],
+          folder: widget.colorTuple.item1.folderName!,
+          color: widget.colorTuple.item1.cellColor!,
+        ),
+        gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
+        colorTuple: widget.colorTuple,
+        isTimer: false,
+      ),
+      child: CommonMainWidget(
+        gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
+        color: widget.colorTuple.item1.bgColor!,
+        primaryColor: widget.colorTuple.item1.primaryColor!,
+        isTopMargin: false,
+        subChild: Container(
+          margin: EdgeInsets.only(top: getPercentSize(mainHeight, 55)),
+          child: Column(
+            children: [
+              // Question text
+              Expanded(
+                flex: 1,
+                child: Container(
+                  margin:
+                  EdgeInsets.only(bottom: getPercentSize(mainHeight, 10)),
+                  child: Center(
+                    child: getTextWidget(
+                      Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontWeight: FontWeight.bold),
+                      state.currentState!.question.toString(),
+                      TextAlign.center,
+                      getPercentSize(remainHeight, 5),
                     ),
                   ),
-                );
-              },
-            ),
-            context: context,
-            isTopMargin: false,
+                ),
+              ),
+              // Grid of answers
+              Container(
+                height: height1,
+                decoration: getDefaultDecoration(
+                  bgColor: widget.colorTuple.item1.gridColor,
+                  borderColor: Theme.of(context).textTheme.titleSmall!.color,
+                  radius: getCommonRadius(context),
+                ),
+                alignment: Alignment.bottomCenter,
+                child: GridView.count(
+                  crossAxisCount: crossAxisCount,
+                  childAspectRatio: aspectRatio,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: getHorizontalSpace(context),
+                    vertical: getHorizontalSpace(context),
+                  ),
+                  crossAxisSpacing: crossAxisSpacing,
+                  mainAxisSpacing: crossAxisSpacing,
+                  primary: false,
+                  children: List.generate(
+                    state.currentState!.options.length,
+                        (index) {
+                      final item = state.currentState!.options[index];
+                      return Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: getHorizontalSpace(context) / 1.5,
+                          vertical: getHorizontalSpace(context) / 1.5,
+                        ),
+                        child: NumericMemoryButton(
+                          height: height,
+                          mathPairs: state.currentState!,
+                          index: index,
+                          isContinue: isContinue,
+                          colorTuple: Tuple2(
+                            widget.colorTuple.item1.primaryColor!,
+                            widget.colorTuple.item1.backgroundColor!,
+                          ),
+                          onTap: () {
+                            // Update the state immutably using copyWith
+                            final updatedOptions = [...state.currentState!.options];
+                            if (item.key == state.currentState!.answer) {
+                              updatedOptions[index] = item.copyWith(isCheck: true);
+                            } else {
+                              updatedOptions[index] = item.copyWith(isCheck: false);
+                            }
+
+                            _lockAndUnlock();
+                            notifier.checkResult(item.key, index);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
-          // child: getCommonWidget(
-          //   context: context,
-          //   isTopMargin: false,
-          //   child: StatefulBuilder(builder: (context, setState) {
-          //     return Column(
-          //       children: <Widget>[
-          //         Expanded(
-          //           flex: 1,
-          //           child: Selector<NumericMemoryProvider, NumericMemoryPair>(
-          //               selector: (p0, p1) => p1.currentState,
-          //               builder: (context, currentAnswer, child) {
-          //                 return Center(
-          //                   child: getTextWidget(
-          //                       Theme.of(context)
-          //                           .textTheme
-          //                           .subtitle2!
-          //                           .copyWith(fontWeight: FontWeight.bold),
-          //                       currentAnswer.question.toString(),
-          //                       TextAlign.center,
-          //                       getPercentSize(remainHeight, 5)),
-          //                 );
-          //               }),
-          //         ),
-          //         Consumer<NumericMemoryProvider>(
-          //             builder: (context, provider, child) {
-          //           return GridView.count(
-          //             crossAxisCount: _crossAxisCount,
-          //             childAspectRatio: _aspectRatio,
-          //             shrinkWrap: true,
-          //             padding: EdgeInsets.symmetric(
-          //                 horizontal: getHorizontalSpace(context) / 2,
-          //                 vertical: getHorizontalSpace(context)),
-          //             crossAxisSpacing: _crossAxisSpacing,
-          //             mainAxisSpacing: _crossAxisSpacing,
-          //             primary: false,
-          //             children: List.generate(provider.currentState.list.length,
-          //                 (index) {
-          //               return NumericMemoryButton(
-          //                 height: height,
-          //                 mathPairs: provider.currentState,
-          //                 index: index,
-          //                 function: () {
-          //                   if (provider.currentState.list[index].key ==
-          //                       provider.currentState.answer) {
-          //                     provider.currentState.list[index].isCheck = true;
-          //                   } else {
-          //                     provider.currentState.list[index].isCheck = false;
-          //                   }
-          //                   setState(() {
-          //                     isContinue = false;
-          //                   });
-          //                   context.read<NumericMemoryProvider>().checkResult(
-          //                       provider.currentState.list[index].key!, index);
-          //                 },
-          //                 isContinue: isContinue,
-          //                 colorTuple: Tuple2(colorTuple.item1.primaryColor!,
-          //                     colorTuple.item1.primaryColor!),
-          //               );
-          //             }),
-          //           );
-          //         }),
-          //       ],
-          //     );
-          //   }),
-          //   subChild: CommonInfoTextView<NumericMemoryProvider>(
-          //       folder: colorTuple.item1.folderName!,
-          //       gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
-          //       color: colorTuple.item1.cellColor!),
-          // ),
         ),
-      );
-    });
+      ),
+    );
   }
 }

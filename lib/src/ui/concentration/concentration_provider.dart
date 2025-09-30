@@ -1,87 +1,124 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mathsgames/src/data/models/math_pairs.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
 
-import '../soundPlayer/audio_file.dart';
+/// Notifier to manage the Concentration (memory pair matching) game
+class ConcentrationNotifier extends StateNotifier<GameState<MathPairs>> {
+  final int level;
+  final bool isTimer;
+  final void Function()? nextQuiz;
 
-class ConcentrationProvider extends GameProvider<MathPairs> {
   int first = -1;
-  int second = -1;
-  int? level;
-  BuildContext? context;
-  bool isTimer = true;
-  Function? nextQuiz;
 
-  ConcentrationProvider(
-      {required TickerProvider vsync,
-      required int level,
-      required BuildContext context,
-      required Function nextQuiz,
-      bool? isTimer})
-      : super(
-            vsync: vsync,
-            gameCategoryType: GameCategoryType.CONCENTRATION,
-            isTimer: isTimer,
-            c: context) {
-    this.level = level;
-    this.isTimer = (isTimer == null) ? true : isTimer;
-    this.context = context;
-    this.nextQuiz = nextQuiz;
-
-    print("start===true");
-
-    startGame(level: this.level == null ? null : level, isTimer: isTimer);
+  ConcentrationNotifier({
+    required this.level,
+    this.isTimer = true,
+    this.nextQuiz,
+  }) : super(const GameState<MathPairs>()) {
+    startGame(level: level, isTimer: isTimer);
   }
 
-  Future<void> checkResult(Pair mathPair, int index) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
+  /// Starts or restarts the game
+  void startGame({required int level, bool isTimer = true}) {
+    final list = _getList(level);
+    state = state.copyWith(
+      list: list,
+      index: 0,
+      currentScore: 0,
+      rightCount: 0,
+      wrongCount: 0,
+      currentState: list.isNotEmpty ? list.first : null,
+      dialogType: DialogType.non,
+      isTimerRunning: isTimer,
+    );
+  }
 
-    // if (timerStatus != TimerStatus.pause) {
-    if (!currentState.list[index].isActive) {
-      currentState.list[index].isActive = true;
-      notifyListeners();
+  /// Generates a list of MathPairs based on the level
+  List<MathPairs> _getList(int level) {
+    // For now, generate dummy pairs
+    final pairs = List.generate(
+      level,
+          (i) => Pair(uid: i, text: 'Pair $i'),
+    );
+
+    return [MathPairs(list: pairs)];
+  }
+
+  /// Handles matching logic when user taps a card
+  Future<void> checkResult(int index) async {
+    final current = state.currentState;
+    if (current == null) return;
+
+    final updatedPairs = [...current.list];
+
+    if (!updatedPairs[index].isActive) {
+      updatedPairs[index] =
+          updatedPairs[index].copyWith(isActive: true); // flip card
+      state = state.copyWith(currentState: current.copyWith(list: updatedPairs));
+
       if (first != -1) {
-        if (currentState.list[first].uid == currentState.list[index].uid) {
-          audioPlayer.playRightSound();
+        if (updatedPairs[first].uid == updatedPairs[index].uid) {
+          // ✅ match
+          updatedPairs[first] =
+              updatedPairs[first].copyWith(isVisible: false, isActive: false);
+          updatedPairs[index] =
+              updatedPairs[index].copyWith(isVisible: false, isActive: false);
 
-          currentState.list[first].isVisible = false;
-          currentState.list[index].isVisible = false;
-          currentState.availableItem = currentState.availableItem - 2;
+          state = state.copyWith(
+            currentState: current.copyWith(list: updatedPairs),
+            currentScore: state.currentScore +
+                KeyUtil.getScoreUtil(GameCategoryType.CONCENTRATION),
+          );
+
           first = -1;
 
-          notifyListeners();
-          if (currentState.availableItem == 0) {
-            print("oldScore===$oldScore====$currentScore");
-
-            print("oldScore===$oldScore====$currentScore");
-
-            await Future.delayed(Duration(milliseconds: 300));
-            loadNewDataIfRequired(level: level == null ? 1 : level);
-            currentScore =
-                currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-
+          if (updatedPairs.every((p) => !p.isVisible)) {
+            // 🎉 All pairs matched
+            await Future.delayed(const Duration(milliseconds: 300));
+            startGame(level: level, isTimer: isTimer);
             addCoin();
-            if (nextQuiz != null) {
-              nextQuiz!();
-            }
-            notifyListeners();
+            nextQuiz?.call();
           }
         } else {
-          audioPlayer.playWrongSound();
-          currentState.list[first].isActive = false;
-          currentState.list[index].isActive = false;
+          // ❌ not a match
+          await Future.delayed(const Duration(milliseconds: 400));
+          updatedPairs[first] =
+              updatedPairs[first].copyWith(isActive: false);
+          updatedPairs[index] =
+              updatedPairs[index].copyWith(isActive: false);
+
+          state = state.copyWith(
+            currentState: current.copyWith(list: updatedPairs),
+          );
           first = -1;
-          notifyListeners();
         }
       } else {
         first = index;
       }
     } else {
+      // card already active → flip back
+      updatedPairs[index] =
+          updatedPairs[index].copyWith(isActive: false);
+      state = state.copyWith(currentState: current.copyWith(list: updatedPairs));
       first = -1;
-      currentState.list[index].isActive = false;
-      notifyListeners();
     }
   }
+
+  /// Adds coins to the player's score
+  void addCoin() {
+    state = state.copyWith(
+      currentScore: state.currentScore +
+          KeyUtil.getScoreUtil(GameCategoryType.CONCENTRATION) * 5,
+    );
+  }
 }
+
+/// Riverpod provider for Concentration game
+final concentrationProvider = StateNotifierProvider.family<
+    ConcentrationNotifier,
+    GameState<MathPairs>,
+    int>(
+      (ref, level) => ConcentrationNotifier(level: level),
+);

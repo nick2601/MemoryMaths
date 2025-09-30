@@ -62,8 +62,7 @@ class GameCategoryAdapter extends TypeAdapter<GameCategory> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$GameCategoryImpl _$$GameCategoryImplFromJson(Map<String, dynamic> json) =>
-    _$GameCategoryImpl(
+GameCategory _$GameCategoryFromJson(Map<String, dynamic> json) => GameCategory(
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       key: json['key'] as String,
@@ -75,7 +74,7 @@ _$GameCategoryImpl _$$GameCategoryImplFromJson(Map<String, dynamic> json) =>
       icon: json['icon'] as String,
     );
 
-Map<String, dynamic> _$$GameCategoryImplToJson(_$GameCategoryImpl instance) =>
+Map<String, dynamic> _$GameCategoryToJson(GameCategory instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

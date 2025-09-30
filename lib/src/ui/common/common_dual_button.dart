@@ -1,42 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/utility/Constants.dart';
+import 'package:mathsgames/src/ui/model/gradient_model.dart';
+import 'package:tuple/tuple.dart';
 
-class CommonDetail extends StatelessWidget {
-  final int right;
-  final int wrong;
-  final bool center;
+class CommonDualButton extends StatelessWidget {
+  final String text;
+  final bool is4Matrix;
+  final double totalHeight;
+  final double height;
+  final VoidCallback onTab;
+  final Tuple2<GradientModel, int> colorTuple;
 
-  const CommonDetail({
+  const CommonDualButton({
     Key? key,
-    this.right = 0,
-    this.wrong = 0,
-    this.center = false,
+    required this.text,
+    required this.is4Matrix,
+    required this.totalHeight,
+    required this.height,
+    required this.onTab,
+    required this.colorTuple,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final baseStyle = Theme.of(context).textTheme.titleSmall!.copyWith(
-      fontWeight: FontWeight.w600,
-    );
-
-    return Column(
-      crossAxisAlignment:
-      center ? CrossAxisAlignment.center : CrossAxisAlignment.start,
-      children: [
-        getTextWidget(
-          baseStyle.copyWith(color: Colors.green),
-          'Right: $right',
-          TextAlign.center,
-          getScreenPercentSize(context, 2),
+    return GestureDetector(
+      onTap: onTab,
+      child: Container(
+        margin: EdgeInsets.all(getScreenPercentSize(context, 1)),
+        height: height,
+        decoration: BoxDecoration(
+          color: colorTuple.item1.cellColor ?? Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
         ),
-        SizedBox(height: getScreenPercentSize(context, 0.7)),
-        getTextWidget(
-          baseStyle.copyWith(color: Colors.redAccent),
-          'Wrong: $wrong',
+        alignment: Alignment.center,
+        child: getTextWidget(
+          Theme.of(context).textTheme.titleMedium!,
+          text,
           TextAlign.center,
-          getScreenPercentSize(context, 2),
+          getScreenPercentSize(context, 2.5),
         ),
-      ],
+      ),
     );
   }
 }

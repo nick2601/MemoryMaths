@@ -1,368 +1,226 @@
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
+
 import 'package:mathsgames/src/core/app_assets.dart';
-import 'package:mathsgames/src/data/models/score_board.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/ui/app/coin_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../data/models/game_category.dart';
-import '../../utility/Constants.dart';
+import 'package:mathsgames/src/data/models/score_board.dart';
+import 'package:mathsgames/src/data/models/game_category.dart';
+import 'package:mathsgames/src/utility/Constants.dart';
 
-class DashboardProvider extends CoinProvider {
-  int _overallScore = 0;
-  // int _coin = 0;
-  late List<GameCategory> _list;
-  final SharedPreferences preferences;
+/// Dashboard State
+class DashboardState {
+  final int overallScore;
+  final int coins;
+  final List<GameCategory> categories;
 
-  int get overallScore => _overallScore;
-  // int get coin => _coin;
+  const DashboardState({
+    this.overallScore = 0,
+    this.coins = 0,
+    this.categories = const [],
+  });
 
-  List<GameCategory> get list => _list;
+  DashboardState copyWith({
+    int? overallScore,
+    int? coins,
+    List<GameCategory>? categories,
+  }) {
+    return DashboardState(
+      overallScore: overallScore ?? this.overallScore,
+      coins: coins ?? this.coins,
+      categories: categories ?? this.categories,
+    );
+  }
+}
 
-  DashboardProvider({required this.preferences}) {
-    _overallScore = getOverallScore();
-    getCoin();
+/// Dashboard Notifier (manages coins + scores + categories)
+class DashboardNotifier extends StateNotifier<DashboardState> {
+  final Box box;
+
+  DashboardNotifier(this.box) : super(const DashboardState()) {
+    _init();
   }
 
+  void _init() {
+    final score = box.get("overall_score", defaultValue: 0) as int;
+    final coins = box.get("coins", defaultValue: 0) as int;
+    state = state.copyWith(overallScore: score, coins: coins);
+  }
+
+  // ===========================
+  // 🚀 Coins Management
+  // ===========================
+  void addCoins(int value) {
+    final newCoins = state.coins + value;
+    box.put("coins", newCoins);
+    state = state.copyWith(coins: newCoins);
+  }
+
+  void spendCoins(int value) {
+    if (state.coins >= value) {
+      final newCoins = state.coins - value;
+      box.put("coins", newCoins);
+      state = state.copyWith(coins: newCoins);
+    }
+  }
+
+  // ===========================
+  // 🚀 Scoreboard Management
+  // ===========================
   List<GameCategory> getGameByPuzzleType(PuzzleType puzzleType) {
-    _list = <GameCategory>[];
+    final list = <GameCategory>[];
 
     switch (puzzleType) {
       case PuzzleType.MATH_PUZZLE:
         list.add(GameCategory(
-          1,
-          "Calculate For Me",
-          keyCalculator,
-          GameCategoryType.CALCULATOR,
-          KeyUtil.calculator,
-          getScoreboard(keyCalculator),
-          AppAssets.icCalculator,
+          id: 1,
+          name: "Calculate For Me",
+          key: keyCalculator,
+          gameCategoryType: GameCategoryType.CALCULATOR,
+          routePath: KeyUtil.calculator,
+          scoreboard: getScoreboard(keyCalculator),
+          icon: AppAssets.icCalculator,
         ));
         list.add(GameCategory(
-            2,
-            "Guess the Sign?",
-            keySign,
-            GameCategoryType.GUESS_SIGN,
-            KeyUtil.guessSign,
-            getScoreboard(keySign),
-            AppAssets.icGuessTheSign));
-        list.add(GameCategory(
-          3,
-          "Identify Right Nos",
-          keyCorrectAnswer,
-          GameCategoryType.CORRECT_ANSWER,
-          KeyUtil.correctAnswer,
-          getScoreboard(keyCorrectAnswer),
-          AppAssets.icCorrectAnswer,
-        ));
-        list.add(GameCategory(
-          4,
-          "Quick Calculation",
-          keyQuickCalculation,
-          GameCategoryType.QUICK_CALCULATION,
-          KeyUtil.quickCalculation,
-          getScoreboard(keyQuickCalculation),
-          AppAssets.icQuickCalculation,
-        ));
-        list.add(GameCategory(
-          5,
-          "Find Missing ",
-          keyFindMissingCalculation,
-          GameCategoryType.FIND_MISSING,
-          KeyUtil.findMissing,
-          getScoreboard(keyFindMissingCalculation),
-          AppAssets.icFindMissing,
-        ));
-
-        list.add(GameCategory(
-          6,
-          "True or False",
-          keyTrueFalseCalculation,
-          GameCategoryType.TRUE_FALSE,
-          KeyUtil.trueFalse,
-          getScoreboard(keyTrueFalseCalculation),
-          AppAssets.icTrueFalse,
-        ));
-
-        list.add(GameCategory(
-          7,
-          "Complex Work",
-          keyComplexGame,
-          GameCategoryType.COMPLEX_CALCULATION,
-          KeyUtil.complexCalculation,
-          getScoreboard(keyComplexGame),
-          AppAssets.icComplexCalculation,
-        ));
-
-        list.add(GameCategory(
-          8,
-          "2 Player Mode",
-          keyDualGame,
-          GameCategoryType.DUAL_GAME,
-          KeyUtil.dualGame,
-          getScoreboard(keyDualGame),
-          AppAssets.icDualGame,
+          id: 6,
+          name: "True or False",
+          key: keyTrueFalseCalculation,
+          gameCategoryType: GameCategoryType.TRUE_FALSE,
+          routePath: KeyUtil.trueFalse,
+          scoreboard: getScoreboard(keyTrueFalseCalculation),
+          icon: AppAssets.icTrueFalse,
         ));
         break;
+
       case PuzzleType.MEMORY_PUZZLE:
         list.add(GameCategory(
-          9,
-          "Mental arithmetic",
-          keyMentalArithmetic,
-          GameCategoryType.MENTAL_ARITHMETIC,
-          KeyUtil.mentalArithmetic,
-          getScoreboard(keyMentalArithmetic),
-          AppAssets.icMentalArithmetic,
-        ));
-
-        list.add(GameCategory(
-          10,
-          "Square root",
-          keySquareRoot,
-          GameCategoryType.SQUARE_ROOT,
-          KeyUtil.squareRoot,
-          getScoreboard(keySquareRoot),
-          AppAssets.icSquareRoot,
+          id: 12,
+          name: "Mathematical pairs",
+          key: keyMathPairs,
+          gameCategoryType: GameCategoryType.MATH_PAIRS,
+          routePath: KeyUtil.mathPairs,
+          scoreboard: getScoreboard(keyMathPairs),
+          icon: AppAssets.icMathematicalPairs,
         ));
         list.add(GameCategory(
-          11,
-          "Math Grid",
-          keyMathMachine,
-          GameCategoryType.MATH_GRID,
-          KeyUtil.mathGrid,
-          getScoreboard(keyMathMachine),
-          AppAssets.icMathGrid,
-        ));
-        list.add(GameCategory(
-          12,
-          "Mathematical pairs",
-          keyMathPairs,
-          GameCategoryType.MATH_PAIRS,
-          KeyUtil.mathPairs,
-          getScoreboard(keyMathPairs),
-          AppAssets.icMathematicalPairs,
-        ));
-
-        list.add(GameCategory(
-          13,
-          "Cube Root",
-          keyCubeRoot,
-          GameCategoryType.CUBE_ROOT,
-          KeyUtil.cubeRoot,
-          getScoreboard(keyCubeRoot),
-          AppAssets.icCubeRoot,
-        ));
-
-        list.add(GameCategory(
-          14,
-          "Concentration",
-          keyConcentration,
-          GameCategoryType.CONCENTRATION,
-          KeyUtil.concentration,
-          getScoreboard(keyConcentration),
-          AppAssets.icConcentration,
+          id: 14,
+          name: "Concentration",
+          key: keyConcentration,
+          gameCategoryType: GameCategoryType.CONCENTRATION,
+          routePath: KeyUtil.concentration,
+          scoreboard: getScoreboard(keyConcentration),
+          icon: AppAssets.icConcentration,
         ));
         break;
+
       case PuzzleType.BRAIN_PUZZLE:
         list.add(GameCategory(
-          15,
-          "Magic triangle",
-          keyMagicTriangle,
-          GameCategoryType.MAGIC_TRIANGLE,
-          KeyUtil.magicTriangle,
-          getScoreboard(keyMagicTriangle),
-          AppAssets.icMagicTriangle,
+          id: 15,
+          name: "Magic triangle",
+          key: keyMagicTriangle,
+          gameCategoryType: GameCategoryType.MAGIC_TRIANGLE,
+          routePath: KeyUtil.magicTriangle,
+          scoreboard: getScoreboard(keyMagicTriangle),
+          icon: AppAssets.icMagicTriangle,
         ));
         list.add(GameCategory(
-          16,
-          "Picture Puzzle",
-          keyPicturePuzzle,
-          GameCategoryType.PICTURE_PUZZLE,
-          KeyUtil.picturePuzzle,
-          getScoreboard(keyPicturePuzzle),
-          AppAssets.icPicturePuzzle,
-        ));
-        list.add(GameCategory(
-          17,
-          "Number Pyramid",
-          keyNumberPyramid,
-          GameCategoryType.NUMBER_PYRAMID,
-          KeyUtil.numberPyramid,
-          getScoreboard(keyNumberPyramid),
-          AppAssets.icNumberPyramid,
-        ));
-
-        list.add(GameCategory(
-          18,
-          "Numeric Memory",
-          keyNumericMemory,
-          GameCategoryType.NUMERIC_MEMORY,
-          KeyUtil.numericMemory,
-          getScoreboard(keyNumericMemory),
-          AppAssets.icNumericMemory,
+          id: 16,
+          name: "Picture Puzzle",
+          key: keyPicturePuzzle,
+          gameCategoryType: GameCategoryType.PICTURE_PUZZLE,
+          routePath: KeyUtil.picturePuzzle,
+          scoreboard: getScoreboard(keyPicturePuzzle),
+          icon: AppAssets.icPicturePuzzle,
         ));
         break;
     }
 
-    // switch (puzzleType) {
-    //   case PuzzleType.MATH_PUZZLE:
-    //     list.add(GameCategory(
-    //       1,
-    //       "Calculator",
-    //       keyCalculator,
-    //       GameCategoryType.CALCULATOR,
-    //       KeyUtil.calculator,
-    //       getScoreboard(keyCalculator),
-    //       AppAssets.icCalculator,
-    //     ));
-    //     list.add(GameCategory(
-    //         2,
-    //         "Guess the sign?",
-    //         keySign,
-    //         GameCategoryType.GUESS_SIGN,
-    //         KeyUtil.guessSign,
-    //         getScoreboard(keySign),
-    //         AppAssets.icGuessTheSign));
-    //     list.add(GameCategory(
-    //       5,
-    //       "Correct answer",
-    //       keyCorrectAnswer,
-    //       GameCategoryType.CORRECT_ANSWER,
-    //       KeyUtil.correctAnswer,
-    //       getScoreboard(keyCorrectAnswer),
-    //       AppAssets.icCorrectAnswer,
-    //     ));
-    //     list.add(GameCategory(
-    //       8,
-    //       "Quick calculation",
-    //       keyQuickCalculation,
-    //       GameCategoryType.QUICK_CALCULATION,
-    //       KeyUtil.quickCalculation,
-    //       getScoreboard(keyQuickCalculation),
-    //       AppAssets.icQuickCalculation,
-    //     ));
-    //     break;
-    //   case PuzzleType.MEMORY_PUZZLE:
-    //     list.add(GameCategory(
-    //       7,
-    //       "Mental arithmetic",
-    //       keyMentalArithmetic,
-    //       GameCategoryType.MENTAL_ARITHMETIC,
-    //       KeyUtil.mentalArithmetic,
-    //       getScoreboard(keyMentalArithmetic),
-    //       AppAssets.icMentalArithmetic,
-    //     ));
-    //     list.add(GameCategory(
-    //       3,
-    //       "Square root",
-    //       keySquareRoot,
-    //       GameCategoryType.SQUARE_ROOT,
-    //       KeyUtil.squareRoot,
-    //       getScoreboard(keySquareRoot),
-    //       AppAssets.icSquareRoot,
-    //     ));
-    //     list.add(GameCategory(
-    //       9,
-    //       "Math Grid",
-    //       keyMathMachine,
-    //       GameCategoryType.MATH_GRID,
-    //       KeyUtil.mathGrid,
-    //       getScoreboard(keyMathMachine),
-    //       AppAssets.icMathGrid,
-    //     ));
-    //     list.add(GameCategory(
-    //       4,
-    //       "Mathematical pairs",
-    //       keyMathPairs,
-    //       GameCategoryType.MATH_PAIRS,
-    //       KeyUtil.mathPairs,
-    //       getScoreboard(keyMathPairs),
-    //       AppAssets.icMathematicalPairs,
-    //     ));
-    //     break;
-    //   case PuzzleType.BRAIN_PUZZLE:
-    //     list.add(GameCategory(
-    //       6,
-    //       "Magic triangle",
-    //       keyMagicTriangle,
-    //       GameCategoryType.MAGIC_TRIANGLE,
-    //       KeyUtil.magicTriangle,
-    //       getScoreboard(keyMagicTriangle),
-    //       AppAssets.icMagicTriangle,
-    //     ));
-    //     list.add(GameCategory(
-    //       10,
-    //       "Picture Puzzle",
-    //       keyPicturePuzzle,
-    //       GameCategoryType.PICTURE_PUZZLE,
-    //       KeyUtil.picturePuzzle,
-    //       getScoreboard(keyPicturePuzzle),
-    //       AppAssets.icPicturePuzzle,
-    //     ));
-    //     list.add(GameCategory(
-    //       11,
-    //       "Number Pyramid",
-    //       keyNumberPyramid,
-    //       GameCategoryType.NUMBER_PYRAMID,
-    //       KeyUtil.numberPyramid,
-    //       getScoreboard(keyNumberPyramid),
-    //       AppAssets.icNumberPyramid,
-    //     ));
-    //     break;
-    // }
-    return _list;
+    state = state.copyWith(categories: list);
+    return list;
   }
 
-  ScoreBoard getScoreboard(String gameCategoryType) {
-    return ScoreBoard.fromJson(
-        json.decode(preferences.getString(gameCategoryType) ?? "{}"));
+  ScoreBoard getScoreboard(String key) {
+    final jsonStr = box.get(key, defaultValue: "{}") as String;
+    return ScoreBoard.fromJson(json.decode(jsonStr));
   }
 
-  void setScoreboard(String gameCategoryType, ScoreBoard scoreboard) {
-    preferences.setString(gameCategoryType, json.encode(scoreboard.toJson()));
+  void setScoreboard(String key, ScoreBoard scoreboard) {
+    box.put(key, json.encode(scoreboard.toJson()));
   }
 
-  void updateScoreboard(GameCategoryType gameCategoryType, double newScore) {
-    list.forEach((gameCategory) {
-      if (gameCategory.gameCategoryType == gameCategoryType) {
+  /// Opens the settings (placeholder for future logic)
+  void openSettings() {
+    // Example: print('Settings opened');
+    // For now, just a placeholder
+    // Add any logic you want to run when settings is opened (analytics, logging, etc.)
+  }
+  void updateScoreboard(GameCategoryType type, double newScore) {
+    final updated = state.categories.map((gameCategory) {
+      if (gameCategory.gameCategoryType == type) {
         if (gameCategory.scoreboard.highestScore < newScore.toInt()) {
-          setOverallScore(
-              gameCategory.scoreboard.highestScore, newScore.toInt());
-          gameCategory.scoreboard.highestScore = newScore.toInt();
+          _setOverallScore(
+            gameCategory.scoreboard.highestScore,
+            newScore.toInt(),
+          );
+          final updatedScoreboard = gameCategory.scoreboard.copyWith(
+            highestScore: newScore.toInt(),
+          );
+          setScoreboard(gameCategory.key, updatedScoreboard);
         }
-        setScoreboard(gameCategory.key, gameCategory.scoreboard);
       }
-    });
-    notifyListeners();
+      return gameCategory;
+    }).toList();
+
+    state = state.copyWith(categories: updated);
   }
 
-  int getOverallCoin() {
-    return preferences.getInt(CoinProvider().keyCoin) ?? 0;
+  // ===========================
+  // 🚀 Overall Score
+  // ===========================
+  void _setOverallScore(int oldScore, int newScore) {
+    final updatedScore = state.overallScore - oldScore + newScore;
+    box.put("overall_score", updatedScore);
+    state = state.copyWith(overallScore: updatedScore);
   }
 
-  int getOverallScore() {
-    return preferences.getInt("overall_score") ?? 0;
-  }
-
-  void setOverallScore(int highestScore, int newScore) {
-    _overallScore = getOverallScore() - highestScore + newScore;
-    preferences.setInt("overall_score", _overallScore);
-  }
-
-  bool isFirstTime(GameCategoryType gameCategoryType) {
-    return list
-        .where((GameCategory gameCategory) =>
-            gameCategory.gameCategoryType == gameCategoryType)
+  // ===========================
+  // 🚀 First-Time Flag
+  // ===========================
+  bool isFirstTime(GameCategoryType type) {
+    return state.categories
+        .where((c) => c.gameCategoryType == type)
         .first
         .scoreboard
         .firstTime;
   }
 
-  void setFirstTime(GameCategoryType gameCategoryType) {
-    list.forEach((gameCategory) {
-      if (gameCategory.gameCategoryType == gameCategoryType) {
-        gameCategory.scoreboard.firstTime = false;
-        setScoreboard(gameCategory.key, gameCategory.scoreboard);
+  void setFirstTime(GameCategoryType type) {
+    final updated = state.categories.map((gameCategory) {
+      if (gameCategory.gameCategoryType == type) {
+        final updatedScoreboard =
+        gameCategory.scoreboard.copyWith(firstTime: false);
+        setScoreboard(gameCategory.key, updatedScoreboard);
       }
-    });
+      return gameCategory;
+    }).toList();
+
+    state = state.copyWith(categories: updated);
   }
+  }
+    // Example: print('Settings opened');
+    // For now, just a placeholder
+    // Add any logic you want to run when settings is opened (analytics, logging, etc.)
+  void openSettings() {
+  // ===========================
+  // 🚀 Settings Logic
+  // ===========================
+
 }
+
+/// Provider for Dashboard
+final dashboardProvider =
+StateNotifierProvider<DashboardNotifier, DashboardState>((ref) {
+  final box = Hive.box("dashboard"); // 👈 single Hive box for everything
+  return DashboardNotifier(box);
+});
+

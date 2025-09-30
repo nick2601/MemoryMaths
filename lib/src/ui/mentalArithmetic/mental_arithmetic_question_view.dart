@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:mathsgames/src/data/models/mental_arithmetic.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mathsgames/src/ui/mentalArithmetic/mental_arithmetic_provider.dart';
 import '../../utility/Constants.dart';
 
-class MentalArithmeticQuestionView extends StatefulWidget {
-  final MentalArithmetic currentState;
+class MentalArithmeticQuestionView extends ConsumerStatefulWidget {
+  final int level; // <-- use level to fetch provider
 
   const MentalArithmeticQuestionView({
     Key? key,
-    required this.currentState,
+    required this.level,
   }) : super(key: key);
 
   @override
-  _MentalArithmeticQuestionViewState createState() =>
+  ConsumerState<MentalArithmeticQuestionView> createState() =>
       _MentalArithmeticQuestionViewState();
 }
 
 class _MentalArithmeticQuestionViewState
-    extends State<MentalArithmeticQuestionView> with TickerProviderStateMixin {
+    extends ConsumerState<MentalArithmeticQuestionView>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<AlignmentGeometry> _animation;
   late Animation<AlignmentGeometry> _animation1;
   late final Animation<double> _opacityAnimationOut;
   late final Animation<double> _opacityAnimationIn;
+
   int index = 0;
 
   @override
@@ -49,11 +51,7 @@ class _MentalArithmeticQuestionViewState
     ).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Interval(
-          0.0,
-          0.8,
-          curve: Curves.ease,
-        ),
+        curve: const Interval(0.0, 0.8, curve: Curves.ease),
       ),
     );
 
@@ -63,42 +61,34 @@ class _MentalArithmeticQuestionViewState
     ).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Interval(
-          0.2,
-          1.0,
-          curve: Curves.ease,
-        ),
+        curve: const Interval(0.2, 1.0, curve: Curves.ease),
       ),
     );
 
     _opacityAnimationOut = Tween<double>(
       begin: 1.0,
       end: 0.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Interval(
-        0.0,
-        0.8,
-        curve: Curves.ease,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.8, curve: Curves.ease),
       ),
-    ));
+    );
 
     _opacityAnimationIn = Tween<double>(
       begin: 0.0,
       end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Interval(
-        0.2,
-        1.0,
-        curve: Curves.ease,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.2, 1.0, curve: Curves.ease),
       ),
-    ));
+    );
   }
 
   @override
   void didUpdateWidget(MentalArithmeticQuestionView oldWidget) {
-    if (oldWidget.currentState != widget.currentState) {
+    if (oldWidget.level != widget.level) {
       _controller.forward(from: 0.0);
       index = 0;
     }
@@ -107,6 +97,13 @@ class _MentalArithmeticQuestionViewState
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(mentalArithmeticProvider(widget.level));
+    final currentState = state.currentState;
+
+    if (currentState == null || currentState.questionList.isEmpty) {
+      return const SizedBox();
+    }
+
     return Stack(
       children: [
         AnimatedBuilder(
@@ -117,10 +114,11 @@ class _MentalArithmeticQuestionViewState
               child: Opacity(
                 opacity: _opacityAnimationIn.value,
                 child: getTextWidget(
-                    Theme.of(context).textTheme.titleSmall!,
-                    index != 3 ? widget.currentState.questionList[index] : "",
-                    TextAlign.center,
-                    getPercentSize(getRemainHeight(context: context), 3.5)),
+                  Theme.of(context).textTheme.titleSmall!,
+                  index != 3 ? currentState.questionList[index] : "",
+                  TextAlign.center,
+                  getPercentSize(getRemainHeight(context: context), 3.5),
+                ),
               ),
             );
           },
@@ -133,19 +131,11 @@ class _MentalArithmeticQuestionViewState
               child: Opacity(
                 opacity: _opacityAnimationOut.value,
                 child: getTextWidget(
-                    Theme.of(context).textTheme.titleSmall!,
-                    index == 0
-                        ? ""
-                        : widget.currentState.questionList[index - 1],
-                    TextAlign.center,
-                    getPercentSize(getRemainHeight(context: context), 3.5)),
-                // child: Text(
-                //   index == 0 ? "" : widget.currentState.questionList[index - 1],
-                //   style: TextStyle(
-                //     fontSize: 30.0,
-                //     fontWeight: FontWeight.w700,
-                //   ),
-                // ),
+                  Theme.of(context).textTheme.titleSmall!,
+                  index == 0 ? "" : currentState.questionList[index - 1],
+                  TextAlign.center,
+                  getPercentSize(getRemainHeight(context: context), 3.5),
+                ),
               ),
             );
           },

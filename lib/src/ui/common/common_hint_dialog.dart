@@ -143,9 +143,9 @@ class _CommonHintDialogState extends ConsumerState<CommonHintDialog> {
               () {
             if (coin >= hintCoin) {
               setState(() => isHint = true);
-              coinNotifier.spendCoins(hintCoin);
+              coinNotifier.minusCoins(hintCoin);
             } else {
-              showCustomToast('Not enough coins', context);
+              showCustomToast(context,'Not enough coins');
             }
           },
           textColor: Colors.black,

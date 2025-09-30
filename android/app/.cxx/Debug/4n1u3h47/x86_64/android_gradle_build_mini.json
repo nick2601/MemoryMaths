@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/nikhilmacbook/FlutterSDK/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/nikhilmacbook/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/.cxx/Debug/4n1u3h47/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/nikhilmacbook/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/nikhilmacbook/Desktop/Flutter Projects/SwanseaUni/MemoryMath/android/app/.cxx/Debug/4n1u3h47/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

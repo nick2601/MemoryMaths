@@ -5,7 +5,7 @@ import '../../utility/Constants.dart';
 
 class QuickCalculationQuestionView extends StatefulWidget {
   final QuickCalculation currentState;
-  final QuickCalculation nextCurrentState;
+  final QuickCalculation? nextCurrentState;
   final QuickCalculation? previousCurrentState;
 
   const QuickCalculationQuestionView({
@@ -16,13 +16,16 @@ class QuickCalculationQuestionView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _QuickCalculationQuestionViewState createState() =>
+  State<QuickCalculationQuestionView> createState() =>
       _QuickCalculationQuestionViewState();
 }
 
 class _QuickCalculationQuestionViewState
     extends State<QuickCalculationQuestionView> with TickerProviderStateMixin {
   late AnimationController _controller;
+  late Animation<double> _fadeIn;
+  late Animation<double> _fadeOut;
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +34,14 @@ class _QuickCalculationQuestionViewState
       duration: const Duration(milliseconds: 500),
       vsync: this,
     )..forward();
+
+    _fadeIn = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+    );
+
+    _fadeOut = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
   }
 
   @override
@@ -43,69 +54,58 @@ class _QuickCalculationQuestionViewState
 
   @override
   Widget build(BuildContext context) {
+    final remainHeight = getRemainHeight(context: context);
+
     return Stack(
+      alignment: Alignment.center,
       children: [
-        Center(
+        // 🔹 Previous Question (fades out, smaller & grey)
+        if (widget.previousCurrentState != null)
+          Align(
+            alignment: Alignment.centerLeft,
+            child: FadeTransition(
+              opacity: _fadeOut,
+              child: getTextWidget(
+                Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Colors.grey,
+                  fontStyle: FontStyle.italic,
+                ),
+                widget.previousCurrentState!.question,
+                TextAlign.center,
+                getPercentSize(remainHeight, 3),
+              ),
+            ),
+          ),
+
+        // 🔹 Current Question (main focus, fades in)
+        FadeTransition(
+          opacity: _fadeIn,
           child: getTextWidget(
-              Theme.of(context).textTheme.titleSmall!,
-              widget.currentState.question,
-              TextAlign.center,
-              getPercentSize(getRemainHeight(context: context), 4)),
+            Theme.of(context).textTheme.titleLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            widget.currentState.question,
+            TextAlign.center,
+            getPercentSize(remainHeight, 4),
+          ),
         ),
 
-        // AnimatedBuilder(
-        //   animation: _animation,
-        //   builder: (context, child) {
-        //     return Align(
-        //       alignment: _animation.value,
-        //       child:  getTextWidget(
-        //           Theme
-        //               .of(context)
-        //               .textTheme
-        //               .subtitle2!,
-        //           widget.currentState.question,
-        //           TextAlign.center,
-        //           getPercentSize(
-        //               getRemainHeight(context: context),4)),
-        //
-        //
-        //     );
-        //   },
-        // ),
-        // Align(
-        //   alignment: Alignment.centerRight,
-        //   child: FadeTransition(
-        //     opacity: _opacityAnimationOut,
-        //     child: getTextWidget(
-        //         Theme
-        //             .of(context)
-        //             .textTheme
-        //             .subtitle2!,
-        //         widget.previousCurrentState?.question ?? "",
-        //         TextAlign.center,
-        //         getPercentSize(
-        //             getRemainHeight(context: context),4)),
-        //
-        //
-        //   ),
-        // ),
-        // Align(
-        //   alignment: Alignment.topLeft,
-        //   child: FadeTransition(
-        //     opacity: _opacityAnimationIn,
-        //     child:  getTextWidget(
-        //         Theme
-        //             .of(context)
-        //             .textTheme
-        //             .caption!.copyWith(color: Colors.grey),
-        //         widget.nextCurrentState.question,
-        //         TextAlign.center,
-        //         getPercentSize(
-        //             getRemainHeight(context: context),2)),
-        //
-        //
-        //   ),
-        // ),
+        // 🔹 Next Question (preview, faded grey, smaller)
+        if (widget.nextCurrentState != null)
+          Align(
+            alignment: Alignment.bottomRight,
+            child: FadeTransition(
+              opacity: _fadeIn,
+              child: getTextWidget(
+                Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: Colors.grey,
+                ),
+                widget.nextCurrentState!.question,
+                TextAlign.center,
+                getPercentSize(remainHeight, 2.5),
+              ),
+            ),
+          ),
       ],
     );
   }

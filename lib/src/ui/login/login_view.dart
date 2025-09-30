@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mathsgames/src/ui/signup/signup_screen.dart';
-import 'package:provider/provider.dart';
 import '../../core/app_constant.dart';
 import '../app/auth_provider.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
@@ -27,21 +29,25 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      await Provider.of<AuthProvider>(context, listen: false)
+      await ref
+          .read(authProvider.notifier)
           .login(_usernameController.text, _passwordController.text);
+
       Navigator.pushReplacementNamed(context, KeyUtil.dashboard);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
           backgroundColor: Colors.red,
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
         ),
       );
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -50,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background with gradient
+          // Background gradient
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -67,13 +73,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Card(
                   elevation: 8,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // App logo or title
+                        // App logo / title
                         Padding(
                           padding: const EdgeInsets.only(bottom: 24.0),
                           child: Column(
@@ -83,8 +90,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 size: 80,
                                 color: Colors.orangeAccent.shade700,
                               ),
-                              SizedBox(height: 8),
-                              Text(
+                              const SizedBox(height: 8),
+                              const Text(
                                 'Login to Your Account',
                                 style: TextStyle(
                                   fontSize: 22,
@@ -94,29 +101,31 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
-                        // Username Field
+                        // Username field
                         TextField(
                           controller: _usernameController,
                           decoration: InputDecoration(
                             labelText: 'Username',
-                            prefixIcon: Icon(Icons.person_outline),
+                            prefixIcon: const Icon(Icons.person_outline),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                         ),
-                        SizedBox(height: 16),
-                        // Password Field with toggle visibility
+                        const SizedBox(height: 16),
+                        // Password field
                         TextField(
                           controller: _passwordController,
                           obscureText: _obscurePassword,
                           decoration: InputDecoration(
                             labelText: 'Password',
-                            prefixIcon: Icon(Icons.lock_outline),
+                            prefixIcon: const Icon(Icons.lock_outline),
                             suffixIcon: IconButton(
-                              icon: Icon(_obscurePassword
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
                               onPressed: _togglePasswordVisibility,
                             ),
                             border: OutlineInputBorder(
@@ -124,31 +133,32 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 24),
+                        const SizedBox(height: 24),
                         // Login button
                         _isLoading
-                            ? CircularProgressIndicator()
+                            ? const CircularProgressIndicator()
                             : ElevatedButton(
                           onPressed: _login,
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 50, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Login',
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
-                        SizedBox(height: 16),
-                        // Signup redirection
+                        const SizedBox(height: 16),
+                        // Signup redirect
                         TextButton(
                           onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => SignupScreen()),
+                              builder: (_) => SignupScreen(),
+                            ),
                           ),
                           child: Text(
                             'Don\'t have an account? Sign up',

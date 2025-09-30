@@ -1,68 +1,112 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
-import 'package:mathsgames/src/data/models/quick_calculation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/data/models/quick_calculation.dart';
+import 'package:mathsgames/src/data/repository/quick_calculation_repository.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
+import 'package:mathsgames/src/ui/app/time_provider.dart';
 
-import '../soundPlayer/audio_file.dart';
-
-class QuickCalculationProvider extends GameProvider<QuickCalculation> {
-  late QuickCalculation nextCurrentState;
+/// StateNotifier for Quick Calculation
+class QuickCalculationNotifier extends GameNotifier<QuickCalculation> {
+  final int level;
   QuickCalculation? previousCurrentState;
-  int? level;
-  BuildContext? context;
+  QuickCalculation? nextCurrentState;
+  String result = "";
 
-  QuickCalculationProvider(
-      {required TickerProvider vsync,
-      required int level,
-      required BuildContext context})
-      : super(
-            vsync: vsync,
-            gameCategoryType: GameCategoryType.QUICK_CALCULATION,
-            c: context) {
-    this.level = level;
-    this.context = context;
-
-    startGame(level: this.level == null ? null : level);
-    nextCurrentState = list[index + 1];
+  QuickCalculationNotifier({required this.level, required Ref ref})
+      : super(GameCategoryType.QUICK_CALCULATION, ref) {
+    startGame(level: level);
+    _setNextState();
+    // Start timer
+    ref.read(timeProvider(60).notifier).startTimer();
   }
 
+  /// Check the result entered by the player
   Future<void> checkResult(String answer) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
-    if (result.length < currentState.answer.toString().length &&
-        timerStatus != TimerStatus.pause) {
-      result = result + answer;
-      notifyListeners();
-      if (int.parse(result) == currentState.answer) {
-        audioPlayer.playRightSound();
-        await Future.delayed(Duration(milliseconds: 300));
-        loadNewDataIfRequired(level: level == null ? null : level);
-        previousCurrentState = list[index - 1];
-        nextCurrentState = list[index + 1];
-        currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-        addCoin();
-        // if (/*time >= 0.0125*/ timerStatus != TimerStatus.pause) increase();
-        notifyListeners();
-      } else if (result.length == currentState.answer.toString().length) {
-        audioPlayer.playWrongSound();
-        if (currentScore > 0) {
-          wrongAnswer();
-        }
+    final timeState = ref.read(timeProvider(60));
 
-        minusCoin();
-      }
+    // Guard conditions
+    if (timeState.timerStatus == TimerStatus.pause ||
+        result.length >= state.currentState!.answer.toString().length) {
+      return;
+    }
+
+    // Append digit and update state
+    result += answer;
+    state = state.copyWith(result: result);
+
+    // ✅ Correct answer
+    if (int.tryParse(result) == state.currentState!.answer) {
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      _loadNewData();
+      _setPreviousState();
+      _setNextState();
+
+      // Use parent class methods for scoring and coins
+      rightAnswer();
+      result = "";
+      state = state.copyWith(result: result);
+    }
+    // ❌ Wrong answer when input length matches
+    else if (result.length == state.currentState!.answer.toString().length) {
+      // Use parent class method for wrong answer penalty
+      wrongAnswer();
+      result = "";
+      state = state.copyWith(result: result);
     }
   }
 
-  clearResult() {
+  /// Reset result input
+  void clearResult() {
     result = "";
-    notifyListeners();
+    state = state.copyWith(result: result);
   }
 
+  /// Remove last entered digit
   void backPress() {
-    if (result.length > 0) {
+    if (result.isNotEmpty) {
       result = result.substring(0, result.length - 1);
-      notifyListeners();
+      state = state.copyWith(result: result);
+    }
+  }
+
+  /// Load new quick calculation data
+  void _loadNewData() {
+    final newDataList = QuickCalculationRepository.getQuickCalculationDataList(level, 5);
+    if (newDataList.isNotEmpty) {
+      state = state.copyWith(
+        list: newDataList,
+        currentState: newDataList.first,
+        index: 0,
+      );
+
+      // Restart timer
+      ref.read(timeProvider(60).notifier).restartTimer();
+    }
+  }
+
+  /// Update previous state safely
+  void _setPreviousState() {
+    if (state.index > 0) {
+      previousCurrentState = state.list[state.index - 1];
+    } else {
+      previousCurrentState = null;
+    }
+  }
+
+  /// Update next state safely
+  void _setNextState() {
+    if (state.index + 1 < state.list.length) {
+      nextCurrentState = state.list[state.index + 1];
+    } else {
+      nextCurrentState = null;
     }
   }
 }
+
+/// Riverpod provider for Quick Calculation
+final quickCalculationProvider = StateNotifierProvider.family<
+    QuickCalculationNotifier, GameState<QuickCalculation>, int>(
+  (ref, level) => QuickCalculationNotifier(level: level, ref: ref),
+);

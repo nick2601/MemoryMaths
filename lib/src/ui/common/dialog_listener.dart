@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/core/color_scheme.dart';
+
 import 'package:mathsgames/src/ui/common/common_alert_dialog.dart';
 import 'package:mathsgames/src/ui/common/common_alert_over_dialog.dart';
-import 'package:mathsgames/src/ui/common/common_dual_game_over_dialog_view.dart';
+import 'package:mathsgames/src/ui/common/common_dual_game_over_dialog_view.dart'; // dual
+import 'package:mathsgames/src/ui/common/common_game_over_dialog_view.dart';   // single
 import 'package:mathsgames/src/ui/common/common_game_exit_dialog_view.dart';
 import 'package:mathsgames/src/ui/common/common_game_pause_dialog_view.dart';
-import 'package:mathsgames/src/ui/common/common_game_over_dialog_view.dart'; // ✅ single player view
 import 'package:mathsgames/src/ui/common/common_hint_dialog.dart';
 import 'package:mathsgames/src/ui/common/common_info_dialog_view.dart';
+
 import 'package:mathsgames/src/ui/numericMemory/numeric_view.dart';
+
 import 'package:tuple/tuple.dart';
 
 import '../../utility/Constants.dart';

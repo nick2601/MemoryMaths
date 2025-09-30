@@ -17,66 +17,50 @@ class SplashView extends StatefulWidget {
 class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.top]);
-    Future.delayed(Duration(seconds: 2)).then((value) {
-      Navigator.pushReplacementNamed(context, KeyUtil.login);
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top],
+      );
     });
 
-    super.initState();
+    Future.delayed(const Duration(seconds: 2)).then((_) {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, KeyUtil.login);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.dark,
-      ),
+      value: const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
       child: Scaffold(
         body: Container(
-          constraints: BoxConstraints.expand(),
-          decoration:
-              BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor
-                  // gradient: SweepGradient(
-                  //   center: Alignment.center,
-                  //   startAngle: 0.0,
-                  //   endAngle: pi * 2,
-                  //   colors: [
-                  //     Color(0xff4895EF),
-                  //     Color(0xff3F37C9),
-                  //   ],
-                  //   transform: GradientRotation(pi / 2),
-                  // ),
-                  ),
+          width: double.infinity,
+          height: double.infinity,
+          color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
                 AppAssets.splashIcon,
                 height: getScreenPercentSize(context, 16),
               ),
-              SizedBox(
-                height: getScreenPercentSize(context, 2.3),
-              ),
+              SizedBox(height: getScreenPercentSize(context, 2.3)),
               getTextWidget(
-                  Theme.of(context).textTheme.titleSmall!.copyWith(
-                      fontWeight: FontWeight.bold, fontFamily: 'Latinotype'),
-                  'Memory Math',
-                  TextAlign.center,
-                  getScreenPercentSize(context, 3.3))
+                Theme.of(context).textTheme.titleSmall!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Latinotype',
+                ),
+                'Memory Math',
+                TextAlign.center,
+                getScreenPercentSize(context, 3.3),
+              ),
             ],
           ),
-          // child: ListView.builder(
-          //   shrinkWrap: true,
-          //   itemCount: horizontalLine,
-          //   physics: NeverScrollableScrollPhysics(),
-          //   itemBuilder: (context, index) => GridItemView(
-          //     index: index,
-          //     horizontalLine: horizontalLine,
-          //     verticalLine: verticalLine,
-          //   ),
-          // ),
         ),
       ),
     );
@@ -84,8 +68,10 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void dispose() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
+    );
     super.dispose();
   }
 }
@@ -104,98 +90,91 @@ class GridItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if ((horizontalLine / 2 - 1) <= index && (horizontalLine / 2 + 1) > index) {
-      int tempIndex = (horizontalLine / 2 - 1) == index ? 0 : 1;
+    final fadedTextStyle = TextStyle(
+      color: Colors.white24.withOpacity(0.25),
+      fontFamily: "Poppins",
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    );
+
+    final boldTextStyle = const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w900,
+      fontSize: 28,
+      fontFamily: "Poppins",
+    );
+
+    if ((horizontalLine / 2 - 1) <= index &&
+        (horizontalLine / 2 + 1) > index) {
+      final tempIndex = (horizontalLine / 2 - 1) == index ? 0 : 1;
       return SizedBox(
         height: verticalLine,
         child: Row(
-          children: [
-            ...list[tempIndex]
-                .map((e) => Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white24, width: 0.5),
-                        ),
-                        child: (e == "<" || e == ">")
-                            ? Text(
-                                e,
-                                style: TextStyle(
-                                  color: Colors.white24.withOpacity(0.25),
-                                  fontFamily: "Poppins",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              )
-                            : Text(
-                                e,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 28,
-                                  fontFamily: "Poppins",
-                                ),
-                              ),
-                      ),
-                    ))
-                .toList()
-          ],
+          children: list[tempIndex].map((e) {
+            return Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white24, width: 0.5),
+                ),
+                child: Text(e,
+                    style: (e == "<" || e == ">")
+                        ? fadedTextStyle
+                        : boldTextStyle),
+              ),
+            );
+          }).toList(),
         ),
       );
     } else {
-      int tempIndex = ((horizontalLine / 2 - 1) <= index &&
-              (horizontalLine / 2 + 1) > index)
+      final tempIndex = ((horizontalLine / 2 - 1) <= index &&
+          (horizontalLine / 2 + 1) > index)
           ? index - 2
           : index;
+
       return SizedBox(
         height: verticalLine,
         child: Row(
-          children: [
-            ...list2[tempIndex]
-                .map((e) => e.item1 == "."
-                    ? Expanded(
-                        child: AnimatedGridItemView(
-                        duration: e.item2,
-                      ))
-                    : Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.white24, width: 0.1),
-                          ),
-                          child: Text(
-                            e.item1,
-                            style: TextStyle(
-                              color: Colors.white24.withOpacity(0.5),
-                              fontFamily: "Poppins",
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ))
-                .toList()
-          ],
+          children: list2[tempIndex].map((e) {
+            return Expanded(
+              child: e.item1 == "."
+                  ? AnimatedGridItemView(duration: e.item2)
+                  : Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white24, width: 0.1),
+                ),
+                child: Text(
+                  e.item1,
+                  style: TextStyle(
+                    color: Colors.white24.withOpacity(0.5),
+                    fontFamily: "Poppins",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
         ),
       );
     }
   }
 }
 
-var list = [
+final list = [
   ["M", "A", "T", "H", "<", ">"],
   ["M", "A", "T", "R", "I", "X"],
 ];
 
-var list2 = [
+final list2 = [
   [
     Tuple2("+", 0),
     Tuple2("0", 0),
     Tuple2("8", 0),
     Tuple2("1", 0),
     Tuple2("7", 0),
-    Tuple2("*", 0)
+    Tuple2("*", 0),
   ],
   [
     Tuple2("3", 0),

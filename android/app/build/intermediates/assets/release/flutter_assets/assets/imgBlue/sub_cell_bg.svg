@@ -1,0 +1,64 @@
+<svg width="374" height="187" viewBox="0 0 374 187" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="365.618" height="165.989" rx="20" transform="matrix(0.998402 0.0565012 -0.0539968 0.998541 8.96289 0)" fill="black"/>
+<rect x="3.99805" y="10.2021" width="366" height="166" rx="20" fill="#C3AEFF"/>
+<mask id="mask0_4512_6684" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="10" width="367" height="167">
+<rect x="3.99805" y="10.2021" width="366" height="166" rx="20" fill="#FFCB43"/>
+</mask>
+<g mask="url(#mask0_4512_6684)">
+<circle cx="374.499" cy="7.49926" r="85" transform="rotate(-68.695 374.499 7.49926)" stroke="white" stroke-width="30"/>
+<mask id="mask1_4512_6684" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="274" y="-93" width="201" height="201">
+<circle cx="374.499" cy="7.49926" r="85" transform="rotate(-68.695 374.499 7.49926)" stroke="white" stroke-width="30"/>
+</mask>
+<g mask="url(#mask1_4512_6684)">
+<circle cx="284.097" cy="86.556" r="1.5" transform="rotate(-68.695 284.097 86.556)" fill="black"/>
+<circle cx="296.208" cy="91.2793" r="1.5" transform="rotate(-68.695 296.208 91.2793)" fill="black"/>
+<circle cx="307.388" cy="95.6395" r="1.5" transform="rotate(-68.695 307.388 95.6395)" fill="black"/>
+<circle cx="319.499" cy="100.363" r="1.5" transform="rotate(-68.695 319.499 100.363)" fill="black"/>
+<circle cx="331.612" cy="105.086" r="1.5" transform="rotate(-68.695 331.612 105.086)" fill="black"/>
+<circle cx="276.708" cy="69.7212" r="1.5" transform="rotate(-68.695 276.708 69.7212)" fill="black"/>
+<circle cx="288.819" cy="74.4444" r="1.5" transform="rotate(-68.695 288.819 74.4444)" fill="black"/>
+<circle cx="300.933" cy="79.1678" r="1.5" transform="rotate(-68.695 300.933 79.1678)" fill="black"/>
+<circle cx="312.112" cy="83.5279" r="1.5" transform="rotate(-68.695 312.112 83.5279)" fill="black"/>
+<circle cx="324.224" cy="88.251" r="1.5" transform="rotate(-68.695 324.224 88.251)" fill="black"/>
+<circle cx="336.335" cy="92.9744" r="1.5" transform="rotate(-68.695 336.335 92.9744)" fill="black"/>
+<circle cx="281.433" cy="57.6097" r="1.5" transform="rotate(-68.695 281.433 57.6097)" fill="black"/>
+<circle cx="293.544" cy="62.3328" r="1.5" transform="rotate(-68.695 293.544 62.3328)" fill="black"/>
+<circle cx="305.655" cy="67.0562" r="1.5" transform="rotate(-68.695 305.655 67.0562)" fill="black"/>
+<circle cx="316.835" cy="71.4163" r="1.5" transform="rotate(-68.695 316.835 71.4163)" fill="black"/>
+<circle cx="328.946" cy="76.1395" r="1.5" transform="rotate(-68.695 328.946 76.1395)" fill="black"/>
+<circle cx="341.058" cy="80.8628" r="1.5" transform="rotate(-68.695 341.058 80.8628)" fill="black"/>
+<circle cx="285.792" cy="46.4297" r="1.5" transform="rotate(-68.695 285.792 46.4297)" fill="black"/>
+<circle cx="297.903" cy="51.1529" r="1.5" transform="rotate(-68.695 297.903 51.1529)" fill="black"/>
+<circle cx="310.015" cy="55.8763" r="1.5" transform="rotate(-68.695 310.015 55.8763)" fill="black"/>
+<circle cx="321.194" cy="60.2364" r="1.5" transform="rotate(-68.695 321.194 60.2364)" fill="black"/>
+<circle cx="333.306" cy="64.9595" r="1.5" transform="rotate(-68.695 333.306 64.9595)" fill="black"/>
+<circle cx="345.419" cy="69.6829" r="1.5" transform="rotate(-68.695 345.419 69.6829)" fill="black"/>
+<circle cx="290.515" cy="34.3182" r="1.5" transform="rotate(-68.695 290.515 34.3182)" fill="black"/>
+<circle cx="302.626" cy="39.0413" r="1.5" transform="rotate(-68.695 302.626 39.0413)" fill="black"/>
+<circle cx="314.739" cy="43.7647" r="1.5" transform="rotate(-68.695 314.739 43.7647)" fill="black"/>
+<circle cx="325.919" cy="48.1248" r="1.5" transform="rotate(-68.695 325.919 48.1248)" fill="black"/>
+<circle cx="338.03" cy="52.8479" r="1.5" transform="rotate(-68.695 338.03 52.8479)" fill="black"/>
+<circle cx="350.142" cy="57.5713" r="1.5" transform="rotate(-68.695 350.142 57.5713)" fill="black"/>
+<circle cx="278.403" cy="29.5948" r="1.5" transform="rotate(-68.695 278.403 29.5948)" fill="black"/>
+<circle cx="290.517" cy="34.3182" r="1.5" transform="rotate(-68.695 290.517 34.3182)" fill="black"/>
+<circle cx="283.128" cy="17.4832" r="1.5" transform="rotate(-68.695 283.128 17.4832)" fill="black"/>
+<circle cx="295.239" cy="22.2066" r="1.5" transform="rotate(-68.695 295.239 22.2066)" fill="black"/>
+<circle cx="299.962" cy="10.095" r="1.5" transform="rotate(-68.695 299.962 10.095)" fill="black"/>
+<circle cx="341.86" cy="109.083" r="1.5" transform="rotate(-68.695 341.86 109.083)" fill="black"/>
+<circle cx="346.583" cy="96.9712" r="1.5" transform="rotate(-68.695 346.583 96.9712)" fill="black"/>
+<circle cx="358.694" cy="101.694" r="1.5" transform="rotate(-68.695 358.694 101.694)" fill="black"/>
+<circle cx="370.808" cy="106.418" r="1.5" transform="rotate(-68.695 370.808 106.418)" fill="black"/>
+<circle cx="351.308" cy="84.8597" r="1.5" transform="rotate(-68.695 351.308 84.8597)" fill="black"/>
+<circle cx="363.419" cy="89.5828" r="1.5" transform="rotate(-68.695 363.419 89.5828)" fill="black"/>
+<circle cx="355.667" cy="73.6797" r="1.5" transform="rotate(-68.695 355.667 73.6797)" fill="black"/>
+<circle cx="367.778" cy="78.4029" r="1.5" transform="rotate(-68.695 367.778 78.4029)" fill="black"/>
+<circle cx="360.39" cy="61.5682" r="1.5" transform="rotate(-68.695 360.39 61.5682)" fill="black"/>
+</g>
+</g>
+<rect x="224" y="23.8652" width="1.19966" height="12.5964" transform="rotate(-38.45 224 23.8652)" fill="black"/>
+<rect x="297.969" y="87" width="1.19966" height="12.5964" transform="rotate(60.55 297.969 87)" fill="black"/>
+<rect x="300.801" y="22" width="1.19966" height="12.5964" transform="rotate(28.55 300.801 22)" fill="white"/>
+<rect x="234.197" y="88.1367" width="1.79949" height="20.9027" transform="rotate(-58.4151 234.197 88.1367)" fill="white"/>
+<!--<rect x="316.666" y="128.667" width="21" height="21" fill="white"/>-->
+<!--<path fill-rule="evenodd" clip-rule="evenodd" d="M319.069 117.802C323.628 116.733 328.372 116.733 332.931 117.802C339.514 119.346 344.654 124.486 346.198 131.069C347.267 135.628 347.267 140.372 346.198 144.931C344.654 151.514 339.514 156.654 332.931 158.198C328.372 159.267 323.628 159.267 319.069 158.198C312.486 156.654 307.346 151.514 305.802 144.931C304.733 140.372 304.733 135.628 305.802 131.069C307.346 124.486 312.486 119.346 319.069 117.802ZM330.829 140.523C332.581 139.401 332.581 136.599 330.829 135.477L324.916 131.694C323.164 130.572 320.974 131.974 320.974 134.216V141.784C320.974 144.026 323.164 145.428 324.916 144.306L330.829 140.523Z" fill="#2B024B"/>-->
+</svg>

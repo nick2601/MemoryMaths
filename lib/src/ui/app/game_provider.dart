@@ -16,56 +16,66 @@ import 'package:mathsgames/src/data/repository/quick_calculation_repository.dart
 import 'package:mathsgames/src/data/repository/sign_repository.dart';
 import 'package:mathsgames/src/data/repository/square_root_repository.dart';
 import 'package:mathsgames/src/data/repository/true_false_repository.dart';
-import '../../data/repository/numeric_memory_repository.dart';
 
+import '../../data/repository/numeric_memory_repository.dart';
+import 'coin_provider.dart'; // ✅ import your coinProvider
+
+/// Game state that works for all types
+
+// dart
 class GameState<T> {
   final List<T> list;
   final int index;
+  final T? currentState;
   final double currentScore;
   final int rightCount;
   final int wrongCount;
   final DialogType dialogType;
   final bool isTimerRunning;
-  final T? currentState;
+  final String result; // <-- Add this line
 
   const GameState({
     this.list = const [],
     this.index = 0,
+    this.currentState,
     this.currentScore = 0,
     this.rightCount = 0,
     this.wrongCount = 0,
     this.dialogType = DialogType.non,
     this.isTimerRunning = false,
-    this.currentState,
+    this.result = "", // <-- Add this line
   });
 
   GameState<T> copyWith({
     List<T>? list,
     int? index,
+    T? currentState,
     double? currentScore,
     int? rightCount,
     int? wrongCount,
     DialogType? dialogType,
     bool? isTimerRunning,
-    T? currentState,
+    String? result, // <-- Add this line
   }) {
     return GameState<T>(
       list: list ?? this.list,
       index: index ?? this.index,
+      currentState: currentState ?? this.currentState,
       currentScore: currentScore ?? this.currentScore,
       rightCount: rightCount ?? this.rightCount,
       wrongCount: wrongCount ?? this.wrongCount,
       dialogType: dialogType ?? this.dialogType,
       isTimerRunning: isTimerRunning ?? this.isTimerRunning,
-      currentState: currentState ?? this.currentState,
+      result: result ?? this.result, // <-- Add this line
     );
   }
 }
 
 class GameNotifier<T> extends StateNotifier<GameState<T>> {
   final GameCategoryType type;
+  final Ref ref;
 
-  GameNotifier(this.type) : super(GameState<T>());
+  GameNotifier(this.type, this.ref) : super(GameState<T>());
 
   void startGame({int level = 1}) {
     final newList = _getList(level);
@@ -80,26 +90,38 @@ class GameNotifier<T> extends StateNotifier<GameState<T>> {
       isTimerRunning: true,
     );
   }
-  void showInfoDialog() {
-    // Implement the logic for showing the info dialog
-    print("Info dialog shown");
-  }
+
   void rightAnswer() {
     final newScore = state.currentScore + KeyUtil.getScoreUtil(type);
+
+    ref.read(coinProvider.notifier).addCoins(1);
+
     state = state.copyWith(
-      currentScore: newScore,
+      currentScore: newScore.toDouble(),
       rightCount: state.rightCount + 1,
     );
   }
 
   void wrongAnswer() {
-    double minusScore = KeyUtil.getScoreMinusUtil(type).abs();
-    double newScore =
+    final minusScore = KeyUtil.getScoreMinusUtil(type).abs();
+    final newScore =
     (state.currentScore - minusScore).clamp(0, double.infinity);
+
+    ref.read(coinProvider.notifier).minusCoins(1);
+
     state = state.copyWith(
-      currentScore: newScore,
+      currentScore: newScore.toDouble(),
       wrongCount: state.wrongCount + 1,
     );
+  }
+
+  /// Direct coin helpers (optional for games to call directly)
+  void addCoin() {
+    ref.read(coinProvider.notifier).addCoins(1);
+  }
+
+  void minusCoin() {
+    ref.read(coinProvider.notifier).minusCoins(1);
   }
 
   void next() {
@@ -134,8 +156,8 @@ class GameNotifier<T> extends StateNotifier<GameState<T>> {
       isTimerRunning: false,
     );
   }
+
   void updateScore() {
-    // Save to local storage, database, or just log
     print("Score updated: ${state.currentScore}");
   }
 
@@ -157,8 +179,11 @@ class GameNotifier<T> extends StateNotifier<GameState<T>> {
   }
 
   void gotItFromInfoDialog(int level) {
-    // Typically, resume game from tutorial/info state
     startGame(level: level);
+  }
+
+  void showInfoDialog() {
+    state = state.copyWith(dialogType: DialogType.info);
   }
 
   List<T> _getList(int level) {
@@ -178,9 +203,11 @@ class GameNotifier<T> extends StateNotifier<GameState<T>> {
       case GameCategoryType.CONCENTRATION:
         return MathPairsRepository.getMathPairsDataList(level) as List<T>;
       case GameCategoryType.NUMERIC_MEMORY:
-        return NumericMemoryRepository.getNumericMemoryDataList(level) as List<T>;
+        return NumericMemoryRepository.getNumericMemoryDataList(level)
+        as List<T>;
       case GameCategoryType.CORRECT_ANSWER:
-        return CorrectAnswerRepository.getCorrectAnswerDataList(level) as List<T>;
+        return CorrectAnswerRepository.getCorrectAnswerDataList(level)
+        as List<T>;
       case GameCategoryType.MAGIC_TRIANGLE:
         return (level > 15)
             ? MagicTriangleRepository.getNextLevelTriangleDataProviderList()
@@ -190,12 +217,13 @@ class GameNotifier<T> extends StateNotifier<GameState<T>> {
         return MentalArithmeticRepository.getMentalArithmeticDataList(level)
         as List<T>;
       case GameCategoryType.QUICK_CALCULATION:
-        return QuickCalculationRepository.getQuickCalculationDataList(level, 5)
-        as List<T>;
+        return QuickCalculationRepository.getQuickCalculationDataList(
+            level, 5) as List<T>;
       case GameCategoryType.MATH_GRID:
         return MathGridRepository.getMathGridData(level) as List<T>;
       case GameCategoryType.PICTURE_PUZZLE:
-        return PicturePuzzleRepository.getPicturePuzzleDataList(level) as List<T>;
+        return PicturePuzzleRepository.getPicturePuzzleDataList(level)
+        as List<T>;
       case GameCategoryType.NUMBER_PYRAMID:
         return NumberPyramidRepository.getPyramidDataList(level) as List<T>;
       case GameCategoryType.DUAL_GAME:
@@ -208,9 +236,10 @@ class GameNotifier<T> extends StateNotifier<GameState<T>> {
   }
 }
 
+/// ✅ updated provider — pass `ref` into GameNotifier
 final gameProvider = StateNotifierProvider.family<
     GameNotifier<dynamic>,
     GameState<dynamic>,
     GameCategoryType>(
-      (ref, type) => GameNotifier(type),
+      (ref, type) => GameNotifier(type, ref),
 );

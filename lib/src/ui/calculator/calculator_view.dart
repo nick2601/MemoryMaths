@@ -47,10 +47,10 @@ class CalculatorView extends ConsumerWidget {
     double mainHeight = getMainHeight(context);
 
     final state = ref.watch(
-      calculatorProvider(Tuple2(context, colorTuple.item2)),
+      calculatorProvider(colorTuple.item2),
     );
     final notifier = ref.read(
-      calculatorProvider(Tuple2(context, colorTuple.item2)).notifier,
+      calculatorProvider(colorTuple.item2).notifier,
     );
 
     return DialogListener(
@@ -151,17 +151,8 @@ class CalculatorView extends ConsumerWidget {
                           .titleSmall!
                           .copyWith(fontWeight: FontWeight.w600),
                       state is! GameState<Null>
-                          ? (ref
-                          .read(calculatorProvider(
-                        Tuple2(context, colorTuple.item2),
-                      ).notifier)
-                          .result
-                          .isNotEmpty
-                          ? ref
-                          .read(calculatorProvider(
-                        Tuple2(context, colorTuple.item2),
-                      ).notifier)
-                          .result
+                          ? (notifier.result.isNotEmpty
+                          ? notifier.result
                           : '?')
                           : '?',
                       TextAlign.center,

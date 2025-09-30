@@ -1,61 +1,71 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
+import 'dart:ui';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/numeric_memory_pair.dart';
+import 'package:mathsgames/src/data/repository/numeric_memory_repository.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
+import 'package:mathsgames/src/ui/app/time_provider.dart';
 
-import '../soundPlayer/audio_file.dart';
-
-class NumericMemoryProvider extends GameProvider<NumericMemoryPair> {
+/// Notifier for Numeric Memory game
+class NumericMemoryNotifier extends GameNotifier<NumericMemoryPair> {
   int first = -1;
   int second = -1;
-  int? level;
-  BuildContext? context;
-  bool isTimer = true;
-  Function? nextQuiz;
+  final int level;
+  final VoidCallback? nextQuiz;
 
-  NumericMemoryProvider(
-      {required TickerProvider vsync,
-      required int level,
-      required BuildContext context,
-      required Function nextQuiz,
-      bool? isTimer})
-      : super(
-            vsync: vsync,
-            gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
-            isTimer: isTimer,
-            c: context) {
-    this.level = level;
-    this.isTimer = (isTimer == null) ? true : isTimer;
-    this.context = context;
-    this.nextQuiz = nextQuiz;
-
-    startGame(level: this.level == null ? null : level, isTimer: isTimer);
+  NumericMemoryNotifier({
+    required this.level,
+    required Ref ref,
+    this.nextQuiz,
+  }) : super(GameCategoryType.NUMERIC_MEMORY, ref) {
+    startGame(level: level);
+    // Start timer
+    ref.read(timeProvider(60).notifier).startTimer();
   }
 
+  /// Check if the tapped answer is correct
   Future<void> checkResult(String mathPair, int index) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
+    if (state.currentState == null) return;
 
-    print("mathPair===$mathPair===${currentState.answer}");
-
-    if (mathPair == currentState.answer) {
-      audioPlayer.playRightSound();
-      currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-
-      addCoin();
+    if (mathPair == state.currentState!.answer) {
+      // Correct answer - use parent class methods
+      rightAnswer();
+      first = -1;
     } else {
-      minusCoin();
+      // Wrong answer - use parent class methods
       wrongAnswer();
-      audioPlayer.playWrongSound();
       first = -1;
     }
 
-    await Future.delayed(Duration(seconds: 1));
-    loadNewDataIfRequired(level: level == null ? 1 : level, isScoreAdd: false);
+    // Short pause before next round
+    await Future.delayed(const Duration(seconds: 1));
+    _loadNewData();
 
-    if (nextQuiz != null) {
-      nextQuiz!();
+    // Notify next quiz callback (optional)
+    nextQuiz?.call();
+  }
+
+  /// Load new numeric memory data
+  void _loadNewData() {
+    final newDataList = NumericMemoryRepository.getNumericMemoryDataList(level);
+    if (newDataList.isNotEmpty) {
+      state = state.copyWith(
+        list: newDataList,
+        currentState: newDataList.first,
+        index: 0,
+      );
+
+      // Restart timer
+      ref.read(timeProvider(60).notifier).restartTimer();
     }
-    notifyListeners();
   }
 }
+
+/// Provider with level-based state
+final numericMemoryProvider = StateNotifierProvider.family<
+    NumericMemoryNotifier,
+    GameState<NumericMemoryPair>,
+    int>((ref, level) {
+  return NumericMemoryNotifier(level: level, ref: ref);
+});

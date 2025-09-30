@@ -1,80 +1,109 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
-import 'package:mathsgames/src/data/models/math_grid.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/data/models/math_grid.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
+import 'package:mathsgames/src/data/repository/math_grid_repository.dart';
+import '../app/time_provider.dart';
 
-import '../soundPlayer/audio_file.dart';
-
-class MathGridProvider extends GameProvider<MathGrid> {
+/// StateNotifier for Math Grid
+class MathGridNotifier extends GameNotifier<MathGrid> {
+  final int level;
   int answerIndex = 0;
-  int? level;
-  BuildContext? context;
 
-  MathGridProvider(
-      {required TickerProvider vsync,
-      required int level,
-      required BuildContext context})
-      : super(
-            vsync: vsync,
-            gameCategoryType: GameCategoryType.MATH_GRID,
-            c: context) {
-    this.level = level;
-    this.context = context;
-    startGame(level: this.level == null ? 1 : level);
+  MathGridNotifier({required this.level, required Ref ref})
+      : super(GameCategoryType.MATH_GRID, ref) {
+    // Start game logic
+    startGame(level: level);
+    // Start timer
+    ref.read(timeProvider(60).notifier).startTimer();
   }
 
   void checkResult(int index, MathGridCellModel gridModel) {
-    if (timerStatus != TimerStatus.pause) {
-      if (gridModel.isActive) {
-        gridModel.isActive = false;
-        notifyListeners();
-      } else {
-        gridModel.isActive = true;
-        notifyListeners();
-      }
+    final timeState = ref.read(timeProvider(60));
+
+    if (timeState.timerStatus != TimerStatus.pause) {
+      final updatedGridModel = gridModel.copyWith(isActive: !gridModel.isActive);
+      final updatedList = List<MathGridCellModel>.from(state.currentState!.listForSquare);
+      updatedList[index] = updatedGridModel;
+
+      // Create new MathGrid instance
+      final newMathGrid = MathGrid(
+        listForSquare: updatedList,
+        currentAnswer: state.currentState!.currentAnswer,
+      );
+
+      state = state.copyWith(currentState: newMathGrid);
       checkForCorrectAnswer();
     }
   }
 
   Future<void> checkForCorrectAnswer() async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
-    int total = 0;
-    var listOfIndex = currentState.listForSquare
-        .where((result) => result.isActive == true)
-        .toList();
+    if (state.currentState == null) return;
 
-    for (int i = 0; i < listOfIndex.length; i++) {
-      total = total + listOfIndex[i].value;
-    }
+    int total = state.currentState!.listForSquare
+        .where((cell) => cell.isActive)
+        .fold(0, (sum, cell) => sum + cell.value);
 
-    if (currentState.currentAnswer == total) {
-      for (int i = 0; i < listOfIndex.length; i++) {
-        listOfIndex[i].isActive = false;
-        listOfIndex[i].isRemoved = true;
-      }
-      answerIndex = answerIndex + 1;
-      if (currentState.listForSquare
-          .where((element) => !element.isRemoved)
-          .isEmpty) {
-        await Future.delayed(Duration(milliseconds: 300));
-        loadNewDataIfRequired(level: level == null ? 1 : level);
-        answerIndex = 0;
-        currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-
-        addCoin();
-        if (timerStatus != TimerStatus.pause) {
-          restartTimer();
+    if (state.currentState!.currentAnswer == total) {
+      final updatedCells = state.currentState!.listForSquare.map((cell) {
+        if (cell.isActive) {
+          return cell.copyWith(isActive: false, isRemoved: true);
         }
-        notifyListeners();
+        return cell;
+      }).toList();
+
+      answerIndex++;
+
+      if (updatedCells.every((cell) => cell.isRemoved)) {
+        await Future.delayed(const Duration(milliseconds: 300));
+
+        // Load new grid data
+        _loadNewData();
+        answerIndex = 0;
+
+        // Update score
+        rightAnswer(); // This calls the parent method which handles coins and score
+
+        // Restart timer
+        ref.read(timeProvider(60).notifier).restartTimer();
       } else {
-        audioPlayer.playRightSound();
-        currentState.currentAnswer = currentState.getNewAnswer();
+        // Generate new answer with remaining cells
+        final newMathGrid = MathGrid(listForSquare: updatedCells);
+        state = state.copyWith(currentState: newMathGrid);
       }
     }
   }
 
-  clear() {
-    notifyListeners();
+  void _loadNewData() {
+    final newMathGridList = MathGridRepository.getMathGridData(level);
+    if (newMathGridList.isNotEmpty) {
+      state = state.copyWith(
+        list: newMathGridList,
+        currentState: newMathGridList.first,
+        index: 0,
+      );
+    }
+  }
+
+  void clear() {
+    if (state.currentState != null) {
+      final clearedCells = state.currentState!.listForSquare.map((cell) {
+        return cell.copyWith(isActive: false);
+      }).toList();
+
+      final newMathGrid = MathGrid(
+        listForSquare: clearedCells,
+        currentAnswer: state.currentState!.currentAnswer,
+      );
+
+      state = state.copyWith(currentState: newMathGrid);
+    }
   }
 }
+
+/// Riverpod provider for MathGrid
+final mathGridProvider = StateNotifierProvider.family<
+    MathGridNotifier, GameState<MathGrid>, int>(
+  (ref, level) => MathGridNotifier(level: level, ref: ref),
+);

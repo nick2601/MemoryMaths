@@ -1,22 +1,27 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mathsgames/src/core/app_assets.dart';
 
 import '../../utility/Constants.dart';
 import 'fetch_pixels.dart';
 
 /// 🔹 Show custom toast
-void showCustomToast(String text, BuildContext context) {
-  Fluttertoast.showToast(
-    msg: text,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.black,
-    textColor: Colors.white,
-    fontSize: 12.0,
+void showCustomToast(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        style: const TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.black87,
+      duration: const Duration(seconds: 2),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    ),
   );
 }
 
@@ -103,15 +108,10 @@ Widget getRoundedContainer({
     height: height,
     width: width,
     alignment: Alignment.center,
-    decoration: ShapeDecoration(
+    decoration: BoxDecoration(
       color: bgColor,
-      shape: SmoothRectangleBorder(
-        borderRadius: SmoothBorderRadius(
-          cornerRadius: radius,
-          cornerSmoothing: 0.8,
-        ),
-      ),
-      shadows: shadows,
+      borderRadius: BorderRadius.circular(radius),
+      boxShadow: shadows,
     ),
     child: child,
   );

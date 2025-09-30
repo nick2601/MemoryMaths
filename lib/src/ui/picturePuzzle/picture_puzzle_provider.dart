@@ -1,66 +1,80 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/picture_puzzle.dart';
+import 'package:mathsgames/src/data/repository/picture_puzzle_repository.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
+import 'package:mathsgames/src/ui/app/time_provider.dart';
 
-import '../soundPlayer/audio_file.dart';
+/// StateNotifier for Picture Puzzle that extends GameNotifier
+class PicturePuzzleNotifier extends GameNotifier<PicturePuzzle> {
+  final int level;
+  String result = "";
 
-class PicturePuzzleProvider extends GameProvider<PicturePuzzle> {
-  late String result;
-  int? level;
-  BuildContext? context;
-
-  PicturePuzzleProvider(
-      {required TickerProvider vsync,
-      required int level,
-      required BuildContext context})
-      : super(
-            vsync: vsync,
-            gameCategoryType: GameCategoryType.PICTURE_PUZZLE,
-            c: context) {
-    this.level = level;
-    this.context = context;
-    startGame(level: this.level == null ? null : level);
+  PicturePuzzleNotifier({required this.level, required Ref ref})
+      : super(GameCategoryType.PICTURE_PUZZLE, ref) {
+    startGame(level: level);
+    // Start timer
+    ref.read(timeProvider(60).notifier).startTimer();
   }
 
-  void checkGameResult(String answer) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
+  /// Handle answer checking
+  Future<void> checkGameResult(String answer) async {
+    final timeState = ref.read(timeProvider(60));
 
-    if (result.length < currentState.answer.toString().length &&
-        timerStatus != TimerStatus.pause) {
-      result = result + answer;
-      notifyListeners();
-      if (int.parse(result) == currentState.answer) {
-        audioPlayer.playRightSound();
-        await Future.delayed(Duration(milliseconds: 300));
-        loadNewDataIfRequired(level: level == null ? null : level);
-        currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
+    if (result.length < state.currentState!.answer.toString().length &&
+        timeState.timerStatus != TimerStatus.pause) {
+      final newResult = result + answer;
+      result = newResult;
 
-        addCoin();
+      // Update state with new result
+      state = state.copyWith(result: newResult);
 
-        if (timerStatus != TimerStatus.pause) {
-          restartTimer();
+      if (int.parse(newResult) == state.currentState!.answer) {
+        // Correct answer
+        await Future.delayed(const Duration(milliseconds: 300));
+
+        // Load new puzzle from repository
+        final newPuzzleList = PicturePuzzleRepository.getPicturePuzzleDataList(level);
+        if (newPuzzleList.isNotEmpty) {
+          final newPuzzle = newPuzzleList.first;
+
+          state = state.copyWith(
+            currentState: newPuzzle,
+            currentScore: state.currentScore + KeyUtil.getScoreUtil(GameCategoryType.PICTURE_PUZZLE),
+          );
+
+          result = "";
+
+          // Use parent class methods for score and coins
+          rightAnswer();
+
+          // Restart timer
+          ref.read(timeProvider(60).notifier).restartTimer();
         }
-        notifyListeners();
-      } else if (result.length == currentState.answer.toString().length) {
-        audioPlayer.playWrongSound();
+      } else if (newResult.length == state.currentState!.answer.toString().length) {
+        // Wrong answer
         wrongAnswer();
-        minusCoin();
+        result = "";
       }
     }
   }
 
   void backPress() {
-    if (result.length > 0) {
+    if (result.isNotEmpty) {
       result = result.substring(0, result.length - 1);
-      notifyListeners();
+      state = state.copyWith(result: result);
     }
   }
 
   void clearResult() {
     result = "";
-    notifyListeners();
+    state = state.copyWith(result: result);
   }
 }
+
+/// Provider family with just level parameter
+final picturePuzzleProvider = StateNotifierProvider.family<
+    PicturePuzzleNotifier, GameState<PicturePuzzle>, int>(
+  (ref, level) => PicturePuzzleNotifier(level: level, ref: ref),
+);

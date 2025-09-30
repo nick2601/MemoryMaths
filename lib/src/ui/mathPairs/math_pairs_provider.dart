@@ -1,79 +1,109 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
-import 'package:mathsgames/src/data/models/math_pairs.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/data/models/math_pairs.dart';
+import 'package:mathsgames/src/data/repository/math_pairs_repository.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
+import 'package:mathsgames/src/ui/app/time_provider.dart';
 
-import '../soundPlayer/audio_file.dart';
-
-class MathPairsProvider extends GameProvider<MathPairs> {
+/// Riverpod Notifier for Math Pairs game
+class MathPairsNotifier extends GameNotifier<MathPairs> {
+  final int level;
   int first = -1;
-  int second = -1;
-  int? level;
-  BuildContext? context;
 
-  MathPairsProvider(
-      {required TickerProvider vsync,
-      required int level,
-      required BuildContext context})
-      : super(
-            vsync: vsync,
-            gameCategoryType: GameCategoryType.MATH_PAIRS,
-            c: context) {
-    this.level = level;
-    this.context = context;
-
-    startGame(level: this.level == null ? null : level);
+  MathPairsNotifier({required this.level, required Ref ref})
+      : super(GameCategoryType.MATH_PAIRS, ref) {
+    startGame(level: level);
+    // Start timer
+    ref.read(timeProvider(60).notifier).startTimer();
   }
 
-  Future<void> checkResult(Pair mathPair, int index) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
+  /// Handle card tap & matching logic
+  Future<void> checkResult(int index) async {
+    final mathPairs = state.currentState;
+    if (mathPairs == null) return;
 
-    if (timerStatus != TimerStatus.pause) {
-      if (!currentState.list[index].isActive) {
-        currentState.list[index].isActive = true;
-        notifyListeners();
-        if (first != -1) {
-          if (currentState.list[first].uid == currentState.list[index].uid) {
-            audioPlayer.playRightSound();
+    final timeState = ref.read(timeProvider(60));
+    if (timeState.timerStatus == TimerStatus.pause) return;
 
-            currentState.list[first].isVisible = false;
-            currentState.list[index].isVisible = false;
-            currentState.availableItem = currentState.availableItem - 2;
-            first = -1;
-            oldScore = currentScore;
-            currentScore = currentScore + KeyUtil.mathematicalPairsScore;
-            notifyListeners();
-            if (currentState.availableItem == 0) {
-              await Future.delayed(Duration(milliseconds: 300));
-              loadNewDataIfRequired(level: level == null ? 1 : level);
-              currentScore =
-                  currentScore + KeyUtil.getScoreUtil(gameCategoryType);
+    final currentList = [...mathPairs.list]; // copy of Pair list
+    final tapped = currentList[index];
 
-              addCoin();
+    if (!tapped.isActive && tapped.isVisible) {
+      // flip card
+      currentList[index] = tapped.copyWith(isActive: true);
 
-              if (timerStatus != TimerStatus.pause) {
-                restartTimer();
-              }
-              notifyListeners();
-            }
-          } else {
-            audioPlayer.playWrongSound();
-            minusCoin();
-            wrongAnswer();
-            currentState.list[first].isActive = false;
-            currentState.list[index].isActive = false;
-            first = -1;
-            notifyListeners();
+      state = state.copyWith(
+        currentState: mathPairs.copyWith(list: currentList),
+      );
+
+      if (first != -1) {
+        if (currentList[first].uid == tapped.uid) {
+          // ✅ Match found
+          currentList[first] =
+              currentList[first].copyWith(isVisible: false, isActive: false);
+          currentList[index] =
+              currentList[index].copyWith(isVisible: false, isActive: false);
+
+          state = state.copyWith(
+            currentState: mathPairs.copyWith(list: currentList),
+          );
+
+          // Use parent class methods for scoring and coins
+          rightAnswer();
+          first = -1;
+
+          if (currentList.every((p) => !p.isVisible)) {
+            // All pairs matched → Load new round
+            await Future.delayed(const Duration(milliseconds: 300));
+            _loadNewRound();
           }
         } else {
-          first = index;
+          // ❌ Not a match
+          await Future.delayed(const Duration(milliseconds: 800));
+          currentList[first] = currentList[first].copyWith(isActive: false);
+          currentList[index] = currentList[index].copyWith(isActive: false);
+
+          state = state.copyWith(
+            currentState: mathPairs.copyWith(list: currentList),
+          );
+
+          // Use parent class methods for penalties
+          wrongAnswer();
+          first = -1;
         }
       } else {
-        first = -1;
-        currentState.list[index].isActive = false;
-        notifyListeners();
+        first = index;
       }
+    } else {
+      // tapped same card again → deactivate
+      currentList[index] = tapped.copyWith(isActive: false);
+      state = state.copyWith(
+        currentState: mathPairs.copyWith(list: currentList),
+      );
+      first = -1;
+    }
+  }
+
+  void _loadNewRound() {
+    // Generate new pairs from repository
+    final newMathPairsList = MathPairsRepository.getMathPairsDataList(level);
+    if (newMathPairsList.isNotEmpty) {
+      state = state.copyWith(
+        list: newMathPairsList,
+        currentState: newMathPairsList.first,
+        index: 0,
+      );
+      first = -1;
+
+      // Restart timer
+      ref.read(timeProvider(60).notifier).restartTimer();
     }
   }
 }
+
+/// Riverpod provider
+final mathPairsProvider = StateNotifierProvider.family<
+    MathPairsNotifier, GameState<MathPairs>, int>(
+  (ref, level) => MathPairsNotifier(level: level, ref: ref),
+);

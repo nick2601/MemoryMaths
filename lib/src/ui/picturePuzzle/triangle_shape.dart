@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TriangleShape extends CustomPainter {
@@ -9,21 +8,23 @@ class TriangleShape extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint();
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = color
+      ..strokeWidth = stroke
+      ..strokeJoin = StrokeJoin.round;
 
-    paint.style = PaintingStyle.stroke;
-    paint.color = color;
-    paint.strokeWidth = stroke;
-    paint.strokeJoin = StrokeJoin.round;
+    final path = Path()
+      ..moveTo(size.width / 2, 0)          // Top center
+      ..lineTo(0, size.height)             // Bottom left
+      ..lineTo(size.width, size.height)    // Bottom right
+      ..close();
 
-    var path = Path();
-    path.moveTo(size.width / 2, 0);
-    path.lineTo(0, size.height);
-    path.lineTo(size.width, size.height);
-    path.close();
     canvas.drawPath(path, paint);
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant TriangleShape oldDelegate) {
+    return oldDelegate.color != color || oldDelegate.stroke != stroke;
+  }
 }

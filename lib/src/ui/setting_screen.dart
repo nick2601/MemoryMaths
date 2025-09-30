@@ -1,12 +1,10 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:path_provider/path_provider.dart';
+import 'package:mathsgames/src/ui/feedback_screen.dart';
 import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,7 +25,8 @@ import 'app/theme_provider.dart';
 
 final soundProvider = StateProvider<bool>((ref) => false);
 final vibrationProvider = StateProvider<bool>((ref) => false);
-final darkModeProvider = StateProvider<bool>((ref) => false);
+
+const String privacyURL = "https://www.google.com"; // Placeholder URL
 
 class SettingScreen extends ConsumerWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -35,10 +34,10 @@ class SettingScreen extends ConsumerWidget {
   void _back(BuildContext context) {
     if (kIsWeb) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pop();
+        if (Navigator.canPop(context)) Navigator.of(context).pop();
       });
     } else {
-      Navigator.of(context).pop();
+      if (Navigator.canPop(context)) Navigator.of(context).pop();
     }
   }
 
@@ -48,12 +47,12 @@ class SettingScreen extends ConsumerWidget {
 
     final margin = getHorizontalSpace(context);
     final theme = Theme.of(context).textTheme.titleSmall!;
-    final darkMode = ref.watch(darkModeProvider);
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
         _back(context);
-        return false;
       },
       child: Scaffold(
         appBar: getNoneAppBar(context),
@@ -64,7 +63,6 @@ class SettingScreen extends ConsumerWidget {
               children: [
                 SizedBox(height: getScreenPercentSize(context, 2)),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     getDefaultIconWidget(
                       context,
@@ -72,25 +70,28 @@ class SettingScreen extends ConsumerWidget {
                       folder: KeyUtil.themeYellowFolder,
                       function: () => _back(context),
                     ),
-                    Expanded(
-                      child: Center(
-                        child: getCustomFont(
-                          'Settings',
-                          35,
-                          theme.color!,
-                          1,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                    const Spacer(),
+                    getCustomFont(
+                      'Settings',
+                      35,
+                      theme.color!,
+                      1,
+                      fontWeight: FontWeight.w600,
                     ),
+                    const Spacer(),
                     IconButton(
-                      icon: const Icon(Icons.logout, color: Colors.black),
-                      onPressed: () async {
-                        await ref.read(authProvider.notifier).signOut();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => LoginScreen()),
-                        );
+                      icon: Icon(Icons.logout,
+                          color: Theme.of(context).iconTheme.color),
+                      onPressed: () {
+                        ref.read(authProvider.notifier).logout();
+                        if (context.mounted) {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const LoginScreen()),
+                            (route) => false,
+                          );
+                        }
                       },
                     ),
                   ],
@@ -105,16 +106,15 @@ class SettingScreen extends ConsumerWidget {
   }
 
   Widget _buildList(BuildContext context, WidgetRef ref) {
-    final verSpace = SizedBox(height: FetchPixels.getPixelHeight(35));
     final soundOn = ref.watch(soundProvider);
     final vibrateOn = ref.watch(vibrationProvider);
-    final darkMode = ref.watch(darkModeProvider);
+    final isDarkMode = ref.watch(themeProvider) == ThemeMode.dark;
 
     return ListView(
       children: [
-        verSpace,
+        const SizedBox(height: 24),
         getTitleText("Sound"),
-        verSpace,
+        const SizedBox(height: 16),
         Row(
           children: [
             _toggleTile(
@@ -126,32 +126,25 @@ class SettingScreen extends ConsumerWidget {
             _toggleTile(
               label: "Vibration",
               value: vibrateOn,
-              onChanged: (val) => ref.read(vibrationProvider.notifier).state = val,
+              onChanged: (val) =>
+              ref.read(vibrationProvider.notifier).state = val,
             ),
           ],
         ),
-        verSpace,
         getDivider(),
-        verSpace,
         getTitleText("Theme"),
-        verSpace,
-        Row(
-          children: [
-            _toggleTile(
-              label: "Dark Mode",
-              value: darkMode,
-              onChanged: (val) {
-                ref.read(darkModeProvider.notifier).state = val;
-                ref.read(themeProvider.notifier).toggleTheme();
-              },
-            ),
-          ],
+        const SizedBox(height: 16),
+        _toggleTile(
+          label: "Dark Mode",
+          value: isDarkMode,
+          onChanged: (val) {
+            ref.read(themeProvider.notifier).toggleTheme();
+          },
         ),
-        verSpace,
         getDivider(),
-        getCell(string: "Share", function: () => _share()),
+        _getCell(string: "Share", function: () => _share(context)),
         getDivider(),
-        getCell(
+        _getCell(
           string: "Rate Us",
           function: () {
             final model = GradientModel()..primaryColor = KeyUtil.primaryColor1;
@@ -165,8 +158,16 @@ class SettingScreen extends ConsumerWidget {
           },
         ),
         getDivider(),
-        getCell(string: "Privacy Policy", function: () => _launchURL()),
+        _getCell(
+            string: "Feedback",
+            function: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const FeedbackScreen()))),
         getDivider(),
+        _getCell(string: "Privacy Policy", function: _launchURL),
+        getDivider(),
+        _getCell(string: "Logout", function: () => ref.read(authProvider.notifier).logout()),
       ],
     );
   }
@@ -182,7 +183,6 @@ class SettingScreen extends ConsumerWidget {
         decoration: getDefaultDecoration(
           radius: FetchPixels.getPixelHeight(30),
           borderColor: Colors.grey,
-          bgColor: null,
         ),
         child: Row(
           children: [
@@ -202,23 +202,56 @@ class SettingScreen extends ConsumerWidget {
     );
   }
 
+  Widget _getCell({required String string, required Function function}) {
+    return InkWell(
+      onTap: () => function(),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: FetchPixels.getPixelWidth(30),
+          vertical: FetchPixels.getPixelHeight(20),
+        ),
+        decoration: getDefaultDecoration(
+          radius: FetchPixels.getPixelHeight(30),
+          borderColor: Colors.grey,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            getSubTitleFonts(string),
+            Icon(Icons.arrow_forward_ios, color: Colors.grey),
+          ],
+        ),
+      ),
+    );
+  }
+
   Future<void> _launchURL() async {
-    if (!await launchUrl(Uri.parse(privacyURL))) {
-      throw 'Could not launch $privacyURL';
+    final uri = Uri.parse(privacyURL);
+    if (!await launchUrl(uri)) {
+      debugPrint("Could not launch $privacyURL");
     }
   }
 
-  Future<void> _share() async {
-    await Share.share('Check out Math Games: ${getAppLink()}');
+  String getAppLink() {
+    // Replace with your actual app link
+    return "https://play.google.com/store/apps/details?id=com.example.mathsgames";
+  }
+
+  Future<void> _share(BuildContext context) async {
+    final link = getAppLink();
+    await Clipboard.setData(ClipboardData(text: link));
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("App link copied to clipboard: $link")),
+      );
+    }
   }
 }
 
 // ----------------- Helpers ----------------- //
 
-Widget getDivider() => Container(
-  color: Colors.grey.shade300,
-  height: 0.5,
-);
+Widget getDivider() => Divider(color: Colors.grey.shade300, height: 32);
 
 Widget getSubTitleFonts(String title) {
   return getCustomFont(title, 30, Colors.black, 1,

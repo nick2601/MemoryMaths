@@ -1,33 +1,40 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TrianglePainter extends CustomPainter {
   final Color color;
   final double radius;
   final double padding;
+  final double strokeWidth;
 
-  TrianglePainter({
+  const TrianglePainter({
     required this.color,
-    required this.radius,
-    required this.padding,
+    this.radius = 0,
+    this.padding = 0,
+    this.strokeWidth = 2.0,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint();
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..isAntiAlias = true; // ✅ smoother edges
 
-    paint.style = PaintingStyle.stroke;
-    paint.color = color;
-    paint.strokeWidth = 2.0;
+    final path = Path()
+      ..moveTo(size.width / 2, radius + padding) // top
+      ..lineTo(radius + padding, size.height - radius - padding) // bottom left
+      ..lineTo(size.width - radius - padding, size.height - radius - padding) // bottom right
+      ..close(); // close the triangle
 
-    var path = Path();
-    path.moveTo(size.width / 2, radius + padding);
-    path.lineTo(radius + padding, size.height - radius - padding);
-    path.lineTo(size.width - radius - padding, size.height - radius - padding);
-    path.close();
     canvas.drawPath(path, paint);
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant TrianglePainter oldDelegate) {
+    return oldDelegate.color != color ||
+        oldDelegate.radius != radius ||
+        oldDelegate.padding != padding ||
+        oldDelegate.strokeWidth != strokeWidth;
+  }
 }

@@ -5,10 +5,10 @@ import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
 import 'package:mathsgames/src/ui/common/common_tab_animation_view.dart';
 import 'package:mathsgames/src/utility/Constants.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DashboardButtonView extends StatelessWidget {
-  final Function onTab;
+  final VoidCallback onTab;
   final Animation<Offset> position;
   final Dashboard dashboard;
   final double margin;
@@ -23,17 +23,13 @@ class DashboardButtonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double height = FetchPixels.getPixelWidth( );
     double height = getWidthPercentSize(context, 42);
     double circle = getPercentSize(height, 42);
     double iconSize = getPercentSize(circle, 62);
 
-    print(
-        "dashboard-----${AppAssets.assetFolderPath + dashboard.folder + AppAssets.homeIcon}");
-    // print(
-    //     "themeProvider---${themeProvider.folderName}---${themeMode}");
-    return Consumer<ThemeProvider>(
-      builder: (context, value, child) {
+    return Consumer(
+      builder: (context, ref, child) {
+        ref.watch(themeProvider);
         return CommonTabAnimationView(
           onTab: onTab,
           isDelayed: true,
@@ -49,7 +45,6 @@ class DashboardButtonView extends StatelessWidget {
                     width: double.infinity,
                     child: SvgPicture.asset(
                       '${getFolderName(context, dashboard.folder)}${AppAssets.homeCellBg}',
-                      // '${getCurrentThemePath(value.themeMode)}${dashboard.bgIcon}',
                       height: height,
                       width: double.infinity,
                       fit: BoxFit.fill,

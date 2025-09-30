@@ -30,7 +30,6 @@ import 'package:tuple/tuple.dart';
 
 import 'app_constant.dart';
 
-
 /// Helper for safe argument extraction
 T getRouteArgs<T>(BuildContext context) {
   final args = ModalRoute.of(context)?.settings.arguments;
@@ -39,70 +38,90 @@ T getRouteArgs<T>(BuildContext context) {
 }
 
 final Map<String, WidgetBuilder> appRoutes = {
-  KeyUtil.splash: (_) => SplashView(),
-  KeyUtil.dashboard: (_) => DashboardView(),
-  KeyUtil.login: (_) => LoginScreen(),
-  KeyUtil.signup: (_) => SignupScreen(),
+  KeyUtil.splash: (_) => const SplashView(),
+  KeyUtil.dashboard: (_) => const DashboardView(),
+  KeyUtil.login: (_) => const LoginScreen(),
+  KeyUtil.signup: (_) => const SignupScreen(),
 
-  KeyUtil.home: (context) => HomeView(
-    tuple2: getRouteArgs<Tuple2<Dashboard, double>>(context),
-  ),
-  KeyUtil.level: (context) => LevelView(
-    tuple2: getRouteArgs<Tuple2<GameCategory, Dashboard>>(context),
-  ),
+  KeyUtil.home: (context) {
+    final tuple = getRouteArgs<Tuple2<Dashboard, double>>(context);
+    return HomeView(tuple2: tuple);
+  },
+  KeyUtil.level: (context) {
+    final tuple = getRouteArgs<Tuple2<GameCategory, Dashboard>>(context);
+    return LevelView(tuple2: tuple);
+  },
 
-  KeyUtil.calculator: (context) => CalculatorView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.guessSign: (context) => GuessSignView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.trueFalse: (context) => TrueFalseView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.complexCalculation: (context) => ComplexCalculationView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.findMissing: (context) => FindMissingView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.dualGame: (context) => DualView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.correctAnswer: (context) => CorrectAnswerView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.quickCalculation: (context) => QuickCalculationView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.mentalArithmetic: (context) => MentalArithmeticView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.squareRoot: (context) => SquareRootView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.numericMemory: (context) => NumericMemoryView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.cubeRoot: (context) => CubeRootView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.mathPairs: (context) => MathPairsView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.concentration: (context) => ConcentrationView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.magicTriangle: (context) => MagicTriangleView(
-    colorTuple1: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.mathGrid: (context) => MathGridView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.picturePuzzle: (context) => PicturePuzzleView(
-    colorTuple: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
-  KeyUtil.numberPyramid: (context) => NumberPyramidView(
-    colorTuple1: getRouteArgs<Tuple2<GradientModel, int>>(context),
-  ),
+  KeyUtil.calculator: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return CalculatorView(colorTuple: tuple);
+  },
+  KeyUtil.guessSign: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return GuessSignView(colorTuple: tuple);
+  },
+  KeyUtil.trueFalse: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return TrueFalseView(colorTuple: tuple);
+  },
+  KeyUtil.complexCalculation: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return ComplexCalculationView(colorTuple: tuple);
+  },
+  KeyUtil.findMissing: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return FindMissingView(colorTuple: tuple);
+  },
+  KeyUtil.dualGame: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return DualView(colorTuple: tuple);
+  },
+  KeyUtil.correctAnswer: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return CorrectAnswerView(colorTuple: tuple);
+  },
+  KeyUtil.quickCalculation: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return QuickCalculationView(colorTuple: tuple);
+  },
+  KeyUtil.mentalArithmetic: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return MentalArithmeticView(colorTuple: tuple);
+  },
+  KeyUtil.squareRoot: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return SquareRootView(colorTuple: tuple);
+  },
+  KeyUtil.numericMemory: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return NumericMemoryView(colorTuple: tuple);
+  },
+  KeyUtil.cubeRoot: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return CubeRootView(colorTuple: tuple);
+  },
+  KeyUtil.mathPairs: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return MathPairsView(colorTuple: tuple);
+  },
+  KeyUtil.concentration: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return ConcentrationView(colorTuple: tuple);
+  },
+  KeyUtil.magicTriangle: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return MagicTriangleView(colorTuple1: tuple);
+  },
+  KeyUtil.mathGrid: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return MathGridView(colorTuple: tuple);
+  },
+  KeyUtil.picturePuzzle: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return PicturePuzzleView(colorTuple: tuple);
+  },
+  KeyUtil.numberPyramid: (context) {
+    final tuple = getRouteArgs<Tuple2<GradientModel, int>>(context);
+    return NumberPyramidView(colorTuple1: tuple);
+  },
 };

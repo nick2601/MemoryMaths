@@ -63,6 +63,7 @@ class KeyUtil {
   static const String mathGrid = 'MathGrid';
   static const String numberPyramid = "NumberPyramid";
   static const String numericMemory = "numericMemory";
+  static const String settings = 'settings';
 
   /// ---------------- COLORS ----------------
   static Color primaryColor1 = "#FFCB43".toColor();
