@@ -41,13 +41,10 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   late Animation<double> fillImageRightPositionTween;
   late bool isGamePageOpen;
   Tuple2<Dashboard, double>? tuple2;
- // AdsFile? adsFile;
 
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      // adsFile = new AdsFile(context);
-      // adsFile!.createAnchoredBanner(context, setState);
     });
     tuple2 = widget.tuple2;
     isGamePageOpen = false;

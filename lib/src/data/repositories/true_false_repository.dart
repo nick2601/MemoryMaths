@@ -36,13 +36,5 @@ class TrueFalseRepository {
   }
 }
 
-/// Test function to generate questions for levels 1-4
-void main() {
-  for (int i = 1; i < 5; i++) {
-    TrueFalseRepository.getTrueFalseDataList(i);
-  }
-}
 
-// Note: Commented out code below appears to be a different implementation
-// for generating "Find Missing" math problems. Consider moving to a
-// separate repositories class if needed.
+

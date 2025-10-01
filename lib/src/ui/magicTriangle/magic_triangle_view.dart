@@ -149,18 +149,6 @@ class MagicTriangleView extends StatelessWidget {
                             ),
                           ],
                         ),
-
-                        // return ListView.builder(
-                        //   itemCount: list.length,
-                        //
-                        //   itemBuilder: (context, index) {
-                        //   return Container(
-                        //     height: btnHeight,
-                        //     decoration: getDefaultDecoration(
-                        //       bgColor: colorTuple.item1.backgroundColor
-                        //     ),
-                        //   );
-                        // },);
                       ),
                     ],
                   ),
@@ -171,80 +159,6 @@ class MagicTriangleView extends StatelessWidget {
           context: context,
           isTopMargin: false,
         ),
-
-        // child: getCommonWidget(context: context, child: Column(
-        //   children: <Widget>[
-        //
-        //     Row(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: <Widget>[
-        //         Selector<MagicTriangleProvider, int>(
-        //             selector: (p0, p1) => p1.currentState.answer,
-        //             builder: (context, answer, child) {
-        //               return getTextWidget(
-        //                   Theme
-        //                       .of(context)
-        //                       .textTheme
-        //                       .subtitle2!.copyWith(fontWeight: FontWeight.bold),
-        //                   answer.toString(),
-        //                   TextAlign.center,
-        //                   getPercentSize(
-        //                       remainHeight, 4));
-        //             }),
-        //       ],
-        //     ),
-        //     SizedBox(height: getPercentSize(remainHeight, 3),),
-        //
-        //     Expanded(
-        //       child: LayoutBuilder(builder: (context, constraints) {
-        //
-        //         print("size---${constraints.maxWidth}----${constraints.maxWidth}");
-        //         return Stack(
-        //           alignment: Alignment.center,
-        //           children: <Widget>[
-        //
-        //
-        //             Selector<MagicTriangleProvider, bool>(
-        //                 selector: (p0, p1) => p1.currentState.is3x3,
-        //                 builder: (context, is3x3, child) {
-        //                   return is3x3
-        //                       ? Triangle3x3(
-        //                     radius: radius,
-        //                     padding: padding,
-        //                     triangleHeight: constraints.maxWidth,
-        //                     triangleWidth: constraints.maxWidth,
-        //                     colorTuple: colorTuple,
-        //                   )
-        //                       : Triangle4x4(
-        //                     radius: radius,
-        //                     padding: padding,
-        //                     triangleHeight: constraints.maxWidth,
-        //                     triangleWidth: constraints.maxWidth,
-        //                     colorTuple: colorTuple,
-        //                   );
-        //                 }),
-        //           ],
-        //         );
-        //       }),
-        //     ),
-        //
-        //     SizedBox(height: getPercentSize(remainHeight, 3),),
-        //     Selector<MagicTriangleProvider, bool>(
-        //         selector: (p0, p1) => p1.currentState.is3x3,
-        //         builder: (context, is3x3, child) {
-        //           return
-        //             is3x3
-        //               ? TriangleInput3x3(colorTuple: colorTuple)
-        //               :
-        //             TriangleInput4x4(colorTuple: colorTuple);
-        //         }),
-        //     SizedBox(height: getPercentSize(remainHeight, 3),),
-        //
-        //   ],
-        // ), subChild:     CommonInfoTextView<MagicTriangleProvider>(
-        //     gameCategoryType: GameCategoryType.MAGIC_TRIANGLE,
-        //     folder: colorTuple1.item1.folderName!,
-        //     color: colorTuple1.item1.cellColor!),),
       ),
     );
   }

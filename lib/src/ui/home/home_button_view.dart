@@ -36,10 +36,6 @@ class HomeButtonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double height = getWidthPercentSize(context, 42);
-    // double subHeight = getPercentSize(height, 50);
-    // double circle = getPercentSize(subHeight, 70);
-    // double iconSize = getPercentSize(circle, 50);
     double height = getScreenPercentSize(context, 30);
     double iconHeight = getPercentSize(height, 24);
     double remainHeight = height - (getPercentSize(height, 17) * 2);

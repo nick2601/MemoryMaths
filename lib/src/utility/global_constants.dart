@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:figma_squircle/figma_squircle.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,6 +17,7 @@ import '../ui/dashboard/dashboard_provider.dart';
 import '../ui/resizer/fetch_pixels.dart';
 import '../ui/setting_screen.dart';
 
+/// Key string constants for different game types
 String keyCalculator = "calculator";
 String keySign = "sign";
 String keyCorrectAnswer = "correct_answer";
@@ -36,43 +36,77 @@ String keyMagicTriangle = "magic_triangle";
 String keyPicturePuzzle = "picture_puzzle";
 String keyNumberPyramid = "number_pyramid";
 String keyNumericMemory = "numeric_memory";
-String fontFamily = "Montserrat";
 
+/// Font family constants
+String fontFamily = "Montserrat";
 String fontFamily1 = "Poppins";
+
+/// Default level and difficulty constants
 int defaultLevelSize = 30;
 int easyQuiz = 1;
 int mediumQuiz = 2;
 int hardQuiz = 3;
 
+/// Calculates percentage of a given total value
+///
+/// [total] - The total value
+/// [percent] - The percentage to calculate (0-100)
+/// Returns the calculated percentage value
 double getPercentSize(double total, double percent) {
   return (total * percent) / 100;
 }
 
+/// Calculates a percentage of the screen height
+///
+/// [context] - BuildContext for accessing screen dimensions
+/// [percent] - The percentage of screen height (0-100)
+/// Returns height in pixels based on percentage
 double getScreenPercentSize(BuildContext context, double percent) {
   return (MediaQuery.of(context).size.height * percent) / 100;
 }
 
+/// Gets standard horizontal spacing
+///
+/// [context] - BuildContext for accessing screen dimensions
+/// Returns a consistent horizontal spacing value
 double getHorizontalSpace(BuildContext context) {
   FetchPixels(context);
-  // return getWidthPercentSize(context, 3.3);
   return FetchPixels.getPixelWidth(40);
-  // return getWidthPercentSize(context, 3.3);
 }
 
+/// Gets standard vertical spacing
+///
+/// [context] - BuildContext for accessing screen dimensions
+/// Returns a consistent vertical spacing value
 double getVerticalSpace(BuildContext context) {
   return FetchPixels.getPixelHeight(37);
-  // return getScreenPercentSize(context, 3);
 }
 
+/// Calculates a percentage of the screen width
+///
+/// [context] - BuildContext for accessing screen dimensions
+/// [percent] - The percentage of screen width (0-100)
+/// Returns width in pixels based on percentage
 double getWidthPercentSize(BuildContext context, double percent) {
   return (MediaQuery.of(context).size.width * percent) / 100;
 }
 
-setStatusBarColor(Color color) {
+/// Sets the status bar color
+///
+/// [color] - The color to apply to the status bar
+void setStatusBarColor(Color color) {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: color));
 }
 
+/// Creates a Text widget with maximum line constraint
+///
+/// [textStyle] - The text style to apply
+/// [text] - The text to display
+/// [textAlign] - The text alignment
+/// [textSizes] - The text size
+/// [maxLine] - Maximum number of lines before ellipsis
+/// Returns a styled Text widget with max lines
 Widget getTextWidgetWithMaxLine(TextStyle textStyle, String text,
     TextAlign textAlign, double textSizes, int maxLine) {
   return Text(
@@ -89,6 +123,14 @@ Widget getTextWidgetWithMaxLine(TextStyle textStyle, String text,
   );
 }
 
+/// Creates a Text widget with standard styling
+///
+/// [textStyle] - The text style to apply
+/// [text] - The text to display
+/// [textAlign] - The text alignment
+/// [textSizes] - The text size
+/// [hint] - Optional hint text
+/// Returns a styled Text widget
 Widget getTextWidget(
     TextStyle textStyle, String text, TextAlign textAlign, double textSizes,
     {String? hint}) {
@@ -104,7 +146,16 @@ Widget getTextWidget(
   );
 }
 
-getDefaultDecoration(
+/// Creates a smooth rectangle decoration with optional shadow
+///
+/// [radius] - Corner radius
+/// [bgColor] - Background color
+/// [borderColor] - Border color
+/// [isShadow] - Whether to apply shadow
+/// [borderWidth] - Border width
+/// [shadowColor] - Shadow color
+/// Returns a ShapeDecoration with smooth corners
+ShapeDecoration getDefaultDecoration(
     {double? radius,
     Color? bgColor,
     Color? borderColor,
@@ -138,44 +189,56 @@ getDefaultDecoration(
   );
 }
 
-getDefaultDecorationWithGradient(
+/// Creates a smooth rectangle decoration with gradient
+///
+/// [radius] - Corner radius
+/// [bgColor] - Background color
+/// [borderColor] - Border color
+/// [isShadow] - Whether to apply shadow
+/// [colors] - Optional gradient colors
+/// Returns a BoxDecoration with gradient and smooth corners
+BoxDecoration getDefaultDecorationWithGradient(
     {double? radius,
     Color? bgColor,
     Color? borderColor,
     bool? isShadow,
-    var colors}) {
-  return ShapeDecoration(
+    Gradient? colors}) {
+  return BoxDecoration(
     gradient: colors,
-    shadows: isShadow == null
+    boxShadow: isShadow == null
         ? []
         : [
             BoxShadow(
                 color: bgColor!.withOpacity(0.1),
-                // color: bgColor!.withOpacity(0.3),
                 spreadRadius: 0,
                 blurRadius: 10,
                 offset: Offset(0, 3))
           ],
-    shape: SmoothRectangleBorder(
-      side: BorderSide(
-          color: (borderColor == null) ? Colors.transparent : borderColor,
-          width: (borderColor == null) ? 0 : 1),
-      borderRadius: SmoothBorderRadius(
-        cornerRadius: (radius == null) ? 0 : radius,
-        cornerSmoothing: 0.8,
-      ),
+    color: bgColor,
+    border: Border.all(
+      color: borderColor ?? Colors.transparent,
+      width: borderColor == null ? 0 : 1,
     ),
+    borderRadius: BorderRadius.circular(radius ?? 0),
   );
 }
 
-getDefaultDecorationWithBorder(
+/// Creates a smooth rectangle decoration with border
+///
+/// [radius] - Corner radius
+/// [bgColor] - Background color
+/// [borderColor] - Border color
+/// [isShadow] - Whether to apply shadow
+/// [colors] - Optional gradient colors
+/// Returns a BoxDecoration with border and smooth corners
+BoxDecoration getDefaultDecorationWithBorder(
     {double? radius,
     Color? bgColor,
     Color? borderColor,
     bool? isShadow,
-    var colors}) {
-  return ShapeDecoration(
-    shadows: isShadow == null
+    Gradient? colors}) {
+  return BoxDecoration(
+    boxShadow: isShadow == null
         ? []
         : [
             BoxShadow(
@@ -184,19 +247,22 @@ getDefaultDecorationWithBorder(
                 blurRadius: 10,
                 offset: Offset(0, 3))
           ],
-    color: bgColor == null ? Colors.transparent : bgColor,
-    shape: SmoothRectangleBorder(
-      side: BorderSide(
-          color: (borderColor == null) ? Colors.transparent : borderColor,
-          width: (borderColor == null) ? 0 : 1),
-      borderRadius: SmoothBorderRadius(
-        cornerRadius: (radius == null) ? 0 : radius,
-        cornerSmoothing: 0.8,
-      ),
+    color: bgColor ?? Colors.transparent,
+    border: Border.all(
+      color: borderColor ?? Colors.transparent,
+      width: borderColor == null ? 0 : 1,
     ),
+    borderRadius: BorderRadius.circular(radius ?? 0),
   );
 }
 
+/// Creates a circular container with shadow
+///
+/// [widget] - Child widget to display in circle
+/// [size] - Size of the circle
+/// [color] - Background color
+/// [isShadow] - Whether to apply shadow
+/// Returns a circular container with optional shadow
 Widget getShadowCircle(
     {required Widget widget, double? size, Color? color, bool? isShadow}) {
   return Container(
@@ -211,7 +277,7 @@ Widget getShadowCircle(
                 color: Colors.grey.withOpacity(0.1),
                 spreadRadius: 5,
                 blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: Offset(0, 3),
               ),
             ]
           : null,
@@ -220,7 +286,14 @@ Widget getShadowCircle(
   );
 }
 
-getHeaderWidget(BuildContext context, String title, String content,
+/// Creates a header widget with title and content
+///
+/// [context] - BuildContext for accessing theme
+/// [title] - Header title
+/// [content] - Header content
+/// [color] - Optional text color
+/// Returns a Column with title and content
+Widget getHeaderWidget(BuildContext context, String title, String content,
     {Color? color}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,21 +322,27 @@ getHeaderWidget(BuildContext context, String title, String content,
   );
 }
 
-getFolderName(BuildContext context, String folderName) {
+/// Gets folder name based on theme mode
+///
+/// [context] - BuildContext for accessing theme
+/// [folderName] - Base folder name
+/// Returns folder path based on current theme
+String getFolderName(BuildContext context, String folderName) {
   if (themeMode == ThemeMode.dark) {
     folderName = folderName.replaceAll("/", "");
     folderName = folderName + "Dark/";
   }
 
-//   if(kIsWeb){
-// return 'assets/${AppAssets.assetFolderPath}$folderName';
-//   }else{
   return AppAssets.assetFolderPath + folderName;
-
-  // }
 }
 
-getHintIcon({required Function function, Color? color, bool? isWhite}) {
+/// Creates a hint icon button
+///
+/// [function] - Callback when icon is tapped
+/// [color] - Icon color
+/// [isWhite] - Whether to use white variant
+/// Returns a GestureDetector with hint SVG icon
+Widget getHintIcon({required Function function, Color? color, bool? isWhite}) {
   return GestureDetector(
     onTap: () {
       function();
@@ -276,7 +355,16 @@ getHintIcon({required Function function, Color? color, bool? isWhite}) {
   );
 }
 
-getDefaultIconWidget(BuildContext context,
+/// Creates a default icon widget (SVG or IconData)
+///
+/// [context] - BuildContext for sizing
+/// [function] - Optional callback when icon is tapped
+/// [icon] - Optional SVG icon name
+/// [folder] - Optional folder path
+/// [iconData] - Optional IconData for using system icons
+/// [changeFolderName] - Whether to change folder name based on theme
+/// Returns an InkWell with icon
+Widget getDefaultIconWidget(BuildContext context,
     {Function? function,
     String? icon,
     String? folder,
@@ -284,17 +372,12 @@ getDefaultIconWidget(BuildContext context,
     bool? changeFolderName}) {
   double size = getScreenPercentSize(context, 3.5);
 
-  print("folderName====$folder");
-
   if (folder != null && changeFolderName == null) {
     folder = getFolderName(context, folder);
-
-    print("folderqw---$folder---$icon");
-  } else {
-    folder = AppAssets.assetFolderPath + folder!;
+  } else if (folder != null) {
+    folder = AppAssets.assetFolderPath + folder;
   }
 
-  print("folder====$folder---$icon");
   return InkWell(
     onTap: () {
       if (function != null) {
@@ -314,7 +397,11 @@ getDefaultIconWidget(BuildContext context,
   );
 }
 
-isDetailWidget(GameCategoryType gameCategoryType) {
+/// Checks if a game category uses detail widget
+///
+/// [gameCategoryType] - The game category to check
+/// Returns true if the game type should use detail widget
+bool isDetailWidget(GameCategoryType gameCategoryType) {
   if (gameCategoryType == GameCategoryType.CALCULATOR ||
       gameCategoryType == GameCategoryType.MENTAL_ARITHMETIC ||
       gameCategoryType == GameCategoryType.QUICK_CALCULATION ||
@@ -1000,6 +1087,10 @@ getVibration() async {
   return intValue;
 }
 
+/// Converts seconds to time string format (MM:SS)
+///
+/// [sec] - Time in seconds
+/// Returns formatted time string
 String secToTime(int sec) {
   if (sec == 0) {
     return "00:00";

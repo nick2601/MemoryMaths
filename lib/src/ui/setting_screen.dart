@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_share/flutter_share.dart';
-
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/common/rate_dialog_view.dart';
@@ -19,14 +18,19 @@ import 'app/theme_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'common/common_alert_dialog.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:mathsgames/src/ui/reports/user_report_view.dart';
-import 'package:mathsgames/src/ui/reports/user_report_provider.dart';
-import 'package:mathsgames/src/ui/app/accessibility_provider.dart';
+import 'reports/user_report_view.dart';
+import 'reports/user_report_provider.dart';
+import 'app/accessibility_provider.dart';
 
+/// SettingScreen provides user configurable options for the app.
+///
+/// This screen allows users to customize:
+/// - Theme (dark/light mode)
+/// - Sound settings
+/// - Vibration settings
+/// - Accessibility options
+/// - View performance reports
+/// - Access support options (feedback, rate, share)
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
 
@@ -37,6 +41,7 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreen extends State<SettingScreen> {
+  /// Handles back navigation with platform-specific behavior
   void backClicks() {
     if (kIsWeb) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -47,28 +52,27 @@ class _SettingScreen extends State<SettingScreen> {
     }
   }
 
-  ValueNotifier soundOn = ValueNotifier(false);
-  ValueNotifier darkMode = ValueNotifier(false);
-  ValueNotifier vibrateOn = ValueNotifier(false);
+  /// Value notifiers for app settings
+  ValueNotifier<bool> soundOn = ValueNotifier(false);
+  ValueNotifier<bool> darkMode = ValueNotifier(false);
+  ValueNotifier<bool> vibrateOn = ValueNotifier(false);
 
-  final TextEditingController emailController = TextEditingController();
-
-  bool _isGeneratingReport = false; // loading flag for report generation
+  /// Loading indicator for report generation
+  bool _isGeneratingReport = false;
 
   @override
   void dispose() {
-    emailController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-
     getSpeakerVol();
   }
 
-  getSpeakerVol() async {
+  /// Initializes app settings from SharedPreferences
+  Future<void> getSpeakerVol() async {
     soundOn.value = await getSound();
     vibrateOn.value = await getVibration();
     Future.delayed(Duration.zero, () {
@@ -146,6 +150,10 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
+  /// Builds the progress report button widget
+  ///
+  /// [context] - BuildContext for theme and providers
+  /// Returns a Container with the report button and description
   Widget _buildReportButton(BuildContext context) {
     final theme = Theme.of(context);
     final auth = Provider.of<AuthProvider>(context, listen: false);
@@ -231,6 +239,12 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
+  /// Builds the main scrollable content area with all settings
+  ///
+  /// [selection] - Current selection state
+  /// [verSpace] - Vertical spacing widget
+  /// [context] - BuildContext for theme
+  /// Returns an Expanded widget containing all settings options
   Expanded buildExpandedData(
     int selection,
     Widget verSpace,
@@ -244,10 +258,7 @@ class _SettingScreen extends State<SettingScreen> {
           primary: true,
           shrinkWrap: true,
           children: [
-            SizedBox(
-              height: FetchPixels.getPixelHeight(30),
-            ),
-            // --- Removed Send Progress Report Section ---
+            SizedBox(height: FetchPixels.getPixelHeight(30)),
             getTitleText("Progress Report"),
             SizedBox(height: FetchPixels.getPixelHeight(20)),
             _buildReportButton(context),
@@ -399,7 +410,6 @@ class _SettingScreen extends State<SettingScreen> {
               ),
             ),
             verSpace,
-            // --- Accessibility & Assist Section ---
             getDivider(),
             getTitleText("Accessibility & Assist"),
             SizedBox(height: FetchPixels.getPixelHeight(30)),
@@ -415,9 +425,7 @@ class _SettingScreen extends State<SettingScreen> {
             getCell(
                 string: "Rate Us",
                 function: () {
-                  // LaunchReview.launch();
-
-                  GradientModel model = new GradientModel();
+                  GradientModel model = GradientModel();
                   model.primaryColor = KeyUtil.primaryColor1;
                   showDialog<bool>(
                     context: context,
@@ -433,7 +441,7 @@ class _SettingScreen extends State<SettingScreen> {
             getCell(
                 string: "Feedback",
                 function: () async {
-                  GradientModel model = new GradientModel();
+                  GradientModel model = GradientModel();
                   model.primaryColor = KeyUtil.primaryColor1;
 
                   showDialog<bool>(
@@ -445,15 +453,6 @@ class _SettingScreen extends State<SettingScreen> {
                     ),
                     barrierDismissible: false,
                   );
-
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => FeedbackScreen(),));
-                  // final Email email = Email(
-                  //   body: 'Math Matrix',
-                  //   subject: "Feedback",
-                  //   recipients: ['demo@gmail.com'],
-                  //   isHTML: false,
-                  // );
-                  // await FlutterEmailSender.send(email);
                 }),
             getDivider(),
             getCell(
@@ -462,36 +461,6 @@ class _SettingScreen extends State<SettingScreen> {
                   _launchURL();
                 }),
             getDivider(),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter your email',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      final email = emailController.text;
-                      if (email.isNotEmpty) {
-                        // Call the function to generate and send the report
-                        generateAndSendReport('User Name', email, [
-                          GameCategory('Math', 90),
-                          GameCategory('Science', 80),
-                        ]);
-                      }
-                    },
-                    child: Text('Send Progress Report'),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
@@ -499,92 +468,14 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
-
-  Future<void> generateAndSendReport(
-      String userName, String email, List<GameCategory> gameCategories) async {
-    final pdf = pw.Document();
-
-    pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) {
-          return pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Text('Progress Report',
-                  style: pw.TextStyle(
-                      fontSize: 24, fontWeight: pw.FontWeight.bold)),
-              pw.SizedBox(height: 20),
-              pw.Text('Name: $userName', style: pw.TextStyle(fontSize: 18)),
-              pw.SizedBox(height: 10),
-              pw.Text('Scores:', style: pw.TextStyle(fontSize: 18)),
-              pw.SizedBox(height: 10),
-              ...gameCategories
-                  .map((game) => pw.Text('${game.name}: ${game.score}',
-                      style: pw.TextStyle(fontSize: 16)))
-                  .toList(),
-            ],
-          );
-        },
-      ),
-    );
-
-    try {
-      final bytes = await pdf.save();
-      if (kIsWeb) {
-        // For web, just show a message that download isn't supported
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Info'),
-            content: Text('PDF generation is not supported on web version.'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
-              ),
-            ],
-          ),
-        );
-      } else {
-        final output = await getApplicationDocumentsDirectory();
-        final file = File('${output.path}/report.pdf');
-        await file.writeAsBytes(bytes);
-
-        final Email emailToSend = Email(
-          body: 'Please find attached your progress report.',
-          subject: 'Progress Report',
-          recipients: [email],
-          attachmentPaths: [file.path],
-          isHTML: false,
-        );
-
-        await FlutterEmailSender.send(emailToSend);
-      }
-    } catch (e) {
-      print('Error generating/sending report: $e');
-      // Show error dialog to user
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to generate or send report. Please try again.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
-  _launchURL() async {
+  /// Launches the privacy policy URL
+  Future<void> _launchURL() async {
     if (!await launchUrl(Uri.parse(privacyURL)))
       throw 'Could not launch $privacyURL';
   }
 
-  share() async {
+  /// Shares the app link using platform share functionality
+  Future<void> share() async {
     await FlutterShare.share(
         title: 'Math Games',
         text: getAppLink(),
@@ -592,7 +483,12 @@ class _SettingScreen extends State<SettingScreen> {
         chooserTitle: 'Share');
   }
 
-  getCell({required String string, required Function function}) {
+  /// Creates a settings cell with title and tap action
+  ///
+  /// [string] - The cell title
+  /// [function] - Callback when cell is tapped
+  /// Returns an InkWell with cell layout
+  Widget getCell({required String string, required Function function}) {
     return InkWell(
       onTap: () {
         function();
@@ -613,35 +509,41 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
+  /// Creates a divider line
+  ///
+  /// Returns a Container with thin horizontal line
   Widget getDivider() {
     return Container(
       width: double.infinity,
-      // margin: EdgeInsets.symmetric(vertical: FetchPixels.getPixelHeight(50)),
       color: Colors.grey.shade300,
       height: 0.5,
     );
   }
 
+  /// Creates a subtitle text with consistent styling
+  ///
+  /// [titles] - The text to display
+  /// Returns a styled text widget
   Widget getSubTitleFonts(String titles) {
     TextStyle theme = Theme.of(context).textTheme.titleSmall!;
     return getCustomFont(titles, fontTitleSize, theme.color!, 1,
         fontWeight: FontWeight.w500, textAlign: TextAlign.start);
   }
 
-  getTitleText(String string) {
+  /// Creates a title text with consistent styling
+  ///
+  /// [string] - The text to display
+  /// Returns a styled text widget
+  Widget getTitleText(String string) {
     TextStyle theme = Theme.of(context).textTheme.titleSmall!;
-
-    // return getCustomFont(
-    //   string,
-    //   52,
-    //   Colors.black,
-    //   1,
-    //   fontWeight: FontWeight.bold,
-    // );
     return getCustomFont(string, 30, theme.color!, 1,
         fontWeight: FontWeight.w600);
   }
 
+  /// Builds accessibility toggle switches
+  ///
+  /// [context] - BuildContext for theme and providers
+  /// Returns a Column with accessibility toggle options
   Widget _buildAccessibilityToggles(BuildContext context) {
     final accessibility = context.watch<AccessibilityProvider>();
     return Column(
@@ -677,7 +579,19 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
-  Widget _accessRow({required String label, required bool value, required Function(bool) onChanged, String? help}) {
+  /// Creates an accessibility toggle row
+  ///
+  /// [label] - The setting name
+  /// [value] - Current toggle state
+  /// [onChanged] - Callback when toggled
+  /// [help] - Optional help text
+  /// Returns a Container with styled toggle switch
+  Widget _accessRow({
+    required String label,
+    required bool value,
+    required Function(bool) onChanged,
+    String? help
+  }) {
     return Container(
       height: FetchPixels.getPixelHeight(125),
       width: double.infinity,

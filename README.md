@@ -1,528 +1,287 @@
-# Memory Math - Educational Math Game
+# Memory Maths - Accessible Educational Math Application
 
-Memory Math is a specially designed educational Flutter application that creates an inclusive learning environment for students with dyslexia and those experiencing early-onset dementia. The app combines evidence-based learning approaches with adaptive technology to make mathematics accessible and enjoyable for all learners.
+An innovative Flutter-based educational application designed specifically for inclusive mathematics learning, with specialized support for users with dyslexia and early-onset dementia. The application combines adaptive difficulty algorithms with accessibility-first design principles to create an engaging and supportive learning environment.
 
-## Specialized Learning Features
+## 🎯 Core Mission
 
-### Accessibility Features
+MathsGames bridges the gap in mathematical education by providing:
+- **Accessibility-First Design**: Built with dyslexic-friendly themes and cognitive support features
+- **Adaptive Learning**: AI-powered difficulty adjustment based on user performance
+- **Comprehensive Assessment**: Detailed progress tracking and personalized reports
+- **Inclusive Interface**: High contrast themes, customizable fonts, and clear navigation
 
-- **Dyslexia Support**
-  - OpenDyslexic font option
-  - Adjustable text sizing and spacing
-  - Color overlay options
-  - Text-to-speech functionality
-  - Visual pattern recognition tools
+## 🎮 Game Catalog (18 Game Types)
 
-- **Cognitive Support**
-  - Clear, consistent navigation
-  - Step-by-step instructions
-  - Regular skill reinforcement
-  - Memory-friendly interface
-  - Progress tracking for caregivers
+### Arithmetic & Basic Operations
+- **Calculator Game**: Interactive arithmetic problem solving
+- **Quick Calculation**: Timed mental math challenges
+- **Guess the Sign**: Operation symbol identification exercises
+- **Find Missing**: Complete mathematical equations
+- **True/False Quiz**: Mathematical statement validation
 
-### Core Features
+### Advanced Mathematics
+- **Square Root**: Root calculation challenges
+- **Cube Root**: Advanced root operations
+- **Complex Calculation**: Multi-step mathematical problems
 
-- **Multi-language Support**
-  - English (Default)
-  - Additional languages through localization
-  - Easy language switching
+### Memory & Cognitive Training
+- **Mental Arithmetic**: Memory-based calculation exercises
+- **Numeric Memory**: Number sequence recall training
+- **Concentration**: Memory matching games with math elements
+- **Math Pairs**: Equivalent expression matching
 
-- **Theme Support**
-  - Light and Dark themes
-  - System theme integration
-  - Custom color schemes
+### Logic & Problem Solving
+- **Magic Triangle**: Geometric number placement puzzles
+- **Number Pyramid**: Hierarchical number arrangement
+- **Math Grid**: Grid-based mathematical puzzles
+- **Picture Puzzle**: Visual mathematical problem solving
 
-- **Progress Tracking**
-  - Achievement system
-  - Progress persistence
+### Multi-Player & Advanced Modes
+- **Dual Game**: Two-player competitive mathematics
+- **Correct Answer**: Multiple choice mathematical challenges
 
-- **Audio Feedback**
-  - Sound effects for interactions
-  - Background music options
-  - Mute functionality
+## ♿ Accessibility Features
 
-## Technical Details
+### Dyslexia Support
+- **OpenDyslexic Font Integration**: Research-backed typography for improved readability
+- **High Contrast Themes**: Optimized color schemes reducing visual stress
+- **Customizable Text Sizing**: Adjustable font sizes (14pt - 24pt)
+- **Enhanced Spacing**: Configurable letter and line spacing
+- **Color Overlay Options**: Tinted backgrounds for reduced eye strain
 
-### Key Libraries and Dependencies
+### Cognitive Assistance
+- **Adaptive Difficulty Engine**: Real-time performance analysis and level adjustment
+- **Clear Navigation Patterns**: Consistent UI elements and logical flow
+- **Progress Visualization**: Step-by-step achievement tracking
+- **Memory-Friendly Interface**: Simplified layouts with reduced cognitive load
+- **Audio Feedback**: Sound cues for actions and achievements
 
-### Platform Support
+### Visual Accommodations
+- **Cream Background Option**: Reduces harsh contrast compared to pure white
+- **Large Touch Targets**: Improved accessibility for motor difficulties
+- **Clear Visual Hierarchy**: Organized information presentation
+- **Icon-Based Navigation**: Visual cues complementing text
 
-- iOS (12.0+)
-- Android (API 21+)
-- Windows
-- Linux
-- macOS
+## 🧠 Adaptive Learning System
 
-### Architecture
+### Performance Analytics
+- **Real-Time Difficulty Adjustment**: Monitors accuracy and response times
+- **Rolling Performance Window**: Analyzes recent performance patterns
+- **Skill Assessment**: Identifies strengths and improvement areas
+- **Learning Path Recommendations**: Personalized progression suggestions
 
-- **State Management**: Provider pattern
-- **Dependency Injection**: GetIt service locator
-- **Local Storage**: SharedPreferences
-- **Design Pattern**: MVVM (Model-View-ViewModel)
+### Intelligence Features
+- **Response Time Analysis**: Adapts pacing based on user processing speed
+- **Error Pattern Recognition**: Identifies common mistake types
+- **Success Rate Optimization**: Maintains optimal challenge level (60-80% accuracy)
+- **Cognitive Load Management**: Prevents overwhelming difficulty spikes
 
-## Getting Started
+## 📊 Comprehensive Reporting
+
+### User Performance Reports
+- **Overall Performance Summary**: Aggregated statistics across all games
+- **Game-Specific Analytics**: Detailed breakdown by game category
+- **Skill Assessment Matrix**: Mathematical competency evaluation
+- **Progress Tracking**: Historical performance trends
+- **Achievement System**: Motivational badges and milestones
+
+### Caregiver/Educator Dashboard
+- **Progress Monitoring**: Track learning advancement over time
+- **Strength Identification**: Highlight areas of mathematical proficiency
+- **Improvement Recommendations**: Suggested focus areas and exercises
+- **PDF Report Generation**: Exportable progress summaries
+
+## 🛠 Technical Architecture
+
+### Framework & Dependencies
+- **Flutter SDK**: Cross-platform mobile development
+- **Provider Pattern**: State management for reactive UI updates
+- **GetIt**: Dependency injection for clean architecture
+- **SharedPreferences**: Local data persistence
+- **PDF Generation**: Progress report export functionality
+
+### Key Libraries
+```yaml
+dependencies:
+  flutter_svg: ^2.0.10+1          # SVG asset support
+  provider: ^6.0.2                # State management
+  get_it: ^8.2.0                  # Dependency injection
+  shared_preferences: ^2.0.15     # Local storage
+  audioplayers: ^6.0.0            # Sound feedback
+  auto_size_text: ^3.0.0          # Responsive typography
+  figma_squircle: ^0.6.3          # Modern UI elements
+  percent_indicator: ^4.2.2       # Progress visualization
+  flutter_rating_bar: ^4.0.0      # User feedback
+```
+
+### Architecture Pattern
+- **MVVM (Model-View-ViewModel)**: Clean separation of concerns
+- **Repository Pattern**: Abstracted data access layer
+- **Dependency Injection**: Testable and maintainable code structure
+- **Provider State Management**: Reactive UI updates
+
+## 📱 Platform Support
+
+- **Android**: API 21+ (Android 5.0+)
+- **iOS**: iOS 12.0+
+- **Cross-Platform**: Consistent experience across devices
+
+## 🚀 Getting Started
 
 ### Prerequisites
-
-- Flutter SDK (Latest stable version)
-- Dart SDK
-- Android Studio / VS Code
-- iOS development setup (for iOS builds)
+- Flutter SDK (3.0.0 or later)
+- Dart SDK (2.17.6 or later)
+- Android Studio / VS Code with Flutter extensions
 
 ### Installation
-
-1. Clone the repository:
-
 ```bash
-git clone https://github.com/yourusername/memory_math.git
-```
+# Clone the repository
+git clone https://github.com/nick2601/MemoryMaths.git
+cd MemoryMath
 
-2. Install dependencies:
-
-```bash
+# Install dependencies
 flutter pub get
-```
 
-3. Run the application:
-
-```bash
+# Run the application
 flutter run
 ```
 
-## Testing
-
-### Test Coverage Overview
-
-This project maintains **comprehensive test coverage** with **300+ test cases** across **15 test files**, ensuring code quality and reliability for all mathematical operations and game logic.
-
-#### Test Coverage Statistics
-- **Overall Coverage**: 85%+ 
-- **Models**: 95% coverage
-- **Repositories**: 90% coverage  
-- **Utilities**: 85% coverage
-- **Core Logic**: 100% coverage
-
-#### Test Files Structure
-```
-test/
-├── Core Components/
-│   ├── app_constants_test.dart      # App constants & enums
-│   ├── math_util_test.dart          # Mathematical utilities  
-│   └── calculator_model_test.dart   # Calculator model tests
-├── Game Repositories/
-│   ├── calculator_repository_test.dart
-│   ├── sign_repository_test.dart
-│   ├── correct_answer_test.dart
-│   ├── root_operations_test.dart    # Square/Cube root tests
-│   ├── magic_triangle_test.dart
-│   ├── math_pairs_test.dart
-│   ├── advanced_games_test.dart     # Mental arithmetic, pyramids
-│   ├── puzzle_games_test.dart       # Picture puzzles, math grid
-│   └── missing_features_test.dart   # Find missing, complex calc
-├── Integration Tests/
-│   ├── repository_integration_test.dart # Cross-repo consistency
-│   ├── provider_state_test.dart         # State management
-│   └── dashboard_models_test.dart       # UI model tests
-└── widget_test.dart                     # Default Flutter test
-```
-
-### Running Tests
-
-#### Run All Tests
-```bash
-flutter test
-```
-
-#### Run Specific Test Categories
-```bash
-# Core functionality tests
-flutter test test/math_util_test.dart
-flutter test test/app_constants_test.dart
-
-# Game repository tests
-flutter test test/calculator_repository_test.dart
-flutter test test/magic_triangle_test.dart
-
-# Integration tests
-flutter test test/repository_integration_test.dart
-flutter test test/provider_state_test.dart
-```
-
-#### Run Tests with Coverage
-```bash
-flutter test --coverage
-genhtml coverage/lcov.info -o coverage/html
-open coverage/html/index.html
-```
-
-### Test Categories
-
-#### 🧮 **Mathematical Validation Tests**
-- **Expression Evaluation**: Addition, subtraction, multiplication, division
-- **Operator Precedence**: Correct order of operations
-- **Edge Cases**: Division by zero, negative numbers, large values
-- **Random Generation**: Number ranges, operator selection, expression complexity
-
-#### 🎯 **Game Logic Tests**
-- **Problem Generation**: Unique, mathematically correct problems for all 18 game types
-- **Difficulty Progression**: Appropriate scaling from level 1 to level 8+
-- **Answer Validation**: Correct answers included in multiple choice options
-- **Score Calculation**: Points, penalties, and coin rewards
-
-#### 🔄 **Repository Integration Tests**
-- **Data Consistency**: All repositories generate valid data structures
-- **Performance**: Sub-second response times for data generation
-- **Level Scaling**: Higher levels produce appropriately complex problems
-- **Cross-Repository**: Consistent mathematical operations across games
-
-#### 🎨 **State Management Tests**
-- **Theme Switching**: Light/dark mode transitions
-- **Game States**: Play, pause, game over, exit transitions
-- **Timer Management**: Start, stop, reset functionality
-- **Configuration**: Score multipliers, time limits, coin rewards
-
-#### 🎪 **Model Validation Tests**
-- **Data Integrity**: All model properties correctly initialized
-- **Immutability**: Models maintain data consistency
-- **Serialization**: Proper toString and equality implementations
-- **Edge Cases**: Empty values, null handling, boundary conditions
-
-### Test Quality Assurance
-
-#### **Mathematical Correctness** ✅
-Every arithmetic operation is validated for mathematical accuracy:
-```dart
-// Example: Validates that 5 + 3 actually equals 8
-expect(MathUtil.evaluate(5, '+', 3), equals(8));
-```
-
-#### **Difficulty Progression** ✅  
-Tests ensure higher levels are appropriately challenging:
-```dart
-// Validates level 5 problems are more complex than level 1
-expect(level5Avg, greaterThan(level1Avg));
-```
-
-#### **Edge Case Handling** ✅
-Comprehensive testing of boundary conditions:
-```dart
-// Tests division by zero safety
-expect(MathUtil.evaluate(10, '/', 0), equals(0));
-```
-
-#### **Integration Validation** ✅
-Tests verify components work together correctly:
-```dart
-// Validates all repositories work with KeyUtil configurations
-expect(() => KeyUtil.getScoreUtil(gameType), returnsNormally);
-```
-
-### Continuous Integration
-
-The test suite is designed for CI/CD integration:
-
-#### GitHub Actions Example
-```yaml
-- name: Run Flutter Tests
-  run: flutter test --coverage
-- name: Upload Coverage
-  uses: codecov/codecov-action@v1
-```
-
-#### Test Automation Features
-- **Automated Test Runs**: On every PR and commit
-- **Coverage Reporting**: Detailed coverage metrics
-- **Performance Monitoring**: Test execution time tracking
-- **Quality Gates**: Minimum 80% coverage requirement
-
-### Test Development Guidelines
-
-#### Writing New Tests
-1. **Test Behavior, Not Implementation**: Focus on what the code does, not how
-2. **Descriptive Names**: Use clear, behavior-describing test names
-3. **Arrange-Act-Assert**: Structure tests for clarity
-4. **Edge Cases**: Always test boundary conditions
-5. **Mathematical Validation**: Verify all arithmetic operations
-
-#### Test Naming Convention
-```dart
-// ✅ Good: Describes the behavior being tested
-test('generates unique calculator problems for level 1', () {});
-
-// ❌ Bad: Describes implementation details
-test('calls MathUtil.generate with correct parameters', () {});
-```
-
 ### Building for Production
-
-#### Android
-
 ```bash
+# Android APK
 flutter build apk --release
-```
 
-#### iOS
-
-```bash
+# iOS App
 flutter build ios --release
 ```
 
-#### Desktop Platforms
+## 🧪 Testing & Quality Assurance
 
-```bash
-flutter build windows
-flutter build linux
-flutter build macos
+### Comprehensive Test Suite (300+ Tests)
+The application maintains robust testing coverage across all mathematical operations and game logic:
+
+```
+Test Coverage: 85%+
+├── Core Components (95% coverage)
+│   ├── Mathematical utilities validation
+│   ├── Adaptive difficulty algorithm testing
+│   └── Application constants verification
+├── Game Repositories (90% coverage)
+│   ├── Problem generation accuracy
+│   ├── Difficulty progression validation
+│   └── Answer correctness verification
+├── State Management (88% coverage)
+│   ├── Provider state transitions
+│   ├── Theme switching functionality
+│   └── Timer management
+└── Integration Tests (85% coverage)
+    ├── Cross-repository consistency
+    ├── Performance benchmarking
+    └── User flow validation
 ```
 
-## Development
+### Running Tests
+```bash
+# Run all tests
+flutter test
 
-### Project Structure
+# Run with coverage
+flutter test --coverage
+genhtml coverage/lcov.info -o coverage/html
+```
+
+## 📁 Project Structure
+
 ```
 lib/
 ├── src/
-│   ├── core/          # Core utilities and constants
-│   ├── data/          # Data models and repositories
-│   ├── ui/            # UI components and screens
-│   └── utility/       # Helper functions and utilities
-├── generated/         # Generated localization files
-└── main.dart         # Application entry point
+│   ├── core/                    # Core configurations
+│   │   ├── adaptive_difficulty.dart  # AI difficulty adjustment
+│   │   ├── dyslexic_theme.dart      # Accessibility themes
+│   │   ├── app_theme.dart           # Standard themes
+│   │   └── app_constant.dart        # Game configurations
+│   ├── data/                    # Data layer
+│   │   ├── models/              # Data structures
+│   │   │   ├── user_report.dart     # Analytics models
+│   │   │   ├── user_profile.dart    # User data
+│   │   │   └── [game_models]/       # Individual game data
+│   │   └── repositories/        # Data access layer
+│   ├── ui/                      # Presentation layer
+│   │   ├── [18_game_screens]/   # Individual game interfaces
+│   │   ├── reports/             # Analytics dashboard
+│   │   ├── dashboard/           # Main navigation
+│   │   ├── login/               # User authentication
+│   │   └── common/              # Shared UI components
+│   └── utility/                 # Helper functions
+├── l10n/                        # Internationalization
+└── screenshots/                 # App demonstration images
 ```
 
-### Contributing
+## 🎨 User Interface Gallery
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+| Game Category | Screenshot | Description |
+|:-------------:|:----------:|:------------|
+| **Basic Arithmetic** | ![Calculator](lib/screenshots/Calculate%20For%20me.png) | Interactive calculation interface |
+| **Memory Training** | ![Mental Arithmetic](lib/screenshots/mental_arithmetic.png) | Memory-based math challenges |
+| **Logic Puzzles** | ![Magic Triangle](lib/screenshots/magic_triangle.png) | Geometric problem solving |
+| **Quick Challenges** | ![Quick Calculation](lib/screenshots/Quick%20Calculation.png) | Timed arithmetic exercises |
+| **Pattern Recognition** | ![Math Pairs](lib/screenshots/maths_pairs.png) | Equivalent expression matching |
+| **Advanced Math** | ![Complex Calculation](lib/screenshots/Complex%20Calculation.png) | Multi-step problem solving |
 
-
-## Acknowledgments
-
-- Flutter team for the amazing framework
-- Contributors and maintainers
-- Educational mathematics resources and inspiration
-
-## Support
-
-For support, email mule.nikhil@gmail.com or create an issue in the repository.
-## Screenshots
-
-| | | |
-|:-------------------------:|:-------------------------:|:-------------------------:|
-|<img src="lib/screenshots/FindMissing.png" width="200"/> <br> *Find Missing Numbers*|<img src="lib/screenshots/Quick Calculation.png" width="200"/> <br> *Quick Math*|<img src="lib/screenshots/mental_arithmetic.png" width="200"/> <br> *Math Memory*|
-|<img src="lib/screenshots/Complex Calculation.png" width="200"/> <br> *Complex Calculations*|<img src="lib/screenshots/concentration.png" width="200"/> <br> *Concentration*|<img src="lib/screenshots/Correct Answer.png" width="200"/> <br> *Feedback Screen*|
-|<img src="lib/screenshots/cube_root.png" width="200"/> <br> *Cube Root*|<img src="lib/screenshots/magic_triangle.png" width="200"/> <br> *Magic Triangle*|<img src="lib/screenshots/maths_pairs.png" width="200"/> <br> *Math Pairs*|
-|<img src="lib/screenshots/pic_puzzle.png" width="200"/> <br> *Picture Puzzle*|<img src="lib/screenshots/dual_game.png" width="200"/> <br> *Dual Game*|<img src="lib/screenshots/math_grid.png" width="200"/> <br> *Math Grid*|
-|<img src="lib/screenshots/numeric_memory.png" width="200"/> <br> *Numeric Memory*|<img src="lib/screenshots/number_pyramid.png" width="200"/> <br> *Number Pyramid*|<img src="lib/screenshots/magic_triangle.png" width="200"/> <br> *Magic Triangle*|
-
-## Game Descriptions
-
-### Core Game Modes
-
-1. **Find Missing Numbers**
-   - Practice arithmetic with missing numbers
-   - Adaptive difficulty levels
-   - Visual aids and step-by-step guidance
-   - Perfect for building number sense
-
-2. **Quick Math**
-   - Fast-paced arithmetic challenges
-   - Customizable time limits
-   - Multiple operation types (+ - × ÷)
-   - Great for mental math practice
-
-3. **Math Memory**
-   - Memory-based mathematical challenges
-   - Pattern recognition exercises
-   - Sequential number recall
-   - Builds cognitive and mathematical skills
-
-4. **Complex Calculations**
-   - Multi-step mathematical problems
-   - Advanced operation combinations
-   - Strategic problem-solving focus
-   - Suitable for advanced learners
-
-### Additional Game Modes
-
-5. **Concentration**
-   - Memory matching with mathematical elements
-   - Improves focus and retention
-   - Progressive difficulty levels
-   - Combines memory and math skills
-
-6. **Magic Triangle**
-   - Geometric puzzle solving
-   - Number placement challenges
-   - Logic and strategy development
-   - Visual-spatial reasoning practice
-
-7. **Math Pairs**
-   - Match equivalent expressions
-   - Various mathematical concepts
-   - Time-based challenges
-   - Reinforces mathematical relationships
-
-8. **Picture Puzzle**
-   - Visual math problems
-   - Real-world applications
-   - Interactive problem solving
-   - Enhances mathematical visualization
-
-9. **Dual Game**
-   - Two-player competitive mode
-   - Real-time math challenges
-   - Social learning opportunities
-   - Motivational competitive element
-
-10. **Math Grid**
-    - Grid-based number puzzles
-    - Pattern completion challenges
-    - Spatial reasoning development
-    - Multiple difficulty levels
-
-11. **Numeric Memory**
-    - Number sequence memorization
-    - Working memory enhancement
-    - Progressive sequence length
-    - Cognitive skill development
-
-12. **Cube Root**
-    - Advanced calculation practice
-    - Root finding challenges
-    - Mathematical estimation skills
-    - Higher-order thinking development
-
-Each game mode is designed with:
-- Dyslexia-friendly interface options
-- Adjustable difficulty settings
-- Progress tracking
-- Immediate feedback system
-- Audio and visual support
-- Achievement rewards
-
-## Architecture Details
-
-### Clean Architecture Implementation
-
-The application follows Clean Architecture principles, organized in layers:
-
-1. **Domain Layer**
-   - Contains business logic and entities
-   - Pure Dart code with no dependencies
-   - Use cases define application-specific business rules
-   - Repository interfaces define data contracts
-
-2. **Data Layer**
-   - Implements repository interfaces
-   - Handles data sources (local storage, API)
-   - Data mapping and transformation
-   - Cache management
-
-3. **Presentation Layer**
-   - UI components and screens
-   - ViewModels handle UI logic
-   - State management using Provider
-   - Platform-specific implementations
-
-### Code Organization
-
-```
-lib/
-├── domain/
-│   ├── entities/      # Business objects
-│   ├── repositories/  # Repository interfaces
-│   └── usecases/      # Business logic
-├── data/
-│   ├── repositories/  # Repository implementations
-│   ├── datasources/   # Data source implementations
-│   └── models/        # Data transfer objects
-├── presentation/
-│   ├── screens/       # UI screens
-│   ├── widgets/       # Reusable components
-│   └── viewmodels/    # Screen-specific logic
-└── core/
-    ├── constants/     # App-wide constants
-    ├── themes/        # Theme configurations
-    └── utils/         # Helper functions
-```
-
-
-**Accessibility Features for Dyslexic Users**
-
-### Visual Design Accommodations
-
-**Text and Typography:**
-- **Font Choices:**
-  - OpenDyslexic as default font option
-  - Comic Sans MS alternative
-  - Customizable font size (14pt - 24pt)
-  - Adjustable letter spacing (1.35 default)
-  - Customizable line height (1.5 default)
-
-- **Color Management:**
-  - High contrast color schemes
-  - Customizable background colors
-  - Pastel color options to reduce visual stress
-  - Option to use colored overlays
-  - Ability to adjust text-background contrast ratios
-
-**Layout and Organization:**
-- **Screen Structure:**
-  - Clear visual hierarchy
-  - Consistent element positioning
-  - Ample white space
-  - Limited items per screen
-  - Grid-based alignments
-
-- **Navigation:**
-  - Clear, icon-based menus
-  - Breadcrumb navigation trails
-  - Step-by-step progression
-  - Visual progress indicators
-  - Simplified menu structures
-
-
-### Personalization Options
-
-**User Profiles:**
-- Individual setting preferences
-- Progress tracking
-- Difficulty level management
-- Custom color schemes
-
-
-**Adaptive Learning:**
-- Dynamic difficulty adjustment
-- Strength-based progression
-
-### Support Features
-
-**Help System:**
-- Context-sensitive help
-- Simplified instructions
-
-**Feedback Mechanisms:**
-- Immediate response validation
-- Positive reinforcement
-- Progress celebrations
-- Achievement system
-
-
-## Educational Benefits
+## 📈 Educational Benefits
 
 ### For Dyslexic Learners
-- Enhanced number recognition
-- Reduced visual stress
-- Improved mathematical confidence
-- Personalized learning pace
-- Multi-sensory engagement
+- **Reduced Cognitive Load**: Simplified interfaces with clear visual hierarchy
+- **Enhanced Number Recognition**: Large, clear numerical displays
+- **Stress-Free Learning**: Adaptive pacing prevents frustration
+- **Multi-Sensory Engagement**: Visual, auditory, and tactile feedback
+- **Confidence Building**: Achievement system promotes positive reinforcement
 
 ### For Dementia Support
-- Cognitive function maintenance
-- Memory exercise through repetition
-- Social engagement opportunities
-- Structured learning routines
-- Achievement-based motivation
+- **Cognitive Maintenance**: Regular mental exercise through varied challenges
+- **Memory Reinforcement**: Repetitive practice with gradual complexity increase
+- **Social Engagement**: Dual-game mode for caregiver interaction
+- **Routine Structure**: Consistent interface for familiarity
+- **Progress Celebration**: Achievement recognition for motivation
+
+### For General Education
+- **Personalized Learning**: Adaptive difficulty matches individual capability
+- **Comprehensive Coverage**: 18 game types covering diverse mathematical concepts
+- **Progress Tracking**: Detailed analytics for educators and parents
+- **Engagement Optimization**: Game-based learning maintains student interest
+
+## 🤝 Contributing
+
+We welcome contributions that enhance accessibility and educational value:
+
+1. **Fork the Repository**
+2. **Create Feature Branch** (`git checkout -b feature/accessibility-improvement`)
+3. **Implement Changes** with comprehensive testing
+4. **Commit Changes** (`git commit -m 'Add voice navigation support'`)
+5. **Push to Branch** (`git push origin feature/accessibility-improvement`)
+6. **Open Pull Request** with detailed description
+
+### Contribution Guidelines
+- Maintain accessibility standards (WCAG 2.1 AA compliance)
+- Include comprehensive tests for new features
+- Follow established code style and architecture patterns
+- Document accessibility considerations for new UI components
+
+## 📄 License & Academic Context
+
+This project is developed as part of research at **Swansea University** focusing on inclusive educational technology. The application serves as a practical implementation of accessibility-first design principles in educational software.
+
+## 📞 Support & Contact
+
+- **Developer**: mule.nikhil@gmail.com
+- **Institution**: Swansea University
+- **Research Focus**: Accessible Educational Technology
+- **Issue Reporting**: Create issues in the GitHub repository
+
+## 🏆 Recognition
+
+MathsGames represents a commitment to inclusive education, demonstrating that thoughtful design can make mathematical learning accessible to all users, regardless of cognitive differences or learning challenges.
+
+---
+
+*"Inclusive design is not a special requirement—it's simply good design that benefits everyone."*

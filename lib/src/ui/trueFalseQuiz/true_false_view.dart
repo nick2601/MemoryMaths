@@ -131,18 +131,6 @@ class TrueFalseView extends StatelessWidget {
                                   ),
                                 );
                               });
-
-                          // return ListView.builder(
-                          //   itemCount: list.length,
-                          //
-                          //   itemBuilder: (context, index) {
-                          //   return Container(
-                          //     height: btnHeight,
-                          //     decoration: getDefaultDecoration(
-                          //       bgColor: colorTuple.item1.backgroundColor
-                          //     ),
-                          //   );
-                          // },);
                         }),
                       ),
                     ],
@@ -154,115 +142,6 @@ class TrueFalseView extends StatelessWidget {
           context: context,
           isTopMargin: false,
         ),
-        // child: getCommonWidget(
-        //     context: context,
-        //     isTopMargin: false,
-        //     child: Column(
-        //       children: <Widget>[
-        //         Expanded(
-        //           child: Center(
-        //             child: Row(
-        //               mainAxisAlignment: MainAxisAlignment.center,
-        //               children: [
-        //                 Selector<TrueFalseProvider, TrueFalseModel>(
-        //                     selector: (p0, p1) => p1.currentState,
-        //                     builder: (context, calculatorProvider, child) {
-        //                       return getTextWidget(
-        //                           Theme
-        //                               .of(context)
-        //                               .textTheme
-        //                               .subtitle2!,
-        //                           calculatorProvider
-        //                               .question!,
-        //                           TextAlign.center,
-        //                           getPercentSize(
-        //                               remainHeight, 5));
-        //                     }),
-        //
-        //               ],
-        //             ),
-        //           ),
-        //           flex: 1,
-        //         ),
-        //         Selector<TrueFalseProvider, TrueFalseModel>(
-        //             selector: (p0, p1) => p1.currentState,
-        //             builder: (context, currentState, child) {
-        //
-        //               return GridView.count(
-        //                 crossAxisCount: _crossAxisCount,
-        //                 childAspectRatio: _aspectRatio,
-        //                 shrinkWrap: true,
-        //                 padding: EdgeInsets.symmetric(
-        //                     horizontal: getHorizontalSpace(context),
-        //                     vertical: getHorizontalSpace(context)),
-        //                 crossAxisSpacing: _crossAxisSpacing,
-        //                 mainAxisSpacing: _crossAxisSpacing,
-        //                 primary: false,
-        //
-        //                 children: List.generate(2, (index) {
-        //                   String e = strFalse;
-        //
-        //                   Color color =Colors.red;
-        //
-        //                   if(index==0){
-        //                     color =Colors.green;
-        //                     e = strTrue;
-        //                   }
-        //                   return CommonButton(
-        //                     is4Matrix: true,
-        //                     text: e,
-        //                     totalHeight: remainHeight,
-        //                     height: height,
-        //                     onTab: () {
-        //                       String answer = strFalse;
-        //                       if(index==0){
-        //
-        //                         answer = strTrue;
-        //                       }
-        //
-        //                       context.read<TrueFalseProvider>().checkResult(answer);
-        //                     },
-        //                     color: color,
-        //                   );
-        //                 }),
-        //               );
-        //
-        //             }),
-        //         // Builder(builder: (context) {
-        //         //   return GridView.count(
-        //         //     crossAxisCount: _crossAxisCount,
-        //         //     childAspectRatio: _aspectRatio,
-        //         //     shrinkWrap: true,
-        //         //     padding: EdgeInsets.symmetric(
-        //         //         horizontal: getHorizontalSpace(context),
-        //         //         vertical: getHorizontalSpace(context)),
-        //         //     crossAxisSpacing: _crossAxisSpacing,
-        //         //     mainAxisSpacing: _crossAxisSpacing,
-        //         //     primary: false,
-        //         //
-        //         //     children: List.generate(list.length, (index) {
-        //         //       String e = list[index];
-        //         //       return CommonNumberButton( is4Matrix: true,
-        //         //         text: e,
-        //         //         totalHeight: remainHeight,
-        //         //         height: height,
-        //         //         onTab: () {
-        //         //           context.read<TrueFalseProvider>().checkResult(e);
-        //         //         },
-        //         //         colorTuple: colorTuple,
-        //         //       );
-        //         //     }),
-        //         //   );
-        //         //
-        //         //
-        //         // }),
-        //       ],
-        //     ),
-        //     subChild: CommonInfoTextView<TrueFalseProvider>(
-        //         gameCategoryType: GameCategoryType.TRUE_FALSE,
-        //         folder: colorTuple.item1.folderName!,
-        //
-        //         color: colorTuple.item1.cellColor!)),
       ),
     );
   }
