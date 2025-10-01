@@ -10,6 +10,7 @@ class Calculator {
   ///
   /// Parameters:
   /// - `question` (String): The mathematical question or expression.
+  /// - `answer` (int): The answer to the question.
   Calculator({required this.question, required this.answer});
 
   /// Returns a string representation of the `Calculator` object.

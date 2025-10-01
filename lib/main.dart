@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mathsgames/src/data/models/random_find_missing_data.dart';
@@ -13,6 +12,7 @@ import 'package:mathsgames/src/ui/reports/user_report_provider.dart';
 import 'package:mathsgames/src/data/repositories/user_report_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mathsgames/src/ui/app/accessibility_provider.dart';
 
 /// Main entry point of the application.
 /// Initializes necessary services and runs the app with required providers.
@@ -37,6 +37,10 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (context) =>
               ThemeProvider(sharedPreferences: sharedPreferences),
+        ),
+        // Accessibility / Assistive preferences
+        ChangeNotifierProvider<AccessibilityProvider>(
+          create: (_) => AccessibilityProvider(),
         ),
         // Dashboard provider for managing dashboard state
         ChangeNotifierProvider<DashboardProvider>(

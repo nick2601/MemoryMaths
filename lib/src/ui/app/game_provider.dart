@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mathsgames/src/core/adaptive_difficulty.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/ui/app/accessibility_provider.dart';
 import 'package:mathsgames/src/ui/app/time_provider.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
 import 'package:mathsgames/src/ui/app/auth_provider.dart';
@@ -70,6 +72,12 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
   late int totalWrongAnswers = 0;
   late int highestLevel = 1;
 
+  // --- Adaptive Difficulty Support ---
+  final AdaptiveDifficultyManager _adaptive = AdaptiveDifficultyManager();
+  DateTime? _questionStart; // per-question timer
+  AccessibilityProvider? _accessibility; // acquired lazily from context
+  // -----------------------------------
+
   CoinProvider? _coinProvider; // reference to coin provider
 
   /// Creates a GameProvider for the specified game category and context.
@@ -87,6 +95,8 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
     try {
       _coinProvider = Provider.of<CoinProvider>(c, listen: false);
       _coinProvider?.addListener(() => notifyListeners());
+      // accessibility provider (optional if not in tree yet)
+      _accessibility = Provider.of<AccessibilityProvider>(c, listen: false);
     } catch (_) {}
     print("isTimer12===$isTimer");
 
@@ -130,6 +140,7 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
     currentScore = 0;
     oldScore = 0;
     currentState = list[index];
+    _questionStart = DateTime.now();
     if (_homeViewModel.isFirstTime(gameCategoryType)) {
       await Future.delayed(Duration(milliseconds: 100));
       showInfoDialog();
@@ -153,7 +164,6 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
       case AppLifecycleState.resumed:
         break;
       case AppLifecycleState.inactive:
-        // widget is inactive
         break;
       case AppLifecycleState.paused:
         if (isTimer) {
@@ -163,6 +173,9 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
         }
         break;
       case AppLifecycleState.detached:
+        break;
+      case AppLifecycleState.hidden: // Newer Flutter lifecycle state
+        // Treat similar to paused (no extra action needed now)
         break;
     }
   }
@@ -190,6 +203,7 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
 
       print("index===$index");
       currentState = list[index];
+      _questionStart = DateTime.now();
     } else {
       dialogType = DialogType.over;
       if (isTimer) {
@@ -235,6 +249,11 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
 
   /// Handles correct answer logic and updates score.
   void rightAnswer() {
+    // Measure response time for adaptive difficulty
+    final responseMillis = _questionStart == null
+        ? 0
+        : DateTime.now().difference(_questionStart!).inMilliseconds;
+
     print("currentScoreRight===$currentScore");
     oldScore = currentScore;
     currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
@@ -246,11 +265,18 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
     addCoin();
 
     print("currentScore===12 $currentScore");
+
+    _adaptive.recordSample(isCorrect: true, responseMillis: responseMillis);
+
     notifyListeners();
   }
 
   /// Handles wrong answer logic and updates score.
   void wrongAnswer() {
+    final responseMillis = _questionStart == null
+        ? 0
+        : DateTime.now().difference(_questionStart!).inMilliseconds;
+
     // Track wrong answer for statistics
     totalWrongAnswers++;
     wrongCount++;
@@ -270,6 +296,8 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
 
       // Track game completion when user runs out of score
       _trackGameCompletion();
+
+      _adaptive.recordSample(isCorrect: false, responseMillis: responseMillis);
 
       notifyListeners();
     }
@@ -468,49 +496,56 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
   List<T> getList(int level) {
     this.levelNo = level;
 
+    // If adaptive difficulty is enabled, adjust requested level (without mutating original levelNo yet)
+    final bool adaptOn = _accessibility?.adaptiveDifficultyEnabled ?? false;
+    final int requestedLevel = adaptOn ? _adaptive.adjustedLevel(levelNo) : levelNo;
+
     switch (gameCategoryType) {
       case GameCategoryType.CALCULATOR:
-        return CalculatorRepository.getCalculatorDataList(level) as List<T>;
+        return CalculatorRepository.getCalculatorDataList(requestedLevel) as List<T>;
       case GameCategoryType.GUESS_SIGN:
-        return SignRepository.getSignDataList(level) as List<T>;
+        return SignRepository.getSignDataList(requestedLevel) as List<T>;
       case GameCategoryType.FIND_MISSING:
-        return FindMissingRepository.getFindMissingDataList(level) as List<T>;
+        return FindMissingRepository.getFindMissingDataList(requestedLevel) as List<T>;
       case GameCategoryType.TRUE_FALSE:
-        return TrueFalseRepository.getTrueFalseDataList(level) as List<T>;
+        return TrueFalseRepository.getTrueFalseDataList(requestedLevel) as List<T>;
       case GameCategoryType.SQUARE_ROOT:
-        return SquareRootRepository.getSquareDataList(level) as List<T>;
+        return SquareRootRepository.getSquareDataList(requestedLevel) as List<T>;
       case GameCategoryType.MATH_PAIRS:
-        return MathPairsRepository.getMathPairsDataList(level) as List<T>;
+        return MathPairsRepository.getMathPairsDataList(requestedLevel) as List<T>;
       case GameCategoryType.CONCENTRATION:
-        return MathPairsRepository.getMathPairsDataList(level) as List<T>;
+        return MathPairsRepository.getMathPairsDataList(requestedLevel) as List<T>;
       case GameCategoryType.NUMERIC_MEMORY:
-        return NumericMemoryRepository.getNumericMemoryDataList(level) as List<T>;
+        return NumericMemoryRepository.getNumericMemoryDataList(requestedLevel) as List<T>;
       case GameCategoryType.CORRECT_ANSWER:
-        return CorrectAnswerRepository.getCorrectAnswerDataList(level) as List<T>;
+        return CorrectAnswerRepository.getCorrectAnswerDataList(requestedLevel) as List<T>;
       case GameCategoryType.MAGIC_TRIANGLE:
-        if (level > 15) {
+        if (requestedLevel > 15) {
           return MagicTriangleRepository.getNextLevelTriangleDataProviderList() as List<T>;
         } else {
           return MagicTriangleRepository.getTriangleDataProviderList() as List<T>;
         }
       case GameCategoryType.MENTAL_ARITHMETIC:
-        return MentalArithmeticRepository.getMentalArithmeticDataList(level) as List<T>;
+        return MentalArithmeticRepository.getMentalArithmeticDataList(requestedLevel) as List<T>;
       case GameCategoryType.QUICK_CALCULATION:
-        return QuickCalculationRepository.getQuickCalculationDataList(level, 5) as List<T>;
+        return QuickCalculationRepository.getQuickCalculationDataList(requestedLevel, 5) as List<T>;
       case GameCategoryType.MATH_GRID:
-        return MathGridRepository.getMathGridData(level) as List<T>;
+        return MathGridRepository.getMathGridData(requestedLevel) as List<T>;
       case GameCategoryType.PICTURE_PUZZLE:
-        return PicturePuzzleRepository.getPicturePuzzleDataList(level) as List<T>;
+        return PicturePuzzleRepository.getPicturePuzzleDataList(requestedLevel) as List<T>;
       case GameCategoryType.NUMBER_PYRAMID:
-        return NumberPyramidRepository.getPyramidDataList(level) as List<T>;
+        return NumberPyramidRepository.getPyramidDataList(requestedLevel) as List<T>;
       case GameCategoryType.DUAL_GAME:
-        return DualRepository.getDualData(level) as List<T>;
+        return DualRepository.getDualData(requestedLevel) as List<T>;
       case GameCategoryType.COMPLEX_CALCULATION:
-        return ComplexCalculationRepository.getComplexData(level) as List<T>;
+        return ComplexCalculationRepository.getComplexData(requestedLevel) as List<T>;
       case GameCategoryType.CUBE_ROOT:
-        return CubeRootRepository.getCubeDataList(level) as List<T>;
+        return CubeRootRepository.getCubeDataList(requestedLevel) as List<T>;
       default:
         throw Exception("Unsupported game category type: $gameCategoryType");
     }
   }
+
+  /// Debug info for adaptive difficulty (can be surfaced in dev panel)
+  Map<String, dynamic> adaptiveSnapshot() => _adaptive.snapshot(currentLevel: levelNo);
 }

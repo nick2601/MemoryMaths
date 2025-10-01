@@ -3,10 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mathsgames/src/core/app_assets.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/core/dyslexic_theme.dart';
 import 'package:mathsgames/src/ui/splash/animated_grid_item_view.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:tuple/tuple.dart';
 
+/// Splash screen with dyslexic-friendly design
+/// Features high contrast colors, readable fonts, and calming visual elements
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
 
@@ -14,69 +17,156 @@ class SplashView extends StatefulWidget {
   State<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends State<SplashView> {
+class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
+  late AnimationController _fadeController;
+  late AnimationController _scaleController;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
+
   @override
   void initState() {
+    super.initState();
+
+    // Initialize animations for smoother transitions
+    _fadeController = AnimationController(
+      duration: Duration(milliseconds: 1500),
+      vsync: this,
+    );
+    _scaleController = AnimationController(
+      duration: Duration(milliseconds: 1200),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _scaleController, curve: Curves.elasticOut),
+    );
+
+    // Start animations
+    _fadeController.forward();
+    _scaleController.forward();
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top]);
-    Future.delayed(Duration(seconds: 2)).then((value) {
+
+    Future.delayed(Duration(seconds: 3)).then((value) {
       Navigator.pushReplacementNamed(context, KeyUtil.login);
     });
-
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+        statusBarColor: DyslexicTheme.backgroundColor,
+        statusBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
         body: Container(
           constraints: BoxConstraints.expand(),
-          decoration:
-              BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor
-                  // gradient: SweepGradient(
-                  //   center: Alignment.center,
-                  //   startAngle: 0.0,
-                  //   endAngle: pi * 2,
-                  //   colors: [
-                  //     Color(0xff4895EF),
-                  //     Color(0xff3F37C9),
-                  //   ],
-                  //   transform: GradientRotation(pi / 2),
-                  // ),
-                  ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                AppAssets.splashIcon,
-                height: getScreenPercentSize(context, 16),
-              ),
-              SizedBox(
-                height: getScreenPercentSize(context, 2.3),
-              ),
-              getTextWidget(
-                  Theme.of(context).textTheme.titleSmall!.copyWith(
-                      fontWeight: FontWeight.bold, fontFamily: 'Latinotype'),
-                  'Memory Math',
-                  TextAlign.center,
-                  getScreenPercentSize(context, 3.3))
-            ],
+          decoration: BoxDecoration(
+            // Dyslexic-friendly gradient using calming colors
+            gradient: LinearGradient(
+              colors: [
+                DyslexicTheme.backgroundColor,
+                DyslexicTheme.surfaceColor,
+                Color(0xFFEDF2F7), // Very light gray-blue
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.0, 0.6, 1.0],
+            ),
           ),
-          // child: ListView.builder(
-          //   shrinkWrap: true,
-          //   itemCount: horizontalLine,
-          //   physics: NeverScrollableScrollPhysics(),
-          //   itemBuilder: (context, index) => GridItemView(
-          //     index: index,
-          //     horizontalLine: horizontalLine,
-          //     verticalLine: verticalLine,
-          //   ),
-          // ),
+          child: AnimatedBuilder(
+            animation: Listenable.merge([_fadeAnimation, _scaleAnimation]),
+            builder: (context, child) {
+              return FadeTransition(
+                opacity: _fadeAnimation,
+                child: Transform.scale(
+                  scale: _scaleAnimation.value,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // App icon with subtle shadow
+                      Container(
+                        padding: EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [
+                            BoxShadow(
+                              color: DyslexicTheme.primaryColor.withValues(alpha: 0.15),
+                              blurRadius: 20,
+                              offset: Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: SvgPicture.asset(
+                          AppAssets.splashIcon,
+                          height: getScreenPercentSize(context, 18),
+                          colorFilter: ColorFilter.mode(
+                            DyslexicTheme.primaryColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: getScreenPercentSize(context, 4)),
+
+                      // App title with dyslexic-friendly typography
+                      Text(
+                        'Memory Math',
+                        style: TextStyle(
+                          fontFamily: DyslexicTheme.dyslexicFont,
+                          fontSize: getScreenPercentSize(context, 4.5),
+                          fontWeight: FontWeight.bold,
+                          color: DyslexicTheme.primaryTextColor,
+                          letterSpacing: 1.2,
+                          height: 1.3,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+
+                      SizedBox(height: getScreenPercentSize(context, 1.5)),
+
+                      // Subtitle with calming message
+                      Text(
+                        'Learn • Practice • Improve',
+                        style: TextStyle(
+                          fontFamily: DyslexicTheme.dyslexicFont,
+                          fontSize: getScreenPercentSize(context, 2.2),
+                          fontWeight: FontWeight.w500,
+                          color: DyslexicTheme.secondaryTextColor,
+                          letterSpacing: 0.8,
+                          height: 1.4,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+
+                      SizedBox(height: getScreenPercentSize(context, 6)),
+
+                      // Loading indicator with dyslexic-friendly colors
+                      Container(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            DyslexicTheme.accentColor,
+                          ),
+                          backgroundColor: DyslexicTheme.inputBorderColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -84,6 +174,8 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void dispose() {
+    _fadeController.dispose();
+    _scaleController.dispose();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.dispose();
@@ -121,7 +213,7 @@ class GridItemView extends StatelessWidget {
                             ? Text(
                                 e,
                                 style: TextStyle(
-                                  color: Colors.white24.withOpacity(0.25),
+                                  color: Colors.white24.withValues(alpha: 0.25),
                                   fontFamily: "Poppins",
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
@@ -167,7 +259,7 @@ class GridItemView extends StatelessWidget {
                           child: Text(
                             e.item1,
                             style: TextStyle(
-                              color: Colors.white24.withOpacity(0.5),
+                              color: Colors.white24.withValues(alpha: 0.5),
                               fontFamily: "Poppins",
                               fontSize: 16,
                               fontWeight: FontWeight.w400,

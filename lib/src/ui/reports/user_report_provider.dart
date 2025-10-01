@@ -21,6 +21,7 @@ class UserReportProvider extends ChangeNotifier {
   List<UserReport> get reportHistory => _reportHistory;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  bool get hasCurrentData => _currentReport != null || _reportHistory.isNotEmpty;
 
   /// Generate a new report for the specified user
   Future<void> generateReport(String email) async {
@@ -85,6 +86,19 @@ class UserReportProvider extends ChangeNotifier {
       _errorMessage = 'Failed to load user profile: ${e.toString()}';
     } finally {
       _setLoading(false);
+    }
+  }
+
+  /// Check if the user has any gameplay data (at least one game played or stats recorded)
+  Future<bool> hasUserReportData(String email) async {
+    try {
+      final profile = await _repository.getUserProfile(email);
+      if (profile == null) return false;
+      if (profile.totalGamesPlayed > 0) return true;
+      if (profile.gameStats.isNotEmpty) return true;
+      return false;
+    } catch (_) {
+      return false;
     }
   }
 

@@ -25,6 +25,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:mathsgames/src/ui/reports/user_report_view.dart';
 import 'package:mathsgames/src/ui/reports/user_report_provider.dart';
+import 'package:mathsgames/src/ui/app/accessibility_provider.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -88,7 +89,13 @@ class _SettingScreen extends State<SettingScreen> {
 
     TextStyle theme = Theme.of(context).textTheme.titleSmall!;
 
-    return WillPopScope(
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (!didPop) {
+          backClicks();
+        }
+      },
       child: Scaffold(
         appBar: getNoneAppBar(context),
         body: SafeArea(
@@ -136,10 +143,91 @@ class _SettingScreen extends State<SettingScreen> {
           ),
         ),
       ),
-      onWillPop: () async {
-        backClicks();
-        return false;
-      },
+    );
+  }
+
+  Widget _buildReportButton(BuildContext context) {
+    final theme = Theme.of(context);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    final reportProv = Provider.of<UserReportProvider>(context, listen: false);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: FetchPixels.getPixelWidth(30),
+        vertical: FetchPixels.getPixelHeight(30),
+      ),
+      decoration: getDefaultDecoration(
+        radius: FetchPixels.getPixelHeight(30),
+        borderColor: Colors.grey,
+        bgColor: null,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                getSubTitleFonts("View Progress Report"),
+                SizedBox(height: 6),
+                Text(
+                  "Tap to generate your latest performance & learning report.",
+                  style: theme.textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+          _isGeneratingReport
+              ? SizedBox(
+                  width: FetchPixels.getPixelHeight(60),
+                  height: FetchPixels.getPixelHeight(60),
+                  child: const CircularProgressIndicator(strokeWidth: 3),
+                )
+              : ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: FetchPixels.getPixelWidth(30),
+                      vertical: FetchPixels.getPixelHeight(20),
+                    ),
+                  ),
+                  onPressed: () async {
+                    if (!auth.isAuthenticated || auth.userEmail == null || auth.userEmail!.isEmpty) {
+                      return; // Do nothing if not logged in
+                    }
+                    setState(() => _isGeneratingReport = true);
+                    try {
+                      final hasData = await reportProv.hasUserReportData(auth.userEmail!);
+                      if (!hasData) {
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('No progress report available yet. Please play a game to generate your report.')),
+                          );
+                        }
+                        return;
+                      }
+                      await reportProv.generateReport(auth.userEmail!);
+                      if (!mounted) return;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => UserReportView(userEmail: auth.userEmail!),
+                        ),
+                      );
+                    } catch (e) {
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Failed to generate report: $e')),
+                        );
+                      }
+                    } finally {
+                      if (mounted) setState(() => _isGeneratingReport = false);
+                    }
+                  },
+                  icon: const Icon(Icons.analytics_outlined),
+                  label: const Text('View'),
+                ),
+        ],
+      ),
     );
   }
 
@@ -159,7 +247,7 @@ class _SettingScreen extends State<SettingScreen> {
             SizedBox(
               height: FetchPixels.getPixelHeight(30),
             ),
-            // --- Added Progress Report Section ---
+            // --- Removed Send Progress Report Section ---
             getTitleText("Progress Report"),
             SizedBox(height: FetchPixels.getPixelHeight(20)),
             _buildReportButton(context),
@@ -311,6 +399,12 @@ class _SettingScreen extends State<SettingScreen> {
               ),
             ),
             verSpace,
+            // --- Accessibility & Assist Section ---
+            getDivider(),
+            getTitleText("Accessibility & Assist"),
+            SizedBox(height: FetchPixels.getPixelHeight(30)),
+            _buildAccessibilityToggles(context),
+            verSpace,
             getDivider(),
             getCell(
                 string: "Share",
@@ -405,84 +499,6 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
-  Widget _buildReportButton(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: FetchPixels.getPixelWidth(30),
-        vertical: FetchPixels.getPixelHeight(30),
-      ),
-      decoration: getDefaultDecoration(
-        radius: FetchPixels.getPixelHeight(30),
-        borderColor: Colors.grey,
-        bgColor: null,
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                getSubTitleFonts("View Progress Report"),
-                SizedBox(height: 6),
-                Text(
-                  "Tap to generate your latest performance & learning report.",
-                  style: theme.textTheme.bodySmall,
-                ),
-              ],
-            ),
-          ),
-          _isGeneratingReport
-              ? SizedBox(
-                  width: FetchPixels.getPixelHeight(60),
-                  height: FetchPixels.getPixelHeight(60),
-                  child: const CircularProgressIndicator(strokeWidth: 3),
-                )
-              : ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: FetchPixels.getPixelWidth(30),
-                      vertical: FetchPixels.getPixelHeight(20),
-                    ),
-                  ),
-                  onPressed: () async {
-                    final auth = Provider.of<AuthProvider>(context, listen: false);
-                    if (!auth.isAuthenticated || (auth.userEmail == null || auth.userEmail!.isEmpty)) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please log in to view your report.')),
-                      );
-                      return;
-                    }
-                    setState(() => _isGeneratingReport = true);
-                    try {
-                      final reportProv = Provider.of<UserReportProvider>(context, listen: false);
-                      await reportProv.generateReport(auth.userEmail!);
-                      if (!mounted) return;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => UserReportView(userEmail: auth.userEmail!),
-                        ),
-                      );
-                    } catch (e) {
-                      if (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Failed to generate report: $e')),
-                        );
-                      }
-                    } finally {
-                      if (mounted) setState(() => _isGeneratingReport = false);
-                    }
-                  },
-                  icon: const Icon(Icons.analytics_outlined),
-                  label: const Text('View'),
-                ),
-        ],
-      ),
-    );
-  }
 
   Future<void> generateAndSendReport(
       String userName, String email, List<GameCategory> gameCategories) async {
@@ -624,6 +640,86 @@ class _SettingScreen extends State<SettingScreen> {
     // );
     return getCustomFont(string, 30, theme.color!, 1,
         fontWeight: FontWeight.w600);
+  }
+
+  Widget _buildAccessibilityToggles(BuildContext context) {
+    final accessibility = context.watch<AccessibilityProvider>();
+    return Column(
+      children: [
+        _accessRow(
+          label: 'Adaptive Difficulty',
+          value: accessibility.adaptiveDifficultyEnabled,
+          onChanged: (v) => accessibility.toggleAdaptiveDifficulty(v),
+          help: 'Automatically adjusts level difficulty based on performance.'
+        ),
+        SizedBox(height: FetchPixels.getPixelHeight(25)),
+        _accessRow(
+          label: 'Dyslexic Mode',
+          value: accessibility.dyslexicModeEnabled,
+          onChanged: (v) => accessibility.toggleDyslexicMode(v),
+          help: 'Uses fonts & layout optimized for dyslexic readers.'
+        ),
+        SizedBox(height: FetchPixels.getPixelHeight(25)),
+        _accessRow(
+          label: 'High Contrast',
+          value: accessibility.highContrastEnabled,
+          onChanged: (v) => accessibility.toggleHighContrast(v),
+          help: 'Increases color contrast for better visual clarity.'
+        ),
+        SizedBox(height: FetchPixels.getPixelHeight(25)),
+        _accessRow(
+          label: 'Large Text',
+          value: accessibility.largeTextEnabled,
+          onChanged: (v) => accessibility.toggleLargeText(v),
+          help: 'Enlarges text size & spacing for readability.'
+        ),
+      ],
+    );
+  }
+
+  Widget _accessRow({required String label, required bool value, required Function(bool) onChanged, String? help}) {
+    return Container(
+      height: FetchPixels.getPixelHeight(125),
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: FetchPixels.getPixelWidth(30)),
+      decoration: getDefaultDecoration(
+        radius: FetchPixels.getPixelHeight(30),
+        borderColor: Colors.grey,
+        bgColor: null,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                getSubTitleFonts(label),
+                if (help != null) ...[
+                  SizedBox(height: 6),
+                  Text(
+                    help,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ]
+              ],
+            ),
+          ),
+          FlutterSwitch(
+            value: value,
+            inactiveColor: lighten(KeyUtil.primaryColor1, 0.09),
+            inactiveToggleColor: Colors.white,
+            activeColor: KeyUtil.primaryColor1,
+            width: FetchPixels.getPixelHeight(130),
+            height: FetchPixels.getPixelHeight(75),
+            onToggle: onChanged,
+          ),
+        ],
+      ),
+    );
   }
 }
 
