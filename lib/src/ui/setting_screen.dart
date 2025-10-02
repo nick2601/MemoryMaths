@@ -5,6 +5,7 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/common/rate_dialog_view.dart';
+import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
 import 'package:mathsgames/src/ui/login/login_view.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/resizer/fetch_pixels.dart';
@@ -15,6 +16,7 @@ import 'package:tuple/tuple.dart';
 import '../core/app_assets.dart';
 import 'app/auth_provider.dart';
 import 'app/theme_provider.dart';
+import 'app/coin_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'common/common_alert_dialog.dart';
@@ -30,6 +32,7 @@ import 'app/accessibility_provider.dart';
 /// - Vibration settings
 /// - Accessibility options
 /// - View performance reports
+/// - Reset user data
 /// - Access support options (feedback, rate, share)
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -59,6 +62,9 @@ class _SettingScreen extends State<SettingScreen> {
 
   /// Loading indicator for report generation
   bool _isGeneratingReport = false;
+
+  /// Loading indicator for reset operation
+  bool _isResetting = false;
 
   @override
   void dispose() {
@@ -239,6 +245,245 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
+  /// Builds the reset user data button widget
+  ///
+  /// [context] - BuildContext for theme and providers
+  /// Returns a Container with the reset button and description
+  Widget _buildResetButton(BuildContext context) {
+    final theme = Theme.of(context);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: FetchPixels.getPixelWidth(30),
+        vertical: FetchPixels.getPixelHeight(30),
+      ),
+      decoration: getDefaultDecoration(
+        radius: FetchPixels.getPixelHeight(30),
+        borderColor: Colors.red.shade300,
+        bgColor: Colors.red.shade50,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.warning_amber_rounded, color: Colors.red.shade600, size: 24),
+                    SizedBox(width: 8),
+                    Text(
+                      "Reset All Data",
+                      style: TextStyle(
+                        fontSize: fontTitleSize,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.red.shade700,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 6),
+                Text(
+                  "This will permanently delete all your coins, scores, progress, and statistics. This action cannot be undone.",
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: Colors.red.shade600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          _isResetting
+              ? SizedBox(
+                  width: FetchPixels.getPixelHeight(60),
+                  height: FetchPixels.getPixelHeight(60),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    color: Colors.red.shade600,
+                  ),
+                )
+              : ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red.shade600,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: FetchPixels.getPixelWidth(30),
+                      vertical: FetchPixels.getPixelHeight(20),
+                    ),
+                  ),
+                  onPressed: auth.isAuthenticated ? () => _showResetDialog(context) : null,
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Reset'),
+                ),
+        ],
+      ),
+    );
+  }
+
+  /// Shows confirmation dialog for resetting user data
+  void _showResetDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.red.shade600),
+              SizedBox(width: 8),
+              Text('Reset All Data', style: TextStyle(color: Colors.red.shade700)),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'This will permanently delete:',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: 12),
+              _resetDialogItem('• All your coins and rewards'),
+              _resetDialogItem('• Game scores and progress'),
+              _resetDialogItem('• Statistics and achievements'),
+              _resetDialogItem('• Level completion history'),
+              _resetDialogItem('• Performance reports data'),
+              SizedBox(height: 16),
+              Container(
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade50,
+                  border: Border.all(color: Colors.red.shade200),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.info_outline, color: Colors.red.shade600, size: 20),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'This action cannot be undone!',
+                        style: TextStyle(
+                          color: Colors.red.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.of(dialogContext).pop();
+                await _performReset();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red.shade600,
+                foregroundColor: Colors.white,
+              ),
+              child: Text('Reset All Data'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /// Creates a reset dialog item widget
+  Widget _resetDialogItem(String text) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 4),
+      child: Text(text, style: TextStyle(fontSize: 14)),
+    );
+  }
+
+  /// Performs the actual reset operation
+  Future<void> _performReset() async {
+    setState(() => _isResetting = true);
+
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final coinProvider = Provider.of<CoinProvider>(context, listen: false);
+
+      // Get the current username before reset for verification
+      final username = authProvider.username;
+
+      // Reset all user data through AuthProvider
+      await authProvider.resetCurrentUserData();
+
+      // Force reload of coins to ensure UI updates
+      await coinProvider.getCoin();
+
+      // Double check the coins are actually reset
+      if (username != null) {
+        final coins = await coinProvider.getUserCoins(username);
+        print("Verifying coins after reset for $username: $coins");
+
+        // If coins still exist, force delete them
+        if (coins > 0) {
+          await coinProvider.deleteUserCoinData(username);
+          await coinProvider.getCoin();
+        }
+      }
+
+      // Show success message with verification
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'All data has been reset successfully. Coins: ${coinProvider.coin}',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.green.shade600,
+            duration: Duration(seconds: 3),
+          ),
+        );
+
+        // Force navigation refresh to ensure UI updates
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => DashboardView()),
+        );
+      }
+    } catch (e) {
+      // Show error message with more details
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.error, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(child: Text('Failed to reset data: $e')),
+              ],
+            ),
+            backgroundColor: Colors.red.shade600,
+            duration: Duration(seconds: 5),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isResetting = false);
+      }
+    }
+  }
+
   /// Builds the main scrollable content area with all settings
   ///
   /// [selection] - Current selection state
@@ -262,6 +507,14 @@ class _SettingScreen extends State<SettingScreen> {
             getTitleText("Progress Report"),
             SizedBox(height: FetchPixels.getPixelHeight(20)),
             _buildReportButton(context),
+            verSpace,
+            getDivider(),
+            verSpace,
+            getTitleText("User Data"),
+            SizedBox(height: FetchPixels.getPixelHeight(20)),
+            _buildResetButton(context),
+            verSpace,
+            getDivider(),
             verSpace,
             getTitleText("Sound"),
             verSpace,
@@ -411,6 +664,7 @@ class _SettingScreen extends State<SettingScreen> {
             ),
             verSpace,
             getDivider(),
+            verSpace,
             getTitleText("Accessibility & Assist"),
             SizedBox(height: FetchPixels.getPixelHeight(30)),
             _buildAccessibilityToggles(context),
@@ -461,6 +715,8 @@ class _SettingScreen extends State<SettingScreen> {
                   _launchURL();
                 }),
             getDivider(),
+            // Add some bottom padding
+            SizedBox(height: FetchPixels.getPixelHeight(50)),
           ],
         ),
       ),
@@ -602,23 +858,22 @@ class _SettingScreen extends State<SettingScreen> {
         bgColor: null,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 getSubTitleFonts(label),
                 if (help != null) ...[
-                  SizedBox(height: 6),
+                  SizedBox(height: 4),
                   Text(
                     help,
-                    style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.grey.shade600,
+                    ),
                   ),
-                ]
+                ],
               ],
             ),
           ),

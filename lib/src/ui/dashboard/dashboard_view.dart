@@ -6,7 +6,6 @@ import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_button_view.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
-import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import '../app/theme_provider.dart';

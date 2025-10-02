@@ -75,8 +75,7 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
   // --- Adaptive Difficulty Support ---
   final AdaptiveDifficultyManager _adaptive = AdaptiveDifficultyManager();
   DateTime? _questionStart; // per-question timer
-  AccessibilityProvider? _accessibility; // acquired lazily from context
-  // -----------------------------------
+  AccessibilityProvider? _accessibility;
 
   CoinProvider? _coinProvider; // reference to coin provider
 
@@ -94,7 +93,10 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
     // acquire coin provider (if available in tree) and listen for changes
     try {
       _coinProvider = Provider.of<CoinProvider>(c, listen: false);
-      _coinProvider?.addListener(() => notifyListeners());
+      // Store the listener function so we can remove it later
+      _coinListener = () => notifyListeners();
+      _coinProvider?.addListener(_coinListener!);
+
       // accessibility provider (optional if not in tree yet)
       _accessibility = Provider.of<AccessibilityProvider>(c, listen: false);
     } catch (_) {}
@@ -106,6 +108,9 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
     });
   }
 
+  // Add a variable to store the coin listener function
+  VoidCallback? _coinListener;
+
   // Timer control methods that delegate to the TimeProvider
   void pauseTimer() => _timeProvider.pauseTimer();
   void resumeTimer() => _timeProvider.resumeTimer();
@@ -115,9 +120,13 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
 
   @override
   void dispose() {
-    //disposeRewardedAd(adsFile);
+    // Remove the coin provider listener before disposing
+    if (_coinProvider != null && _coinListener != null) {
+      _coinProvider!.removeListener(_coinListener!);
+    }
+
+    _timeProvider.dispose();
     WidgetsBinding.instance.removeObserver(this);
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -151,7 +160,12 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
         notifyListeners();
       }
     }
-    getCoin();
+
+    // Defer coin loading until after build phase to prevent setState during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getCoin();
+    });
+
     WidgetsBinding.instance.addObserver(this);
   }
 

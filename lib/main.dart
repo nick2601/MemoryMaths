@@ -46,12 +46,19 @@ Future<void> main() async {
         ChangeNotifierProvider<DashboardProvider>(
           create: (context) => GetIt.I.get<DashboardProvider>(),
         ),
-        // Coin provider for managing in-game currency
+        // Coin provider for managing in-game currency (user-specific)
         ChangeNotifierProvider<CoinProvider>(
           create: (context) => GetIt.I.get<CoinProvider>(),
         ),
         // Authentication provider for user management
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProxyProvider<CoinProvider, AuthProvider>(
+          create: (context) => AuthProvider(),
+          update: (context, coinProvider, authProvider) {
+            // Wire the coin provider to auth provider for user-specific coin management
+            authProvider?.setCoinProvider(coinProvider);
+            return authProvider!;
+          },
+        ),
         // User report provider for analytics and reporting
         ChangeNotifierProvider<UserReportProvider>(
           create: (context) => GetIt.I.get<UserReportProvider>(),
@@ -74,7 +81,7 @@ setupServiceLocator(SharedPreferences sharedPreferences) {
   GetIt.I.registerSingleton<UserReportRepository>(
       UserReportRepository());
 
-  // Register CoinProvider as singleton (if not already registered elsewhere)
+  // Register CoinProvider as singleton with user-specific functionality
   if (!GetIt.I.isRegistered<CoinProvider>()) {
     GetIt.I.registerSingleton<CoinProvider>(
         CoinProvider(preferences: sharedPreferences));

@@ -8,6 +8,7 @@ import 'package:mathsgames/src/core/app_routes.dart';
 import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
+import 'package:mathsgames/src/ui/splash/splash_view.dart';
 import 'package:provider/provider.dart';
 
 import '../login/login_view.dart';
@@ -40,21 +41,51 @@ class MyApp extends StatelessWidget {
         // Configure application theming
         theme: AppTheme.theme,
         darkTheme: AppTheme.darkTheme,
-        themeMode: themeMode,
+        themeMode: provider.themeMode,
+        // Use proper routing - start with splash screen
         initialRoute: KeyUtil.splash,
-        // Handle authentication state and route to appropriate screen
-        home: Consumer<AuthProvider>(
-          builder: (context, authProvider, _) {
-            // Route to Dashboard if authenticated, otherwise to Login
-            if (authProvider.isAuthenticated) {
-              return DashboardView();
-            } else {
-              return LoginScreen();
-            }
-          },
-        ),
         // Configure application routes
         routes: appRoutes,
+        // Handle route generation for unknown routes
+        onGenerateRoute: (settings) {
+          // Handle authentication-based routing
+          return MaterialPageRoute(
+            builder: (context) {
+              // Check if trying to access dashboard or home
+              if (settings.name == KeyUtil.dashboard || settings.name == KeyUtil.home) {
+                return Consumer<AuthProvider>(
+                  builder: (context, authProvider, _) {
+                    if (authProvider.isAuthenticated) {
+                      // User is authenticated, allow access to requested route
+                      if (settings.name == KeyUtil.dashboard) {
+                        return DashboardView();
+                      } else if (settings.name == KeyUtil.home) {
+                        // Handle home route with arguments if needed
+                        return appRoutes[KeyUtil.home]!(context);
+                      }
+                    }
+                    // User not authenticated, redirect to login
+                    return LoginScreen();
+                  },
+                );
+              }
+
+              // For other routes, use default routing
+              if (appRoutes.containsKey(settings.name)) {
+                return appRoutes[settings.name]!(context);
+              }
+
+              // Fallback to splash screen for unknown routes
+              return SplashView();
+            },
+          );
+        },
+        // Handle unknown routes
+        onUnknownRoute: (settings) {
+          return MaterialPageRoute(
+            builder: (context) => SplashView(),
+          );
+        },
         navigatorObservers: [],
       );
     });

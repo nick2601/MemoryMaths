@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/core/dyslexic_theme.dart';
 import 'package:provider/provider.dart';
 import '../app/auth_provider.dart';
@@ -128,11 +129,11 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
         'Account created successfully! Your profile has been set up for progress tracking.',
       );
 
-      // Navigate to dashboard after successful signup
+      // Navigate to dashboard after successful signup using proper route key
       Future.delayed(Duration(seconds: 2), () {
         Navigator.pushNamedAndRemoveUntil(
           context,
-          '/dashboard',
+          KeyUtil.dashboard,
           (route) => false,
         );
       });

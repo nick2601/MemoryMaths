@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mathsgames/src/data/models/user_profile.dart';
 import 'package:mathsgames/src/data/repositories/user_report_repository.dart';
+import 'package:mathsgames/src/ui/app/coin_provider.dart';
 
 import '../../core/app_constant.dart';
 
@@ -12,6 +13,7 @@ class AuthProvider with ChangeNotifier {
   String? _username;
   String? _userEmail;
   UserProfile? _userProfile;
+  CoinProvider? _coinProvider;
 
   /// Returns whether the user is authenticated.
   bool get isAuthenticated => _isAuthenticated;
@@ -21,6 +23,11 @@ class AuthProvider with ChangeNotifier {
   String? get userEmail => _userEmail;
   /// Returns the current user profile.
   UserProfile? get userProfile => _userProfile;
+
+  /// Sets the coin provider reference for user-specific coin management
+  void setCoinProvider(CoinProvider coinProvider) {
+    _coinProvider = coinProvider;
+  }
 
   /// Signs up a new user with the given username, email, and password.
   /// Creates a user profile for analytics and reporting.
@@ -52,6 +59,10 @@ class AuthProvider with ChangeNotifier {
     _isAuthenticated = true;
     _username = username;
     _userEmail = email;
+
+    // Set user ID in coin provider for user-specific coins (starts with 0 for new users)
+    _coinProvider?.setUserId(username);
+
     notifyListeners();
   }
 
@@ -83,6 +94,10 @@ class AuthProvider with ChangeNotifier {
 
       _isAuthenticated = true;
       _username = username;
+
+      // Set user ID in coin provider to load user-specific coins
+      _coinProvider?.setUserId(username);
+
       notifyListeners();
     } else {
       throw Exception("Invalid username or password.");
@@ -99,6 +114,10 @@ class AuthProvider with ChangeNotifier {
     _username = null;
     _userEmail = null;
     _userProfile = null;
+
+    // Clear user ID from coin provider
+    _coinProvider?.setUserId(null);
+
     notifyListeners();
   }
 
@@ -113,6 +132,9 @@ class AuthProvider with ChangeNotifier {
       _username = loggedInUser;
       _userEmail = loggedInUserEmail;
 
+      // Set user ID in coin provider
+      _coinProvider?.setUserId(loggedInUser);
+
       // Load user profile if email exists
       if (_userEmail != null) {
         await _loadUserProfile(_userEmail!);
@@ -122,9 +144,95 @@ class AuthProvider with ChangeNotifier {
       _username = null;
       _userEmail = null;
       _userProfile = null;
+
+      // Clear user ID from coin provider
+      _coinProvider?.setUserId(null);
     }
 
     notifyListeners();
+  }
+
+  /// Resets all data for the current user (coins, scores, progress)
+  Future<void> resetCurrentUserData() async {
+    if (_username == null) {
+      throw Exception("No user logged in");
+    }
+
+    print("Starting reset for user: $_username");
+
+    try {
+      // Reset coins first - this is the most important part
+      if (_coinProvider != null) {
+        print("Resetting coins for user: $_username");
+        await _coinProvider!.resetAllCoinData(); // Use comprehensive reset
+        await _coinProvider!.getCoin(); // Force reload
+        print("Coins after reset: ${_coinProvider!.coin}");
+      }
+
+      // Reset all user-specific data stored in SharedPreferences
+      await _resetUserPreferencesData(_username!);
+
+      // Reset user profile and game statistics
+      if (_userEmail != null) {
+        await _resetUserProfileData(_userEmail!);
+      }
+
+      print("All data reset completed for user: $_username");
+      notifyListeners();
+    } catch (e) {
+      print("Error during reset: $e");
+      rethrow;
+    }
+  }
+
+  /// Resets user preferences data (scores, levels, coins, etc.)
+  Future<void> _resetUserPreferencesData(String username) async {
+    final prefs = await SharedPreferences.getInstance();
+    final allKeys = prefs.getKeys();
+
+    // Identify and delete all game-related keys for the current user
+    final gameDataKeys = allKeys.where((key) {
+      return
+        // Coin data for this user
+        key.startsWith('KeyCoin_$username') ||
+        // Game scores, levels, progress, achievements, etc.
+        key.startsWith('score_') ||
+        key.startsWith('level_') ||
+        key.startsWith('progress_') ||
+        key.startsWith('achievement_') ||
+        key.startsWith('completion_') ||
+        key.startsWith('dashboard_') ||
+        // Other game-specific keys that are safe to delete
+        (key.contains('_${username}_') && !key.contains('email') && !key.contains('fullName'));
+    }).toList();
+
+    print("Deleting ${gameDataKeys.length} game data keys for user: $username");
+    for (final key in gameDataKeys) {
+      print("Deleting key: $key");
+      await prefs.remove(key);
+    }
+
+    // Preserve essential keys (e.g., username, email, etc.)
+  }
+
+  /// Resets user profile data in the repository
+  Future<void> _resetUserProfileData(String email) async {
+    final userReportRepository = UserReportRepository();
+
+    // Create a fresh user profile
+    final resetProfile = UserProfile(
+      email: email,
+      name: _userProfile?.name ?? 'User',
+      createdAt: _userProfile?.createdAt ?? DateTime.now(),
+      lastPlayedAt: DateTime.now(),
+      totalCoins: 0,
+      totalGamesPlayed: 0,
+      gameStats: {},
+      skillLevel: SkillLevel.beginner,
+    );
+
+    await userReportRepository.saveUserProfile(resetProfile);
+    _userProfile = resetProfile;
   }
 
   /// Creates a new user profile for analytics and reporting

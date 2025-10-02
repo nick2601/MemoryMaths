@@ -8,7 +8,7 @@ import 'package:tuple/tuple.dart';
 import '../../core/app_assets.dart';
 import '../../core/app_constant.dart';
 import '../../utility/global_constants.dart';
-import '../app/theme_provider.dart';
+import '../app/theme_provider.dart' hide themeMode;
 import '../model/gradient_model.dart';
 
 class CommonScoreWidget extends StatelessWidget {

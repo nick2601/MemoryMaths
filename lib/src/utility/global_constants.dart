@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
+import 'package:mathsgames/src/ui/app/coin_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
@@ -553,27 +554,26 @@ getSettingWidget(BuildContext context, {Function? function}) {
 }
 
 getScoreWidget(BuildContext context, {Color? color, bool? isCenter}) {
-  return Row(
-    mainAxisAlignment:
-        (isCenter != null) ? MainAxisAlignment.center : MainAxisAlignment.start,
-    crossAxisAlignment: (isCenter != null)
-        ? CrossAxisAlignment.center
-        : CrossAxisAlignment.start,
-    children: [
-      getTrophyIcon(context),
-      SizedBox(
-        width: FetchPixels.getPixelHeight(20),
-      ),
-      Consumer<DashboardProvider>(
-        builder: (context, model, child) => getTextWidget(
-            Theme.of(context).textTheme.titleSmall!.copyWith(
-                fontWeight: FontWeight.w600,
-                color: color != null ? color : null),
-            model.coin.toString(),
-            TextAlign.start,
-            FetchPixels.getPixelHeight(53)),
-      ),
-    ],
+  return Consumer<CoinProvider>(
+    builder: (context, coinProvider, _) => Row(
+      mainAxisAlignment:
+          (isCenter != null) ? MainAxisAlignment.center : MainAxisAlignment.start,
+      crossAxisAlignment: (isCenter != null)
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
+      children: [
+        getTrophyIcon(context),
+        SizedBox(
+          width: FetchPixels.getPixelHeight(20),
+        ),
+        Text(
+          coinProvider.coin.toString(),
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              fontWeight: FontWeight.w600,
+              color: color != null ? color : null),
+        ),
+      ],
+    ),
   );
 }
 

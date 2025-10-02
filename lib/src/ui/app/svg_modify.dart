@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mathsgames/src/ui/app/theme_provider.dart';
+import 'package:mathsgames/src/ui/app/theme_provider.dart' hide themeMode;
+
+import '../../core/app_constant.dart';
 
 /// Utility class for modifying SVG assets for theming.
 class SvgModify {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/math_grid.dart';
-import 'package:mathsgames/src/ui/app/theme_provider.dart';
+import 'package:mathsgames/src/ui/app/theme_provider.dart' hide themeMode;
 import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:mathsgames/src/ui/mathGrid/math_grid_provider.dart';

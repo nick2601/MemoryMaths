@@ -4,8 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mathsgames/src/core/app_assets.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/core/dyslexic_theme.dart';
+import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/splash/animated_grid_item_view.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
+import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 /// Splash screen with dyslexic-friendly design
@@ -51,9 +53,31 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top]);
 
+    // Check authentication status after splash delay
     Future.delayed(Duration(seconds: 3)).then((value) {
-      Navigator.pushReplacementNamed(context, KeyUtil.login);
+      _checkAuthAndNavigate();
     });
+  }
+
+  /// Check authentication status and navigate to appropriate screen
+  Future<void> _checkAuthAndNavigate() async {
+    if (!mounted) return;
+
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+    // Check if user is already logged in
+    await authProvider.checkAuthStatus();
+
+    if (!mounted) return;
+
+    // Navigate based on authentication status
+    if (authProvider.isAuthenticated) {
+      // User is logged in, go to dashboard
+      Navigator.pushReplacementNamed(context, KeyUtil.dashboard);
+    } else {
+      // User not logged in, go to login screen
+      Navigator.pushReplacementNamed(context, KeyUtil.login);
+    }
   }
 
   @override

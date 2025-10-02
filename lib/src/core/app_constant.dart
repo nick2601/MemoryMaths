@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/data/models/dashboard.dart';
+import 'package:mathsgames/src/core/theme_manager.dart';
 import 'package:tuple/tuple.dart';
 
 import 'app_assets.dart';
+
+/// Global theme mode getter for backward compatibility
+/// This accesses the theme through ThemeManager to avoid import conflicts
+ThemeMode get themeMode => ThemeManager.getCurrentTheme();
 
 /// Enum representing different types of math games available in the application.
 enum GameCategoryType {
