@@ -365,4 +365,92 @@ class DashboardProvider extends CoinProvider {
       }
     });
   }
+
+  /// Resets all scores and progress data for the current user
+  Future<void> resetAllScoreData() async {
+    final allKeys = preferences.getKeys();
+
+    // Find all score-related keys
+    final scoreKeys = allKeys.where((key) =>
+      key == 'overall_score' ||  // Overall score
+      key == keyCalculator ||
+      key == keySign ||
+      key == keyCorrectAnswer ||
+      key == keyQuickCalculation ||
+      key == keyFindMissingCalculation ||
+      key == keyTrueFalseCalculation ||
+      key == keyDualGame ||
+      key == keyComplexGame ||
+      key == keyMentalArithmetic ||
+      key == keySquareRoot ||
+      key == keyMathMachine ||
+      key == keyMathPairs ||
+      key == keyCubeRoot ||
+      key == keyConcentration ||
+      key == keyMagicTriangle ||
+      key == keyPicturePuzzle ||
+      key == keyNumberPyramid ||
+      key == keyNumericMemory ||
+      key.startsWith('score_') ||  // Any other score keys
+      key.startsWith('scoreboard_') ||  // Any scoreboard keys
+      key.contains('_score') ||  // Any keys containing '_score'
+      key.contains('Score')  // Any keys containing 'Score'
+    ).toList();
+
+    print("Found ${scoreKeys.length} score-related keys to delete:");
+    for (final key in scoreKeys) {
+      print("Deleting score key: $key");
+      await preferences.remove(key);
+    }
+
+    // Reset overall score to 0
+    _overallScore = 0;
+    await preferences.setInt("overall_score", 0);
+
+    // Force refresh of game list to show reset scores
+    _refreshGameList();
+
+    notifyListeners();
+    print("All score data cleared. Overall score: $_overallScore");
+  }
+
+  /// Helper method to refresh the game list after reset
+  void _refreshGameList() {
+    // Force regeneration of game categories with fresh scoreboards
+    for (PuzzleType puzzleType in PuzzleType.values) {
+      getGameByPuzzleType(puzzleType);
+    }
+  }
+
+  /// Resets scores for a specific game category
+  Future<void> resetGameScore(String gameKey) async {
+    await preferences.remove(gameKey);
+    print("Reset score for game: $gameKey");
+
+    // Recalculate overall score
+    _recalculateOverallScore();
+    notifyListeners();
+  }
+
+  /// Recalculates the overall score from all individual game scores
+  void _recalculateOverallScore() {
+    int totalScore = 0;
+
+    // Sum up all high scores from individual games
+    final gameKeys = [
+      keyCalculator, keySign, keyCorrectAnswer, keyQuickCalculation,
+      keyFindMissingCalculation, keyTrueFalseCalculation, keyDualGame,
+      keyComplexGame, keyMentalArithmetic, keySquareRoot, keyMathMachine,
+      keyMathPairs, keyCubeRoot, keyConcentration, keyMagicTriangle,
+      keyPicturePuzzle, keyNumberPyramid, keyNumericMemory
+    ];
+
+    for (String key in gameKeys) {
+      ScoreBoard scoreboard = getScoreboard(key);
+      totalScore += scoreboard.highestScore;
+    }
+
+    _overallScore = totalScore;
+    preferences.setInt("overall_score", _overallScore);
+  }
 }

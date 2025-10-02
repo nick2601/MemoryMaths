@@ -6,6 +6,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/common/rate_dialog_view.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
+import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
 import 'package:mathsgames/src/ui/login/login_view.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/resizer/fetch_pixels.dart';
@@ -411,12 +412,18 @@ class _SettingScreen extends State<SettingScreen> {
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final coinProvider = Provider.of<CoinProvider>(context, listen: false);
+      final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
 
       // Get the current username before reset for verification
       final username = authProvider.username;
 
       // Reset all user data through AuthProvider
       await authProvider.resetCurrentUserData();
+
+      // Reset scores through DashboardProvider
+      print("Resetting scores for user: $username");
+      await dashboardProvider.resetAllScoreData();
+      print("Scores after reset - Overall score: ${dashboardProvider.overallScore}");
 
       // Force reload of coins to ensure UI updates
       await coinProvider.getCoin();
@@ -443,7 +450,7 @@ class _SettingScreen extends State<SettingScreen> {
                 SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'All data has been reset successfully. Coins: ${coinProvider.coin}',
+                    'All data has been reset successfully. Coins: ${coinProvider.coin}, Trophies: ${dashboardProvider.overallScore}',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
