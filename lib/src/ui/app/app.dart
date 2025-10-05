@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
     return Consumer<ThemeProvider>(
         builder: (context, ThemeProvider provider, child) {
       return MaterialApp(
-        title: 'Memory Math',
+        title: 'Memory Maths',
         debugShowCheckedModeBanner: false,
         // Configure application theming
         theme: AppTheme.theme,

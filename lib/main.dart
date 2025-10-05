@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-
 import 'package:mathsgames/src/ui/app/app.dart';
 import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/app/coin_provider.dart';
@@ -43,7 +42,6 @@ Future<void> main() async {
 
   // Initialize shared preferences for persistent storage
   final sharedPreferences = await SharedPreferences.getInstance();
-
 
   // Set up dependency injection
   setupServiceLocator(sharedPreferences);
@@ -101,9 +99,6 @@ setupServiceLocator(SharedPreferences sharedPreferences) {
       CoinProvider(preferences: sharedPreferences));
 
   // Register core repositories
-  GetIt.I.registerSingleton<UserReportRepository>(UserReportRepository());
-  GetIt.I.registerSingleton<UserReportProvider>(
-      UserReportProvider(GetIt.I.get<UserReportRepository>()));
 
   // Register game repositories only if needed - use lazy registration
   _registerGameRepositories();
@@ -111,21 +106,37 @@ setupServiceLocator(SharedPreferences sharedPreferences) {
 
 /// Registers game-specific repositories using lazy loading to avoid unnecessary memory usage
 void _registerGameRepositories() {
-  GetIt.I.registerLazySingleton<CalculatorRepository>(() => CalculatorRepository());
-  GetIt.I.registerLazySingleton<ComplexCalculationRepository>(() => ComplexCalculationRepository());
-  GetIt.I.registerLazySingleton<CorrectAnswerRepository>(() => CorrectAnswerRepository());
+  GetIt.I.registerSingleton<UserReportRepository>(UserReportRepository());
+  GetIt.I.registerSingleton<UserReportProvider>(
+      UserReportProvider(GetIt.I.get<UserReportRepository>()));
+  GetIt.I.registerLazySingleton<CalculatorRepository>(
+      () => CalculatorRepository());
+  GetIt.I.registerLazySingleton<ComplexCalculationRepository>(
+      () => ComplexCalculationRepository());
+  GetIt.I.registerLazySingleton<CorrectAnswerRepository>(
+      () => CorrectAnswerRepository());
   GetIt.I.registerLazySingleton<CubeRootRepository>(() => CubeRootRepository());
   GetIt.I.registerLazySingleton<DualRepository>(() => DualRepository());
-  GetIt.I.registerLazySingleton<FindMissingRepository>(() => FindMissingRepository());
-  GetIt.I.registerLazySingleton<MagicTriangleRepository>(() => MagicTriangleRepository());
+  GetIt.I.registerLazySingleton<FindMissingRepository>(
+      () => FindMissingRepository());
+  GetIt.I.registerLazySingleton<MagicTriangleRepository>(
+      () => MagicTriangleRepository());
   GetIt.I.registerLazySingleton<MathGridRepository>(() => MathGridRepository());
-  GetIt.I.registerLazySingleton<MathPairsRepository>(() => MathPairsRepository());
-  GetIt.I.registerLazySingleton<MentalArithmeticRepository>(() => MentalArithmeticRepository());
-  GetIt.I.registerLazySingleton<NumberPyramidRepository>(() => NumberPyramidRepository());
-  GetIt.I.registerLazySingleton<NumericMemoryRepository>(() => NumericMemoryRepository());
-  GetIt.I.registerLazySingleton<PicturePuzzleRepository>(() => PicturePuzzleRepository());
-  GetIt.I.registerLazySingleton<QuickCalculationRepository>(() => QuickCalculationRepository());
+  GetIt.I
+      .registerLazySingleton<MathPairsRepository>(() => MathPairsRepository());
+  GetIt.I.registerLazySingleton<MentalArithmeticRepository>(
+      () => MentalArithmeticRepository());
+  GetIt.I.registerLazySingleton<NumberPyramidRepository>(
+      () => NumberPyramidRepository());
+  GetIt.I.registerLazySingleton<NumericMemoryRepository>(
+      () => NumericMemoryRepository());
+  GetIt.I.registerLazySingleton<PicturePuzzleRepository>(
+      () => PicturePuzzleRepository());
+  GetIt.I.registerLazySingleton<QuickCalculationRepository>(
+      () => QuickCalculationRepository());
   GetIt.I.registerLazySingleton<SignRepository>(() => SignRepository());
-  GetIt.I.registerLazySingleton<SquareRootRepository>(() => SquareRootRepository());
-  GetIt.I.registerLazySingleton<TrueFalseRepository>(() => TrueFalseRepository());
+  GetIt.I.registerLazySingleton<SquareRootRepository>(
+      () => SquareRootRepository());
+  GetIt.I
+      .registerLazySingleton<TrueFalseRepository>(() => TrueFalseRepository());
 }
