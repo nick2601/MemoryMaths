@@ -117,15 +117,17 @@ class _DialogListenerState<T extends GameProvider>
               if (value != null && value) {
                 if (widget.gameCategoryType ==
                     GameCategoryType.NUMERIC_MEMORY) {
-                  if (widget.nextQuiz != null) {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NumericMemoryView(
-                              colorTuple:
-                                  Tuple2(widget.colorTuple.item1, level)),
-                        ));
-                  }
+                  // Fix: Reset the existing provider instead of creating new view
+                  context.read<T>().rightCount = 0;
+                  context.read<T>().wrongCount = 0;
+                  context.read<T>().index = 0;
+
+                  // Reset dialog state properly
+                  context.read<T>().dialogType = DialogType.non;
+
+                  // Start new game with proper state reset
+                  context.read<T>().startGame(
+                      level: level, isTimer: context.read<T>().isTimer);
                 } else {
                   context.read<T>().rightCount = 0;
                   context.read<T>().wrongCount = 0;

@@ -494,11 +494,10 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
   void gotItFromInfoDialog(int? level) {
     if (_homeViewModel.isFirstTime(gameCategoryType)) {
       _homeViewModel.setFirstTime(gameCategoryType);
-      if (gameCategoryType == GameCategoryType.MENTAL_ARITHMETIC) {
-        startGame(level: level);
-      }
       if (isTimer) {
-        restartTimer();
+        dialogType = DialogType.non; // Clear the info dialog state
+        restartTimer(); // Start the timer
+        print("Timer started after info dialog dismissed");
       }
     } else {
       pauseResumeGame();
