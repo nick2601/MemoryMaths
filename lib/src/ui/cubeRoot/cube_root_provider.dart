@@ -7,7 +7,6 @@ import '../soundPlayer/audio_file.dart';
 
 class CubeRootProvider extends GameProvider<CubeRoot> {
   int? level;
-  BuildContext? context;
 
   CubeRootProvider(
       {required TickerProvider vsync,
@@ -16,9 +15,8 @@ class CubeRootProvider extends GameProvider<CubeRoot> {
       : super(
             vsync: vsync,
             gameCategoryType: GameCategoryType.CUBE_ROOT,
-            c: context) {
+            context: context) {
     this.level = level;
-    this.context = context;
 
     startGame(level: this.level == null ? null : level);
   }
@@ -31,11 +29,9 @@ class CubeRootProvider extends GameProvider<CubeRoot> {
 
     if (int.parse(answer) == currentState.answer &&
         timerStatus != TimerStatus.pause) {
-      rightAnswer();
       audioPlayer.playRightSound();
-      rightCount = rightCount + 1;
+      rightAnswer(); // Uses standardized method from base class
 
-      addCoin();
       await Future.delayed(Duration(milliseconds: 300));
       loadNewDataIfRequired(level: level == null ? null : level);
 
@@ -44,10 +40,8 @@ class CubeRootProvider extends GameProvider<CubeRoot> {
       }
       notifyListeners();
     } else {
-      wrongCount = wrongCount + 1;
       audioPlayer.playWrongSound();
-      wrongAnswer();
-      minusCoin();
+      wrongAnswer(); // Uses standardized method from base class
     }
   }
 }

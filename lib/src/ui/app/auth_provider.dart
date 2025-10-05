@@ -164,7 +164,7 @@ class AuthProvider with ChangeNotifier {
       // Reset coins first - this is the most important part
       if (_coinProvider != null) {
         print("Resetting coins for user: $_username");
-        await _coinProvider!.resetAllCoinData(); // Use comprehensive reset
+        await _coinProvider!.resetCoins(); // Use correct method name
         await _coinProvider!.getCoin(); // Force reload
         print("Coins after reset: ${_coinProvider!.coin}");
       }

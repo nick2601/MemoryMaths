@@ -9,7 +9,6 @@ import '../soundPlayer/audio_file.dart';
 class CorrectAnswerProvider extends GameProvider<CorrectAnswer> {
   late String result;
   int? level;
-  BuildContext? context;
 
   CorrectAnswerProvider(
       {required TickerProvider vsync,
@@ -18,9 +17,8 @@ class CorrectAnswerProvider extends GameProvider<CorrectAnswer> {
       : super(
             vsync: vsync,
             gameCategoryType: GameCategoryType.CORRECT_ANSWER,
-            c: context) {
+            context: context) {
     this.level = level;
-    this.context = context;
     startGame(level: this.level == null ? null : level);
   }
 
@@ -33,7 +31,7 @@ class CorrectAnswerProvider extends GameProvider<CorrectAnswer> {
       if (int.parse(result) == currentState.answer) {
         audioPlayer.playRightSound();
         rightAnswer();
-        rightCount = rightCount + 1;
+
         await Future.delayed(Duration(milliseconds: 300));
         loadNewDataIfRequired(level: level == null ? null : level);
         if (timerStatus != TimerStatus.pause) {
@@ -41,28 +39,9 @@ class CorrectAnswerProvider extends GameProvider<CorrectAnswer> {
         }
         notifyListeners();
       } else {
-        wrongCount = wrongCount + 1;
         audioPlayer.playWrongSound();
         wrongAnswer();
       }
     }
-
-    // if (timerStatus != TimerStatus.pause) {
-    //   result = answer;
-    //   notifyListeners();
-    //   if (int.parse(result) == currentState.answer) {
-    //     audioPlayer.playRightSound();
-    //
-    //     await Future.delayed(Duration(milliseconds: 300));
-    //     loadNewDataIfRequired(level: level==null?null:level);
-    //     if (timerStatus != TimerStatus.pause) {
-    //       restartTimer();
-    //     }
-    //     notifyListeners();
-    //   } else {
-    //     audioPlayer.playWrongSound();
-    //     wrongAnswer();
-    //   }
-    // }
   }
 }

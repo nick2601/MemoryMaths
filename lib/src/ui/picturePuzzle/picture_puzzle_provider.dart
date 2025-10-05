@@ -10,7 +10,6 @@ import '../soundPlayer/audio_file.dart';
 class PicturePuzzleProvider extends GameProvider<PicturePuzzle> {
   late String result;
   int? level;
-  BuildContext? context;
 
   PicturePuzzleProvider(
       {required TickerProvider vsync,
@@ -19,9 +18,8 @@ class PicturePuzzleProvider extends GameProvider<PicturePuzzle> {
       : super(
             vsync: vsync,
             gameCategoryType: GameCategoryType.PICTURE_PUZZLE,
-            c: context) {
+            context: context) {
     this.level = level;
-    this.context = context;
     startGame(level: this.level == null ? null : level);
   }
 
@@ -34,20 +32,17 @@ class PicturePuzzleProvider extends GameProvider<PicturePuzzle> {
       notifyListeners();
       if (int.parse(result) == currentState.answer) {
         audioPlayer.playRightSound();
+        rightAnswer(); // Use standardized method from base class
+
         await Future.delayed(Duration(milliseconds: 300));
         loadNewDataIfRequired(level: level == null ? null : level);
-        currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-
-        addCoin();
-
         if (timerStatus != TimerStatus.pause) {
           restartTimer();
         }
         notifyListeners();
       } else if (result.length == currentState.answer.toString().length) {
         audioPlayer.playWrongSound();
-        wrongAnswer();
-        minusCoin();
+        wrongAnswer(); // Use standardized method from base class
       }
     }
   }

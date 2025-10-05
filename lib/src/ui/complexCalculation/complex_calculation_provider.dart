@@ -10,8 +10,6 @@ import '../soundPlayer/audio_file.dart';
 class ComplexCalculationProvider extends GameProvider<ComplexModel> {
   /// The current game level.
   int? level;
-  /// The current build context.
-  BuildContext? context;
 
   /// Creates a ComplexCalculationProvider for the specified level and context.
   ComplexCalculationProvider({
@@ -21,17 +19,16 @@ class ComplexCalculationProvider extends GameProvider<ComplexModel> {
   }) : super(
           vsync: vsync,
           gameCategoryType: GameCategoryType.COMPLEX_CALCULATION,
-          c: context,
+          context: context,
         ) {
     this.level = level;
-    this.context = context;
-    startGame(level: this.level ?? level);
+    startGame(level: level);
   }
 
   /// Checks the result when an option is selected.
   /// Plays sound, updates score, and loads new data.
   void checkResult(String answer) async {
-    final audioPlayer = AudioPlayer(context!);
+    final audioPlayer = AudioPlayer(context);
 
     if (timerStatus != TimerStatus.pause) {
       result = answer;
@@ -39,12 +36,10 @@ class ComplexCalculationProvider extends GameProvider<ComplexModel> {
 
       if (result == currentState.answer) {
         audioPlayer.playRightSound();
-        rightAnswer();
-        rightCount += 1;
+        rightAnswer(); // Uses standardized method from base class
       } else {
-        wrongCount += 1;
         audioPlayer.playWrongSound();
-        wrongAnswer();
+        wrongAnswer(); // Uses standardized method from base class
       }
 
       await Future.delayed(const Duration(milliseconds: 300));

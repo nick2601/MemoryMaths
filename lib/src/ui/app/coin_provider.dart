@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mathsgames/src/ui/app/game_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+// Coin constants
+const int rightCoin = 10;
+const int wrongCoin = 5;
+const int hintCoin = 10;
 
 /// Provider for managing the user's coin balance.
 /// Handles retrieving, adding, and subtracting coins per user profile.
@@ -44,12 +48,12 @@ class CoinProvider with ChangeNotifier {
   }
 
   /// Retrieves the current coin balance from persistent storage.
-  getCoin() async {
+  Future<void> getCoin() async {
     _loadCoin();
   }
 
   /// Adds coins for a correct answer and updates the balance.
-  addCoin() async {
+  Future<void> addCoin() async {
     print("coin===12 $coin");
     await preferences.setInt(keyCoin, (coin + rightCoin));
     _loadCoin();
@@ -57,7 +61,7 @@ class CoinProvider with ChangeNotifier {
 
   /// Subtracts coins for a wrong answer or usage, and updates the balance.
   /// [useCoin] - Optional custom amount to subtract.
-  minusCoin({int? useCoin}) async {
+  Future<void> minusCoin({int? useCoin}) async {
     int i = (useCoin == null) ? wrongCoin : useCoin;
     await preferences.setInt(keyCoin, ((coin - i) >= 0) ? (coin - i) : 0);
     _loadCoin();
@@ -79,82 +83,23 @@ class CoinProvider with ChangeNotifier {
 
     // Force UI update
     notifyListeners();
-
-    print("Coins reset to 0 for user: $_currentUserId");
   }
 
-  /// Resets coins for a specific user
-  Future<void> resetUserCoins(String userId) async {
-    // Remove both legacy and user-specific keys
-    await preferences.remove(LEGACY_KEY_COIN);
-    await preferences.remove('KeyCoin_$userId');
-
-    // Set new value to 0
-    await preferences.setInt('KeyCoin_$userId', 0);
-
-    // Update current value if this is the current user
-    if (userId == _currentUserId) {
-      coin = 0;
-      notifyListeners();
-    }
-
-    print("Coins reset to 0 for user: $userId");
-  }
-
-  /// Gets coins for a specific user
+  /// Gets coin count for a specific user (for settings screen verification)
   Future<int> getUserCoins(String userId) async {
     final userKey = 'KeyCoin_$userId';
     return preferences.getInt(userKey) ?? 0;
   }
 
-  /// Sets coins for a specific user
-  Future<void> setUserCoins(String userId, int coins) async {
-    final userKey = 'KeyCoin_$userId';
-    await preferences.setInt(userKey, coins);
-
-    if (userId == _currentUserId) {
-      coin = coins;
-      notifyListeners();
-    }
-  }
-
   /// Deletes all coin data for a specific user
   Future<void> deleteUserCoinData(String userId) async {
-    // Remove both legacy and user-specific keys
-    await preferences.remove(LEGACY_KEY_COIN);
-    await preferences.remove('KeyCoin_$userId');
+    final userKey = 'KeyCoin_$userId';
+    await preferences.remove(userKey);
 
-    if (userId == _currentUserId) {
+    // If this is the current user, reset the local coin value
+    if (_currentUserId == userId) {
       coin = 0;
       notifyListeners();
     }
-
-    print("All coin data deleted for user: $userId");
-  }
-
-  /// Comprehensive reset that clears ALL possible coin keys
-  Future<void> resetAllCoinData() async {
-    final allKeys = preferences.getKeys();
-
-    // Find all coin-related keys
-    final coinKeys = allKeys.where((key) =>
-      key == 'KeyCoin' ||  // Legacy key
-      key.startsWith('KeyCoin_') ||  // User-specific keys
-      key.contains('coin') ||  // Any key containing 'coin'
-      key.contains('Coin')     // Any key containing 'Coin'
-    ).toList();
-
-    print("Found ${coinKeys.length} coin-related keys to delete:");
-    for (final key in coinKeys) {
-      print("Deleting coin key: $key");
-      await preferences.remove(key);
-    }
-
-    // Set current user's coins to 0
-    coin = 0;
-    await preferences.setInt(keyCoin, 0);
-
-    notifyListeners();
-    print("All coin data cleared. Current coins: $coin");
   }
 }

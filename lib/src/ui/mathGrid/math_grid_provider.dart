@@ -11,7 +11,6 @@ import '../soundPlayer/audio_file.dart';
 class MathGridProvider extends GameProvider<MathGrid> {
   int answerIndex = 0;
   int? level;
-  BuildContext? context;
 
   /// Creates a MathGridProvider for the specified level and context.
   MathGridProvider(
@@ -21,9 +20,8 @@ class MathGridProvider extends GameProvider<MathGrid> {
       : super(
             vsync: vsync,
             gameCategoryType: GameCategoryType.MATH_GRID,
-            c: context) {
+            context: context) {
     this.level = level;
-    this.context = context;
     startGame(level: this.level == null ? 1 : level);
   }
 
@@ -45,7 +43,7 @@ class MathGridProvider extends GameProvider<MathGrid> {
   /// Checks if the selected cells match the current answer.
   /// Updates cell states, score, and loads new data if required.
   Future<void> checkForCorrectAnswer() async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
+    AudioPlayer audioPlayer = new AudioPlayer(context);
     int total = 0;
     var listOfIndex = currentState.listForSquare
         .where((result) => result.isActive == true)
@@ -64,12 +62,12 @@ class MathGridProvider extends GameProvider<MathGrid> {
       if (currentState.listForSquare
           .where((element) => !element.isRemoved)
           .isEmpty) {
+        audioPlayer.playRightSound();
+        rightAnswer(); // Use standardized method from base class
+
         await Future.delayed(Duration(milliseconds: 300));
         loadNewDataIfRequired(level: level == null ? 1 : level);
         answerIndex = 0;
-        currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-
-        addCoin();
         if (timerStatus != TimerStatus.pause) {
           restartTimer();
         }

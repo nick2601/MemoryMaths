@@ -14,8 +14,6 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
   int second = -1;
   /// The current game level.
   int? level;
-  /// The current build context.
-  BuildContext? context;
   /// Whether the game uses a timer.
   bool isTimer = true;
   /// Callback function to execute when moving to next quiz.
@@ -31,12 +29,11 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
   }) : super(
           vsync: vsync,
           gameCategoryType: GameCategoryType.CONCENTRATION,
+          context: context,
           isTimer: isTimer,
-          c: context,
         ) {
     this.level = level;
     this.isTimer = isTimer ?? true;
-    this.context = context;
     this.nextQuiz = nextQuiz;
     startGame(level: level, isTimer: isTimer);
   }
@@ -44,7 +41,7 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
   /// Checks the result when a card is tapped.
   /// Handles pair matching logic, plays sounds, and updates game state.
   Future<void> checkResult(Pair mathPair, int index) async {
-    final audioPlayer = AudioPlayer(context!);
+    final audioPlayer = AudioPlayer(context);
 
     if (!currentState.list[index].isActive) {
       _selectCard(index);
@@ -108,10 +105,10 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
 
   /// Handles level completion and progression.
   Future<void> _handleLevelComplete() async {
+    rightAnswer(); // Use standardized method from base class
+
     await Future.delayed(const Duration(milliseconds: 300));
     loadNewDataIfRequired(level: level ?? 1);
-    currentScore += KeyUtil.getScoreUtil(gameCategoryType);
-    addCoin();
 
     if (nextQuiz != null) {
       nextQuiz!();

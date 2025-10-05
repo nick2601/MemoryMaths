@@ -7,12 +7,10 @@ import '../soundPlayer/audio_file.dart';
 
 class TrueFalseProvider extends GameProvider<TrueFalseModel> {
   int? level;
-  BuildContext? context;
 
   TrueFalseProvider({required TickerProvider vsync,required int level,required BuildContext context})
-      : super(vsync: vsync, gameCategoryType: GameCategoryType.TRUE_FALSE,c: context) {
+      : super(vsync: vsync, gameCategoryType: GameCategoryType.TRUE_FALSE, context: context) {
     this.level = level;
-    this.context = context;
     startGame(level: this.level==null?null:level);
   }
 
@@ -24,8 +22,7 @@ class TrueFalseProvider extends GameProvider<TrueFalseModel> {
       notifyListeners();
       if ((result) == currentState.answer) {
           audioPlayer.playRightSound();
-          rightAnswer();
-          rightCount = rightCount + 1;
+          rightAnswer(); // Uses standardized method from base class
 
           await Future.delayed(Duration(milliseconds: 300));
           loadNewDataIfRequired(level: level == null ? null : level);
@@ -35,9 +32,8 @@ class TrueFalseProvider extends GameProvider<TrueFalseModel> {
 
           notifyListeners();
         } else {
-          wrongCount = wrongCount + 1;
           audioPlayer.playWrongSound();
-          wrongAnswer();
+          wrongAnswer(); // Uses standardized method from base class
         }
     }
   }

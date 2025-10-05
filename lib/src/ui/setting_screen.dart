@@ -102,7 +102,7 @@ class _SettingScreen extends State<SettingScreen> {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
           backClicks();
         }
@@ -430,12 +430,14 @@ class _SettingScreen extends State<SettingScreen> {
 
       // Double check the coins are actually reset
       if (username != null) {
-        final coins = await coinProvider.getUserCoins(username);
+        // Force reload of coins to verify reset
+        await coinProvider.getCoin();
+        final coins = coinProvider.coin;
         print("Verifying coins after reset for $username: $coins");
 
-        // If coins still exist, force delete them
+        // If coins still exist, reset them again
         if (coins > 0) {
-          await coinProvider.deleteUserCoinData(username);
+          await coinProvider.resetCoins();
           await coinProvider.getCoin();
         }
       }

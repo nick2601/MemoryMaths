@@ -9,7 +9,6 @@ class QuickCalculationProvider extends GameProvider<QuickCalculation> {
   late QuickCalculation nextCurrentState;
   QuickCalculation? previousCurrentState;
   int? level;
-  BuildContext? context;
 
   QuickCalculationProvider(
       {required TickerProvider vsync,
@@ -18,9 +17,8 @@ class QuickCalculationProvider extends GameProvider<QuickCalculation> {
       : super(
             vsync: vsync,
             gameCategoryType: GameCategoryType.QUICK_CALCULATION,
-            c: context) {
+            context: context) {
     this.level = level;
-    this.context = context;
 
     startGame(level: this.level == null ? null : level);
     nextCurrentState = list[index + 1];
@@ -34,12 +32,10 @@ class QuickCalculationProvider extends GameProvider<QuickCalculation> {
       notifyListeners();
       if (int.parse(result) == currentState.answer) {
         audioPlayer.playRightSound();
+        rightAnswer();
+
         await Future.delayed(Duration(milliseconds: 300));
         loadNewDataIfRequired(level: level == null ? null : level);
-        previousCurrentState = list[index - 1];
-        nextCurrentState = list[index + 1];
-        currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-        addCoin();
         // if (/*time >= 0.0125*/ timerStatus != TimerStatus.pause) increase();
         notifyListeners();
       } else if (result.length == currentState.answer.toString().length) {

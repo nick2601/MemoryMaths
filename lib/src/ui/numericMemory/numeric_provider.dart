@@ -10,7 +10,6 @@ class NumericMemoryProvider extends GameProvider<NumericMemoryPair> {
   int first = -1;
   int second = -1;
   int? level;
-  BuildContext? context;
   bool isTimer = true;
   Function? nextQuiz;
 
@@ -24,10 +23,9 @@ class NumericMemoryProvider extends GameProvider<NumericMemoryPair> {
             vsync: vsync,
             gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
             isTimer: isTimer,
-            c: context) {
+            context: context) {
     this.level = level;
     this.isTimer = (isTimer == null) ? true : isTimer;
-    this.context = context;
     this.nextQuiz = nextQuiz;
 
     // Override timer behavior for numeric memory
@@ -41,7 +39,7 @@ class NumericMemoryProvider extends GameProvider<NumericMemoryPair> {
   }
 
   Future<void> checkResult(String mathPair, int index) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
+    final audioPlayer = AudioPlayer(context);
 
     print("mathPair===$mathPair===${currentState.answer}");
 
@@ -103,7 +101,7 @@ class NumericMemoryProvider extends GameProvider<NumericMemoryPair> {
   }
 
   @override
-  void startGame({int? level, bool? isTimer}) async {
+  Future<void> startGame({int? level, bool? isTimer}) async {
     isTimer = (isTimer == null) ? true : isTimer;
     result = "";
 

@@ -9,7 +9,6 @@ import '../soundPlayer/audio_file.dart';
 
 class GuessSignProvider extends GameProvider<Sign> {
   int? level;
-  BuildContext? context;
 
   GuessSignProvider(
       {required TickerProvider vsync,
@@ -18,24 +17,22 @@ class GuessSignProvider extends GameProvider<Sign> {
       : super(
             vsync: vsync,
             gameCategoryType: GameCategoryType.GUESS_SIGN,
-            c: context) {
+            context: context) {
     this.level = level;
-    this.context = context;
     startGame(level: this.level == null ? null : level);
   }
 
   void checkResult(
     String answer,
   ) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
+    final audioPlayer = AudioPlayer(context);
 
     if (timerStatus != TimerStatus.pause) {
       result = answer;
       notifyListeners();
       if (result == currentState.sign) {
         audioPlayer.playRightSound();
-        rightAnswer();
-        rightCount = rightCount + 1;
+        rightAnswer(); // Uses standardized method from base class
 
         await Future.delayed(Duration(milliseconds: 300));
         loadNewDataIfRequired(level: level == null ? null : level);
@@ -45,9 +42,8 @@ class GuessSignProvider extends GameProvider<Sign> {
 
         notifyListeners();
       } else {
-        wrongCount = wrongCount + 1;
         audioPlayer.playWrongSound();
-        wrongAnswer();
+        wrongAnswer(); // Uses standardized method from base class
       }
     }
   }

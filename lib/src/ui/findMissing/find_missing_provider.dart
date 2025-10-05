@@ -9,7 +9,6 @@ import '../soundPlayer/audio_file.dart';
 
 class FindMissingProvider extends GameProvider<FindMissingQuizModel> {
   int? level;
-  BuildContext? context;
 
   FindMissingProvider(
       {required TickerProvider vsync,
@@ -18,39 +17,20 @@ class FindMissingProvider extends GameProvider<FindMissingQuizModel> {
       : super(
             vsync: vsync,
             gameCategoryType: GameCategoryType.FIND_MISSING,
-            c: context) {
+            context: context) {
     this.level = level;
-    this.context = context;
     startGame(level: this.level == null ? null : level);
   }
 
   void checkResult(String answer) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
-    //
-    // if (timerStatus != TimerStatus.pause) {
-    //   result = answer;
-    //   notifyListeners();
-    //   if (result == currentState.answer) {
-    //     audioPlayer.playRightSound();
-    //     await Future.delayed(Duration(milliseconds: 300));
-    //     loadNewDataIfRequired(level: level==null?null:level);
-    //     if (timerStatus != TimerStatus.pause) {
-    //       restartTimer();
-    //     }
-    //     notifyListeners();
-    //   } else {
-    //     audioPlayer.playWrongSound();
-    //     wrongAnswer();
-    //   }
-    // }
+    final audioPlayer = AudioPlayer(context);
 
     if (timerStatus != TimerStatus.pause) {
       result = answer;
       notifyListeners();
       if ((result) == currentState.answer) {
         audioPlayer.playRightSound();
-        rightAnswer();
-        rightCount = rightCount + 1;
+        rightAnswer(); // Uses standardized method from base class
 
         await Future.delayed(Duration(milliseconds: 300));
         loadNewDataIfRequired(level: level == null ? null : level);
@@ -60,9 +40,8 @@ class FindMissingProvider extends GameProvider<FindMissingQuizModel> {
 
         notifyListeners();
       } else {
-        wrongCount = wrongCount + 1;
         audioPlayer.playWrongSound();
-        wrongAnswer();
+        wrongAnswer(); // Uses standardized method from base class
       }
     }
   }

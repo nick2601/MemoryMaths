@@ -9,20 +9,19 @@ import '../soundPlayer/audio_file.dart';
 
 class NumberPyramidProvider extends GameProvider<NumberPyramid> {
   int? level;
-  BuildContext? context;
 
-  NumberPyramidProvider(
-      {required TickerProvider vsync,
-      required int level,
-      required BuildContext context})
-      : super(
-            vsync: vsync,
-            gameCategoryType: GameCategoryType.NUMBER_PYRAMID,
-            c: context) {
+  NumberPyramidProvider({
+    required TickerProvider vsync,
+    required int level,
+    required BuildContext context,
+  }) : super(
+          vsync: vsync,
+          gameCategoryType: GameCategoryType.NUMBER_PYRAMID,
+          context: context,
+        ) {
     this.level = level;
-    this.context = context;
 
-    startGame(level: this.level == null ? null : level);
+    startGame(level: level);
   }
 
   void pyramidBoxSelection(NumPyramidCellModel model) {
@@ -98,17 +97,17 @@ class NumberPyramidProvider extends GameProvider<NumberPyramid> {
 
     if (correctVal.length == currentState.remainingCell) {
       audioPlayer.playRightSound();
+      rightAnswer(); // Use standardized method from base class
+
       await Future.delayed(Duration(milliseconds: 300));
       loadNewDataIfRequired(level: level == null ? null : level);
-      currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-
-      addCoin();
       if (timerStatus != TimerStatus.pause) {
         restartTimer();
       }
       notifyListeners();
     } else {
       audioPlayer.playWrongSound();
+      wrongAnswer(); // Use standardized method from base class
     }
   }
 }

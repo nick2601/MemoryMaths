@@ -8,8 +8,6 @@ import 'package:mathsgames/src/ui/soundPlayer/audio_file.dart';
 /// Provider for managing the state and logic of the Calculator game.
 /// Handles user input, answer checking, score updates, and game progression.
 class CalculatorProvider extends GameProvider<Calculator> {
-  /// The current build context.
-  BuildContext? context;
   /// The current game level.
   int? level;
 
@@ -21,10 +19,9 @@ class CalculatorProvider extends GameProvider<Calculator> {
   }) : super(
           vsync: vsync,
           gameCategoryType: GameCategoryType.CALCULATOR,
-          c: context,
+          context: context,
         ) {
     this.level = level;
-    this.context = context;
     result = ""; // initialize user input buffer
     startGame(level: this.level ?? level);
   }
@@ -35,7 +32,7 @@ class CalculatorProvider extends GameProvider<Calculator> {
   /// Checks the result when a number button is pressed.
   /// Updates the result, checks for correct answer, and handles scoring.
   void checkResult(String answer) async {
-    final audioPlayer = AudioPlayer(context!);
+    final audioPlayer = AudioPlayer(context);
 
     if (dialogType == DialogType.over) return; // game finished
     if (timerStatus == TimerStatus.pause) return; // paused
@@ -48,8 +45,8 @@ class CalculatorProvider extends GameProvider<Calculator> {
 
     if (result == target) {
       audioPlayer.playRightSound();
-      // record correct answer via existing scoring helpers
-      rightAnswer();
+      rightAnswer(); // Uses standardized method from base class
+
       isClick = false;
       await Future.delayed(const Duration(milliseconds: 250));
       loadNewDataIfRequired(level: level);
@@ -61,7 +58,7 @@ class CalculatorProvider extends GameProvider<Calculator> {
     } else if (result.length == target.length) {
       // full length but incorrect
       audioPlayer.playWrongSound();
-      wrongAnswer();
+      wrongAnswer(); // Uses standardized method from base class
       result = ""; // clear for new attempt / next question depending on rules
       notifyListeners();
     }

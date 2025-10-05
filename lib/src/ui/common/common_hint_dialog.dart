@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/ui/app/game_provider.dart';
+import 'package:mathsgames/src/ui/app/coin_provider.dart'; // Import for hintCoin constant
+import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/resizer/widget_utils.dart';
-import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:tuple/tuple.dart';
+
 import '../../core/app_assets.dart';
-import '../app/game_provider.dart';
-import '../model/gradient_model.dart';
+import '../../utility/global_constants.dart';
 
 class CommonHintDialog extends StatelessWidget {
   final GameCategoryType gameCategoryType;
@@ -88,7 +90,7 @@ class CommonHintDialog extends StatelessWidget {
                                     .textTheme
                                     .titleMedium!
                                     .copyWith(fontWeight: FontWeight.w700),
-                                provider.currentState.answer.toString(),
+                                provider.getAnswer().toString(), // Use getter method instead of direct access
                                 TextAlign.center,
                                 getScreenPercentSize(context, 3),
                                 4),

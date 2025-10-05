@@ -10,19 +10,18 @@ import '../soundPlayer/audio_file.dart';
 
 class DualGameProvider extends GameProvider<QuizModel> {
   int? level;
-  BuildContext? context;
 
-  DualGameProvider(
-      {required TickerProvider vsync,
-      required int level,
-      required BuildContext context})
-      : super(
-            vsync: vsync,
-            gameCategoryType: GameCategoryType.DUAL_GAME,
-            c: context) {
+  DualGameProvider({
+    required TickerProvider vsync,
+    required int level,
+    required BuildContext context,
+  }) : super(
+          vsync: vsync,
+          gameCategoryType: GameCategoryType.DUAL_GAME,
+          context: context,
+        ) {
     this.level = level;
-    this.context = context;
-    startGame(level: this.level == null ? null : level);
+    startGame(level: level);
   }
 
   void checkResult2(String answer) async {
@@ -38,6 +37,7 @@ class DualGameProvider extends GameProvider<QuizModel> {
           "result====${currentState.answer}===$result===${(result == currentState.answer)}");
       if (result == currentState.answer) {
         score2++;
+        rightAnswer(); // Use standardized method for level progress tracking
         audioPlayer.playRightSound();
         await Future.delayed(Duration(milliseconds: 300));
         loadNewDataIfRequired(level: level == null ? null : level);
@@ -66,6 +66,7 @@ class DualGameProvider extends GameProvider<QuizModel> {
           "result====${currentState.answer}===$result===${(result == currentState.answer)}");
       if (result == currentState.answer) {
         score1++;
+        rightAnswer(); // Use standardized method for level progress tracking
         audioPlayer.playRightSound();
         await Future.delayed(Duration(milliseconds: 300));
         loadNewDataIfRequired(level: level == null ? null : level);

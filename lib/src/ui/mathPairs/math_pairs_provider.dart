@@ -10,7 +10,6 @@ class MathPairsProvider extends GameProvider<MathPairs> {
   int first = -1;
   int second = -1;
   int? level;
-  BuildContext? context;
 
   MathPairsProvider(
       {required TickerProvider vsync,
@@ -19,15 +18,14 @@ class MathPairsProvider extends GameProvider<MathPairs> {
       : super(
             vsync: vsync,
             gameCategoryType: GameCategoryType.MATH_PAIRS,
-            c: context) {
+            context: context) {
     this.level = level;
-    this.context = context;
 
     startGame(level: this.level == null ? null : level);
   }
 
   Future<void> checkResult(Pair mathPair, int index) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
+    final audioPlayer = AudioPlayer(context);
 
     if (timerStatus != TimerStatus.pause) {
       if (!currentState.list[index].isActive) {
@@ -47,10 +45,7 @@ class MathPairsProvider extends GameProvider<MathPairs> {
             if (currentState.availableItem == 0) {
               await Future.delayed(Duration(milliseconds: 300));
               loadNewDataIfRequired(level: level == null ? 1 : level);
-              currentScore =
-                  currentScore + KeyUtil.getScoreUtil(gameCategoryType);
-
-              addCoin();
+              rightAnswer(); // Use standardized method from base class
 
               if (timerStatus != TimerStatus.pause) {
                 restartTimer();

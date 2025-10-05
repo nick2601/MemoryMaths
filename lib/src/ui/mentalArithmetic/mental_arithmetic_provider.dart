@@ -9,9 +9,8 @@ import '../soundPlayer/audio_file.dart';
 
 class MentalArithmeticProvider extends GameProvider<MentalArithmetic> {
   late String result;
-  BuildContext? context;
-
   int? level;
+
   MentalArithmeticProvider(
       {required TickerProvider vsync,
       required int level,
@@ -19,9 +18,8 @@ class MentalArithmeticProvider extends GameProvider<MentalArithmetic> {
       : super(
             vsync: vsync,
             gameCategoryType: GameCategoryType.MENTAL_ARITHMETIC,
-            c: context) {
+            context: context) {
     this.level = level;
-    this.context = context;
     startGame(level: this.level == null ? null : level);
   }
 
@@ -34,8 +32,7 @@ class MentalArithmeticProvider extends GameProvider<MentalArithmetic> {
       notifyListeners();
       if (result != "-" && int.parse(result) == currentState.answer) {
         audioPlayer.playRightSound();
-
-        currentScore = currentScore + KeyUtil.getScoreUtil(gameCategoryType);
+        rightAnswer(); // Use standardized method from base class
 
         await Future.delayed(Duration(milliseconds: 300));
         loadNewDataIfRequired(level: level == null ? null : level);
@@ -46,9 +43,7 @@ class MentalArithmeticProvider extends GameProvider<MentalArithmetic> {
         notifyListeners();
       } else if (result.length == currentState.answer.toString().length) {
         audioPlayer.playWrongSound();
-        if (currentScore > 0) {
-          wrongAnswer();
-        }
+        wrongAnswer(); // Use standardized method from base class
       }
     }
   }
