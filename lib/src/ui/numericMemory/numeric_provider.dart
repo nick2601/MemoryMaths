@@ -76,10 +76,19 @@ class NumericMemoryProvider extends GameProvider<NumericMemoryPair> {
     isSecondClick = false;
     print("NumericMemory list length: ${list.length}, current index: $index");
 
+    // Calculate new level based on progress (every 5 questions = new level)
+    int newLevel = (index ~/ 5) + 1;
+
+    // Update levelNo property for display on game screen
+    if (newLevel != levelNo) {
+      levelNo = newLevel;
+      print("Level progression! New level: $levelNo");
+    }
+
     // Load more data if needed (no question limit for numeric memory)
     if (list.length - 2 <= index) {
-      print("Loading more questions for level: ${(index ~/ 5) + 1}");
-      list.addAll(getList(level == null ? (index ~/ 5) + 1 : level));
+      print("Loading more questions for level: $newLevel");
+      list.addAll(getList(level == null ? newLevel : level));
     }
 
     result = "";
@@ -87,7 +96,7 @@ class NumericMemoryProvider extends GameProvider<NumericMemoryPair> {
 
     if (index < list.length) {
       currentState = list[index];
-      print("Next question: ${currentState.question}, Answer: ${currentState.answer}");
+      print("Next question: ${currentState.question}, Answer: ${currentState.answer}, Current Level: $levelNo");
     } else {
       print("Error: No more questions available");
     }

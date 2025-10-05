@@ -18,7 +18,8 @@ class CommonMainWidget<T extends GameProvider> extends StatelessWidget {
   final Widget? subChild;
   final Color? color;
   final bool? isTimer;
-
+  final int? levelNo; // Add missing levelNo parameter
+  final T? provider; // Add missing provider parameter
   final Color? primaryColor;
 
   CommonMainWidget({
@@ -29,6 +30,8 @@ class CommonMainWidget<T extends GameProvider> extends StatelessWidget {
     required this.primaryColor,
     required this.gameCategoryType,
     this.isTopMargin,
+    this.levelNo, // Add to constructor
+    this.provider, // Add to constructor
   });
 
   @override
@@ -170,14 +173,21 @@ class CommonMainWidget<T extends GameProvider> extends StatelessWidget {
                               opacity: isDetailView ? 1 : 0,
                               child: Align(
                                 alignment: Alignment.topLeft,
-                                child: getTextWidget(
-                                    Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(fontWeight: FontWeight.w500),
-                                    'Level : ${model.levelNo}',
-                                    TextAlign.center,
-                                    getPercentSize(mainHeight, 6)),
+                                child: Selector<T, int>(
+                                  selector: (p0, p1) => p1.levelNo,
+                                  builder: (context, currentLevel, child) {
+                                    // Use provider's levelNo if available, otherwise use passed levelNo, otherwise use model's levelNo
+                                    int displayLevel = provider?.levelNo ?? levelNo ?? currentLevel;
+                                    return getTextWidget(
+                                        Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(fontWeight: FontWeight.w500),
+                                        'Level : $displayLevel',
+                                        TextAlign.center,
+                                        getPercentSize(mainHeight, 6));
+                                  }
+                                ),
                               ),
                             ),
                             Align(

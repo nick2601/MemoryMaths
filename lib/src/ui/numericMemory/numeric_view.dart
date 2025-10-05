@@ -132,6 +132,8 @@ class _NumericMemoryViewState extends State<NumericMemoryView>
             child: CommonMainWidget<NumericMemoryProvider>(
               gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
               color: widget.colorTuple.item1.bgColor!,
+              levelNo: controller.levelNo, // Dynamic level from provider
+              provider: controller, // Provider reference for level updates
               isTimer: false,
               primaryColor: widget.colorTuple.item1.primaryColor!,
               subChild: Container(
