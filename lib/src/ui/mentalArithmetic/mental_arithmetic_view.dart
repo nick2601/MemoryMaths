@@ -97,11 +97,12 @@ class MentalArithmeticView extends StatelessWidget {
                               bottom: getPercentSize(mainHeight, 15)),
 
                           child: Selector<MentalArithmeticProvider,
-                                  MentalArithmetic>(
-                              selector: (p0, p1) => p1.currentState,
-                              builder: (context, currentState, child) {
+                                  Tuple2<MentalArithmetic, bool>>(
+                              selector: (p0, p1) => Tuple2(p1.getCurrentState, p1.shouldStartAnimation),
+                              builder: (context, data, child) {
                                 return MentalArithmeticQuestionView(
-                                  currentState: currentState,
+                                  currentState: data.item1,
+                                  shouldStartAnimation: data.item2,
                                 );
                               }),
                         ),

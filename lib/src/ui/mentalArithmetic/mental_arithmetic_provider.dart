@@ -11,6 +11,12 @@ class MentalArithmeticProvider extends GameProvider<MentalArithmetic> {
   late String result;
   int? level;
 
+  /// Check if animations should start (not during info dialog)
+  bool get shouldStartAnimation => dialogType != DialogType.info;
+
+  /// Public getter to access current game state
+  MentalArithmetic get getCurrentState => currentState;
+
   MentalArithmeticProvider(
       {required TickerProvider vsync,
       required int level,
@@ -20,11 +26,12 @@ class MentalArithmeticProvider extends GameProvider<MentalArithmetic> {
             gameCategoryType: GameCategoryType.MENTAL_ARITHMETIC,
             context: context) {
     this.level = level;
-    startGame(level: this.level == null ? null : level);
+    result = ""; // Initialize result properly
+    startGame(level: level);
   }
 
   Future<void> checkResult(String answer) async {
-    AudioPlayer audioPlayer = new AudioPlayer(context!);
+    AudioPlayer audioPlayer = new AudioPlayer(context);
     if (timerStatus != TimerStatus.pause &&
         result.length < currentState.answer.toString().length &&
         ((result.length == 0 && answer == "-") || (answer != "-"))) {
@@ -35,7 +42,7 @@ class MentalArithmeticProvider extends GameProvider<MentalArithmetic> {
         rightAnswer(); // Use standardized method from base class
 
         await Future.delayed(Duration(milliseconds: 300));
-        loadNewDataIfRequired(level: level == null ? null : level);
+        loadNewDataIfRequired(level: level);
         if (timerStatus != TimerStatus.pause) {
           restartTimer();
         }

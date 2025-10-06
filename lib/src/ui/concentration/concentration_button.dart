@@ -95,9 +95,12 @@ class ConcentrationButton extends StatelessWidget {
 
   /// Returns the appropriate text color based on button state.
   Color? _getTextColor() {
-    if (!isContinue || !mathPairs.isActive) {
-      return Colors.transparent;
+    if (!isContinue) {
+      return null; // Show text when not in continue mode
     }
-    return null;
+    if (!mathPairs.isActive) {
+      return Colors.transparent; // Hide text when card is face down
+    }
+    return null; // Show text when card is active/selected
   }
 }

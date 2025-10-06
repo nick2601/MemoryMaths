@@ -40,7 +40,7 @@ class ConcentrationView extends StatelessWidget {
     final double aspectRatio = widthItem / cardHeight;
 
     return StatefulBuilder(
-      builder: (context, setState) {
+      builder: (context, snapshot) {
         return MultiProvider(
           providers: [
             const VsyncProvider(),
@@ -50,7 +50,7 @@ class ConcentrationView extends StatelessWidget {
                 level: colorTuple.item2,
                 isTimer: false,
                 nextQuiz: () {
-                  setState(() {
+                  snapshot(() {
                     isContinue = false;
                   });
                 },
@@ -58,135 +58,112 @@ class ConcentrationView extends StatelessWidget {
               ),
             ),
           ],
-          child: DialogListener<ConcentrationProvider>(
-            colorTuple: colorTuple,
-            gameCategoryType: GameCategoryType.CONCENTRATION,
-            level: colorTuple.item2,
-            appBar: CommonAppBar<ConcentrationProvider>(
-              hint: false,
-              infoView: CommonInfoTextView<ConcentrationProvider>(
-                gameCategoryType: GameCategoryType.CONCENTRATION,
-                folder: colorTuple.item1.folderName!,
-                color: colorTuple.item1.cellColor!,
-              ),
-              gameCategoryType: GameCategoryType.CONCENTRATION,
+          child: Consumer<ConcentrationProvider>(
+            builder: (context, controller, child) => DialogListener<ConcentrationProvider>(
               colorTuple: colorTuple,
-              context: context,
-              isTimer: false,
-            ),
-            child: CommonMainWidget<ConcentrationProvider>(
               gameCategoryType: GameCategoryType.CONCENTRATION,
-              color: colorTuple.item1.bgColor!,
-              isTimer: false,
-              primaryColor: colorTuple.item1.primaryColor!,
-              subChild: Container(
-                margin: EdgeInsets.only(top: getPercentSize(mainHeight, 80)),
-                child: StatefulBuilder(
-                  builder: (context, setState) {
-                    return Container(
-                      decoration: getCommonDecoration(context),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: _buildCardGrid(
-                              context,
-                              crossAxisCount,
-                              aspectRatio,
-                              crossAxisSpacing,
-                              cardHeight,
-                              isContinue,
-                            ),
-                          ),
-                          _buildContinueButton(context, isContinue, setState),
-                        ],
-                      ),
-                    );
-                  },
+              level: colorTuple.item2,
+              appBar: CommonAppBar<ConcentrationProvider>(
+                hint: false,
+                infoView: CommonInfoTextView<ConcentrationProvider>(
+                  gameCategoryType: GameCategoryType.CONCENTRATION,
+                  folder: colorTuple.item1.folderName!,
+                  color: colorTuple.item1.cellColor!,
                 ),
+                gameCategoryType: GameCategoryType.CONCENTRATION,
+                colorTuple: colorTuple,
+                context: context,
+                isTimer: false,
               ),
-              context: context,
-              isTopMargin: false,
+              child: CommonMainWidget<ConcentrationProvider>(
+                gameCategoryType: GameCategoryType.CONCENTRATION,
+                color: colorTuple.item1.bgColor!,
+                isTimer: false,
+                primaryColor: colorTuple.item1.primaryColor!,
+                subChild: Container(
+                  margin: EdgeInsets.only(top: getPercentSize(mainHeight, 80)),
+                  child: StatefulBuilder(
+                    builder: (context, setState) {
+                      return Container(
+                        decoration: getCommonDecoration(context),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Center(
+                                child: Container(
+                                  child: Consumer<ConcentrationProvider>(
+                                    builder: (context, provider, child) {
+                                      return GridView.count(
+                                        crossAxisCount: crossAxisCount,
+                                        childAspectRatio: aspectRatio,
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: getHorizontalSpace(context),
+                                          vertical: getHorizontalSpace(context),
+                                        ),
+                                        crossAxisSpacing: crossAxisSpacing,
+                                        mainAxisSpacing: crossAxisSpacing,
+                                        primary: false,
+                                        children: List.generate(
+                                          provider.mathPairsList.length,
+                                          (index) {
+                                            return Container(
+                                              margin: EdgeInsets.symmetric(
+                                                horizontal: getHorizontalSpace(context) / 1.5,
+                                                vertical: getHorizontalSpace(context) / 2,
+                                              ),
+                                              child: ConcentrationButton(
+                                                height: cardHeight,
+                                                mathPairs: provider.mathPairsList[index],
+                                                index: index,
+                                                isContinue: isContinue,
+                                                colorTuple: Tuple2(
+                                                  colorTuple.item1.primaryColor!,
+                                                  colorTuple.item1.backgroundColor!,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Visibility(
+                              visible: !isContinue,
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: getHorizontalSpace(context),
+                                ),
+                                child: getButtonWidget(
+                                  context,
+                                  "Continue",
+                                  colorTuple.item1.primaryColor,
+                                  () {
+                                    setState(() {
+                                      isContinue = true;
+                                    });
+                                  },
+                                  textColor: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                context: context,
+                isTopMargin: false,
+              ),
             ),
           ),
         );
       },
-    );
-  }
-
-  /// Builds the grid of concentration cards.
-  Widget _buildCardGrid(
-    BuildContext context,
-    int crossAxisCount,
-    double aspectRatio,
-    double crossAxisSpacing,
-    double cardHeight,
-    bool isContinue,
-  ) {
-    return Center(
-      child: Consumer<ConcentrationProvider>(
-        builder: (context, provider, child) {
-          return GridView.count(
-            crossAxisCount: crossAxisCount,
-            childAspectRatio: aspectRatio,
-            shrinkWrap: true,
-            padding: EdgeInsets.symmetric(
-              horizontal: getHorizontalSpace(context),
-              vertical: getHorizontalSpace(context),
-            ),
-            crossAxisSpacing: crossAxisSpacing,
-            mainAxisSpacing: crossAxisSpacing,
-            primary: false,
-            children: List.generate(
-              provider.currentState.list.length,
-              (index) {
-                return Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: getHorizontalSpace(context) / 1.5,
-                    vertical: getHorizontalSpace(context) / 2,
-                  ),
-                  child: ConcentrationButton(
-                    height: cardHeight,
-                    mathPairs: provider.currentState.list[index],
-                    index: index,
-                    isContinue: isContinue,
-                    colorTuple: Tuple2(
-                      colorTuple.item1.primaryColor!,
-                      colorTuple.item1.backgroundColor!,
-                    ),
-                  ),
-                );
-              },
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  /// Builds the continue button that appears before the game starts.
-  Widget _buildContinueButton(
-    BuildContext context,
-    bool isContinue,
-    StateSetter setState,
-  ) {
-    return Visibility(
-      visible: !isContinue,
-      child: Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: getHorizontalSpace(context),
-        ),
-        child: getButtonWidget(
-          context,
-          "Continue",
-          colorTuple.item1.primaryColor,
-          () {
-            setState(() {
-              isContinue = true;
-            });
-          },
-          textColor: Colors.black,
-        ),
-      ),
     );
   }
 }

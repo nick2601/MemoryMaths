@@ -5,10 +5,12 @@ import '../../utility/global_constants.dart';
 
 class MentalArithmeticQuestionView extends StatefulWidget {
   final MentalArithmetic currentState;
+  final bool shouldStartAnimation; // Add this prop to control animation timing
 
   const MentalArithmeticQuestionView({
     Key? key,
     required this.currentState,
+    this.shouldStartAnimation = true, // Default to true for backward compatibility
   }) : super(key: key);
 
   @override
@@ -30,7 +32,7 @@ class _MentalArithmeticQuestionViewState
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 3000), // Increased from 1500ms to 3000ms for easier memorization
       vsync: this,
     )
       ..addStatusListener((status) {
@@ -40,8 +42,7 @@ class _MentalArithmeticQuestionViewState
             _controller.forward(from: 0);
           }
         }
-      })
-      ..forward();
+      });
 
     _animation = Tween<AlignmentGeometry>(
       begin: Alignment.centerRight,
@@ -94,15 +95,34 @@ class _MentalArithmeticQuestionViewState
         curve: Curves.ease,
       ),
     ));
+
+    // Only start animation if shouldStartAnimation is true (game is ready)
+    if (widget.shouldStartAnimation) {
+      _controller.forward();
+    }
   }
 
   @override
   void didUpdateWidget(MentalArithmeticQuestionView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Handle state changes
     if (oldWidget.currentState != widget.currentState) {
       _controller.forward(from: 0.0);
       index = 0;
     }
-    super.didUpdateWidget(oldWidget);
+
+    // Handle animation permission changes
+    if (oldWidget.shouldStartAnimation != widget.shouldStartAnimation) {
+      if (widget.shouldStartAnimation) {
+        // Start animation when info dialog is dismissed
+        _controller.forward(from: 0.0);
+        index = 0;
+      } else {
+        // Stop animation if dialog appears
+        _controller.stop();
+      }
+    }
   }
 
   @override

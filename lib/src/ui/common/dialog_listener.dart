@@ -7,7 +7,7 @@ import 'package:mathsgames/src/ui/common/common_game_exit_dialog_view.dart';
 import 'package:mathsgames/src/ui/common/common_game_over_dialog_view.dart';
 import 'package:mathsgames/src/ui/common/common_game_pause_dialog_view.dart';
 import 'package:mathsgames/src/ui/common/common_info_dialog_view.dart';
-import 'package:mathsgames/src/ui/numericMemory/numeric_view.dart';
+import 'package:mathsgames/src/ui/concentration/concentration_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -68,9 +68,9 @@ class _DialogListenerState<T extends GameProvider>
               gameCategoryType: widget.gameCategoryType,
               score1: context.read<T>().score1.toInt(),
               score2: context.read<T>().score2.toInt(),
-              index: context.read<T>().index.toInt(),
+              index: context.read<T>().currentIndex.toInt(),
               colorTuple: widget.colorTuple,
-              totalQuestion: provider.index,
+              totalQuestion: provider.currentIndex,
             ),
           ),
           barrierDismissible: false,
@@ -84,7 +84,7 @@ class _DialogListenerState<T extends GameProvider>
           }
         });
       } else {
-        int level = context.read<T>().levelNo;
+        int level = context.read<T>().currentLevel;
         switch (provider.dialogType) {
           case DialogType.over:
             context.read<T>().homeViewModel.getCoin();
@@ -97,7 +97,7 @@ class _DialogListenerState<T extends GameProvider>
                   score: context.read<T>().currentScore.toInt(),
                   right: context.read<T>().rightCount.toInt(),
                   wrong: context.read<T>().wrongCount.toInt(),
-                  level: context.read<T>().levelNo.toInt(),
+                  level: context.read<T>().currentLevel.toInt(),
                   function: (nextLevel) {
                     level = nextLevel;
                   },
@@ -105,7 +105,7 @@ class _DialogListenerState<T extends GameProvider>
                     context.read<T>().updateScore();
                   },
                   colorTuple: widget.colorTuple,
-                  totalQuestion: provider.index,
+                  totalQuestion: provider.currentIndex,
                 ),
                 isGameOver: true,
               ),
@@ -120,7 +120,7 @@ class _DialogListenerState<T extends GameProvider>
                   // Fix: Reset the existing provider instead of creating new view
                   context.read<T>().rightCount = 0;
                   context.read<T>().wrongCount = 0;
-                  context.read<T>().index = 0;
+                  // Reset index through protected access (this will be handled by startGame)
 
                   // Reset dialog state properly
                   context.read<T>().dialogType = DialogType.non;
@@ -128,10 +128,38 @@ class _DialogListenerState<T extends GameProvider>
                   // Start new game with proper state reset
                   context.read<T>().startGame(
                       level: level, isTimer: context.read<T>().isTimer);
+                } else if (widget.gameCategoryType ==
+                    GameCategoryType.CONCENTRATION) {
+                  // Special handling for concentration game
+                  context.read<T>().rightCount = 0;
+                  context.read<T>().wrongCount = 0;
+                  // Reset game state through startGame method
+
+                  // Reset dialog state properly
+                  context.read<T>().dialogType = DialogType.non;
+
+                  // Stop any existing timers to prevent background changes
+                  context.read<T>().pauseTimer();
+
+                  // Reset concentration-specific state
+                  if (context.read<T>() is ConcentrationProvider) {
+                    final concentrationProvider = context.read<T>() as ConcentrationProvider;
+                    concentrationProvider.first = -1;
+                    concentrationProvider.second = -1;
+                  }
+
+                  // Start new game with proper state reset
+                  context.read<T>().startGame(
+                      level: level, isTimer: false); // Concentration should not use timer
+
+                  // Trigger widget refresh by calling nextQuiz callback
+                  if (widget.nextQuiz != null) {
+                    widget.nextQuiz!();
+                  }
                 } else {
                   context.read<T>().rightCount = 0;
                   context.read<T>().wrongCount = 0;
-                  context.read<T>().index = 0;
+                  // Reset index through startGame method
 
                   context.read<T>().startGame(
                       level: level, isTimer: context.read<T>().isTimer);
@@ -261,7 +289,7 @@ class _DialogListenerState<T extends GameProvider>
         ),
         onWillPop: () async {
           context.read<T>().showExitDialog();
-          return true;
+          return false; // Prevent default back navigation
         });
   }
 

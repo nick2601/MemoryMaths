@@ -19,6 +19,9 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
   /// Callback function to execute when moving to next quiz.
   Function? nextQuiz;
 
+  /// Gets the current list of math pairs for the view
+  List<Pair> get mathPairsList => currentState.list;
+
   /// Creates a ConcentrationProvider for the specified level and context.
   ConcentrationProvider({
     required TickerProvider vsync,
@@ -30,12 +33,12 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
           vsync: vsync,
           gameCategoryType: GameCategoryType.CONCENTRATION,
           context: context,
-          isTimer: isTimer,
+          isTimer: isTimer ?? false,
         ) {
     this.level = level;
-    this.isTimer = isTimer ?? true;
+    this.isTimer = isTimer ?? false;
     this.nextQuiz = nextQuiz;
-    startGame(level: level, isTimer: isTimer);
+    startGame(level: level, isTimer: this.isTimer);
   }
 
   /// Checks the result when a card is tapped.
@@ -105,11 +108,15 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
 
   /// Handles level completion and progression.
   Future<void> _handleLevelComplete() async {
-    rightAnswer(); // Use standardized method from base class
+    // Add score for completing the level (matching old code behavior)
+    rightAnswer();
 
     await Future.delayed(const Duration(milliseconds: 300));
+
+    // Load new data for next level
     loadNewDataIfRequired(level: level ?? 1);
 
+    // Reset continue state through callback
     if (nextQuiz != null) {
       nextQuiz!();
     }

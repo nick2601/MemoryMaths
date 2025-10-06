@@ -79,6 +79,12 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
   TimerStatus get timerStatus => _timeProvider.timerStatus;
   int get currentTime => _timeProvider.currentTime;
 
+  // Public getters for protected members (needed by dialog listeners and views)
+  int get currentIndex => index;
+  int get currentLevel => levelNo;
+  T get getCurrentState => currentState;
+  List<T> get gameList => list;
+
   /// Creates a GameProvider for the specified game category and context.
   GameProvider({
     required TickerProvider vsync,

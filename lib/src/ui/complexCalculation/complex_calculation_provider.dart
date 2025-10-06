@@ -34,7 +34,7 @@ class ComplexCalculationProvider extends GameProvider<ComplexModel> {
       result = answer;
       notifyListeners();
 
-      if (result == currentState.answer) {
+      if (result == currentState.finalAnswer) {
         audioPlayer.playRightSound();
         rightAnswer(); // Uses standardized method from base class
       } else {
