@@ -52,7 +52,7 @@ class CommonHintDialog extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, false); // Return false for close/cancel
                     },
                     child: SvgPicture.asset(
                       getFolderName(context, colorTuple.item1.folderName!) +
@@ -100,7 +100,7 @@ class CommonHintDialog extends StatelessWidget {
                       SizedBox(height: getScreenPercentSize(context, 5)),
                       getButtonWidget(
                           context, "Ok", colorTuple.item1.primaryColor, () {
-                        Navigator.pop(context);
+                        Navigator.pop(context, true); // Return true for continue
                       }, textColor: Colors.black),
                     ],
                   )

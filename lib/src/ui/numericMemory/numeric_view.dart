@@ -45,8 +45,15 @@ class _NumericMemoryViewState extends State<NumericMemoryView>
 
   void _startInitialTimer() {
     _initialTimer?.cancel();
-    _initialTimer = Timer(Duration(seconds: 3), () { // Increased from 2 to 3 seconds
-      if (mounted) {
+
+    // Check if any dialog is active before starting timer
+    if (_provider?.dialogType != DialogType.non) {
+      return; // Don't start timer while any dialog is showing
+    }
+
+    _initialTimer = Timer(Duration(seconds: 3), () {
+      // Increased from 2 to 3 seconds
+      if (mounted && _provider?.dialogType == DialogType.non) {
         setState(() {
           isContinue = true;
           isFirstTime = false;
@@ -63,13 +70,29 @@ class _NumericMemoryViewState extends State<NumericMemoryView>
     });
 
     _nextQuizTimer?.cancel();
-    _nextQuizTimer = Timer(Duration(seconds: 3), () { // Increased from 2 to 3 seconds
-      if (mounted) {
+
+    // Check if any dialog is active before starting timer
+    if (_provider?.dialogType != DialogType.non) {
+      return; // Don't start timer while any dialog is showing
+    }
+
+    _nextQuizTimer = Timer(Duration(seconds: 3), () {
+      // Increased from 2 to 3 seconds
+      if (mounted && _provider?.dialogType == DialogType.non) {
         setState(() {
           isContinue = true;
         });
       }
     });
+  }
+
+  // Add method to handle info dialog dismissal
+  void _handleInfoDialogDismissed() {
+    if (isFirstTime) {
+      _startInitialTimer();
+    } else if (!isContinue) {
+      _handleNextQuiz();
+    }
   }
 
   @override
@@ -112,6 +135,18 @@ class _NumericMemoryViewState extends State<NumericMemoryView>
       ],
       child: Consumer<NumericMemoryProvider>(
         builder: (context, controller, child) {
+          // Listen for dialog state changes
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (controller.dialogType == DialogType.non && _provider != null) {
+              // Dialog was dismissed, restart timer logic if needed
+              if (isFirstTime && !isContinue) {
+                _startInitialTimer();
+              } else if (!isFirstTime && !isContinue) {
+                _handleNextQuiz();
+              }
+            }
+          });
+
           return DialogListener<NumericMemoryProvider>(
             colorTuple: widget.colorTuple,
             gameCategoryType: GameCategoryType.NUMERIC_MEMORY,

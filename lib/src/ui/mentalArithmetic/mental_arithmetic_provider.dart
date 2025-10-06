@@ -11,11 +11,21 @@ class MentalArithmeticProvider extends GameProvider<MentalArithmetic> {
   late String result;
   int? level;
 
-  /// Check if animations should start (not during info dialog)
-  bool get shouldStartAnimation => dialogType != DialogType.info;
+  /// Check if animations should start (not during info dialog or hint dialog)
+  bool get shouldStartAnimation =>
+      dialogType != DialogType.info && dialogType != DialogType.hint;
+
+  /// Indicates if the question animation is complete
+  bool isAnimationCompleted = false;
 
   /// Public getter to access current game state
   MentalArithmetic get getCurrentState => currentState;
+
+  /// Called by the view when the question animation finishes
+  void onAnimationCompleted() {
+    isAnimationCompleted = true;
+    notifyListeners();
+  }
 
   MentalArithmeticProvider(
       {required TickerProvider vsync,
@@ -32,6 +42,12 @@ class MentalArithmeticProvider extends GameProvider<MentalArithmetic> {
 
   Future<void> checkResult(String answer) async {
     AudioPlayer audioPlayer = new AudioPlayer(context);
+
+    // If timer is paused (after viewing hint), resume it when user starts inputting answer
+    if (timerStatus == TimerStatus.pause && dialogType == DialogType.non) {
+      resumeTimer();
+    }
+
     if (timerStatus != TimerStatus.pause &&
         result.length < currentState.answer.toString().length &&
         ((result.length == 0 && answer == "-") || (answer != "-"))) {
@@ -64,6 +80,20 @@ class MentalArithmeticProvider extends GameProvider<MentalArithmetic> {
 
   void clearResult() {
     result = "";
+    notifyListeners();
+  }
+
+  @override
+  void loadNewDataIfRequired({int? level, bool? isScoreAdd}) {
+    isAnimationCompleted = false; // Reset animation state for new question
+    super.loadNewDataIfRequired(level: level, isScoreAdd: isScoreAdd);
+  }
+
+  /// Override showHintDialog to pause the timer when hint is opened
+  @override
+  void showHintDialog() {
+    pauseTimer(); // Pause the timer when hint dialog opens
+    dialogType = DialogType.hint;
     notifyListeners();
   }
 }

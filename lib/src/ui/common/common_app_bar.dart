@@ -65,11 +65,21 @@ class CommonAppBar<T extends GameProvider> extends StatelessWidget {
                 ),
                 hint == null
                     ? Consumer<T>(builder: (context, provider, child) {
-                        return getHintIcon(
-                            function: () {
-                              provider.showHintDialog();
-                            },
-                            color: colorTuple.item1.primaryColor);
+                        // For Mental Arithmetic, only show hint after animation completes
+                        bool shouldShowHint = true;
+                        if (gameCategoryType == GameCategoryType.MENTAL_ARITHMETIC) {
+                          // Cast to MentalArithmeticProvider to access animation state
+                          final mentalProvider = provider as dynamic;
+                          shouldShowHint = mentalProvider.isAnimationCompleted ?? false;
+                        }
+
+                        return shouldShowHint
+                            ? getHintIcon(
+                                function: () {
+                                  provider.showHintDialog();
+                                },
+                                color: colorTuple.item1.primaryColor)
+                            : Container(); // Hide hint icon during animation
                       })
                     : Container(),
                 SizedBox(

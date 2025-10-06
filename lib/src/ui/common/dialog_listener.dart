@@ -188,7 +188,19 @@ class _DialogListenerState<T extends GameProvider>
               isScrollControlled: true,
             ).then((value) {
               isDialogOpen = false;
-              context.read<T>().gotItFromInfoDialog(widget.level);
+              if (value == true) {
+                // User clicked "Go" - continue with game
+                if (widget.gameCategoryType == GameCategoryType.NUMERIC_MEMORY) {
+                  // For numeric memory, just set dialog type to non and let the view handle timing
+                  context.read<T>().dialogType = DialogType.non;
+                  // Don't call gotItFromInfoDialog - let numeric memory view handle its own logic
+                } else {
+                  context.read<T>().gotItFromInfoDialog(widget.level);
+                }
+              } else {
+                // User clicked "Cancel" or dismissed dialog - exit game
+                Navigator.pop(context);
+              }
             });
             break;
           case DialogType.pause:
@@ -259,7 +271,26 @@ class _DialogListenerState<T extends GameProvider>
               isScrollControlled: true,
             ).then((value) {
               isDialogOpen = false;
-              context.read<T>().gotItFromInfoDialog(widget.level);
+              if (value == true) {
+                // User clicked "Ok" after viewing hint - keep game paused
+                if (widget.gameCategoryType == GameCategoryType.MENTAL_ARITHMETIC) {
+                  // For mental arithmetic, keep the game paused after viewing hint
+                  // User needs time to input the answer they just saw
+                  context.read<T>().dialogType = DialogType.non;
+                  // Don't resume timer yet - let user input the answer first
+                  // Timer will resume after they input an answer in checkResult
+                } else {
+                  context.read<T>().gotItFromInfoDialog(widget.level);
+                }
+              } else {
+                // User clicked "Cancel" - resume the game timer
+                if (widget.gameCategoryType == GameCategoryType.MENTAL_ARITHMETIC) {
+                  context.read<T>().dialogType = DialogType.non;
+                  context.read<T>().resumeTimer();
+                } else {
+                  context.read<T>().pauseResumeGame();
+                }
+              }
             });
             break;
           case DialogType.non:

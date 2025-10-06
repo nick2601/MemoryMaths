@@ -103,6 +103,10 @@ class MentalArithmeticView extends StatelessWidget {
                                 return MentalArithmeticQuestionView(
                                   currentState: data.item1,
                                   shouldStartAnimation: data.item2,
+                                  onAnimationCompleted: () {
+                                    // Notify provider when animation completes
+                                    context.read<MentalArithmeticProvider>().onAnimationCompleted();
+                                  },
                                 );
                               }),
                         ),

@@ -146,7 +146,7 @@ class CommonInfoDialogView extends StatelessWidget {
               Expanded(
                   child: getButtonWidget(context, "Cancel",
                       Theme.of(context).textTheme.bodyLarge!.color, () {
-                Navigator.pop(context);
+                Navigator.pop(context, false); // Return false for cancel
               },
                       isBorder: true,
                       textColor: Theme.of(context).textTheme.bodyLarge!.color)),
@@ -155,7 +155,7 @@ class CommonInfoDialogView extends StatelessWidget {
               ),
               Expanded(
                   child: getButtonWidget(context, "Go", color, () {
-                Navigator.pop(context);
+                Navigator.pop(context, true); // Return true for go
               }, textColor: Colors.black))
             ],
           ),

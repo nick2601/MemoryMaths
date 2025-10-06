@@ -6,11 +6,13 @@ import '../../utility/global_constants.dart';
 class MentalArithmeticQuestionView extends StatefulWidget {
   final MentalArithmetic currentState;
   final bool shouldStartAnimation; // Add this prop to control animation timing
+  final VoidCallback? onAnimationCompleted; // Add callback for animation completion
 
   const MentalArithmeticQuestionView({
     Key? key,
     required this.currentState,
     this.shouldStartAnimation = true, // Default to true for backward compatibility
+    this.onAnimationCompleted,
   }) : super(key: key);
 
   @override
@@ -40,6 +42,9 @@ class _MentalArithmeticQuestionViewState
           if (index < 3) {
             index++;
             _controller.forward(from: 0);
+          } else {
+            // Call the callback function when the animation sequence completes
+            widget.onAnimationCompleted?.call();
           }
         }
       });
@@ -106,18 +111,21 @@ class _MentalArithmeticQuestionViewState
   void didUpdateWidget(MentalArithmeticQuestionView oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Handle state changes
+    // Handle state changes - only restart animation for new questions, not dialog state changes
     if (oldWidget.currentState != widget.currentState) {
-      _controller.forward(from: 0.0);
+      // Reset animation state for new question
       index = 0;
+      _controller.forward(from: 0.0);
     }
 
     // Handle animation permission changes
     if (oldWidget.shouldStartAnimation != widget.shouldStartAnimation) {
       if (widget.shouldStartAnimation) {
-        // Start animation when info dialog is dismissed
-        _controller.forward(from: 0.0);
-        index = 0;
+        // Only start animation if it's a genuinely new question (index is 0)
+        // Don't restart animation just because dialog was dismissed
+        if (index == 0) {
+          _controller.forward(from: 0.0);
+        }
       } else {
         // Stop animation if dialog appears
         _controller.stop();
