@@ -1,74 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mathsgames/src/core/dyslexic_theme.dart';
 
 /// AppTheme defines the light and dark theme configurations for the application.
-/// This class provides static getters for both theme variants, ensuring consistent
-/// styling throughout the app.
+/// This class provides static getters for both theme variants with Material 3 and dyslexic-friendly design.
 class AppTheme {
-  /// Returns the light theme configuration for the application.
-  ///
-  /// This theme uses a light color palette with:
-  /// - White-tinted background
-  /// - Pure white cards
-  /// - Custom text styling
-  /// - Light brightness mode
-  /// - Dark system overlay for status bar
+  /// Returns the light theme configuration using Material 3 with dyslexic-friendly settings
   static ThemeData get theme {
-    ThemeData base = ThemeData.light();
-
-    return base.copyWith(
-      scaffoldBackgroundColor: Colors.white70,
-      cardColor: Colors.white,
-      typography:
-          Typography.material2021(platform: TargetPlatform.android).copyWith(
-        black: Typography.material2021(platform: TargetPlatform.android)
-            .black
-            .apply(fontFamily: 'Montserrat'),
-        white: Typography.material2021(platform: TargetPlatform.android)
-            .white
-            .apply(fontFamily: 'Montserrat'),
-      ),
-      textTheme: base.textTheme
-          .copyWith(
-            bodySmall: base.textTheme.bodySmall!.copyWith(
-              color: Color(0xff757575), // Medium grey color for small body text
-            ),
-          )
-          .apply(fontFamily: 'Montserrat'),
-      brightness: Brightness.light,
-      appBarTheme: const AppBarTheme(
+    return DyslexicTheme.lightTheme.copyWith(
+      appBarTheme: DyslexicTheme.lightTheme.appBarTheme.copyWith(
         systemOverlayStyle: SystemUiOverlayStyle.dark, // Dark status bar icons
       ),
     );
   }
 
-  /// Returns the dark theme configuration for the application.
-  ///
-  /// This theme uses a dark color palette with:
-  /// - Pure black background and surfaces
-  /// - Custom text styling
-  /// - Dark brightness mode
-  /// - Light system overlay for status bar
+  /// Returns the dark theme configuration using Material 3 with dyslexic-friendly settings
   static ThemeData get darkTheme {
-    ThemeData base = ThemeData.dark();
-
-    return base.copyWith(
-      colorScheme: const ColorScheme.dark(
-        surface: Colors.black,
-      ),
-      scaffoldBackgroundColor: Colors.black,
-      cardColor: Colors.black,
-      textTheme: base.textTheme
-          .copyWith(
-            bodySmall: base.textTheme.bodySmall!.copyWith(
-              color: Color(0xff616161), // Darker grey color for small body text
-            ),
-          )
-          .apply(fontFamily: 'Montserrat'),
-      brightness: Brightness.dark,
-      appBarTheme: const AppBarTheme(
-        systemOverlayStyle:
-            SystemUiOverlayStyle.light, // Light status bar icons
+    return DyslexicTheme.darkTheme.copyWith(
+      appBarTheme: DyslexicTheme.darkTheme.appBarTheme.copyWith(
+        systemOverlayStyle: SystemUiOverlayStyle.light, // Light status bar icons
       ),
     );
   }

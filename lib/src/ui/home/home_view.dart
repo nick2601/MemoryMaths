@@ -5,15 +5,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
 import 'package:mathsgames/src/ui/home/home_button_view.dart';
+import 'package:mathsgames/src/core/dyslexic_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../core/app_assets.dart';
 import '../../core/app_constant.dart';
-import '../../data/models/game_category.dart';
 import '../../utility/global_constants.dart';
-import '../app/theme_provider.dart' hide themeMode;
-import '../model/gradient_model.dart';
 
 class HomeView extends StatefulWidget {
   final Tuple2<Dashboard, double> tuple2;
@@ -44,10 +42,11 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
-    });
+    super.initState();
     tuple2 = widget.tuple2;
     isGamePageOpen = false;
+
+    // Initialize animations with fixed values (no Theme.of(context) here)
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
     bgColorTween =
@@ -98,10 +97,12 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
         begin: TextStyle(
           fontSize: 28.0,
           fontWeight: FontWeight.bold,
+          fontFamily: DyslexicTheme.dyslexicFont,
         ),
         end: TextStyle(
           fontSize: 24.0,
           fontWeight: FontWeight.bold,
+          fontFamily: DyslexicTheme.dyslexicFont,
         )).animate(animationController);
 
     outlineImageBottomPositionTween =
@@ -114,16 +115,14 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
         Tween(begin: -54.0, end: -240.0).animate(animationController);
 
     setState(() {});
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     double margin = getHorizontalSpace(context);
 
-    setStatusBarColor(Theme.of(context).scaffoldBackgroundColor);
-    ThemeProvider themeProvider = Provider.of(context);
-    DashboardProvider dashboardProvider = Provider.of(context);
+    setStatusBarColor(theme.scaffoldBackgroundColor);
 
     int _crossAxisCount = 2;
     double height = getScreenPercentSize(context, 30);
@@ -169,229 +168,197 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                         flex: 1,
                       ),
                       getSettingWidget(context, function: () {
-                        print("model====${themeMode}");
                         setState(() {
-                          if (themeMode == ThemeMode.dark) {
-                            tuple2!.item1.bgColor = "#383838".toColor();
+                          if (theme.brightness == Brightness.dark) {
+                            tuple2!.item1.bgColor = Color(0xFF383838);
                           } else {
-                            tuple2!.item1.bgColor =
-                                KeyUtil.bgColorList[tuple2!.item1.position];
+                            tuple2!.item1.bgColor = theme.colorScheme.surface;
                           }
-
-                          print("color====${tuple2!.item1.position}");
                         });
                       })
                     ],
                   ),
                   Expanded(
-                    child:
-                        NotificationListener<OverscrollIndicatorNotification>(
-                      onNotification:
-                          (OverscrollIndicatorNotification overscroll) {
+                    child: NotificationListener<OverscrollIndicatorNotification>(
+                      onNotification: (OverscrollIndicatorNotification overscroll) {
                         overscroll.disallowIndicator();
                         return true;
                       },
                       child: ListView(
-                        padding: EdgeInsets.only(
-                            bottom: getHorizontalSpace(context)),
+                        padding: EdgeInsets.only(bottom: getHorizontalSpace(context)),
                         children: [
-                          getHeaderWidget(context, tuple2!.item1.title,
-                              tuple2!.item1.subtitle),
                           SizedBox(
-                            height: getVerticalSpace(context),
+                            height: getScreenPercentSize(context, 4),
                           ),
-                          GridView.count(
-                              crossAxisCount: _crossAxisCount,
-                              childAspectRatio: _aspectRatio,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
+                          AnimatedBuilder(
+                            animation: heightTween,
+                            builder: (context, child) {
+                              return Container(
+                                height: heightTween.value,
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height: heightTween.value,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            theme.colorScheme.primary.withValues(alpha: 0.8),
+                                            theme.colorScheme.primary,
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                        borderRadius: BorderRadius.circular(radiusTween.value),
+                                      ),
+                                    ),
+                                    AnimatedBuilder(
+                                      animation: outlineImageRightPositionTween,
+                                      builder: (context, child) {
+                                        return Positioned(
+                                          bottom: outlineImageBottomPositionTween.value,
+                                          right: outlineImageRightPositionTween.value,
+                                          child: SvgPicture.asset(
+                                            tuple2!.item1.outlineIcon,
+                                            height: getPercentSize(heightTween.value, 35),
+                                            colorFilter: ColorFilter.mode(
+                                              theme.colorScheme.onPrimary.withValues(alpha: 0.1),
+                                              BlendMode.srcIn,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    AnimatedBuilder(
+                                      animation: fillImageRightPositionTween,
+                                      builder: (context, child) {
+                                        return Positioned(
+                                          bottom: fillImageBottomPositionTween.value,
+                                          right: fillImageRightPositionTween.value,
+                                          child: SvgPicture.asset(
+                                            tuple2!.item1.outlineIcon,
+                                            height: getPercentSize(heightTween.value, 25),
+                                            colorFilter: ColorFilter.mode(
+                                              theme.colorScheme.onPrimary,
+                                              BlendMode.srcIn,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: getWidthPercentSize(context, 5),
+                                        vertical: getScreenPercentSize(context, 3),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          AnimatedBuilder(
+                                            animation: textStyleTween,
+                                            builder: (context, child) {
+                                              return Text(
+                                                tuple2!.item1.title,
+                                                style: textStyleTween.value.copyWith(
+                                                  color: theme.colorScheme.onPrimary,
+                                                  fontFamily: DyslexicTheme.dyslexicFont,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          SizedBox(height: getScreenPercentSize(context, 1)),
+                                          AnimatedBuilder(
+                                            animation: subtitleVisibilityTween,
+                                            builder: (context, child) {
+                                              return Opacity(
+                                                opacity: subtitleVisibilityTween.value,
+                                                child: Text(
+                                                  tuple2!.item1.subtitle,
+                                                  style: TextStyle(
+                                                    fontSize: getScreenPercentSize(context, 2),
+                                                    color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
+                                                    fontFamily: DyslexicTheme.dyslexicFont,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(height: getScreenPercentSize(context, 3)),
+                          Consumer<DashboardProvider>(
+                            builder: (context, provider, child) {
+                              final games = provider.getGameByPuzzleType(tuple2!.item1.puzzleType);
 
-                              // padding: EdgeInsets.only(
-                              //   left: getHorizontalSpace(context),
-                              //   right: getHorizontalSpace(context),
-                              //   bottom: getHorizontalSpace(context),
-                              // ),
-                              crossAxisSpacing: _crossAxisSpacing,
-                              mainAxisSpacing: _crossAxisSpacing,
-                              primary: false,
-                              padding: EdgeInsets.only(
-                                  top: getScreenPercentSize(context, 4)),
-                              children: Provider.of<DashboardProvider>(context)
-                                  .getGameByPuzzleType(tuple2!.item1.puzzleType)
-                                  .map((e) => HomeButtonView(
-                                      title: e.name,
-                                      icon: e.icon,
-                                      tuple2: tuple2!,
-                                      score: e.scoreboard.highestScore,
-                                      colorTuple: tuple2!.item1.colorTuple,
-                                      opacity: tuple2!.item1.opacity,
-                                      gameCategoryType: e.gameCategoryType,
-                                      onTab: () {
-                                        if (e.gameCategoryType ==
-                                            GameCategoryType.DUAL_GAME) {
-                                          showDuelDialog(
-                                              themeProvider, context);
-                                        } else {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            KeyUtil.level,
-                                            ModalRoute.withName(KeyUtil.home),
-                                            arguments:
-                                                Tuple2<GameCategory, Dashboard>(
-                                                    e, tuple2!.item1),
-                                          ).then((value) {
-                                            dashboardProvider.getCoin();
-                                          });
-                                        }
-                                      }))
-                                  .toList()),
+                              return GridView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: _crossAxisCount,
+                                  childAspectRatio: _aspectRatio,
+                                  crossAxisSpacing: _crossAxisSpacing,
+                                  mainAxisSpacing: _crossAxisSpacing,
+                                ),
+                                itemCount: games.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final e = games[index];
+                                  return HomeButtonView(
+                                    title: e.name,
+                                    icon: e.icon,
+                                    tuple2: tuple2!,
+                                    score: e.scoreboard.highestScore,
+                                    colorTuple: tuple2!.item1.colorTuple,
+                                    opacity: tuple2!.item1.opacity,
+                                    gameCategoryType: e.gameCategoryType,
+                                    onTab: () {
+                                      if (e.gameCategoryType == GameCategoryType.DUAL_GAME) {
+                                        // If you have a duel dialog, plug it here; otherwise navigate
+                                        Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          KeyUtil.level,
+                                          ModalRoute.withName(KeyUtil.home),
+                                          arguments: Tuple2(e, tuple2!.item1),
+                                        ).then((value) {
+                                          setState(() {});
+                                        });
+                                      } else {
+                                        Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          KeyUtil.level,
+                                          ModalRoute.withName(KeyUtil.home),
+                                          arguments: Tuple2(e, tuple2!.item1),
+                                        ).then((value) {
+                                          setState(() {});
+                                        });
+                                      }
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
-                    flex: 1,
                   ),
                 ],
               ),
             ),
           ),
-          //getBanner(context, adsFile)
         ],
       ),
     );
   }
 
-  showDuelDialog(ThemeProvider themeProvider, BuildContext context) {
-    double margin = getScreenPercentSize(context, 1.5);
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8))),
-            child: Wrap(
-              children: [
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        height: margin,
-                      ),
-                      getTextWidget(
-                          Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w600),
-                          "Select Difficulty",
-                          TextAlign.center,
-                          getScreenPercentSize(context, 2)),
-                      Container(
-                        height: 1,
-                        color: Theme.of(context).textTheme.titleMedium!.color,
-                        margin: EdgeInsets.symmetric(
-                            vertical: margin, horizontal: 5),
-                      ),
-                      getCell('Easy', true, easyQuiz, themeProvider),
-                      getCell('Medium', false, mediumQuiz, themeProvider),
-                      getCell('Hard', false, hardQuiz, themeProvider),
-                      SizedBox(
-                        height: margin,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-        });
-  }
-
-  getCell(String s, bool isSelect, int type, ThemeProvider themeProvider) {
-    double cellHeight = getScreenPercentSize(context, 10);
-    return InkWell(
-      child: Container(
-        width: getWidthPercentSize(context, 60),
-        height: cellHeight,
-        margin: EdgeInsets.all(5),
-
-        child: Stack(
-          children: [
-            Container(
-              height: cellHeight,
-              width: double.infinity,
-              child: SvgPicture.asset(
-                '${getFolderName(context, tuple2!.item1.folder)}${AppAssets.subCellBg}',
-                height: cellHeight,
-                width: double.infinity,
-                fit: BoxFit.fill,
-              ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: getWidthPercentSize(context, 5)),
-                child: getTextWidget(
-                    Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(fontWeight: FontWeight.w600),
-                    s,
-                    TextAlign.center,
-                    getPercentSize(cellHeight, 25)),
-              ),
-            )
-          ],
-        ),
-        // child: Card(
-        //   color: tuple2.item1.primaryColor,
-        //   elevation: 1,
-        //   shape: RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.all(
-        //         Radius.circular(radius),
-        //       )),
-        //   child: Center(
-        //     child:getTextWidget(Theme.of(context).textTheme.subtitle1!.copyWith(
-        //         fontWeight: FontWeight.w600
-        //     ),s,TextAlign.center,
-        //         getPercentSize(cellHeight, 25)
-        //     ),
-        //
-        //   ),
-        // )
-      ),
-      onTap: () {
-        Navigator.pop(context);
-        GradientModel model = new GradientModel();
-        model.primaryColor = tuple2!.item1.primaryColor;
-        model.gridColor = tuple2!.item1.gridColor;
-
-        model.cellColor = getBgColor(themeProvider, tuple2!.item1.bgColor);
-        model.folderName = tuple2!.item1.folder;
-
-        model.bgColor = tuple2!.item1.bgColor;
-        model.backgroundColor = tuple2!.item1.backgroundColor;
-        Navigator.pushNamed(
-          context,
-          KeyUtil.dualGame,
-          arguments: Tuple2(model, type),
-        ).then((value) {
-          isGamePageOpen = false;
-        });
-      },
-    );
-  }
-
   @override
   void dispose() {
-    // TODO: implement dispose
+    animationController.dispose();
     super.dispose();
-   // disposeBannerAd(adsFile);
   }
 }

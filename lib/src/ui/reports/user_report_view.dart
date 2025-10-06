@@ -4,10 +4,13 @@ import 'package:mathsgames/src/ui/reports/user_report_provider.dart';
 import 'package:mathsgames/src/data/models/user_report.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/ui/app/auth_provider.dart';
+import 'package:mathsgames/src/core/dyslexic_theme.dart';
 
 import '../../data/models/user_profile.dart';
 
 /// Comprehensive user report view showing performance analytics and improvement suggestions
+/// Enhanced with Material 3 design and dyslexic-friendly UI
 class UserReportView extends StatefulWidget {
   final String userEmail;
   final int initialTabIndex;
@@ -45,17 +48,20 @@ class _UserReportViewState extends State<UserReportView>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: getBackGroundColor(context),
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: getTextWidget(
-          Theme.of(context).textTheme.titleLarge!,
+        title: Text(
           'Performance Report',
-          TextAlign.start,
-          getPercentSize(getScreenPercentSize(context, 100), 4),
+          style: theme.textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.w600,
+            fontFamily: DyslexicTheme.dyslexicFont,
+          ),
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
+        scrolledUnderElevation: 4,
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
@@ -66,13 +72,25 @@ class _UserReportViewState extends State<UserReportView>
             Tab(text: 'Learning Path'),
             Tab(text: 'Achievements'),
           ],
+          // Material 3 tab styling
+          labelStyle: theme.textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            fontFamily: DyslexicTheme.dyslexicFont,
+          ),
+          unselectedLabelStyle: theme.textTheme.labelLarge?.copyWith(
+            fontFamily: DyslexicTheme.dyslexicFont,
+          ),
+          indicatorSize: TabBarIndicatorSize.label,
+          dividerColor: Colors.transparent,
         ),
       ),
       body: Consumer<UserReportProvider>(
         builder: (context, reportProvider, child) {
           if (reportProvider.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: CircularProgressIndicator(
+                color: theme.colorScheme.primary,
+              ),
             );
           }
 
@@ -84,21 +102,28 @@ class _UserReportViewState extends State<UserReportView>
                   Icon(
                     Icons.error_outline,
                     size: 64,
-                    color: Colors.red,
+                    color: theme.colorScheme.error,
                   ),
                   SizedBox(height: 16),
                   Text(
                     reportProvider.errorMessage!,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontFamily: DyslexicTheme.dyslexicFont,
+                    ),
                   ),
                   SizedBox(height: 16),
-                  ElevatedButton(
+                  FilledButton(
                     onPressed: () {
                       reportProvider.clearError();
                       reportProvider.generateReport(widget.userEmail);
                     },
-                    child: const Text('Retry'),
+                    child: Text(
+                      'Retry',
+                      style: TextStyle(
+                        fontFamily: DyslexicTheme.dyslexicFont,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -106,8 +131,13 @@ class _UserReportViewState extends State<UserReportView>
           }
 
           if (reportProvider.currentReport == null) {
-            return const Center(
-              child: Text('No report data available'),
+            return Center(
+              child: Text(
+                'No report data available',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontFamily: DyslexicTheme.dyslexicFont,
+                ),
+              ),
             );
           }
 
@@ -128,17 +158,18 @@ class _UserReportViewState extends State<UserReportView>
 
   /// Overview tab showing general performance summary
   Widget _buildOverviewTab(UserReport report) {
+    final theme = Theme.of(context);
     final summary = report.overallSummary;
 
     return SingleChildScrollView(
-      padding: EdgeInsets.all(getHorizontalSpace(context)),
+      padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // User Profile Card
           _buildUserProfileCard(report.userProfile),
 
-          SizedBox(height: getVerticalSpace(context)),
+          SizedBox(height: 16),
 
           // Performance Summary Cards
           Row(
@@ -148,22 +179,22 @@ class _UserReportViewState extends State<UserReportView>
                   'Games Played',
                   summary.totalGamesPlayed.toString(),
                   Icons.gamepad,
-                  Colors.blue,
+                  theme.colorScheme.primary,
                 ),
               ),
-              SizedBox(width: getHorizontalSpace(context)),
+              SizedBox(width: 16),
               Expanded(
                 child: _buildStatCard(
                   'Overall Accuracy',
                   '${summary.overallAccuracy.toStringAsFixed(1)}%',
                   Icons.check_circle,
-                  Colors.green,
+                  theme.colorScheme.secondary,
                 ),
               ),
             ],
           ),
 
-          SizedBox(height: getVerticalSpace(context)),
+          SizedBox(height: 16),
 
           Row(
             children: [
@@ -172,27 +203,27 @@ class _UserReportViewState extends State<UserReportView>
                   'Average Score',
                   summary.averageScore.toStringAsFixed(1),
                   Icons.score,
-                  Colors.orange,
+                  theme.colorScheme.tertiary,
                 ),
               ),
-              SizedBox(width: getHorizontalSpace(context)),
+              SizedBox(width: 16),
               Expanded(
                 child: _buildStatCard(
                   'Play Time',
                   '${summary.totalPlayTime} min',
                   Icons.timer,
-                  Colors.purple,
+                  theme.colorScheme.secondary,
                 ),
               ),
             ],
           ),
 
-          SizedBox(height: getVerticalSpace(context)),
+          SizedBox(height: 16),
 
           // Skill Level Progress
           _buildSkillLevelCard(summary),
 
-          SizedBox(height: getVerticalSpace(context)),
+          SizedBox(height: 16),
 
           // Strengths and Improvement Areas
           _buildStrengthsAndImprovementsCard(summary),
@@ -285,11 +316,14 @@ class _UserReportViewState extends State<UserReportView>
     );
   }
 
-  /// Build user profile card
+  /// Build user profile card with Material 3 styling
   Widget _buildUserProfileCard(UserProfile profile) {
+    final theme = Theme.of(context);
+
     return Card(
+      elevation: 2,
       child: Padding(
-        padding: EdgeInsets.all(getHorizontalSpace(context)),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -297,34 +331,40 @@ class _UserReportViewState extends State<UserReportView>
               children: [
                 CircleAvatar(
                   radius: 30,
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: theme.colorScheme.primary,
                   child: Text(
                     profile.name.isNotEmpty ? profile.name[0].toUpperCase() : 'U',
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: theme.colorScheme.onPrimary,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
+                      fontFamily: DyslexicTheme.dyslexicFont,
                     ),
                   ),
                 ),
-                SizedBox(width: getHorizontalSpace(context)),
+                SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         profile.name,
-                        style: Theme.of(context).textTheme.headlineSmall,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontFamily: DyslexicTheme.dyslexicFont,
+                        ),
                       ),
                       Text(
                         profile.email,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.grey[600],
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                          fontFamily: DyslexicTheme.dyslexicFont,
                         ),
                       ),
                       Text(
                         'Member since: ${_formatDate(profile.createdAt)}',
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontFamily: DyslexicTheme.dyslexicFont,
+                        ),
                       ),
                     ],
                   ),
@@ -337,25 +377,31 @@ class _UserReportViewState extends State<UserReportView>
     );
   }
 
-  /// Build stat card widget
+  /// Build stat card with Material 3 styling
   Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+    final theme = Theme.of(context);
+
     return Card(
+      elevation: 1,
       child: Padding(
-        padding: EdgeInsets.all(getHorizontalSpace(context)),
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
             Icon(icon, size: 32, color: color),
             SizedBox(height: 8),
             Text(
               value,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: color,
+                fontFamily: DyslexicTheme.dyslexicFont,
               ),
             ),
             Text(
               title,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontFamily: DyslexicTheme.dyslexicFont,
+              ),
               textAlign: TextAlign.center,
             ),
           ],
@@ -364,11 +410,14 @@ class _UserReportViewState extends State<UserReportView>
     );
   }
 
-  /// Build skill level card
+  /// Build skill level card with Material 3 styling
   Widget _buildSkillLevelCard(PerformanceSummary summary) {
+    final theme = Theme.of(context);
+
     return Card(
+      elevation: 1,
       child: Padding(
-        padding: EdgeInsets.all(getHorizontalSpace(context)),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -377,7 +426,9 @@ class _UserReportViewState extends State<UserReportView>
               children: [
                 Text(
                   'Current Skill Level',
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontFamily: DyslexicTheme.dyslexicFont,
+                  ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -387,87 +438,125 @@ class _UserReportViewState extends State<UserReportView>
                   ),
                   child: Text(
                     summary.currentSkillLevel.displayName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
+                      fontFamily: DyslexicTheme.dyslexicFont,
                     ),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 16),
-            Text('Progress to Next Level'),
-            SizedBox(height: 8),
-            LinearProgressIndicator(
-              value: summary.progressToNextLevel / 100,
-              backgroundColor: Colors.grey[300],
-              valueColor: AlwaysStoppedAnimation<Color>(
-                context.read<UserReportProvider>().getSkillLevelColor(summary.currentSkillLevel),
+            Text(
+              'Progress to Next Level',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontFamily: DyslexicTheme.dyslexicFont,
               ),
             ),
             SizedBox(height: 8),
-            Text('${summary.progressToNextLevel.toStringAsFixed(1)}%'),
+            LinearProgressIndicator(
+              value: summary.progressToNextLevel,
+              backgroundColor: theme.colorScheme.surfaceContainerHighest,
+              valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '${(summary.progressToNextLevel * 100).toInt()}% Complete',
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontFamily: DyslexicTheme.dyslexicFont,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  /// Build strengths and improvements card
+  /// Build strengths and improvements card with Material 3 styling
   Widget _buildStrengthsAndImprovementsCard(PerformanceSummary summary) {
+    final theme = Theme.of(context);
+    final reportProvider = Provider.of<UserReportProvider>(context, listen: false);
+
     return Card(
+      elevation: 1,
       child: Padding(
-        padding: EdgeInsets.all(getHorizontalSpace(context)),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Performance Analysis',
-              style: Theme.of(context).textTheme.titleMedium,
+              'Your Strengths & Areas for Improvement',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontFamily: DyslexicTheme.dyslexicFont,
+              ),
             ),
             SizedBox(height: 16),
 
-            // Strongest Categories
+            // Strengths
             Text(
-              'Strongest Areas:',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: Colors.green,
+              'Strengths',
+              style: theme.textTheme.titleSmall?.copyWith(
+                color: theme.colorScheme.primary,
                 fontWeight: FontWeight.bold,
+                fontFamily: DyslexicTheme.dyslexicFont,
               ),
             ),
-            ...summary.strongestCategories.map((category) => Padding(
-              padding: const EdgeInsets.only(left: 16, top: 4),
-              child: Row(
-                children: [
-                  const Icon(Icons.star, color: Colors.green, size: 16),
-                  SizedBox(width: 8),
-                  Text(context.read<UserReportProvider>().getGameCategoryDisplayName(category)),
-                ],
-              ),
+            SizedBox(height: 8),
+            // Use strongestCategories instead of strengths
+            ...summary.strongestCategories.map((category) => _buildBulletPoint(
+              reportProvider.getGameCategoryDisplayName(category),
+              true
             )),
 
             SizedBox(height: 16),
 
-            // Improvement Areas
+            // Areas for Improvement
             Text(
-              'Areas for Improvement:',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: Colors.orange,
+              'Areas for Improvement',
+              style: theme.textTheme.titleSmall?.copyWith(
+                color: theme.colorScheme.error,
                 fontWeight: FontWeight.bold,
+                fontFamily: DyslexicTheme.dyslexicFont,
               ),
             ),
-            ...summary.improvementAreas.map((category) => Padding(
-              padding: const EdgeInsets.only(left: 16, top: 4),
-              child: Row(
-                children: [
-                  const Icon(Icons.warning, color: Colors.orange, size: 16),
-                  SizedBox(width: 8),
-                  Text(context.read<UserReportProvider>().getGameCategoryDisplayName(category)),
-                ],
-              ),
+            SizedBox(height: 8),
+            // Use improvementAreas instead of areasForImprovement
+            ...summary.improvementAreas.map((category) => _buildBulletPoint(
+              reportProvider.getGameCategoryDisplayName(category),
+              false
             )),
           ],
         ),
+      ),
+    );
+  }
+
+  /// Build bullet point for strengths/improvement areas with Material 3 styling
+  Widget _buildBulletPoint(String text, bool isStrength) {
+    final theme = Theme.of(context);
+    final color = isStrength ? theme.colorScheme.primary : theme.colorScheme.error;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            isStrength ? Icons.check_circle : Icons.info_outline,
+            color: color,
+            size: 18,
+          ),
+          SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontFamily: DyslexicTheme.dyslexicFont,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

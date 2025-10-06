@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/core/dyslexic_theme.dart';
 import 'package:provider/provider.dart';
 import '../app/auth_provider.dart';
 import '../login/login_view.dart';
 
-/// Signup screen with dyslexic-friendly design
+/// Signup screen with Material 3 design and dyslexic-friendly features
 /// Features high contrast colors, readable fonts, and optimized input fields
 class SignupScreen extends StatefulWidget {
   @override
@@ -63,44 +62,44 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
     return RegExp(r'^[\w.-]+@[\w.-]+\.[A-Za-z]{2,}$').hasMatch(email);
   }
 
-  /// Shows success message with dyslexic-friendly styling
+  /// Shows success message with Material 3 styling
   void _showSuccessMessage(String message) {
+    final theme = Theme.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           message,
-          style: TextStyle(
-            fontFamily: DyslexicTheme.dyslexicFont,
-            fontSize: DyslexicTheme.baseFontSize,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onPrimary,
             fontWeight: FontWeight.w500,
           ),
         ),
-        backgroundColor: DyslexicTheme.successColor,
+        backgroundColor: theme.colorScheme.primary,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(DyslexicTheme.borderRadius),
+          borderRadius: BorderRadius.circular(12),
         ),
         duration: Duration(seconds: 4),
       ),
     );
   }
 
-  /// Shows error message with dyslexic-friendly styling
+  /// Shows error message with Material 3 styling
   void _showErrorMessage(String message) {
+    final theme = Theme.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           message,
-          style: TextStyle(
-            fontFamily: DyslexicTheme.dyslexicFont,
-            fontSize: DyslexicTheme.baseFontSize,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onError,
             fontWeight: FontWeight.w500,
           ),
         ),
-        backgroundColor: DyslexicTheme.errorColor,
+        backgroundColor: theme.colorScheme.error,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(DyslexicTheme.borderRadius),
+          borderRadius: BorderRadius.circular(12),
         ),
         duration: Duration(seconds: 5),
       ),
@@ -129,7 +128,7 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
         'Account created successfully! Your profile has been set up for progress tracking.',
       );
 
-      // Navigate to dashboard after successful signup using proper route key
+      // Navigate to dashboard after successful signup
       Future.delayed(Duration(seconds: 2), () {
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -148,16 +147,18 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: DyslexicTheme.backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: DyslexicTheme.primaryTextColor,
+        title: Text(
+          'Create Account',
+          style: theme.textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.w600,
           ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
           tooltip: 'Go back to login',
         ),
@@ -176,17 +177,17 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // Header section
-                  _buildHeader(),
+                  _buildHeader(theme),
 
                   SizedBox(height: 32),
 
                   // Signup form card
-                  _buildSignupCard(),
+                  _buildSignupCard(theme),
 
                   SizedBox(height: 24),
 
                   // Login link
-                  _buildLoginLink(),
+                  _buildLoginLink(theme),
 
                   SizedBox(height: 24),
                 ],
@@ -198,60 +199,43 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(ThemeData theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // App icon
-        Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(25),
-            boxShadow: [
-              BoxShadow(
-                color: DyslexicTheme.primaryColor.withValues(alpha: 0.15),
-                blurRadius: 20,
-                offset: Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Icon(
-            Icons.person_add_outlined,
-            size: 50,
-            color: DyslexicTheme.primaryColor,
+        // App icon with Material 3 card design
+        Card(
+          elevation: 8,
+          child: Container(
+            width: 100,
+            height: 100,
+            padding: EdgeInsets.all(20),
+            child: Icon(
+              Icons.person_add,
+              size: 60,
+              color: theme.colorScheme.primary,
+            ),
           ),
         ),
 
         SizedBox(height: 20),
 
-        // Title
+        // Welcome text with Material 3 typography
         Text(
-          'Create Account',
-          style: TextStyle(
-            fontFamily: DyslexicTheme.dyslexicFont,
-            fontSize: 28,
+          'Join Memory Math!',
+          style: theme.textTheme.headlineMedium?.copyWith(
+            color: theme.colorScheme.onSurface,
             fontWeight: FontWeight.bold,
-            color: DyslexicTheme.primaryTextColor,
-            letterSpacing: 0.5,
-            height: 1.2,
           ),
           textAlign: TextAlign.center,
         ),
 
         SizedBox(height: 8),
 
-        // Subtitle
         Text(
-          'Join Memory Math and track your progress!',
-          style: TextStyle(
-            fontFamily: DyslexicTheme.dyslexicFont,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: DyslexicTheme.secondaryTextColor,
-            letterSpacing: 0.3,
-            height: 1.4,
+          'Create your account to start your mathematical journey',
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
           ),
           textAlign: TextAlign.center,
         ),
@@ -259,218 +243,211 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
     );
   }
 
-  Widget _buildSignupCard() {
-    return Container(
-      padding: EdgeInsets.all(28),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: DyslexicTheme.primaryColor.withValues(alpha: 0.08),
-            blurRadius: 30,
-            offset: Offset(0, 15),
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Full Name Field
-            TextFormField(
-              controller: _fullNameController,
-              style: DyslexicInputTheme.getInputTextStyle(),
-              decoration: DyslexicInputTheme.getInputDecoration(
-                labelText: 'Full Name',
-                prefixIcon: Icons.person_outline_rounded,
-                hintText: 'Enter your full name',
-              ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your full name';
-                }
-                if (value.trim().length < 2) {
-                  return 'Name must be at least 2 characters';
-                }
-                return null;
-              },
-              textInputAction: TextInputAction.next,
-            ),
-
-            SizedBox(height: 20),
-
-            // Email Field
-            TextFormField(
-              controller: _emailController,
-              style: DyslexicInputTheme.getInputTextStyle(),
-              keyboardType: TextInputType.emailAddress,
-              decoration: DyslexicInputTheme.getInputDecoration(
-                labelText: 'Email Address',
-                prefixIcon: Icons.email_outlined,
-                hintText: 'Enter your email address',
-              ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your email address';
-                }
-                if (!_isValidEmail(value.trim())) {
-                  return 'Please enter a valid email address';
-                }
-                return null;
-              },
-              textInputAction: TextInputAction.next,
-            ),
-
-            SizedBox(height: 20),
-
-            // Username Field
-            TextFormField(
-              controller: _usernameController,
-              style: DyslexicInputTheme.getInputTextStyle(),
-              decoration: DyslexicInputTheme.getInputDecoration(
-                labelText: 'Username',
-                prefixIcon: Icons.account_circle_outlined,
-                hintText: 'Choose a username',
-              ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter a username';
-                }
-                if (value.trim().length < 3) {
-                  return 'Username must be at least 3 characters';
-                }
-                return null;
-              },
-              textInputAction: TextInputAction.next,
-            ),
-
-            SizedBox(height: 20),
-
-            // Password Field
-            TextFormField(
-              controller: _passwordController,
-              style: DyslexicInputTheme.getInputTextStyle(),
-              obscureText: !_isPasswordVisible,
-              decoration: DyslexicInputTheme.getInputDecoration(
-                labelText: 'Password',
-                prefixIcon: Icons.lock_outline_rounded,
-                hintText: 'Create a password',
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isPasswordVisible
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                    color: DyslexicTheme.secondaryTextColor,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
-                  tooltip: _isPasswordVisible ? 'Hide password' : 'Show password',
+  Widget _buildSignupCard(ThemeData theme) {
+    return Card(
+      elevation: 8,
+      child: Padding(
+        padding: EdgeInsets.all(24),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Full name field
+              TextFormField(
+                controller: _fullNameController,
+                keyboardType: TextInputType.name,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  labelText: 'Full Name',
+                  hintText: 'Enter your full name',
+                  prefixIcon: Icon(Icons.person_outline),
                 ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your full name';
+                  }
+                  if (value.trim().length < 2) {
+                    return 'Name must be at least 2 characters';
+                  }
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value == null || value.length < 6) {
-                  return 'Password must be at least 6 characters';
-                }
-                return null;
-              },
-              textInputAction: TextInputAction.next,
-            ),
 
-            SizedBox(height: 20),
+              SizedBox(height: 20),
 
-            // Confirm Password Field
-            TextFormField(
-              controller: _confirmPasswordController,
-              style: DyslexicInputTheme.getInputTextStyle(),
-              obscureText: !_isConfirmPasswordVisible,
-              decoration: DyslexicInputTheme.getInputDecoration(
-                labelText: 'Confirm Password',
-                prefixIcon: Icons.lock_clock_outlined,
-                hintText: 'Confirm your password',
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isConfirmPasswordVisible
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                    color: DyslexicTheme.secondaryTextColor,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-                    });
-                  },
-                  tooltip: _isConfirmPasswordVisible ? 'Hide password' : 'Show password',
+              // Email field
+              TextFormField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  labelText: 'Email Address',
+                  hintText: 'Enter your email address',
+                  prefixIcon: Icon(Icons.email_outlined),
                 ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your email address';
+                  }
+                  if (!_isValidEmail(value.trim())) {
+                    return 'Please enter a valid email address';
+                  }
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please confirm your password';
-                }
-                if (value != _passwordController.text) {
-                  return 'Passwords do not match';
-                }
-                return null;
-              },
-              textInputAction: TextInputAction.done,
-              onFieldSubmitted: (_) => _handleSignup(),
-            ),
 
-            SizedBox(height: 36),
+              SizedBox(height: 20),
 
-            // Sign Up Button
-            _isLoading
-                ? Container(
-                    height: DyslexicTheme.buttonHeight,
-                    child: Center(
-                      child: SizedBox(
-                        width: 32,
-                        height: 32,
+              // Username field
+              TextFormField(
+                controller: _usernameController,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  hintText: 'Choose a unique username',
+                  prefixIcon: Icon(Icons.account_circle_outlined),
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter a username';
+                  }
+                  if (value.trim().length < 3) {
+                    return 'Username must be at least 3 characters';
+                  }
+                  if (value.trim().length > 20) {
+                    return 'Username must be less than 20 characters';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 20),
+
+              // Password field
+              TextFormField(
+                controller: _passwordController,
+                obscureText: !_isPasswordVisible,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  hintText: 'Create a strong password',
+                  prefixIcon: Icon(Icons.lock_outline),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a password';
+                  }
+                  if (value.length < 8) {
+                    return 'Password must be at least 8 characters';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 20),
+
+              // Confirm password field
+              TextFormField(
+                controller: _confirmPasswordController,
+                obscureText: !_isConfirmPasswordVisible,
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: (_) => _handleSignup(),
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  hintText: 'Re-enter your password',
+                  prefixIcon: Icon(Icons.lock_outline),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                      });
+                    },
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please confirm your password';
+                  }
+                  if (value != _passwordController.text) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 32),
+
+              // Create account button
+              FilledButton(
+                onPressed: _isLoading ? null : _handleSignup,
+                style: FilledButton.styleFrom(
+                  minimumSize: Size(double.infinity, 56),
+                ),
+                child: _isLoading
+                    ? SizedBox(
+                        width: 24,
+                        height: 24,
                         child: CircularProgressIndicator(
-                          strokeWidth: 3,
+                          strokeWidth: 2,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            DyslexicTheme.primaryColor,
+                            theme.colorScheme.onPrimary,
                           ),
                         ),
+                      )
+                    : Text(
+                        'Create Account',
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          color: theme.colorScheme.onPrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                  )
-                : ElevatedButton(
-                    onPressed: _handleSignup,
-                    style: DyslexicButtonTheme.getPrimaryButtonStyle(),
-                    child: Text('Create Account'),
-                  ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildLoginLink() {
+  Widget _buildLoginLink(ThemeData theme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           'Already have an account? ',
-          style: TextStyle(
-            fontFamily: DyslexicTheme.dyslexicFont,
-            fontSize: DyslexicTheme.baseFontSize,
-            color: DyslexicTheme.secondaryTextColor,
-            fontWeight: FontWeight.w500,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => LoginScreen()),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          },
+          child: Text(
+            'Sign In',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.primary,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-          style: DyslexicButtonTheme.getSecondaryButtonStyle(),
-          child: Text('Sign In'),
         ),
       ],
     );

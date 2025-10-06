@@ -3,14 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mathsgames/src/core/app_assets.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/core/dyslexic_theme.dart';
 import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/splash/animated_grid_item_view.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-/// Splash screen with dyslexic-friendly design
+/// Splash screen with Material 3 design and dyslexic-friendly features
 /// Features high contrast colors, readable fonts, and calming visual elements
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -82,22 +81,24 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
-        statusBarColor: DyslexicTheme.backgroundColor,
+        statusBarColor: theme.colorScheme.surface,
         statusBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
         body: Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
-            // Dyslexic-friendly gradient using calming colors
+            // Material 3 compatible gradient using theme colors
             gradient: LinearGradient(
               colors: [
-                DyslexicTheme.backgroundColor,
-                DyslexicTheme.surfaceColor,
-                Color(0xFFEDF2F7), // Very light gray-blue
+                theme.colorScheme.surface,
+                theme.colorScheme.surface,
+                theme.colorScheme.surfaceContainerHighest,
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -115,74 +116,59 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // App icon with subtle shadow
-                      Container(
-                        padding: EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: DyslexicTheme.primaryColor.withValues(alpha: 0.15),
-                              blurRadius: 20,
-                              offset: Offset(0, 8),
+                      // App icon with Material 3 card design
+                      Card(
+                        elevation: 8,
+                        child: Container(
+                          padding: EdgeInsets.all(32),
+                          child: SvgPicture.asset(
+                            AppAssets.splashIcon,
+                            height: getScreenPercentSize(context, 18),
+                            colorFilter: ColorFilter.mode(
+                              theme.colorScheme.primary,
+                              BlendMode.srcIn,
                             ),
-                          ],
-                        ),
-                        child: SvgPicture.asset(
-                          AppAssets.splashIcon,
-                          height: getScreenPercentSize(context, 18),
-                          colorFilter: ColorFilter.mode(
-                            DyslexicTheme.primaryColor,
-                            BlendMode.srcIn,
                           ),
                         ),
                       ),
 
                       SizedBox(height: getScreenPercentSize(context, 4)),
 
-                      // App title with dyslexic-friendly typography
+                      // App title with Material 3 typography
                       Text(
                         'Memory Math',
-                        style: TextStyle(
-                          fontFamily: DyslexicTheme.dyslexicFont,
-                          fontSize: getScreenPercentSize(context, 4.5),
+                        style: theme.textTheme.displayMedium?.copyWith(
+                          color: theme.colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
-                          color: DyslexicTheme.primaryTextColor,
                           letterSpacing: 1.2,
-                          height: 1.3,
                         ),
                         textAlign: TextAlign.center,
                       ),
 
                       SizedBox(height: getScreenPercentSize(context, 1.5)),
 
-                      // Subtitle with calming message
+                      // Subtitle with Material 3 typography
                       Text(
                         'Learn • Practice • Improve',
-                        style: TextStyle(
-                          fontFamily: DyslexicTheme.dyslexicFont,
-                          fontSize: getScreenPercentSize(context, 2.2),
-                          fontWeight: FontWeight.w500,
-                          color: DyslexicTheme.secondaryTextColor,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                           letterSpacing: 0.8,
-                          height: 1.4,
                         ),
                         textAlign: TextAlign.center,
                       ),
 
                       SizedBox(height: getScreenPercentSize(context, 6)),
 
-                      // Loading indicator with dyslexic-friendly colors
-                      Container(
-                        width: 50,
-                        height: 50,
+                      // Material 3 loading indicator
+                      SizedBox(
+                        width: 56,
+                        height: 56,
                         child: CircularProgressIndicator(
-                          strokeWidth: 3,
+                          strokeWidth: 4,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            DyslexicTheme.accentColor,
+                            theme.colorScheme.primary,
                           ),
-                          backgroundColor: DyslexicTheme.inputBorderColor,
+                          backgroundColor: theme.colorScheme.outline.withValues(alpha: 0.3),
                         ),
                       ),
                     ],

@@ -14,7 +14,6 @@ import 'package:tuple/tuple.dart';
 
 import '../core/app_assets.dart';
 import '../ui/app/svg_modify.dart';
-import '../ui/dashboard/dashboard_provider.dart';
 import '../ui/resizer/fetch_pixels.dart';
 import '../ui/setting_screen.dart';
 
@@ -210,7 +209,7 @@ BoxDecoration getDefaultDecorationWithGradient(
         ? []
         : [
             BoxShadow(
-                color: bgColor!.withOpacity(0.1),
+                color: bgColor!.withValues(alpha: 0.1),
                 spreadRadius: 0,
                 blurRadius: 10,
                 offset: Offset(0, 3))
@@ -243,7 +242,7 @@ BoxDecoration getDefaultDecorationWithBorder(
         ? []
         : [
             BoxShadow(
-                color: bgColor!.withOpacity(0.3),
+                color: bgColor!.withValues(alpha: 0.3),
                 spreadRadius: 0,
                 blurRadius: 10,
                 offset: Offset(0, 3))
@@ -275,7 +274,7 @@ Widget getShadowCircle(
       boxShadow: isShadow == null
           ? [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
+                color: Colors.grey.withValues(alpha: 0.1),
                 spreadRadius: 5,
                 blurRadius: 7,
                 offset: Offset(0, 3),
@@ -313,7 +312,7 @@ Widget getHeaderWidget(BuildContext context, String title, String content,
         child: getTextWidgetWithMaxLine(
             Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontWeight: FontWeight.w500,
-                color: color != null ? color.withOpacity(0.9) : null),
+                color: color != null ? color.withValues(alpha: 0.9) : null),
             content,
             TextAlign.start,
             getScreenPercentSize(context, 1.7),
@@ -543,12 +542,14 @@ getSettingWidget(BuildContext context, {Function? function}) {
         }
       });
     },
-    // borderRadius: BorderRadius.circular(24),
     child: SvgPicture.asset(
       AppAssets.setting,
       width: FetchPixels.getPixelHeight(60),
       height: FetchPixels.getPixelHeight(60),
-      color: Theme.of(context).textTheme.titleMedium!.color,
+      colorFilter: ColorFilter.mode(
+        Theme.of(context).textTheme.titleMedium!.color ?? Colors.black,
+        BlendMode.srcIn,
+      ),
     ),
   );
 }
@@ -632,6 +633,36 @@ getRemainHeight({required BuildContext context}) {
   return getScreenPercentSize(context, 100) -
       getScreenPercentSize(context, 7.5) -
       (topMargin * 2);
+}
+
+getShareWidget(BuildContext context, {Function? function}) {
+  return Padding(
+    padding: EdgeInsets.only(right: FetchPixels.getPixelWidth(22)),
+    child: InkWell(
+      onTap: () {
+        share();
+      },
+      child: SvgPicture.asset(
+        AppAssets.scoreShareIcon,
+        width: FetchPixels.getPixelHeight(60),
+        height: FetchPixels.getPixelHeight(60),
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).textTheme.titleMedium!.color ?? Colors.black,
+          BlendMode.srcIn,
+        ),
+      ),
+    ),
+  );
+}
+
+share() async {
+  // Implement share functionality
+  try {
+    // You can add your share implementation here
+    print('Sharing app...');
+  } catch (e) {
+    print('Error sharing: $e');
+  }
 }
 
 getShadowColor(BuildContext context) {

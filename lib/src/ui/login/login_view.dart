@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mathsgames/src/core/dyslexic_theme.dart';
 import 'package:mathsgames/src/ui/signup/signup_screen.dart';
 import 'package:provider/provider.dart';
 import '../../core/app_constant.dart';
 import '../app/auth_provider.dart';
 
-/// Login screen with dyslexic-friendly design
+/// Login screen with Material 3 design and dyslexic-friendly features
 /// Features high contrast colors, readable fonts, and optimized input fields
 class LoginScreen extends StatefulWidget {
   @override
@@ -71,20 +70,20 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   }
 
   void _showErrorSnackBar(String message) {
+    final theme = Theme.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           message,
-          style: TextStyle(
-            fontFamily: DyslexicTheme.dyslexicFont,
-            fontSize: DyslexicTheme.baseFontSize,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onError,
             fontWeight: FontWeight.w500,
           ),
         ),
-        backgroundColor: DyslexicTheme.errorColor,
+        backgroundColor: theme.colorScheme.error,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(DyslexicTheme.borderRadius),
+          borderRadius: BorderRadius.circular(12),
         ),
         duration: Duration(seconds: 4),
       ),
@@ -93,8 +92,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: DyslexicTheme.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -109,18 +109,18 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Welcome header with dyslexic-friendly design
-                  _buildHeader(),
+                  // Welcome header with Material 3 design
+                  _buildHeader(theme),
 
                   SizedBox(height: 48),
 
-                  // Login form card
-                  _buildLoginCard(),
+                  // Login form card with Material 3 components
+                  _buildLoginCard(theme),
 
                   SizedBox(height: 32),
 
-                  // Signup link
-                  _buildSignupLink(),
+                  // Signup link with Material 3 styling
+                  _buildSignupLink(theme),
                 ],
               ),
             ),
@@ -130,60 +130,43 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(ThemeData theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // App icon with enhanced styling
-        Container(
-          width: 120,
-          height: 120,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: DyslexicTheme.primaryColor.withValues(alpha: 0.15),
-                blurRadius: 25,
-                offset: Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Icon(
-            Icons.calculate_outlined,
-            size: 60,
-            color: DyslexicTheme.primaryColor,
+        // App icon with Material 3 card design
+        Card(
+          elevation: 8,
+          child: Container(
+            width: 120,
+            height: 120,
+            padding: EdgeInsets.all(24),
+            child: Icon(
+              Icons.calculate,
+              size: 72,
+              color: theme.colorScheme.primary,
+            ),
           ),
         ),
 
         SizedBox(height: 24),
 
-        // Welcome title
+        // Welcome text with Material 3 typography
         Text(
           'Welcome Back!',
-          style: TextStyle(
-            fontFamily: DyslexicTheme.dyslexicFont,
-            fontSize: 32,
+          style: theme.textTheme.displaySmall?.copyWith(
+            color: theme.colorScheme.onSurface,
             fontWeight: FontWeight.bold,
-            color: DyslexicTheme.primaryTextColor,
-            letterSpacing: 0.5,
-            height: 1.2,
           ),
           textAlign: TextAlign.center,
         ),
 
-        SizedBox(height: 12),
+        SizedBox(height: 8),
 
-        // Subtitle
         Text(
           'Sign in to continue your math journey',
-          style: TextStyle(
-            fontFamily: DyslexicTheme.dyslexicFont,
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: DyslexicTheme.secondaryTextColor,
-            letterSpacing: 0.3,
-            height: 1.4,
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
           ),
           textAlign: TextAlign.center,
         ),
@@ -191,132 +174,141 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     );
   }
 
-  Widget _buildLoginCard() {
-    return Container(
-      padding: EdgeInsets.all(32),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: DyslexicTheme.primaryColor.withValues(alpha: 0.08),
-            blurRadius: 30,
-            offset: Offset(0, 15),
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Username field with enhanced accessibility
-            TextFormField(
-              controller: _usernameController,
-              style: DyslexicInputTheme.getInputTextStyle(),
-              decoration: DyslexicInputTheme.getInputDecoration(
-                labelText: 'Username',
-                prefixIcon: Icons.person_outline_rounded,
-                hintText: 'Enter your username',
-              ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your username';
-                }
-                if (value.trim().length < 3) {
-                  return 'Username must be at least 3 characters';
-                }
-                return null;
-              },
-              textInputAction: TextInputAction.next,
-            ),
-
-            SizedBox(height: 24),
-
-            // Password field with visibility toggle
-            TextFormField(
-              controller: _passwordController,
-              style: DyslexicInputTheme.getInputTextStyle(),
-              obscureText: _obscurePassword,
-              decoration: DyslexicInputTheme.getInputDecoration(
-                labelText: 'Password',
-                prefixIcon: Icons.lock_outline_rounded,
-                hintText: 'Enter your password',
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscurePassword
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                    color: DyslexicTheme.secondaryTextColor,
-                  ),
-                  onPressed: _togglePasswordVisibility,
-                  tooltip: _obscurePassword ? 'Show password' : 'Hide password',
+  Widget _buildLoginCard(ThemeData theme) {
+    return Card(
+      elevation: 8,
+      child: Padding(
+        padding: EdgeInsets.all(24),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Username field with Material 3 styling
+              TextFormField(
+                controller: _usernameController,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  hintText: 'Enter your username',
+                  prefixIcon: Icon(Icons.person_outline),
                 ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your username';
+                  }
+                  if (value.trim().length < 3) {
+                    return 'Username must be at least 3 characters';
+                  }
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
-                }
-                if (value.length < 6) {
-                  return 'Password must be at least 6 characters';
-                }
-                return null;
-              },
-              textInputAction: TextInputAction.done,
-              onFieldSubmitted: (_) => _login(),
-            ),
 
-            SizedBox(height: 36),
+              SizedBox(height: 24),
 
-            // Login button with enhanced styling
-            _isLoading
-              ? Container(
-                  height: DyslexicTheme.buttonHeight,
-                  child: Center(
-                    child: SizedBox(
-                      width: 32,
-                      height: 32,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          DyslexicTheme.primaryColor,
+              // Password field with Material 3 styling
+              TextFormField(
+                controller: _passwordController,
+                obscureText: _obscurePassword,
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: (_) => _login(),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  hintText: 'Enter your password',
+                  prefixIcon: Icon(Icons.lock_outline),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: _togglePasswordVisibility,
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 32),
+
+              // Login button with Material 3 styling
+              FilledButton(
+                onPressed: _isLoading ? null : _login,
+                style: FilledButton.styleFrom(
+                  minimumSize: Size(double.infinity, 56),
+                ),
+                child: _isLoading
+                    ? SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            theme.colorScheme.onPrimary,
+                          ),
+                        ),
+                      )
+                    : Text(
+                        'Sign In',
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          color: theme.colorScheme.onPrimary,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
+              ),
+
+              SizedBox(height: 16),
+
+              // Forgot password link
+              TextButton(
+                onPressed: () {
+                  // TODO: Implement forgot password functionality
+                },
+                child: Text(
+                  'Forgot Password?',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.w500,
                   ),
-                )
-              : ElevatedButton(
-                  onPressed: _login,
-                  style: DyslexicButtonTheme.getPrimaryButtonStyle(),
-                  child: Text('Sign In'),
                 ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildSignupLink() {
+  Widget _buildSignupLink(ThemeData theme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'New to Memory Math? ',
-          style: TextStyle(
-            fontFamily: DyslexicTheme.dyslexicFont,
-            fontSize: DyslexicTheme.baseFontSize,
-            color: DyslexicTheme.secondaryTextColor,
-            fontWeight: FontWeight.w500,
+          "Don't have an account? ",
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => SignupScreen()),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SignupScreen()),
+            );
+          },
+          child: Text(
+            'Sign Up',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.primary,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-          style: DyslexicButtonTheme.getSecondaryButtonStyle(),
-          child: Text('Create Account'),
         ),
       ],
     );
