@@ -33,12 +33,12 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
           vsync: vsync,
           gameCategoryType: GameCategoryType.CONCENTRATION,
           context: context,
-          isTimer: isTimer ?? false,
+          isTimer: false, // Set to false like old working code - no time pressure
         ) {
     this.level = level;
-    this.isTimer = isTimer ?? false;
+    this.isTimer = false; // Concentration should have unlimited time
     this.nextQuiz = nextQuiz;
-    startGame(level: level, isTimer: this.isTimer);
+    startGame(level: level, isTimer: false);
   }
 
   /// Checks the result when a card is tapped.
@@ -104,6 +104,7 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
     currentState.list[secondIndex].isActive = false;
     first = -1;
     notifyListeners();
+    // Note: No wrongAnswer() call - concentration allows unlimited wrong attempts
   }
 
   /// Handles level completion and progression.

@@ -48,7 +48,7 @@ class ConcentrationView extends StatelessWidget {
               create: (context) => ConcentrationProvider(
                 vsync: VsyncProvider.of(context),
                 level: colorTuple.item2,
-                isTimer: false,
+                isTimer: false, // Changed back to false like old working code
                 nextQuiz: () {
                   snapshot(() {
                     isContinue = false;
@@ -73,12 +73,12 @@ class ConcentrationView extends StatelessWidget {
                 gameCategoryType: GameCategoryType.CONCENTRATION,
                 colorTuple: colorTuple,
                 context: context,
-                isTimer: false,
+                isTimer: false, // Changed back to false like old working code
               ),
               child: CommonMainWidget<ConcentrationProvider>(
                 gameCategoryType: GameCategoryType.CONCENTRATION,
                 color: colorTuple.item1.bgColor!,
-                isTimer: false,
+                isTimer: false, // Changed back to false like old working code
                 primaryColor: colorTuple.item1.primaryColor!,
                 subChild: Container(
                   margin: EdgeInsets.only(top: getPercentSize(mainHeight, 80)),
