@@ -30,7 +30,7 @@ class DashboardProvider extends CoinProvider {
       case PuzzleType.MATH_PUZZLE:
         list.add(GameCategory(
           1,
-          "Calculate For Me",
+          "Number Ninja",
           keyCalculator,
           GameCategoryType.CALCULATOR,
           KeyUtil.calculator,
@@ -39,7 +39,7 @@ class DashboardProvider extends CoinProvider {
         ));
         list.add(GameCategory(
             2,
-            "Guess the Sign?",
+            "Sign Seeker",
             keySign,
             GameCategoryType.GUESS_SIGN,
             KeyUtil.guessSign,
@@ -47,7 +47,7 @@ class DashboardProvider extends CoinProvider {
             AppAssets.icGuessTheSign));
         list.add(GameCategory(
           3,
-          "Identify Right Nos",
+          "Answer Ace",
           keyCorrectAnswer,
           GameCategoryType.CORRECT_ANSWER,
           KeyUtil.correctAnswer,
@@ -56,7 +56,7 @@ class DashboardProvider extends CoinProvider {
         ));
         list.add(GameCategory(
           4,
-          "Quick Calculation",
+          "Flash Math",
           keyQuickCalculation,
           GameCategoryType.QUICK_CALCULATION,
           KeyUtil.quickCalculation,
@@ -65,7 +65,7 @@ class DashboardProvider extends CoinProvider {
         ));
         list.add(GameCategory(
           5,
-          "Find Missing ",
+          "Missing Link",
           keyFindMissingCalculation,
           GameCategoryType.FIND_MISSING,
           KeyUtil.findMissing,
@@ -75,7 +75,7 @@ class DashboardProvider extends CoinProvider {
 
         list.add(GameCategory(
           6,
-          "True or False",
+          "Math Truths",
           keyTrueFalseCalculation,
           GameCategoryType.TRUE_FALSE,
           KeyUtil.trueFalse,
@@ -85,7 +85,7 @@ class DashboardProvider extends CoinProvider {
 
         list.add(GameCategory(
           7,
-          "Complex Work",
+          "Operation Overload",
           keyComplexGame,
           GameCategoryType.COMPLEX_CALCULATION,
           KeyUtil.complexCalculation,
@@ -95,7 +95,7 @@ class DashboardProvider extends CoinProvider {
 
         list.add(GameCategory(
           8,
-          "2 Player Mode",
+          "Math Duel",
           keyDualGame,
           GameCategoryType.DUAL_GAME,
           KeyUtil.dualGame,
@@ -106,7 +106,7 @@ class DashboardProvider extends CoinProvider {
       case PuzzleType.MEMORY_PUZZLE:
         list.add(GameCategory(
           9,
-          "Mental arithmetic",
+          "Mind Math",
           keyMentalArithmetic,
           GameCategoryType.MENTAL_ARITHMETIC,
           KeyUtil.mentalArithmetic,
@@ -116,7 +116,7 @@ class DashboardProvider extends CoinProvider {
 
         list.add(GameCategory(
           10,
-          "Square root",
+          "Root Ranger",
           keySquareRoot,
           GameCategoryType.SQUARE_ROOT,
           KeyUtil.squareRoot,
@@ -125,7 +125,7 @@ class DashboardProvider extends CoinProvider {
         ));
         list.add(GameCategory(
           11,
-          "Math Grid",
+          "Target Grid",
           keyMathMachine,
           GameCategoryType.MATH_GRID,
           KeyUtil.mathGrid,
@@ -134,7 +134,7 @@ class DashboardProvider extends CoinProvider {
         ));
         list.add(GameCategory(
           12,
-          "Mathematical pairs",
+          "Equation Match",
           keyMathPairs,
           GameCategoryType.MATH_PAIRS,
           KeyUtil.mathPairs,
@@ -144,7 +144,7 @@ class DashboardProvider extends CoinProvider {
 
         list.add(GameCategory(
           13,
-          "Cube Root",
+          "Cube Quest",
           keyCubeRoot,
           GameCategoryType.CUBE_ROOT,
           KeyUtil.cubeRoot,
@@ -154,7 +154,7 @@ class DashboardProvider extends CoinProvider {
 
         list.add(GameCategory(
           14,
-          "Concentration",
+          "Memory Match",
           keyConcentration,
           GameCategoryType.CONCENTRATION,
           KeyUtil.concentration,
@@ -165,7 +165,7 @@ class DashboardProvider extends CoinProvider {
       case PuzzleType.BRAIN_PUZZLE:
         list.add(GameCategory(
           15,
-          "Magic triangle",
+          "Triangle Magic",
           keyMagicTriangle,
           GameCategoryType.MAGIC_TRIANGLE,
           KeyUtil.magicTriangle,
@@ -174,7 +174,7 @@ class DashboardProvider extends CoinProvider {
         ));
         list.add(GameCategory(
           16,
-          "Picture Puzzle",
+          "Shape Solver",
           keyPicturePuzzle,
           GameCategoryType.PICTURE_PUZZLE,
           KeyUtil.picturePuzzle,
@@ -183,7 +183,7 @@ class DashboardProvider extends CoinProvider {
         ));
         list.add(GameCategory(
           17,
-          "Number Pyramid",
+          "Pyramid Sum",
           keyNumberPyramid,
           GameCategoryType.NUMBER_PYRAMID,
           KeyUtil.numberPyramid,
@@ -193,7 +193,7 @@ class DashboardProvider extends CoinProvider {
 
         list.add(GameCategory(
           18,
-          "Numeric Memory",
+          "Number Recall",
           keyNumericMemory,
           GameCategoryType.NUMERIC_MEMORY,
           KeyUtil.numericMemory,
@@ -348,23 +348,27 @@ class DashboardProvider extends CoinProvider {
     preferences.setInt("overall_score", _overallScore);
   }
 
+  /// Returns whether the user is opening this game for the first time.
+  /// Defaults to true when no value has been saved yet (fresh install).
   bool isFirstTime(GameCategoryType gameCategoryType) {
-    return list
-        .where((GameCategory gameCategory) =>
-            gameCategory.gameCategoryType == gameCategoryType)
-        .first
-        .scoreboard
-        .firstTime;
+    final key = _firstTimeKey(gameCategoryType);
+    return preferences.getBool(key) ?? true;
   }
 
-  void setFirstTime(GameCategoryType gameCategoryType) {
-    list.forEach((gameCategory) {
-      if (gameCategory.gameCategoryType == gameCategoryType) {
-        gameCategory.scoreboard.firstTime = false;
-        setScoreboard(gameCategory.key, gameCategory.scoreboard);
-      }
-    });
+  /// Marks the game as no longer first-time to suppress auto info dialog in future sessions.
+  Future<bool> setFirstTime(GameCategoryType gameCategoryType, {bool value = false}) async {
+    final key = _firstTimeKey(gameCategoryType);
+    return preferences.setBool(key, value);
   }
+
+  /// Optional: Reset all first-time flags (useful for debugging or settings screen)
+  Future<void> resetAllFirstTimeFlags() async {
+    for (final type in GameCategoryType.values) {
+      await setFirstTime(type, value: true);
+    }
+  }
+
+  String _firstTimeKey(GameCategoryType type) => 'first_time_' + type.toString().split('.').last;
 
   /// Resets all scores and progress data for the current user
   Future<void> resetAllScoreData() async {

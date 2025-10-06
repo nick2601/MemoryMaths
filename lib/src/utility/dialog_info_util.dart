@@ -21,184 +21,268 @@ class DialogInfoUtil {
     var tuple3 = Tuple2(KeyUtil.primaryColor3, KeyUtil.bgColor3);
     switch (gameCategoryType) {
       case GameCategoryType.CALCULATOR:
-        // Basic calculator game where players solve mathematical equations
         return GameInfoDialog(
-            title: "Calculator",
+            title: "Number Ninja",
             image: "assets/gif/calculator-intro.gif",
-            dec: "You need to solve given equation correctly.",
+            dec: "🔢 HOW TO PLAY:\n"
+                "• Solve mathematical equations using +, -, ×, ÷\n"
+                "• Enter your answer using the number pad\n"
+                "• Work quickly - you're timed!\n\n"
+                "🎯 OBJECTIVE: Calculate correct answers to earn points\n\n"
+                "⚡ TIP: Use the hint button if you get stuck!",
             correctAnswerScore: KeyUtil.calculatorScore,
             wrongAnswerScore: KeyUtil.calculatorScoreMinus,
             colorTuple: tuple1);
+
       case GameCategoryType.GUESS_SIGN:
-        // Players must identify the correct mathematical operator
         return GameInfoDialog(
-            title: "Guess The Sign",
+            title: "Sign Seeker",
             image: "assets/gif/whats-the-sign-intro.gif",
-            dec:
-                "You need to find correct sign that finishes the given equation.",
+            dec: "❓ HOW TO PLAY:\n"
+                "• Look at the equation with a missing operator\n"
+                "• Choose the correct sign: +, -, ×, or ÷\n"
+                "• Make the equation mathematically correct\n\n"
+                "🎯 OBJECTIVE: Find the missing mathematical operator\n\n"
+                "💡 EXAMPLE: 8 ? 4 = 12 → Answer: +",
             correctAnswerScore: KeyUtil.guessSignScore,
             wrongAnswerScore: KeyUtil.guessSignScoreMinus,
             colorTuple: tuple1);
+
       case GameCategoryType.SQUARE_ROOT:
-        // Calculate the square root of given numbers
         return GameInfoDialog(
-            title: "Square Root",
+            title: "Root Ranger",
             image: "assets/gif/sqroot-intro.gif",
-            dec: "square root the given number.",
+            dec: "√ HOW TO PLAY:\n"
+                "• Find the square root of the given number\n"
+                "• Enter your answer using the number pad\n"
+                "• Remember: √16 = 4, √25 = 5, etc.\n\n"
+                "🎯 OBJECTIVE: Calculate square roots correctly\n\n"
+                "📚 TIP: Perfect squares get easier with practice!",
             correctAnswerScore: KeyUtil.squareRootScore,
             wrongAnswerScore: KeyUtil.squareRootScoreMinus,
             colorTuple: tuple2);
 
       case GameCategoryType.FIND_MISSING:
-        // Find the missing number in mathematical equations
         return GameInfoDialog(
-            title: "Find Missing",
+            title: "Missing Link",
             image: "assets/gif/correct-answer.gif",
-            dec: "Select the correct number to finish the equation.",
+            dec: "🔍 HOW TO PLAY:\n"
+                "• Look at equations with missing numbers\n"
+                "• Select the correct number from options\n"
+                "• Complete the equation to make it true\n\n"
+                "🎯 OBJECTIVE: Find missing numbers in equations\n\n"
+                "💡 EXAMPLE: 5 + ? = 12 → Answer: 7",
             correctAnswerScore: KeyUtil.findMissingScore,
             wrongAnswerScore: KeyUtil.findMissingScoreMinus,
             colorTuple: tuple1);
+
       case GameCategoryType.TRUE_FALSE:
-        // Answer true or false to mathematical statements
         return GameInfoDialog(
-            title: "True False",
+            title: "Math Truths",
             image: "assets/gif/correct-answer.gif",
-            dec: "Select the correct number to finish the equation.",
+            dec: "✅❌ HOW TO PLAY:\n"
+                "• Read mathematical statements carefully\n"
+                "• Decide if the equation is TRUE or FALSE\n"
+                "• Tap your answer quickly - time matters!\n\n"
+                "🎯 OBJECTIVE: Identify correct and incorrect equations\n\n"
+                "💡 EXAMPLE: 6 × 3 = 18 → TRUE",
             correctAnswerScore: KeyUtil.trueFalseScore,
             wrongAnswerScore: KeyUtil.trueFalseScoreMinus,
             colorTuple: tuple1);
 
       case GameCategoryType.DUAL_GAME:
-        // Dual game mode with two mathematical operations
         return GameInfoDialog(
-            title: "Dual Game",
+            title: "Math Duel",
             image: "assets/gif/correct-answer.gif",
-            dec: "Select the correct number to finish the equation.",
+            dec: "👥 HOW TO PLAY:\n"
+                "• Two mathematical challenges appear simultaneously\n"
+                "• Solve both problems as quickly as possible\n"
+                "• Each player gets separate scoring\n\n"
+                "🎯 OBJECTIVE: Outperform your opponent in math speed\n\n"
+                "🏆 STRATEGY: Balance speed with accuracy!",
             correctAnswerScore: KeyUtil.dualScore,
             wrongAnswerScore: KeyUtil.dualScoreMinus,
             colorTuple: tuple1);
 
       case GameCategoryType.COMPLEX_CALCULATION:
-        // Complex mathematical calculations with multiple operations
         return GameInfoDialog(
-            title: "Complex Calculation",
+            title: "Operation Overload",
             image: "assets/gif/whats-the-sign-intro.gif",
-            dec:
-                "You need to find correct sign that finishes the given equation.",
+            dec: "🧮 HOW TO PLAY:\n"
+                "• Solve multi-step mathematical expressions\n"
+                "• Follow order of operations (PEMDAS/BODMAS)\n"
+                "• Choose the correct answer from options\n\n"
+                "🎯 OBJECTIVE: Master complex mathematical calculations\n\n"
+                "📖 EXAMPLE: 2 × (5 + 3) - 4 = ?",
             correctAnswerScore: KeyUtil.complexCalculationScore,
             wrongAnswerScore: KeyUtil.complexCalculationScoreMinus,
             colorTuple: tuple1);
 
       case GameCategoryType.CUBE_ROOT:
-        // Calculate the cube root of given numbers
         return GameInfoDialog(
-            title: "Cube Root",
+            title: "Cube Quest",
             image: "assets/gif/correct-answer.gif",
-            dec: "Select the correct number to finish the equation.",
+            dec: "∛ HOW TO PLAY:\n"
+                "• Find the cube root of the given number\n"
+                "• Select your answer from the options\n"
+                "• Remember: ∛8 = 2, ∛27 = 3, etc.\n\n"
+                "🎯 OBJECTIVE: Calculate cube roots accurately\n\n"
+                "🧠 TIP: Think 'what number × itself × itself = this?'",
             correctAnswerScore: KeyUtil.cubeRootScore,
             wrongAnswerScore: KeyUtil.cubeRootScoreMinus,
             colorTuple: tuple1);
 
       case GameCategoryType.NUMERIC_MEMORY:
-        // Memory game with numerical sequences
         return GameInfoDialog(
-            title: "Numeric Memory",
+            title: "Number Recall",
             image: "assets/gif/correct-answer.gif",
-            dec: "Select the correct number to finish the equation.",
+            dec: "🧠 HOW TO PLAY:\n"
+                "• Watch the sequence of numbers appear\n"
+                "• Memorize the exact order and values\n"
+                "• Select the highlighted number from the grid\n"
+                "• No time limit - take your time to remember!\n\n"
+                "🎯 OBJECTIVE: Test and improve your numerical memory\n\n"
+                "💡 TIP: Create mental patterns to remember sequences",
             correctAnswerScore: KeyUtil.numericMemoryScore,
             wrongAnswerScore: KeyUtil.numericMemoryScoreMinus,
             colorTuple: tuple1);
+
       case GameCategoryType.CONCENTRATION:
-        // Concentration game with mathematical patterns
         return GameInfoDialog(
-            title: "Concentration",
+            title: "Memory Match",
             image: "assets/gif/correct-answer.gif",
-            dec: "Select the correct number to finish the equation.",
+            dec: "🃏 HOW TO PLAY:\n"
+                "• Flip cards to reveal math expressions and answers\n"
+                "• Match equations with their correct solutions\n"
+                "• Remember card positions - no time pressure!\n"
+                "• Find all pairs to complete the level\n\n"
+                "🎯 OBJECTIVE: Match all equation-answer pairs\n\n"
+                "🧠 STRATEGY: Focus on remembering card locations",
             correctAnswerScore: KeyUtil.concentrationScore,
             wrongAnswerScore: KeyUtil.concentrationScoreMinus,
             colorTuple: tuple1);
+
       case GameCategoryType.MATH_PAIRS:
-        // Match mathematical equations with their solutions
         return GameInfoDialog(
-            title: "Math Pairs",
+            title: "Equation Match",
             image: "assets/gif/math-pair-intro.gif",
-            dec:
-                "Each card contains either equation or an answer. Match the equation with correct answer.",
+            dec: "🔗 HOW TO PLAY:\n"
+                "• Cards show either equations OR answers\n"
+                "• Find and match equations with correct answers\n"
+                "• Tap two cards to check if they're a pair\n"
+                "• Complete all matches to win the level\n\n"
+                "🎯 OBJECTIVE: Match all equation-answer pairs\n\n"
+                "💡 EXAMPLE: Match '6 × 4' with '24'",
             correctAnswerScore: KeyUtil.mathematicalPairsScore,
             wrongAnswerScore: KeyUtil.mathematicalPairsScoreMinus,
             colorTuple: tuple2);
+
       case GameCategoryType.CORRECT_ANSWER:
-        // Select the correct answer from multiple options
         return GameInfoDialog(
-            title: "Correct Answer",
+            title: "Answer Ace",
             image: "assets/gif/correct-answer.gif",
-            dec: "Select the correct number to finish the equation.",
+            dec: "🎯 HOW TO PLAY:\n"
+                "• Read the mathematical question carefully\n"
+                "• Choose the correct answer from multiple options\n"
+                "• Work quickly but accurately for bonus points\n\n"
+                "🎯 OBJECTIVE: Select correct answers from given choices\n\n"
+                "⚡ TIP: Eliminate obviously wrong answers first!",
             correctAnswerScore: KeyUtil.correctAnswerScore,
             wrongAnswerScore: KeyUtil.correctAnswerScoreMinus,
             colorTuple: tuple1);
+
       case GameCategoryType.MAGIC_TRIANGLE:
-        // Solve the magic triangle puzzle
         return GameInfoDialog(
-          title: "Magic Triangle",
+          title: "Triangle Magic",
           image: "assets/gif/magic-triangle-intro.gif",
-          dec:
-              "Sum of the each side of triangle should be equal to the given number. To place any number, select triangle circle and press any given number from panel.",
+          dec: "🔺 HOW TO PLAY:\n"
+              "• Place numbers so each side adds up to the target sum\n"
+              "• Tap a circle, then tap a number to place it\n"
+              "• All three sides must equal the magic number\n"
+              "• Use each given number only once\n\n"
+              "🎯 OBJECTIVE: Create a perfect magic triangle\n\n"
+              "🧠 STRATEGY: Start with corner numbers, they count twice!",
           correctAnswerScore: KeyUtil.magicTriangleScore,
           colorTuple: tuple3,
           wrongAnswerScore: KeyUtil.magicTriangleScore,
         );
+
       case GameCategoryType.MENTAL_ARITHMETIC:
-        // Mental arithmetic game with mathematical operations
         return GameInfoDialog(
-          title: "Mental Arithmetic",
+          title: "Mind Math",
           colorTuple: tuple2,
           image: "assets/gif/mental-arith-intro.gif",
-          dec:
-              "Number with operator will be shown one by one. You need to remember the number with operator and write final answer(No precedency).",
+          dec: "🧮 HOW TO PLAY:\n"
+              "• Watch numbers and operators appear one by one\n"
+              "• Remember the complete sequence in your mind\n"
+              "• Calculate from left to right (no operator precedence)\n"
+              "• Enter the final answer after animation ends\n\n"
+              "🎯 OBJECTIVE: Perform mental calculations from memory\n\n"
+              "💡 EXAMPLE: 5 + 3 × 2 = 16 (not 11!)",
           correctAnswerScore: KeyUtil.mentalArithmeticScore,
           wrongAnswerScore: KeyUtil.mentalArithmeticScoreMinus,
         );
+
       case GameCategoryType.QUICK_CALCULATION:
-        // Quick calculation game with time limits
         return GameInfoDialog(
-          title: "Quick Calculation",
+          title: "Flash Math",
           colorTuple: tuple1,
           image: "assets/gif/quick-calculation-intro.gif",
-          dec:
-              "Solve simple equation one by one. Faster you solve, more time will be given to solve next equation.",
+          dec: "⚡ HOW TO PLAY:\n"
+              "• Solve equations as fast as possible\n"
+              "• Each correct answer gives you more time\n"
+              "• Wrong answers cost you precious seconds\n"
+              "• Keep the momentum going!\n\n"
+              "🎯 OBJECTIVE: Solve as many equations as possible\n\n"
+              "🏃 BONUS: Speed matters - faster = more time!",
           correctAnswerScore: KeyUtil.quickCalculationScore,
           wrongAnswerScore: KeyUtil.quickCalculationScoreMinus,
         );
+
       case GameCategoryType.MATH_GRID:
-        // Grid-based math puzzle where players select numbers to reach a target sum
         return GameInfoDialog(
-          title: "Math Grid",
+          title: "Target Grid",
           colorTuple: tuple2,
           image: "assets/gif/math-machine-intro.gif",
-          dec:
-              "Select number from math grid to reach answer shown above. You can select any number to reach above answer.",
+          dec: "🔢 HOW TO PLAY:\n"
+              "• See the target number at the top\n"
+              "• Select numbers from the grid below\n"
+              "• Add/combine them to reach the target\n"
+              "• Multiple solutions may be possible\n\n"
+              "🎯 OBJECTIVE: Reach target using grid numbers\n\n"
+              "💡 TIP: Look for different number combinations!",
           correctAnswerScore: KeyUtil.mathGridScore,
           wrongAnswerScore: KeyUtil.mathGridScore,
         );
+
       case GameCategoryType.PICTURE_PUZZLE:
-        // Visual math puzzles using shapes to represent numbers
         return GameInfoDialog(
-          title: "Picture Puzzle",
+          title: "Shape Solver",
           colorTuple: tuple3,
           image: "assets/gif/picture-puzzle-intro.gif",
-          dec:
-              "Each shape represents a number. Find the number of each shape from given equation and solve the last equation.",
+          dec: "🖼️ HOW TO PLAY:\n"
+              "• Each shape represents a different number\n"
+              "• Use the given equations to find each shape's value\n"
+              "• Apply what you learned to solve the final equation\n"
+              "• Think logically step by step\n\n"
+              "🎯 OBJECTIVE: Decode shapes to solve the puzzle\n\n"
+              "🔍 TIP: Start with the simplest equations first!",
           correctAnswerScore: KeyUtil.picturePuzzleScore,
           wrongAnswerScore: KeyUtil.picturePuzzleScore,
         );
+
       case GameCategoryType.NUMBER_PYRAMID:
-        // Pyramid puzzle where each cell is the sum of the two cells below it
         return GameInfoDialog(
-          title: "Number Pyramid",
+          title: "Pyramid Sum",
           colorTuple: tuple3,
           image: "assets/gif/num-pyramid.gif",
-          dec:
-              "sum of consecutive cell should be placed on top cell. You need to fill all cell correctly to solve Number pyramid.",
+          dec: "🏔️ HOW TO PLAY:\n"
+              "• Each cell equals the sum of two cells below it\n"
+              "• Fill in missing numbers following this rule\n"
+              "• Work from bottom to top, or top to bottom\n"
+              "• All numbers must follow the pyramid logic\n\n"
+              "🎯 OBJECTIVE: Complete the number pyramid correctly\n\n"
+              "🧠 STRATEGY: Use known numbers to calculate unknowns!",
           correctAnswerScore: KeyUtil.numberPyramidScore,
           wrongAnswerScore: KeyUtil.numberPyramidScore,
         );
