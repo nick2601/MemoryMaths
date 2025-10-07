@@ -65,6 +65,19 @@ class CalculatorView extends StatelessWidget {
       ],
       child: Builder(
         builder: (providerContext) {
+          // Add null safety checks for colorTuple properties
+          final folderName = colorTuple.item1.folderName;
+          final cellColor = colorTuple.item1.cellColor;
+          final bgColor = colorTuple.item1.bgColor;
+          final primaryColor = colorTuple.item1.primaryColor;
+
+          // Return a loading or error widget if essential values are null
+          if (folderName == null || cellColor == null || bgColor == null || primaryColor == null) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
           return DialogListener<CalculatorProvider>(
             gameCategoryType: GameCategoryType.CALCULATOR,
             colorTuple: colorTuple,
@@ -72,8 +85,8 @@ class CalculatorView extends StatelessWidget {
             appBar: CommonAppBar<CalculatorProvider>(
               infoView: CommonInfoTextView<CalculatorProvider>(
                 gameCategoryType: GameCategoryType.CALCULATOR,
-                folder: colorTuple.item1.folderName!,
-                color: colorTuple.item1.cellColor!,
+                folder: folderName,
+                color: cellColor,
               ),
               gameCategoryType: GameCategoryType.CALCULATOR,
               colorTuple: colorTuple,
@@ -81,8 +94,8 @@ class CalculatorView extends StatelessWidget {
             ),
             child: CommonMainWidget<CalculatorProvider>(
               gameCategoryType: GameCategoryType.CALCULATOR,
-              color: colorTuple.item1.bgColor!,
-              primaryColor: colorTuple.item1.primaryColor!,
+              color: bgColor,
+              primaryColor: primaryColor,
               subChild: Container(
                 margin: EdgeInsets.only(top: getPercentSize(mainHeight, 55)),
                 child: Stack(

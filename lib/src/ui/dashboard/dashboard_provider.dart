@@ -202,113 +202,6 @@ class DashboardProvider extends CoinProvider {
         ));
         break;
     }
-
-    // switch (puzzleType) {
-    //   case PuzzleType.MATH_PUZZLE:
-    //     list.add(GameCategory(
-    //       1,
-    //       "Calculator",
-    //       keyCalculator,
-    //       GameCategoryType.CALCULATOR,
-    //       KeyUtil.calculator,
-    //       getScoreboard(keyCalculator),
-    //       AppAssets.icCalculator,
-    //     ));
-    //     list.add(GameCategory(
-    //         2,
-    //         "Guess the sign?",
-    //         keySign,
-    //         GameCategoryType.GUESS_SIGN,
-    //         KeyUtil.guessSign,
-    //         getScoreboard(keySign),
-    //         AppAssets.icGuessTheSign));
-    //     list.add(GameCategory(
-    //       5,
-    //       "Correct answer",
-    //       keyCorrectAnswer,
-    //       GameCategoryType.CORRECT_ANSWER,
-    //       KeyUtil.correctAnswer,
-    //       getScoreboard(keyCorrectAnswer),
-    //       AppAssets.icCorrectAnswer,
-    //     ));
-    //     list.add(GameCategory(
-    //       8,
-    //       "Quick calculation",
-    //       keyQuickCalculation,
-    //       GameCategoryType.QUICK_CALCULATION,
-    //       KeyUtil.quickCalculation,
-    //       getScoreboard(keyQuickCalculation),
-    //       AppAssets.icQuickCalculation,
-    //     ));
-    //     break;
-    //   case PuzzleType.MEMORY_PUZZLE:
-    //     list.add(GameCategory(
-    //       7,
-    //       "Mental arithmetic",
-    //       keyMentalArithmetic,
-    //       GameCategoryType.MENTAL_ARITHMETIC,
-    //       KeyUtil.mentalArithmetic,
-    //       getScoreboard(keyMentalArithmetic),
-    //       AppAssets.icMentalArithmetic,
-    //     ));
-    //     list.add(GameCategory(
-    //       3,
-    //       "Square root",
-    //       keySquareRoot,
-    //       GameCategoryType.SQUARE_ROOT,
-    //       KeyUtil.squareRoot,
-    //       getScoreboard(keySquareRoot),
-    //       AppAssets.icSquareRoot,
-    //     ));
-    //     list.add(GameCategory(
-    //       9,
-    //       "Math Grid",
-    //       keyMathMachine,
-    //       GameCategoryType.MATH_GRID,
-    //       KeyUtil.mathGrid,
-    //       getScoreboard(keyMathMachine),
-    //       AppAssets.icMathGrid,
-    //     ));
-    //     list.add(GameCategory(
-    //       4,
-    //       "Mathematical pairs",
-    //       keyMathPairs,
-    //       GameCategoryType.MATH_PAIRS,
-    //       KeyUtil.mathPairs,
-    //       getScoreboard(keyMathPairs),
-    //       AppAssets.icMathematicalPairs,
-    //     ));
-    //     break;
-    //   case PuzzleType.BRAIN_PUZZLE:
-    //     list.add(GameCategory(
-    //       6,
-    //       "Magic triangle",
-    //       keyMagicTriangle,
-    //       GameCategoryType.MAGIC_TRIANGLE,
-    //       KeyUtil.magicTriangle,
-    //       getScoreboard(keyMagicTriangle),
-    //       AppAssets.icMagicTriangle,
-    //     ));
-    //     list.add(GameCategory(
-    //       10,
-    //       "Picture Puzzle",
-    //       keyPicturePuzzle,
-    //       GameCategoryType.PICTURE_PUZZLE,
-    //       KeyUtil.picturePuzzle,
-    //       getScoreboard(keyPicturePuzzle),
-    //       AppAssets.icPicturePuzzle,
-    //     ));
-    //     list.add(GameCategory(
-    //       11,
-    //       "Number Pyramid",
-    //       keyNumberPyramid,
-    //       GameCategoryType.NUMBER_PYRAMID,
-    //       KeyUtil.numberPyramid,
-    //       getScoreboard(keyNumberPyramid),
-    //       AppAssets.icNumberPyramid,
-    //     ));
-    //     break;
-    // }
     return _list;
   }
 
@@ -456,5 +349,18 @@ class DashboardProvider extends CoinProvider {
 
     _overallScore = totalScore;
     preferences.setInt("overall_score", _overallScore);
+  }
+
+  /// Clears all user data and resets progress
+  Future<void> clearAllData() async {
+    final keys = preferences.getKeys();
+    for (String key in keys) {
+      if (key != 'themeMode' && key != 'isDarkMode' && !key.startsWith('profile_') && !key.startsWith('email_') && key != 'loggedInUser') {
+        await preferences.remove(key);
+      }
+    }
+    _overallScore = 0;
+    await resetCoins();
+    notifyListeners();
   }
 }

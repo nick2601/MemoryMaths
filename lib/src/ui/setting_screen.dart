@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:mathsgames/src/core/theme_wrapper.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
 import 'package:mathsgames/src/ui/login/login_view.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
@@ -67,6 +68,17 @@ class _SettingScreen extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return ThemeWrapper.dyslexicScreen(
+          isDarkMode: themeProvider.themeMode == ThemeMode.dark,
+          child: _buildSettingsScreen(themeProvider),
+        );
+      },
+    );
+  }
+
+  Widget _buildSettingsScreen(ThemeProvider themeProvider) {
     final theme = Theme.of(context);
 
     return PopScope(
@@ -103,26 +115,25 @@ class _SettingScreen extends State<SettingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // App Preferences Section
-                _buildSectionHeader(theme, 'App Preferences', Icons.tune),
-                _buildPreferencesCard(theme),
+                _buildSectionHeader('App Preferences', theme),
+                SizedBox(height: 16),
+                _buildAppPreferencesCard(theme, themeProvider),
 
                 SizedBox(height: 24),
 
-                // Reports Section
-                _buildSectionHeader(theme, 'Reports', Icons.analytics),
-                _buildReportsCard(theme),
+                // User Account Section
+                _buildSectionHeader('Account', theme),
+                SizedBox(height: 16),
+                _buildAccountCard(theme),
 
                 SizedBox(height: 24),
 
-                // Support Section
-                _buildSectionHeader(theme, 'Support', Icons.help_outline),
-                _buildSupportCard(theme),
+                // App Info Section
+                _buildSectionHeader('About', theme),
+                SizedBox(height: 16),
+                _buildAboutCard(theme),
 
-                SizedBox(height: 24),
-
-                // Data Management Section
-                _buildSectionHeader(theme, 'Data Management', Icons.storage),
-                _buildDataManagementCard(theme),
+                SizedBox(height: 32),
               ],
             ),
           ),
@@ -131,31 +142,19 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
-  Widget _buildSectionHeader(ThemeData theme, String title, IconData icon) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 12),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            color: theme.colorScheme.primary,
-            size: 24,
-          ),
-          SizedBox(width: 12),
-          Text(
-            title,
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: theme.colorScheme.primary,
-            ),
-          ),
-        ],
+  Widget _buildSectionHeader(String title, ThemeData theme) {
+    return Text(
+      title,
+      style: theme.textTheme.titleLarge?.copyWith(
+        fontWeight: FontWeight.w600,
+        color: theme.colorScheme.primary,
       ),
     );
   }
 
-  Widget _buildPreferencesCard(ThemeData theme) {
+  Widget _buildAppPreferencesCard(ThemeData theme, ThemeProvider themeProvider) {
     return Card(
+      elevation: 2,
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -171,20 +170,19 @@ class _SettingScreen extends State<SettingScreen> {
                   ),
                   title: Text(
                     'Dark Mode',
-                    style: theme.textTheme.bodyLarge,
+                    style: theme.textTheme.titleMedium,
                   ),
                   subtitle: Text(
-                    isDark ? 'Dark theme enabled' : 'Light theme enabled',
+                    'Toggle between light and dark themes',
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                      color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
                   trailing: Switch(
                     value: isDark,
                     onChanged: (value) {
                       darkMode.value = value;
-                      Provider.of<ThemeProvider>(context, listen: false)
-                          .changeTheme();
+                      themeProvider.setThemeMode(value ? ThemeMode.dark : ThemeMode.light);
                     },
                   ),
                 );
@@ -196,24 +194,24 @@ class _SettingScreen extends State<SettingScreen> {
             // Sound Toggle
             ValueListenableBuilder<bool>(
               valueListenable: soundOn,
-              builder: (context, isOn, child) {
+              builder: (context, isSound, child) {
                 return ListTile(
                   leading: Icon(
-                    isOn ? Icons.volume_up : Icons.volume_off,
+                    isSound ? Icons.volume_up : Icons.volume_off,
                     color: theme.colorScheme.primary,
                   ),
                   title: Text(
                     'Sound Effects',
-                    style: theme.textTheme.bodyLarge,
+                    style: theme.textTheme.titleMedium,
                   ),
                   subtitle: Text(
-                    isOn ? 'Sound effects enabled' : 'Sound effects disabled',
+                    'Enable or disable game sounds',
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                      color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
                   trailing: Switch(
-                    value: isOn,
+                    value: isSound,
                     onChanged: (value) {
                       soundOn.value = value;
                       setSound(value);
@@ -228,24 +226,24 @@ class _SettingScreen extends State<SettingScreen> {
             // Vibration Toggle
             ValueListenableBuilder<bool>(
               valueListenable: vibrateOn,
-              builder: (context, isOn, child) {
+              builder: (context, isVibrate, child) {
                 return ListTile(
                   leading: Icon(
-                    isOn ? Icons.vibration : Icons.phonelink_erase,
+                    isVibrate ? Icons.vibration : Icons.phone_android,
                     color: theme.colorScheme.primary,
                   ),
                   title: Text(
                     'Vibration',
-                    style: theme.textTheme.bodyLarge,
+                    style: theme.textTheme.titleMedium,
                   ),
                   subtitle: Text(
-                    isOn ? 'Vibration enabled' : 'Vibration disabled',
+                    'Enable or disable haptic feedback',
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                      color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
                   trailing: Switch(
-                    value: isOn,
+                    value: isVibrate,
                     onChanged: (value) {
                       vibrateOn.value = value;
                       setVibration(value);
@@ -260,70 +258,67 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
-  Widget _buildReportsCard(ThemeData theme) {
+  Widget _buildAccountCard(ThemeData theme) {
     return Card(
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: ListTile(
-          leading: Icon(
-            Icons.analytics,
-            color: theme.colorScheme.primary,
-          ),
-          title: Text(
-            'View Performance Reports',
-            style: theme.textTheme.bodyLarge,
-          ),
-          subtitle: Text(
-            'See your progress and statistics',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-            ),
-          ),
-          trailing: _isGeneratingReport
-              ? SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : Icon(Icons.chevron_right),
-          onTap: _isGeneratingReport ? null : _generateReport,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSupportCard(ThemeData theme) {
-    return Card(
+      elevation: 2,
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
+            // User Report
             ListTile(
-              leading: Icon(Icons.star, color: theme.colorScheme.primary),
-              title: Text('Rate App', style: theme.textTheme.bodyLarge),
+              leading: Icon(
+                Icons.assessment,
+                color: theme.colorScheme.primary,
+              ),
+              title: Text(
+                'Performance Report',
+                style: theme.textTheme.titleMedium,
+              ),
               subtitle: Text(
-                'Rate us on the app store',
+                'View your learning progress and stats',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
-              trailing: Icon(Icons.chevron_right),
-              onTap: _rateApp,
+              trailing: _isGeneratingReport
+                  ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Icon(Icons.arrow_forward_ios),
+              onTap: _isGeneratingReport ? null : () => _generateReport(),
             ),
 
             Divider(),
 
+            // Reset Progress
             ListTile(
-              leading: Icon(Icons.share, color: theme.colorScheme.primary),
-              title: Text('Share App', style: theme.textTheme.bodyLarge),
-              subtitle: Text(
-                'Share with friends and family',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+              leading: Icon(
+                Icons.refresh,
+                color: theme.colorScheme.error,
+              ),
+              title: Text(
+                'Reset Progress',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: theme.colorScheme.error,
                 ),
               ),
-              trailing: Icon(Icons.chevron_right),
-              onTap: _shareApp,
+              subtitle: Text(
+                'Clear all game data and start fresh',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              trailing: _isResetting
+                  ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Icon(Icons.arrow_forward_ios),
+              onTap: _isResetting ? null : () => _showResetDialog(theme),
             ),
           ],
         ),
@@ -331,38 +326,53 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
-  Widget _buildDataManagementCard(ThemeData theme) {
+  Widget _buildAboutCard(ThemeData theme) {
     return Card(
+      elevation: 2,
       child: Padding(
         padding: EdgeInsets.all(16),
-        child: ListTile(
-          leading: Icon(
-            Icons.delete_forever,
-            color: theme.colorScheme.error,
-          ),
-          title: Text(
-            'Reset All Data',
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.error,
-            ),
-          ),
-          subtitle: Text(
-            'This will delete all your progress',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-            ),
-          ),
-          trailing: _isResetting
-              ? SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : Icon(
-                  Icons.chevron_right,
-                  color: theme.colorScheme.error,
+        child: Column(
+          children: [
+            // Share App
+            ListTile(
+              leading: Icon(
+                Icons.share,
+                color: theme.colorScheme.primary,
+              ),
+              title: Text(
+                'Share App',
+                style: theme.textTheme.titleMedium,
+              ),
+              subtitle: Text(
+                'Share Memory Maths with friends',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
-          onTap: _isResetting ? null : () => _showResetDialog(theme),
+              ),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () => _shareApp(),
+            ),
+
+            Divider(),
+
+            // App Version
+            ListTile(
+              leading: Icon(
+                Icons.info_outline,
+                color: theme.colorScheme.primary,
+              ),
+              title: Text(
+                'App Version',
+                style: theme.textTheme.titleMedium,
+              ),
+              subtitle: Text(
+                'Version 1.0.0',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -371,53 +381,70 @@ class _SettingScreen extends State<SettingScreen> {
   void _showLogoutDialog(ThemeData theme) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Logout'),
-        content: Text('Are you sure you want to logout?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancel'),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Logout',
+            style: theme.textTheme.headlineSmall,
           ),
-          FilledButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Provider.of<AuthProvider>(context, listen: false).logout();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => LoginScreen()),
-              );
-            },
-            child: Text('Logout'),
+          content: Text(
+            'Are you sure you want to logout?',
+            style: theme.textTheme.bodyMedium,
           ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await Provider.of<AuthProvider>(context, listen: false)
+                    .logout();
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              child: Text('Logout'),
+            ),
+          ],
+        );
+      },
     );
   }
 
   void _showResetDialog(ThemeData theme) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Reset All Data'),
-        content: Text('This action cannot be undone. All your progress will be lost.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancel'),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Reset Progress',
+            style: theme.textTheme.headlineSmall,
           ),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: theme.colorScheme.error,
+          content: Text(
+            'This will permanently delete all your game progress and statistics. This action cannot be undone.',
+            style: theme.textTheme.bodyMedium,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
             ),
-            onPressed: () {
-              Navigator.of(context).pop();
-              _resetAllData();
-            },
-            child: Text('Reset'),
-          ),
-        ],
-      ),
+            FilledButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await _resetProgress();
+              },
+              style: FilledButton.styleFrom(
+                backgroundColor: theme.colorScheme.error,
+              ),
+              child: Text('Reset'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -427,24 +454,20 @@ class _SettingScreen extends State<SettingScreen> {
     });
 
     try {
-      // Get the authenticated user's email from AuthProvider
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      final userEmail = authProvider.userEmail;
+      final userEmail = authProvider.currentUser?.email ?? '';
 
-      if (userEmail == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please login to view reports'))
-        );
-        return;
-      }
-
-      // Navigate to reports screen with the actual user email
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => UserReportView(
-            userEmail: userEmail,
-          ),
+          builder: (context) => UserReportView(userEmail: userEmail),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to generate report: ${e.toString()}'),
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
     } finally {
@@ -454,26 +477,25 @@ class _SettingScreen extends State<SettingScreen> {
     }
   }
 
-  Future<void> _resetAllData() async {
+  Future<void> _resetProgress() async {
     setState(() {
       _isResetting = true;
     });
 
     try {
-      // Since resetAllData method doesn't exist, we'll clear preferences manually
-      final preferences = Provider.of<DashboardProvider>(context, listen: false).preferences;
-      await preferences.clear();
+      final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
+      await dashboardProvider.clearAllData();
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('All data has been reset successfully'),
+          content: Text('Progress reset successfully'),
           backgroundColor: Theme.of(context).colorScheme.primary,
         ),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to reset data: $e'),
+          content: Text('Failed to reset progress: ${e.toString()}'),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
@@ -484,37 +506,19 @@ class _SettingScreen extends State<SettingScreen> {
     }
   }
 
-  void _rateApp() {
-    // Simple placeholder dialog for rating since RateDialogView might not exist
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Rate Our App'),
-        content: Text('Thank you for using Memory Math! Please rate us on your app store.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Later'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Rate Now'),
-          ),
-        ],
-      ),
-    );
-  }
-
   Future<void> _shareApp() async {
     try {
       await FlutterShare.share(
-        title: 'Memory Math',
-        text: 'Check out this amazing math learning app!',
+        title: 'Memory Maths',
+        text: 'Check out Memory Maths - a fun way to improve your math skills!',
         linkUrl: 'https://play.google.com/store/apps/details?id=com.example.mathsgames',
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Unable to share app at this time')),
+        SnackBar(
+          content: Text('Failed to share app'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
       );
     }
   }

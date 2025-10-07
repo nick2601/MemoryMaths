@@ -4,12 +4,11 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
-import 'package:mathsgames/src/ui/home/home_button_view.dart';
-import 'package:mathsgames/src/core/dyslexic_theme.dart';
+import 'package:mathsgames/src/core/theme_wrapper.dart';
+import 'package:mathsgames/src/ui/app/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../core/app_assets.dart';
 import '../../core/app_constant.dart';
 import '../../utility/global_constants.dart';
 
@@ -27,17 +26,22 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   late AnimationController animationController;
-  late Animation bgColorTween;
-  late Animation<double> elevationTween;
-  late Animation<double> subtitleVisibilityTween;
-  late Animation<double> radiusTween;
-  late Animation<double> heightTween;
-  late Animation<TextStyle> textStyleTween;
-  late Animation<double> outlineImageBottomPositionTween;
-  late Animation<double> fillImageBottomPositionTween;
-  late Animation<double> outlineImageRightPositionTween;
-  late Animation<double> fillImageRightPositionTween;
-  late bool isGamePageOpen;
+
+  // Initialize animations with default values to prevent LateInitializationError
+  Animation bgColorTween = AlwaysStoppedAnimation(Colors.blue);
+  Animation<double> elevationTween = AlwaysStoppedAnimation(20.0);
+  Animation<double> subtitleVisibilityTween = AlwaysStoppedAnimation(0.0);
+  Animation<double> radiusTween = AlwaysStoppedAnimation(40.0);
+  Animation<double> heightTween = AlwaysStoppedAnimation(140.0);
+  Animation<TextStyle> textStyleTween =
+      AlwaysStoppedAnimation(const TextStyle());
+  Animation<double> outlineImageBottomPositionTween =
+      AlwaysStoppedAnimation(20.0);
+  Animation<double> fillImageBottomPositionTween = AlwaysStoppedAnimation(15.0);
+  Animation<double> outlineImageRightPositionTween =
+      AlwaysStoppedAnimation(20.0);
+  Animation<double> fillImageRightPositionTween = AlwaysStoppedAnimation(15.0);
+  bool isGamePageOpen = false;
   Tuple2<Dashboard, double>? tuple2;
 
   @override
@@ -46,313 +50,94 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     tuple2 = widget.tuple2;
     isGamePageOpen = false;
 
-    // Initialize animations with fixed values (no Theme.of(context) here)
+    // Initialize animations after first frame when Theme is available
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _initializeAnimations();
+      animationController.forward();
+    });
+
     animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
-    bgColorTween =
-        ColorTween(begin: Colors.black, end: Color(0xFF212121)).animate(
-      CurvedAnimation(
-        parent: animationController,
-        curve: Interval(
-          0.8,
-          1.0,
-          curve: Curves.easeIn,
-        ),
-      ),
-    );
-
-    elevationTween = Tween(begin: 0.0, end: 4.0).animate(
-      CurvedAnimation(
-        parent: animationController,
-        curve: Interval(
-          0.8,
-          1.0,
-          curve: Curves.easeIn,
-        ),
-      ),
-    );
-    subtitleVisibilityTween = Tween(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(
-        parent: animationController,
-        curve: Interval(
-          0.0,
-          0.5,
-          curve: Curves.easeIn,
-        ),
-      ),
-    );
-    radiusTween = Tween(begin: 0.0, end: 18.0).animate(
-      CurvedAnimation(
-        parent: animationController,
-        curve: Interval(
-          0.8,
-          1.0,
-          curve: Curves.easeIn,
-        ),
-      ),
-    );
-    heightTween = Tween(begin: 183.0 + tuple2!.item2, end: 56.0 + tuple2!.item2)
-        .animate(animationController);
-    textStyleTween = TextStyleTween(
-        begin: TextStyle(
-          fontSize: 28.0,
-          fontWeight: FontWeight.bold,
-          fontFamily: DyslexicTheme.dyslexicFont,
-        ),
-        end: TextStyle(
-          fontSize: 24.0,
-          fontWeight: FontWeight.bold,
-          fontFamily: DyslexicTheme.dyslexicFont,
-        )).animate(animationController);
-
-    outlineImageBottomPositionTween =
-        Tween(begin: 56.0, end: 56.0).animate(animationController);
-    outlineImageRightPositionTween =
-        Tween(begin: -40.0, end: -150.0).animate(animationController);
-    fillImageBottomPositionTween =
-        Tween(begin: 54.0, end: 136.0).animate(animationController);
-    fillImageRightPositionTween =
-        Tween(begin: -54.0, end: -240.0).animate(animationController);
-
-    setState(() {});
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void _initializeAnimations() {
     final theme = Theme.of(context);
-    double margin = getHorizontalSpace(context);
 
-    setStatusBarColor(theme.scaffoldBackgroundColor);
+    bgColorTween = ColorTween(
+      begin: tuple2!.item1.bgColor,
+      end: theme.scaffoldBackgroundColor,
+    ).animate(animationController);
 
-    int _crossAxisCount = 2;
-    double height = getScreenPercentSize(context, 30);
+    elevationTween = Tween<double>(begin: 20.0, end: 0.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+    );
 
-    double _crossAxisSpacing = getPercentSize(height, 10);
-    var widthItem = (getWidthPercentSize(context, 100) -
-            ((_crossAxisCount - 1) * _crossAxisSpacing)) /
-        _crossAxisCount;
+    subtitleVisibilityTween = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+    );
 
-    double _aspectRatio = widthItem / height;
+    radiusTween = Tween<double>(begin: 40.0, end: 0.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+    );
 
-    return Scaffold(
-      appBar: getNoneAppBar(context),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: margin),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: getScreenPercentSize(context, 2),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      getDefaultIconWidget(context,
-                          icon: AppAssets.backIcon,
-                          folder: tuple2!.item1.folder, function: () {
-                        if (kIsWeb) {
-                          SchedulerBinding.instance.addPostFrameCallback((_) {
-                            Navigator.of(context).pop();
-                          });
-                        } else {
-                          Navigator.of(context).pop();
-                        }
-                      }),
-                      Expanded(
-                        child: getScoreWidget(context, isCenter: true),
-                        flex: 1,
-                      ),
-                      getSettingWidget(context, function: () {
-                        setState(() {
-                          if (theme.brightness == Brightness.dark) {
-                            tuple2!.item1.bgColor = Color(0xFF383838);
-                          } else {
-                            tuple2!.item1.bgColor = theme.colorScheme.surface;
-                          }
-                        });
-                      })
-                    ],
-                  ),
-                  Expanded(
-                    child: NotificationListener<OverscrollIndicatorNotification>(
-                      onNotification: (OverscrollIndicatorNotification overscroll) {
-                        overscroll.disallowIndicator();
-                        return true;
-                      },
-                      child: ListView(
-                        padding: EdgeInsets.only(bottom: getHorizontalSpace(context)),
-                        children: [
-                          SizedBox(
-                            height: getScreenPercentSize(context, 4),
-                          ),
-                          AnimatedBuilder(
-                            animation: heightTween,
-                            builder: (context, child) {
-                              return Container(
-                                height: heightTween.value,
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      height: heightTween.value,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            theme.colorScheme.primary.withValues(alpha: 0.8),
-                                            theme.colorScheme.primary,
-                                          ],
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                        ),
-                                        borderRadius: BorderRadius.circular(radiusTween.value),
-                                      ),
-                                    ),
-                                    AnimatedBuilder(
-                                      animation: outlineImageRightPositionTween,
-                                      builder: (context, child) {
-                                        return Positioned(
-                                          bottom: outlineImageBottomPositionTween.value,
-                                          right: outlineImageRightPositionTween.value,
-                                          child: SvgPicture.asset(
-                                            tuple2!.item1.outlineIcon,
-                                            height: getPercentSize(heightTween.value, 35),
-                                            colorFilter: ColorFilter.mode(
-                                              theme.colorScheme.onPrimary.withValues(alpha: 0.1),
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    AnimatedBuilder(
-                                      animation: fillImageRightPositionTween,
-                                      builder: (context, child) {
-                                        return Positioned(
-                                          bottom: fillImageBottomPositionTween.value,
-                                          right: fillImageRightPositionTween.value,
-                                          child: SvgPicture.asset(
-                                            tuple2!.item1.outlineIcon,
-                                            height: getPercentSize(heightTween.value, 25),
-                                            colorFilter: ColorFilter.mode(
-                                              theme.colorScheme.onPrimary,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: getWidthPercentSize(context, 5),
-                                        vertical: getScreenPercentSize(context, 3),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          AnimatedBuilder(
-                                            animation: textStyleTween,
-                                            builder: (context, child) {
-                                              return Text(
-                                                tuple2!.item1.title,
-                                                style: textStyleTween.value.copyWith(
-                                                  color: theme.colorScheme.onPrimary,
-                                                  fontFamily: DyslexicTheme.dyslexicFont,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                          SizedBox(height: getScreenPercentSize(context, 1)),
-                                          AnimatedBuilder(
-                                            animation: subtitleVisibilityTween,
-                                            builder: (context, child) {
-                                              return Opacity(
-                                                opacity: subtitleVisibilityTween.value,
-                                                child: Text(
-                                                  tuple2!.item1.subtitle,
-                                                  style: TextStyle(
-                                                    fontSize: getScreenPercentSize(context, 2),
-                                                    color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
-                                                    fontFamily: DyslexicTheme.dyslexicFont,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(height: getScreenPercentSize(context, 3)),
-                          Consumer<DashboardProvider>(
-                            builder: (context, provider, child) {
-                              final games = provider.getGameByPuzzleType(tuple2!.item1.puzzleType);
+    heightTween = Tween<double>(begin: 140.0, end: 100.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+    );
 
-                              return GridView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: _crossAxisCount,
-                                  childAspectRatio: _aspectRatio,
-                                  crossAxisSpacing: _crossAxisSpacing,
-                                  mainAxisSpacing: _crossAxisSpacing,
-                                ),
-                                itemCount: games.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final e = games[index];
-                                  return HomeButtonView(
-                                    title: e.name,
-                                    icon: e.icon,
-                                    tuple2: tuple2!,
-                                    score: e.scoreboard.highestScore,
-                                    colorTuple: tuple2!.item1.colorTuple,
-                                    opacity: tuple2!.item1.opacity,
-                                    gameCategoryType: e.gameCategoryType,
-                                    onTab: () {
-                                      if (e.gameCategoryType == GameCategoryType.DUAL_GAME) {
-                                        // If you have a duel dialog, plug it here; otherwise navigate
-                                        Navigator.pushNamedAndRemoveUntil(
-                                          context,
-                                          KeyUtil.level,
-                                          ModalRoute.withName(KeyUtil.home),
-                                          arguments: Tuple2(e, tuple2!.item1),
-                                        ).then((value) {
-                                          setState(() {});
-                                        });
-                                      } else {
-                                        Navigator.pushNamedAndRemoveUntil(
-                                          context,
-                                          KeyUtil.level,
-                                          ModalRoute.withName(KeyUtil.home),
-                                          arguments: Tuple2(e, tuple2!.item1),
-                                        ).then((value) {
-                                          setState(() {});
-                                        });
-                                      }
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+    // Fix the TextStyle lerping by using explicit TextStyles with same inherit value
+    // and including all necessary properties to avoid "jumps" during animation
+    final TextStyle beginStyle = TextStyle(
+      inherit: false,
+      color: theme.colorScheme.onSurface,
+      fontWeight: FontWeight.bold,
+      fontSize: theme.textTheme.headlineLarge?.fontSize ?? 32.0,
+      fontFamily: 'OpenDyslexic',
+      // Using accessible font
+      letterSpacing: 0.0,
+      wordSpacing: 0.0,
+      height: 1.2,
+      backgroundColor: Colors.transparent,
+      decorationColor: Colors.transparent,
+      decorationThickness: 0.0,
+    );
+
+    final TextStyle endStyle = TextStyle(
+      inherit: false,
+      color: theme.colorScheme.onSurface,
+      fontWeight: FontWeight.bold,
+      fontSize: theme.textTheme.headlineMedium?.fontSize ?? 28.0,
+      fontFamily: 'OpenDyslexic',
+      // Using accessible font
+      letterSpacing: 0.0,
+      wordSpacing: 0.0,
+      height: 1.2,
+      backgroundColor: Colors.transparent,
+      decorationColor: Colors.transparent,
+      decorationThickness: 0.0,
+    );
+
+    textStyleTween = TextStyleTween(
+      begin: beginStyle,
+      end: endStyle,
+    ).animate(animationController);
+
+    // Image position animations
+    outlineImageBottomPositionTween =
+        Tween<double>(begin: 20.0, end: 10.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+    );
+
+    fillImageBottomPositionTween = Tween<double>(begin: 15.0, end: 5.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+    );
+
+    outlineImageRightPositionTween =
+        Tween<double>(begin: 20.0, end: 10.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+    );
+
+    fillImageRightPositionTween = Tween<double>(begin: 15.0, end: 5.0).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
     );
   }
 
@@ -360,5 +145,352 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   void dispose() {
     animationController.dispose();
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return ThemeWrapper.dyslexicScreen(
+          isDarkMode: themeProvider.themeMode == ThemeMode.dark,
+          child: _buildHomeView(),
+        );
+      },
+    );
+  }
+
+  Widget _buildHomeView() {
+    final dashboardProvider = Provider.of<DashboardProvider>(context);
+
+    return Scaffold(
+      backgroundColor: Colors.grey[50], // Light background
+      appBar: AppBar(
+        toolbarHeight: 44,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        titleSpacing: 12,
+        title: Text(
+          'Home',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 8),
+            child: Center(child: getScoreWidget(context)),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: getSettingWidget(context),
+          ),
+        ],
+        iconTheme: IconThemeData(
+          color: Colors.black87,
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Header section with game info
+              _buildHeader(),
+
+              // Game buttons grid
+              _buildGameGrid(dashboardProvider),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    final theme = Theme.of(context);
+
+    return AnimatedBuilder(
+      animation: animationController,
+      builder: (context, child) {
+        return Container(
+          height: heightTween.value,
+          decoration: BoxDecoration(
+            color: Colors.transparent, // Make header background transparent
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(radiusTween.value),
+              bottomRight: Radius.circular(radiusTween.value),
+            ),
+          ),
+          child: Stack(
+            children: [
+              // Background elements are now more prominent
+              _buildBackgroundElements(),
+
+              // Header content
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Game title
+                    AnimatedDefaultTextStyle(
+                      style: textStyleTween.value ??
+                          theme.textTheme.headlineLarge!,
+                      duration: Duration(milliseconds: 300),
+                      child: Text(tuple2?.item1.title ?? ''),
+                    ),
+
+                    // Subtitle with fade animation
+                    AnimatedOpacity(
+                      opacity: subtitleVisibilityTween.value,
+                      duration: Duration(milliseconds: 300),
+                      child: Text(
+                        tuple2?.item1.subtitle ?? '',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: theme.colorScheme.onSurface.withOpacity(0.7),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBackgroundElements() {
+    return Stack(
+      children: [
+        // Add decorative elements based on game type
+        if (tuple2?.item1.outlineIcon != null)
+          Positioned(
+            right: outlineImageRightPositionTween.value,
+            bottom: outlineImageBottomPositionTween.value,
+            child: AnimatedBuilder(
+              animation: animationController,
+              builder: (context, child) {
+                return Opacity(
+                  opacity: 0.1, // Reduced opacity for better visibility
+                  child: SvgPicture.asset(
+                    tuple2!.item1.outlineIcon,
+                    height: 120,
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.onSurface, // Use theme color
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildGameGrid(DashboardProvider dashboardProvider) {
+    // Get games for the current puzzle type
+    final games =
+        dashboardProvider.getGameByPuzzleType(tuple2!.item1.puzzleType);
+    final theme = Theme.of(context);
+
+    // Colors for our vibrant design
+    final List<Color> gradientColors = [
+      Color(0xFF6A11CB), // Rich purple
+      Color(0xFF2575FC), // Bright blue
+      Color(0xFFFF416C), // Vibrant pink
+      Color(0xFFFF4B2B), // Bright orange
+      Color(0xFF11998E), // Teal
+    ];
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.all(16),
+      itemCount: games.length,
+      itemBuilder: (context, index) {
+        final game = games[index];
+        // Pick a color from our list based on index
+        final baseColor = gradientColors[index % gradientColors.length];
+
+        return TweenAnimationBuilder<double>(
+          tween: Tween(begin: 0.0, end: 1.0),
+          duration: Duration(milliseconds: 500 + (index * 100)),
+          curve: Curves.easeOutBack,
+          builder: (context, value, child) {
+            // Clamp the value to ensure it's always between 0.0 and 1.0
+            final clampedValue = value.clamp(0.0, 1.0);
+
+            return Transform.translate(
+                offset: Offset(0, 20 * (1 - clampedValue)),
+                child: Opacity(
+                    opacity: clampedValue,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 16),
+                      child: Card(
+                        elevation: 3 * clampedValue,
+                        shadowColor: baseColor.withValues(alpha: 0.3),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                baseColor.withValues(alpha: 0.05),
+                                baseColor.withValues(alpha: 0.15),
+                              ],
+                            ),
+                          ),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(20),
+                            splashColor: baseColor.withValues(alpha: 0.1),
+                            highlightColor: baseColor.withValues(alpha: 0.05),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                KeyUtil.level,
+                                arguments: Tuple2(game, tuple2!.item1),
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Row(
+                                children: [
+                                  Hero(
+                                    tag: 'game_icon_${game.id}',
+                                    child: Container(
+                                      width: 70,
+                                      height: 70,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            baseColor,
+                                            baseColor.withValues(alpha: 0.7),
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                        borderRadius: BorderRadius.circular(16),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: baseColor.withValues(alpha: 0.3),
+                                            blurRadius: 8,
+                                            offset: Offset(0, 4),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                          game.icon,
+                                          height: 36,
+                                          colorFilter: ColorFilter.mode(
+                                              Colors.white, BlendMode.srcIn),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 20),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          game.name,
+                                          style: theme.textTheme.titleLarge
+                                              ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Montserrat-Bold',
+                                            color: theme.colorScheme.onSurface,
+                                          ),
+                                        ),
+                                        SizedBox(height: 6),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.emoji_events_outlined,
+                                              color: baseColor.withValues(alpha: 0.9),
+                                              size: 18,
+                                            ),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              'High Score: ${game.scoreboard.highestScore}',
+                                              style: theme.textTheme.bodyMedium
+                                                  ?.copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                color: theme.colorScheme
+                                                    .onSurfaceVariant,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 8),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 4),
+                                          decoration: BoxDecoration(
+                                            color: baseColor.withValues(alpha: 0.1),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Text(
+                                            'Play Now',
+                                            style: theme.textTheme.labelSmall
+                                                ?.copyWith(
+                                              color: baseColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Material(
+                                    color: baseColor.withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(30),
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(30),
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          KeyUtil.level,
+                                          arguments:
+                                              Tuple2(game, tuple2!.item1),
+                                        );
+                                      },
+                                      child: Container(
+                                        width: 44,
+                                        height: 44,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.play_circle_fill_rounded,
+                                            color: baseColor,
+                                            size: 28,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )));
+          },
+        );
+      },
+    );
   }
 }

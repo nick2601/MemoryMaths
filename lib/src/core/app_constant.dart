@@ -68,6 +68,9 @@ class KeyUtil {
   /// The key for storing the dark mode preference.
   static const IS_DARK_MODE = "isDarkMode";
 
+  /// The key for storing the overall score.
+  static const OVERALL_SCORE = "overall_score";
+
   // region Route Names
   /// Route name for the Splash screen.
   static const String splash = 'Splash';
@@ -119,6 +122,8 @@ class KeyUtil {
   static const String numberPyramid = "NumberPyramid";
   /// Route name for the Numeric Memory game.
   static const String numericMemory = "numericMemory";
+  /// Route name for the Settings screen.
+  static const String setting = "/setting";
   // endregion
 
   // region Theme Colors and Folders
@@ -156,6 +161,7 @@ class KeyUtil {
         puzzleType: PuzzleType.MATH_PUZZLE,
         colorTuple: Tuple2(Color(0xff4895EF), Color(0xff3f37c9)),
         opacity: 0.07,
+        icon: AppAssets.icMathPuzzle,
         outlineIcon: AppAssets.icMathPuzzleOutline,
         subtitle: "Each game with simple calculation with different approach.",
         title: "Mental Maths",
@@ -173,6 +179,7 @@ class KeyUtil {
         puzzleType: PuzzleType.MEMORY_PUZZLE,
         colorTuple: Tuple2(Color(0xff9f2beb), Color(0xff560bad)),
         opacity: 0.07,
+        icon: AppAssets.icMemoryPuzzle,
         outlineIcon: AppAssets.icMemoryPuzzleOutline,
         gridColor: bgColor2,
         subtitle:
@@ -190,6 +197,7 @@ class KeyUtil {
         puzzleType: PuzzleType.BRAIN_PUZZLE,
         colorTuple: Tuple2(Color(0xfff72585), Color(0xffb5179e)),
         opacity: 0.12,
+        icon: AppAssets.icTrainBrain,
         outlineIcon: AppAssets.icTrainBrainOutline,
         subtitle:
             "Enhance logical thinking, concentration and core cognitive skills.",

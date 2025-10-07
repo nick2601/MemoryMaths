@@ -36,4 +36,17 @@ class ThemeProvider extends ChangeNotifier {
     notifyListeners();
     await sharedPreferences.setInt(KeyUtil.IS_DARK_MODE, _themeMode.index);
   }
+
+  /// Sets a specific theme mode
+  void setThemeMode(ThemeMode mode) async {
+    if (_themeMode != mode) {
+      _themeMode = mode;
+
+      // Update the theme manager
+      ThemeManager.updateGlobalTheme(_themeMode);
+
+      notifyListeners();
+      await sharedPreferences.setInt(KeyUtil.IS_DARK_MODE, _themeMode.index);
+    }
+  }
 }

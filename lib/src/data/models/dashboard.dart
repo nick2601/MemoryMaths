@@ -7,6 +7,7 @@ class Dashboard {
   final String subtitle;
   final String folder;
   final String outlineIcon;
+  final String icon;
   final PuzzleType puzzleType;
   final double opacity;
   final Tuple2<Color, Color> colorTuple;
@@ -23,6 +24,7 @@ class Dashboard {
     required this.colorTuple,
     required this.opacity,
     required this.outlineIcon,
+    required this.icon,
     required this.subtitle,
     required this.bgColor,
     required this.gridColor,

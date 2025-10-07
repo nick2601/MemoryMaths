@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mathsgames/src/ui/signup/signup_screen.dart';
 import 'package:provider/provider.dart';
 import '../../core/app_constant.dart';
+import '../../core/theme_wrapper.dart';
 import '../app/auth_provider.dart';
+import '../app/theme_provider.dart';
 
 /// Login screen with Material 3 design and dyslexic-friendly features
 /// Features high contrast colors, readable fonts, and optimized input fields
@@ -39,6 +41,14 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     ));
 
     _slideController.forward();
+  }
+
+  @override
+  void dispose() {
+    _slideController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   void _togglePasswordVisibility() {
@@ -92,45 +102,47 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Container(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-            child: SlideTransition(
-              position: _slideAnimation,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Welcome header with Material 3 design
-                  _buildHeader(theme),
-
-                  SizedBox(height: 48),
-
-                  // Login form card with Material 3 components
-                  _buildLoginCard(theme),
-
-                  SizedBox(height: 32),
-
-                  // Signup link with Material 3 styling
-                  _buildSignupLink(theme),
-                ],
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return ThemeWrapper.dyslexicScreen(
+          isDarkMode: themeProvider.themeMode == ThemeMode.dark,
+          child: Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Container(
+                  constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Welcome header with Material 3 design
+                        _buildHeader(),
+                        SizedBox(height: 48),
+                        // Login form card with Material 3 components
+                        _buildLoginCard(),
+                        SizedBox(height: 32),
+                        // Signup link with Material 3 styling
+                        _buildSignupLink(),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildHeader(ThemeData theme) {
+  Widget _buildHeader() {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -148,25 +160,19 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
             ),
           ),
         ),
-
         SizedBox(height: 24),
-
-        // Welcome text with Material 3 typography
         Text(
-          'Welcome Back!',
-          style: theme.textTheme.displaySmall?.copyWith(
-            color: theme.colorScheme.onSurface,
+          'Memory Maths',
+          style: theme.textTheme.headlineLarge?.copyWith(
             fontWeight: FontWeight.bold,
+            color: theme.colorScheme.onSurface,
           ),
-          textAlign: TextAlign.center,
         ),
-
         SizedBox(height: 8),
-
         Text(
-          'Sign in to continue your math journey',
+          'Welcome back! Please sign in to continue.',
           style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+            color: theme.colorScheme.onSurfaceVariant,
           ),
           textAlign: TextAlign.center,
         ),
@@ -174,9 +180,10 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     );
   }
 
-  Widget _buildLoginCard(ThemeData theme) {
+  Widget _buildLoginCard() {
+    final theme = Theme.of(context);
     return Card(
-      elevation: 8,
+      elevation: 4,
       child: Padding(
         padding: EdgeInsets.all(24),
         child: Form(
@@ -184,46 +191,50 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Username field with Material 3 styling
+              Text(
+                'Sign In',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: theme.colorScheme.onSurface,
+                ),
+              ),
+              SizedBox(height: 24),
+              // Username field
               TextFormField(
                 controller: _usernameController,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   labelText: 'Username',
-                  hintText: 'Enter your username',
                   prefixIcon: Icon(Icons.person_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
+                textInputAction: TextInputAction.next,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter your username';
                   }
-                  if (value.trim().length < 3) {
-                    return 'Username must be at least 3 characters';
-                  }
                   return null;
                 },
               ),
-
-              SizedBox(height: 24),
-
-              // Password field with Material 3 styling
+              SizedBox(height: 16),
+              // Password field
               TextFormField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
-                textInputAction: TextInputAction.done,
-                onFieldSubmitted: (_) => _login(),
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  hintText: 'Enter your password',
                   prefixIcon: Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                    ),
+                    icon: Icon(_obscurePassword ? Icons.visibility : Icons.visibility_off),
                     onPressed: _togglePasswordVisibility,
                   ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: (_) => _login(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
@@ -234,19 +245,14 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                   return null;
                 },
               ),
-
-              SizedBox(height: 32),
-
-              // Login button with Material 3 styling
+              SizedBox(height: 24),
+              // Login button
               FilledButton(
                 onPressed: _isLoading ? null : _login,
-                style: FilledButton.styleFrom(
-                  minimumSize: Size(double.infinity, 56),
-                ),
                 child: _isLoading
                     ? SizedBox(
-                        width: 24,
-                        height: 24,
+                        height: 20,
+                        width: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
                           valueColor: AlwaysStoppedAnimation<Color>(
@@ -254,29 +260,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           ),
                         ),
                       )
-                    : Text(
-                        'Sign In',
-                        style: theme.textTheme.labelLarge?.copyWith(
-                          color: theme.colorScheme.onPrimary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-              ),
-
-              SizedBox(height: 16),
-
-              // Forgot password link
-              TextButton(
-                onPressed: () {
-                  // TODO: Implement forgot password functionality
-                },
-                child: Text(
-                  'Forgot Password?',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                    : Text('Sign In'),
               ),
             ],
           ),
@@ -285,14 +269,15 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     );
   }
 
-  Widget _buildSignupLink(ThemeData theme) {
+  Widget _buildSignupLink() {
+    final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           "Don't have an account? ",
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+            color: theme.colorScheme.onSurfaceVariant,
           ),
         ),
         TextButton(
@@ -302,23 +287,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
               MaterialPageRoute(builder: (context) => SignupScreen()),
             );
           },
-          child: Text(
-            'Sign Up',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child: Text('Sign Up'),
         ),
       ],
     );
-  }
-
-  @override
-  void dispose() {
-    _slideController.dispose();
-    _usernameController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 }

@@ -18,10 +18,14 @@ class UserReportProvider extends ChangeNotifier {
 
   // Getters
   UserReport? get currentReport => _currentReport;
+  UserReport? get report => _currentReport; // Add missing report getter
   List<UserReport> get reportHistory => _reportHistory;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get hasCurrentData => _currentReport != null || _reportHistory.isNotEmpty;
+
+  /// Default constructor for cases where repository is not needed
+  UserReportProvider.withoutRepository() : _repository = UserReportRepository();
 
   /// Generate a new report for the specified user
   Future<void> generateReport(String email) async {
@@ -34,6 +38,23 @@ class UserReportProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _errorMessage = 'Failed to generate report: ${e.toString()}';
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  /// Clear all report data for a user
+  Future<void> clearReport(String email) async {
+    _setLoading(true);
+    _errorMessage = null;
+
+    try {
+      await _repository.deleteUserData(email);
+      _currentReport = null;
+      _reportHistory = [];
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = 'Failed to clear report: ${e.toString()}';
     } finally {
       _setLoading(false);
     }

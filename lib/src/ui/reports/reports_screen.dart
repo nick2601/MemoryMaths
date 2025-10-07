@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/app/auth_provider.dart';
+import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
 import 'package:mathsgames/src/ui/reports/user_report_provider.dart';
 import 'package:mathsgames/src/ui/reports/user_report_view.dart';
-import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 
 class ReportsScreen extends StatelessWidget {
@@ -12,14 +11,21 @@ class ReportsScreen extends StatelessWidget {
     final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
-      backgroundColor: getBackGroundColor(context),
+      backgroundColor: Colors.grey[50], // Light background
       appBar: AppBar(
-        title: Text('Your Progress Reports'),
-        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(
+          'Progress Reports',
+          style: TextStyle(
+            color: Colors.black87,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        backgroundColor: Colors.white,
         elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black87),
         actions: [
           IconButton(
-            icon: Icon(Icons.help_outline),
+            icon: Icon(Icons.help_outline, color: Colors.black87),
             onPressed: () => _showHelpDialog(context),
           ),
         ],
@@ -36,6 +42,10 @@ class ReportsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Add reset button at the top
+          _buildResetSection(context),
+          SizedBox(height: 24),
+
           _buildInfoCard(
             context,
             'Performance Analytics',
@@ -50,7 +60,7 @@ class ReportsScreen extends StatelessWidget {
             'Skill Assessment',
             'Discover your mathematical strengths and areas for improvement',
             Icons.pie_chart,
-            () => _navigateToUserReportView(context, userEmail, initialTab: 2),
+            () => _navigateToUserReportView(context, userEmail),
             Colors.purple,
           ),
           SizedBox(height: 16),
@@ -59,7 +69,7 @@ class ReportsScreen extends StatelessWidget {
             'Learning Recommendations',
             'Get personalized recommendations to improve your skills',
             Icons.lightbulb_outline,
-            () => _navigateToUserReportView(context, userEmail, initialTab: 3),
+            () => _navigateToUserReportView(context, userEmail),
             Colors.orange,
           ),
           SizedBox(height: 16),
@@ -68,12 +78,63 @@ class ReportsScreen extends StatelessWidget {
             'Achievements',
             'See badges and milestones you\'ve earned',
             Icons.emoji_events,
-            () => _navigateToUserReportView(context, userEmail, initialTab: 4),
+            () => _navigateToUserReportView(context, userEmail),
             Colors.green,
           ),
           SizedBox(height: 24),
           _buildReportDescription(context),
         ],
+      ),
+    );
+  }
+
+  Widget _buildResetSection(BuildContext context) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.refresh_rounded, color: Colors.red[600], size: 24),
+                SizedBox(width: 12),
+                Text(
+                  'Reset Progress',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Clear all your game scores and start fresh. This action cannot be undone.',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.tonalIcon(
+                onPressed: () => _showResetConfirmation(context),
+                icon: Icon(Icons.restart_alt),
+                label: Text('Reset All Progress'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.red[50],
+                  foregroundColor: Colors.red[700],
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -87,22 +148,27 @@ class ReportsScreen extends StatelessWidget {
     Color color,
   ) {
     return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(20.0),
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(12),
+                width: 56,
+                height: 56,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(8),
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                child: Icon(icon, color: color, size: 32),
+                child: Icon(
+                  icon,
+                  color: color,
+                  size: 28,
+                ),
               ),
               SizedBox(width: 16),
               Expanded(
@@ -112,22 +178,27 @@ class ReportsScreen extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
+                        color: Colors.black87,
                       ),
                     ),
                     SizedBox(height: 4),
                     Text(
                       description,
                       style: TextStyle(
-                        fontSize: 14,
                         color: Colors.grey[600],
+                        fontSize: 14,
                       ),
                     ),
                   ],
                 ),
               ),
-              Icon(Icons.arrow_forward_ios, size: 16),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.grey[400],
+                size: 16,
+              ),
             ],
           ),
         ),
@@ -135,79 +206,211 @@ class ReportsScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildReportDescription(BuildContext context) {
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.info_outline, color: Colors.blue[600], size: 24),
+                SizedBox(width: 12),
+                Text(
+                  'About Reports',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
+            Text(
+              'Your progress reports are automatically generated based on your game performance. '
+              'They help you track improvement areas and celebrate achievements.',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14,
+                height: 1.5,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildLoginPrompt(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.account_circle, size: 80, color: Colors.grey),
-          SizedBox(height: 16),
-          Text(
-            'Please log in to view your reports',
-            style: TextStyle(fontSize: 18),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: () {
-              // Navigate to login screen
-              Navigator.pushNamed(context, '/login');
-            },
-            child: Text('Log In'),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+      child: Padding(
+        padding: EdgeInsets.all(32),
+        child: Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.analytics_outlined,
+                  size: 64,
+                  color: Colors.blue[300],
+                ),
+                SizedBox(height: 24),
+                Text(
+                  'Sign In Required',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  'Please sign in to view your personalized progress reports and track your improvement.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 16,
+                    height: 1.5,
+                  ),
+                ),
+                SizedBox(height: 24),
+                FilledButton.icon(
+                  onPressed: () {
+                    // Navigate to login screen
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  icon: Icon(Icons.login),
+                  label: Text('Sign In'),
+                  style: FilledButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                ),
+              ],
             ),
           ),
-          TextButton(
-            onPressed: () {
-              // Navigate to signup screen
-              Navigator.pushNamed(context, '/signup');
-            },
-            child: Text('Create Account'),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildReportDescription(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blue.withOpacity(0.3)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'About Progress Reports',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue[800],
+  void _showResetConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.orange[600]),
+              SizedBox(width: 12),
+              Text('Reset All Progress?'),
+            ],
+          ),
+          content: Text(
+            'This will permanently delete all your game scores, achievements, and progress data. This action cannot be undone.\n\nAre you sure you want to continue?',
+            style: TextStyle(height: 1.5),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
             ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            'Your math activity is automatically tracked to provide personalized insights '
-            'and recommendations. Reports show your strengths, areas for improvement, '
-            'and customized learning path suggestions.',
-            style: TextStyle(fontSize: 14),
-          ),
-        ],
-      ),
+            FilledButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await _performReset(context);
+              },
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.red[600],
+              ),
+              child: Text('Reset All'),
+            ),
+          ],
+        );
+      },
     );
   }
 
-  void _navigateToUserReportView(BuildContext context, String email, {int initialTab = 0}) {
+  Future<void> _performReset(BuildContext context) async {
+    try {
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text('Resetting progress...'),
+            ],
+          ),
+        ),
+      );
+
+      // Get dashboard provider and reset data
+      final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
+      await dashboardProvider.resetAllScoreData();
+
+      // Close loading dialog
+      Navigator.of(context).pop();
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.check_circle, color: Colors.white),
+              SizedBox(width: 12),
+              Text('All progress has been reset successfully!'),
+            ],
+          ),
+          backgroundColor: Colors.green[600],
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      );
+    } catch (e) {
+      // Close loading dialog if still open
+      Navigator.of(context).pop();
+
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.error, color: Colors.white),
+              SizedBox(width: 12),
+              Text('Failed to reset progress. Please try again.'),
+            ],
+          ),
+          backgroundColor: Colors.red[600],
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      );
+    }
+  }
+
+  void _navigateToUserReportView(BuildContext context, String userEmail) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UserReportView(
-          userEmail: email,
-          initialTabIndex: initialTab,
+        builder: (context) => ChangeNotifierProvider(
+          create: (context) => UserReportProvider(),
+          child: UserReportView(
+            userEmail: userEmail,
+          ),
         ),
       ),
     );
@@ -216,52 +419,47 @@ class ReportsScreen extends StatelessWidget {
   void _showHelpDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('About Progress Reports'),
-        content: SingleChildScrollView(
-          child: Column(
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Row(
+            children: [
+              Icon(Icons.help_outline, color: Colors.blue[600]),
+              SizedBox(width: 12),
+              Text('Help & Support'),
+            ],
+          ),
+          content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHelpItem('Overview', 'Summary of your overall performance across all games'),
-              _buildHelpItem('Game Reports', 'Detailed statistics for each game category'),
-              _buildHelpItem('Skills', 'Assessment of your mathematical skills and abilities'),
-              _buildHelpItem('Learning Path', 'Personalized recommendations to improve'),
-              _buildHelpItem('Achievements', 'Badges and milestones you\'ve earned'),
+              Text(
+                'Progress Reports Features:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text('• Performance Analytics: View detailed game statistics'),
+              Text('• Skill Assessment: See strengths and improvement areas'),
+              Text('• Learning Recommendations: Get personalized tips'),
+              Text('• Achievements: Track badges and milestones'),
               SizedBox(height: 16),
               Text(
-                'Reports are generated based on your gameplay activity. The more you play, the more accurate your reports will be!',
-                style: TextStyle(fontStyle: FontStyle.italic),
+                'Reset Progress: Permanently clears all your game data. Use with caution!',
+                style: TextStyle(
+                  color: Colors.orange[700],
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ],
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('CLOSE'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHelpItem(String title, String description) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            description,
-            style: TextStyle(fontSize: 14),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Got it'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

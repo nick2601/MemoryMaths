@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/core/theme_wrapper.dart';
 import 'package:provider/provider.dart';
 import '../app/auth_provider.dart';
+import '../app/theme_provider.dart';
 import '../login/login_view.dart';
 
 /// Signup screen with Material 3 design and dyslexic-friendly features
@@ -101,14 +103,19 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        duration: Duration(seconds: 5),
+        duration: Duration(seconds: 4),
       ),
     );
   }
 
-  /// Handles the signup process
-  Future<void> _handleSignup() async {
+  /// Handles user registration
+  Future<void> _register() async {
     if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (_passwordController.text != _confirmPasswordController.text) {
+      _showErrorMessage('Passwords do not match');
       return;
     }
 
@@ -117,25 +124,17 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
     });
 
     try {
-      await Provider.of<AuthProvider>(context, listen: false).signup(
-        _usernameController.text.trim(),
-        _emailController.text.trim().toLowerCase(),
-        _passwordController.text,
+      await Provider.of<AuthProvider>(context, listen: false).register(
         _fullNameController.text.trim(),
+        _emailController.text.trim(),
+        _usernameController.text.trim(),
+        _passwordController.text,
       );
 
-      _showSuccessMessage(
-        'Account created successfully! Your profile has been set up for progress tracking.',
-      );
+      _showSuccessMessage('Account created successfully!');
 
-      // Navigate to dashboard after successful signup
-      Future.delayed(Duration(seconds: 2), () {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          KeyUtil.dashboard,
-          (route) => false,
-        );
-      });
+      // Navigate to dashboard after successful registration
+      Navigator.pushReplacementNamed(context, KeyUtil.dashboard);
     } catch (e) {
       _showErrorMessage(e.toString());
     } finally {
@@ -147,95 +146,65 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Create Account',
-          style: theme.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-          tooltip: 'Go back to login',
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Container(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height - kToolbarHeight - MediaQuery.of(context).padding.top,
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return ThemeWrapper.dyslexicScreen(
+          isDarkMode: themeProvider.themeMode == ThemeMode.dark,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text('Create Account'),
+              centerTitle: true,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: SlideTransition(
-              position: _slideAnimation,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Header section
-                  _buildHeader(theme),
-
-                  SizedBox(height: 32),
-
-                  // Signup form card
-                  _buildSignupCard(theme),
-
-                  SizedBox(height: 24),
-
-                  // Login link
-                  _buildLoginLink(theme),
-
-                  SizedBox(height: 24),
-                ],
+            body: SafeArea(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.all(24),
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _buildHeader(),
+                        SizedBox(height: 32),
+                        _buildSignupCard(),
+                        SizedBox(height: 32),
+                        _buildLoginLink(),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildHeader(ThemeData theme) {
+  Widget _buildHeader() {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // App icon with Material 3 card design
-        Card(
-          elevation: 8,
-          child: Container(
-            width: 100,
-            height: 100,
-            padding: EdgeInsets.all(20),
-            child: Icon(
-              Icons.person_add,
-              size: 60,
-              color: theme.colorScheme.primary,
-            ),
-          ),
+        Icon(
+          Icons.person_add,
+          size: 80,
+          color: theme.colorScheme.primary,
         ),
-
-        SizedBox(height: 20),
-
-        // Welcome text with Material 3 typography
+        SizedBox(height: 16),
         Text(
-          'Join Memory Math!',
+          'Join Memory Maths',
           style: theme.textTheme.headlineMedium?.copyWith(
-            color: theme.colorScheme.onSurface,
             fontWeight: FontWeight.bold,
+            color: theme.colorScheme.onSurface,
           ),
-          textAlign: TextAlign.center,
         ),
-
         SizedBox(height: 8),
-
         Text(
-          'Create your account to start your mathematical journey',
+          'Create your account to start your learning journey',
           style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+            color: theme.colorScheme.onSurfaceVariant,
           ),
           textAlign: TextAlign.center,
         ),
@@ -243,9 +212,10 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
     );
   }
 
-  Widget _buildSignupCard(ThemeData theme) {
+  Widget _buildSignupCard() {
+    final theme = Theme.of(context);
     return Card(
-      elevation: 8,
+      elevation: 4,
       child: Padding(
         padding: EdgeInsets.all(24),
         child: Form(
@@ -253,62 +223,67 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Full name field
+              Text(
+                'Sign Up',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: theme.colorScheme.onSurface,
+                ),
+              ),
+              SizedBox(height: 24),
+              // Full Name field
               TextFormField(
                 controller: _fullNameController,
-                keyboardType: TextInputType.name,
-                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   labelText: 'Full Name',
-                  hintText: 'Enter your full name',
                   prefixIcon: Icon(Icons.person_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
+                textInputAction: TextInputAction.next,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter your full name';
                   }
-                  if (value.trim().length < 2) {
-                    return 'Name must be at least 2 characters';
-                  }
                   return null;
                 },
               ),
-
-              SizedBox(height: 20),
-
+              SizedBox(height: 16),
               // Email field
               TextFormField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  labelText: 'Email Address',
-                  hintText: 'Enter your email address',
+                  labelText: 'Email',
                   prefixIcon: Icon(Icons.email_outlined),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
+                textInputAction: TextInputAction.next,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter your email address';
+                    return 'Please enter your email';
                   }
                   if (!_isValidEmail(value.trim())) {
-                    return 'Please enter a valid email address';
+                    return 'Please enter a valid email';
                   }
                   return null;
                 },
               ),
-
-              SizedBox(height: 20),
-
+              SizedBox(height: 16),
               // Username field
               TextFormField(
                 controller: _usernameController,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   labelText: 'Username',
-                  hintText: 'Choose a unique username',
-                  prefixIcon: Icon(Icons.account_circle_outlined),
+                  prefixIcon: Icon(Icons.alternate_email),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
+                textInputAction: TextInputAction.next,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter a username';
@@ -316,92 +291,77 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
                   if (value.trim().length < 3) {
                     return 'Username must be at least 3 characters';
                   }
-                  if (value.trim().length > 20) {
-                    return 'Username must be less than 20 characters';
-                  }
                   return null;
                 },
               ),
-
-              SizedBox(height: 20),
-
+              SizedBox(height: 16),
               // Password field
               TextFormField(
                 controller: _passwordController,
                 obscureText: !_isPasswordVisible,
-                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  hintText: 'Create a strong password',
                   prefixIcon: Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
-                    icon: Icon(
-                      _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-                    ),
+                    icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
                     onPressed: () {
                       setState(() {
                         _isPasswordVisible = !_isPasswordVisible;
                       });
                     },
                   ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
+                textInputAction: TextInputAction.next,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a password';
                   }
-                  if (value.length < 8) {
-                    return 'Password must be at least 8 characters';
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
                   }
                   return null;
                 },
               ),
-
-              SizedBox(height: 20),
-
-              // Confirm password field
+              SizedBox(height: 16),
+              // Confirm Password field
               TextFormField(
                 controller: _confirmPasswordController,
                 obscureText: !_isConfirmPasswordVisible,
-                textInputAction: TextInputAction.done,
-                onFieldSubmitted: (_) => _handleSignup(),
                 decoration: InputDecoration(
                   labelText: 'Confirm Password',
-                  hintText: 'Re-enter your password',
                   prefixIcon: Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
-                    icon: Icon(
-                      _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
-                    ),
+                    icon: Icon(_isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off),
                     onPressed: () {
                       setState(() {
                         _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
                       });
                     },
                   ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: (_) => _register(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please confirm your password';
                   }
-                  if (value != _passwordController.text) {
-                    return 'Passwords do not match';
-                  }
                   return null;
                 },
               ),
-
-              SizedBox(height: 32),
-
-              // Create account button
+              SizedBox(height: 24),
+              // Signup button
               FilledButton(
-                onPressed: _isLoading ? null : _handleSignup,
-                style: FilledButton.styleFrom(
-                  minimumSize: Size(double.infinity, 56),
-                ),
+                onPressed: _isLoading ? null : _register,
                 child: _isLoading
                     ? SizedBox(
-                        width: 24,
-                        height: 24,
+                        height: 20,
+                        width: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
                           valueColor: AlwaysStoppedAnimation<Color>(
@@ -409,13 +369,7 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
                           ),
                         ),
                       )
-                    : Text(
-                        'Create Account',
-                        style: theme.textTheme.labelLarge?.copyWith(
-                          color: theme.colorScheme.onPrimary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                    : Text('Create Account'),
               ),
             ],
           ),
@@ -424,14 +378,15 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
     );
   }
 
-  Widget _buildLoginLink(ThemeData theme) {
+  Widget _buildLoginLink() {
+    final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           'Already have an account? ',
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+            color: theme.colorScheme.onSurfaceVariant,
           ),
         ),
         TextButton(
@@ -441,13 +396,7 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
               MaterialPageRoute(builder: (context) => LoginScreen()),
             );
           },
-          child: Text(
-            'Sign In',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child: Text('Sign In'),
         ),
       ],
     );
