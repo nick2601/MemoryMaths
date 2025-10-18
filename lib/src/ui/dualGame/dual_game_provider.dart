@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
 

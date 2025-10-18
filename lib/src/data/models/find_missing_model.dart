@@ -10,10 +10,4 @@ class FindMissingQuizModel {
   String? op_3;
 
   List<String> optionList = [];
-
-
-
-
-
-
 }

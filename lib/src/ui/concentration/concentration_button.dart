@@ -4,6 +4,7 @@ import 'package:mathsgames/src/ui/concentration/concentration_provider.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
+
 import '../soundPlayer/audio_file.dart';
 
 /// A button widget representing a single card in the Concentration game.
@@ -11,12 +12,16 @@ import '../soundPlayer/audio_file.dart';
 class ConcentrationButton extends StatelessWidget {
   /// The math pair data for this button.
   final Pair mathPairs;
+
   /// The index of this button in the grid.
   final int index;
+
   /// Color tuple for styling the button.
   final Tuple2<Color, Color> colorTuple;
+
   /// Height of the button.
   final double height;
+
   /// Whether the game is in continue mode (cards can be tapped).
   final bool isContinue;
 
@@ -53,9 +58,9 @@ class ConcentrationButton extends StatelessWidget {
             fit: BoxFit.contain,
             child: getTextWidget(
               Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: _getTextColor(),
-                fontWeight: FontWeight.bold,
-              ),
+                    color: _getTextColor(),
+                    fontWeight: FontWeight.bold,
+                  ),
               mathPairs.text,
               TextAlign.center,
               getPercentSize(height, 20),

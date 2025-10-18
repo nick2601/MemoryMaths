@@ -62,7 +62,6 @@ class GuessSignView extends StatelessWidget {
             gameCategoryType: GameCategoryType.GUESS_SIGN,
             colorTuple: colorTuple,
             context: context),
-
         child: CommonMainWidget<GuessSignProvider>(
           gameCategoryType: GameCategoryType.GUESS_SIGN,
           color: colorTuple.item1.bgColor!,
@@ -165,8 +164,8 @@ class GuessSignView extends StatelessWidget {
                                 margin: EdgeInsets.symmetric(
                                     vertical: getPercentSize(height1, 10)),
                                 child: Column(
-                                  children:
-                                      List.generate(shuffledList.length, (index) {
+                                  children: List.generate(shuffledList.length,
+                                      (index) {
                                     String e = shuffledList[index];
                                     return CommonVerticalButton(
                                         text: e,

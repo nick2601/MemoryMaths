@@ -9,8 +9,11 @@ class AccessibilityProvider extends ChangeNotifier {
   bool _largeTextEnabled = false;
 
   bool get adaptiveDifficultyEnabled => _adaptiveDifficultyEnabled;
+
   bool get dyslexicModeEnabled => _dyslexicModeEnabled;
+
   bool get highContrastEnabled => _highContrastEnabled;
+
   bool get largeTextEnabled => _largeTextEnabled;
 
   void toggleAdaptiveDifficulty(bool v) {
@@ -48,4 +51,3 @@ class AccessibilityProvider extends ChangeNotifier {
         'largeText': _largeTextEnabled,
       };
 }
-

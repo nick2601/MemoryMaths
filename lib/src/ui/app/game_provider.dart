@@ -1,12 +1,14 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/app/time_provider.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
-import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/reports/user_report_provider.dart';
 import 'package:provider/provider.dart';
+
 import '../../data/repositories/calculator_repository.dart';
 import '../../data/repositories/complex_calcualtion_repository.dart';
 import '../../data/repositories/correct_answer_repository.dart';
@@ -75,14 +77,20 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
 
   // Timer delegation
   DialogType get dialogType => _timeProvider.dialogType;
+
   set dialogType(DialogType value) => _timeProvider.dialogType = value;
+
   TimerStatus get timerStatus => _timeProvider.timerStatus;
+
   int get currentTime => _timeProvider.currentTime;
 
   // Public getters for protected members (needed by dialog listeners and views)
   int get currentIndex => index;
+
   int get currentLevel => levelNo;
+
   T get getCurrentState => currentState;
+
   List<T> get gameList => list;
 
   /// Creates a GameProvider for the specified game category and context.
@@ -92,9 +100,9 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
     required this.context,
     bool? isTimer,
   }) : _timeProvider = TimeProvider(
-         vsync: vsync,
-         totalTime: KeyUtil.getTimeUtil(gameCategoryType),
-       ) {
+          vsync: vsync,
+          totalTime: KeyUtil.getTimeUtil(gameCategoryType),
+        ) {
     _initializeGameState(isTimer);
     _setupProviders();
     _setupListeners();
@@ -143,9 +151,13 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
 
   // Timer control methods
   void pauseTimer() => _timeProvider.pauseTimer();
+
   void resumeTimer() => _timeProvider.resumeTimer();
+
   void restartTimer() => _timeProvider.restartTimer();
+
   void reset() => _timeProvider.reset();
+
   void startTimer() => _timeProvider.startTimer();
 
   @override
@@ -465,10 +477,12 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
   Future<void> _trackGameCompletion() async {
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      final reportProvider = Provider.of<UserReportProvider>(context, listen: false);
+      final reportProvider =
+          Provider.of<UserReportProvider>(context, listen: false);
 
       if (authProvider.userEmail != null) {
-        final gameDuration = DateTime.now().difference(gameStartTime).inMinutes.clamp(1, 999);
+        final gameDuration =
+            DateTime.now().difference(gameStartTime).inMinutes.clamp(1, 999);
 
         await reportProvider.updateUserStatistics(
           email: authProvider.userEmail!,
@@ -539,21 +553,27 @@ class GameProvider<T> with ChangeNotifier, WidgetsBindingObserver {
       case GameCategoryType.CONCENTRATION:
         return MathPairsRepository.getMathPairsDataList(level) as List<T>;
       case GameCategoryType.NUMERIC_MEMORY:
-        return NumericMemoryRepository.getNumericMemoryDataList(level) as List<T>;
+        return NumericMemoryRepository.getNumericMemoryDataList(level)
+            as List<T>;
       case GameCategoryType.CORRECT_ANSWER:
-        return CorrectAnswerRepository.getCorrectAnswerDataList(level) as List<T>;
+        return CorrectAnswerRepository.getCorrectAnswerDataList(level)
+            as List<T>;
       case GameCategoryType.MAGIC_TRIANGLE:
         return level > 15
-            ? MagicTriangleRepository.getNextLevelTriangleDataProviderList() as List<T>
+            ? MagicTriangleRepository.getNextLevelTriangleDataProviderList()
+                as List<T>
             : MagicTriangleRepository.getTriangleDataProviderList() as List<T>;
       case GameCategoryType.MENTAL_ARITHMETIC:
-        return MentalArithmeticRepository.getMentalArithmeticDataList(level) as List<T>;
+        return MentalArithmeticRepository.getMentalArithmeticDataList(level)
+            as List<T>;
       case GameCategoryType.QUICK_CALCULATION:
-        return QuickCalculationRepository.getQuickCalculationDataList(level, 5) as List<T>;
+        return QuickCalculationRepository.getQuickCalculationDataList(level, 5)
+            as List<T>;
       case GameCategoryType.MATH_GRID:
         return MathGridRepository.getMathGridData(level) as List<T>;
       case GameCategoryType.PICTURE_PUZZLE:
-        return PicturePuzzleRepository.getPicturePuzzleDataList(level) as List<T>;
+        return PicturePuzzleRepository.getPicturePuzzleDataList(level)
+            as List<T>;
       case GameCategoryType.NUMBER_PYRAMID:
         return NumberPyramidRepository.getPyramidDataList(level) as List<T>;
       case GameCategoryType.DUAL_GAME:

@@ -1,6 +1,5 @@
-import 'package:mathsgames/src/data/models/random_duel_data.dart';
-
 import 'package:mathsgames/src/data/models/quiz_model.dart';
+import 'package:mathsgames/src/data/models/random_duel_data.dart';
 
 /// Repository class that handles the generation and management of dual quiz data.
 /// This class provides methods to generate quiz questions based on different levels.

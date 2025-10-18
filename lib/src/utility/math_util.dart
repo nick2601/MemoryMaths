@@ -474,9 +474,7 @@ class MathUtil {
   }
 }
 
-void main() {
-
-}
+void main() {}
 
 class Expression {
   final String firstOperand;

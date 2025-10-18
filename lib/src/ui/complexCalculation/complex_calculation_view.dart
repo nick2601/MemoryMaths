@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/complex_model.dart';
-
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
@@ -69,7 +68,8 @@ class ComplexCalculationView extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Center(
-                        child: Selector<ComplexCalculationProvider, ComplexModel>(
+                        child:
+                            Selector<ComplexCalculationProvider, ComplexModel>(
                           selector: (p0, p1) => p1.currentState,
                           builder: (context, calculatorProvider, child) {
                             return getTextWidget(

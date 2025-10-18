@@ -48,7 +48,8 @@ class ConcentrationView extends StatelessWidget {
               create: (context) => ConcentrationProvider(
                 vsync: VsyncProvider.of(context),
                 level: colorTuple.item2,
-                isTimer: false, // Changed back to false like old working code
+                isTimer: false,
+                // Changed back to false like old working code
                 nextQuiz: () {
                   snapshot(() {
                     isContinue = false;
@@ -59,7 +60,8 @@ class ConcentrationView extends StatelessWidget {
             ),
           ],
           child: Consumer<ConcentrationProvider>(
-            builder: (context, controller, child) => DialogListener<ConcentrationProvider>(
+            builder: (context, controller, child) =>
+                DialogListener<ConcentrationProvider>(
               colorTuple: colorTuple,
               gameCategoryType: GameCategoryType.CONCENTRATION,
               level: colorTuple.item2,
@@ -78,7 +80,8 @@ class ConcentrationView extends StatelessWidget {
               child: CommonMainWidget<ConcentrationProvider>(
                 gameCategoryType: GameCategoryType.CONCENTRATION,
                 color: colorTuple.item1.bgColor!,
-                isTimer: false, // Changed back to false like old working code
+                isTimer: false,
+                // Changed back to false like old working code
                 primaryColor: colorTuple.item1.primaryColor!,
                 subChild: Container(
                   margin: EdgeInsets.only(top: getPercentSize(mainHeight, 80)),
@@ -99,7 +102,8 @@ class ConcentrationView extends StatelessWidget {
                                         childAspectRatio: aspectRatio,
                                         shrinkWrap: true,
                                         padding: EdgeInsets.symmetric(
-                                          horizontal: getHorizontalSpace(context),
+                                          horizontal:
+                                              getHorizontalSpace(context),
                                           vertical: getHorizontalSpace(context),
                                         ),
                                         crossAxisSpacing: crossAxisSpacing,
@@ -110,17 +114,24 @@ class ConcentrationView extends StatelessWidget {
                                           (index) {
                                             return Container(
                                               margin: EdgeInsets.symmetric(
-                                                horizontal: getHorizontalSpace(context) / 1.5,
-                                                vertical: getHorizontalSpace(context) / 2,
+                                                horizontal: getHorizontalSpace(
+                                                        context) /
+                                                    1.5,
+                                                vertical: getHorizontalSpace(
+                                                        context) /
+                                                    2,
                                               ),
                                               child: ConcentrationButton(
                                                 height: cardHeight,
-                                                mathPairs: provider.mathPairsList[index],
+                                                mathPairs: provider
+                                                    .mathPairsList[index],
                                                 index: index,
                                                 isContinue: isContinue,
                                                 colorTuple: Tuple2(
-                                                  colorTuple.item1.primaryColor!,
-                                                  colorTuple.item1.backgroundColor!,
+                                                  colorTuple
+                                                      .item1.primaryColor!,
+                                                  colorTuple
+                                                      .item1.backgroundColor!,
                                                 ),
                                               ),
                                             );

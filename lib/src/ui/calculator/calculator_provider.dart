@@ -1,7 +1,8 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
-import 'package:mathsgames/src/data/models/calculator.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/data/models/calculator.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
 import 'package:mathsgames/src/ui/soundPlayer/audio_file.dart';
 

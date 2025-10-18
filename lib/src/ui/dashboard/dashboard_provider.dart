@@ -1,24 +1,29 @@
 import 'dart:convert';
+
 import 'package:mathsgames/src/core/app_assets.dart';
-import 'package:mathsgames/src/data/models/score_board.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/data/models/score_board.dart';
 import 'package:mathsgames/src/ui/app/coin_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../data/models/game_category.dart';
 import '../../utility/global_constants.dart';
 
 class DashboardProvider extends CoinProvider {
   int _overallScore = 0;
+
   // int _coin = 0;
   late List<GameCategory> _list;
   final SharedPreferences preferences;
 
   int get overallScore => _overallScore;
+
   // int get coin => _coin;
 
   List<GameCategory> get list => _list;
 
-  DashboardProvider({required this.preferences}) : super(preferences: preferences) {
+  DashboardProvider({required this.preferences})
+      : super(preferences: preferences) {
     _overallScore = getOverallScore();
     getCoin();
   }
@@ -229,7 +234,8 @@ class DashboardProvider extends CoinProvider {
   }
 
   int getOverallCoin() {
-    return preferences.getInt(CoinProvider(preferences: preferences).keyCoin) ?? 0;
+    return preferences.getInt(CoinProvider(preferences: preferences).keyCoin) ??
+        0;
   }
 
   int getOverallScore() {
@@ -249,7 +255,8 @@ class DashboardProvider extends CoinProvider {
   }
 
   /// Marks the game as no longer first-time to suppress auto info dialog in future sessions.
-  Future<bool> setFirstTime(GameCategoryType gameCategoryType, {bool value = false}) async {
+  Future<bool> setFirstTime(GameCategoryType gameCategoryType,
+      {bool value = false}) async {
     final key = _firstTimeKey(gameCategoryType);
     return preferences.setBool(key, value);
   }
@@ -261,38 +268,41 @@ class DashboardProvider extends CoinProvider {
     }
   }
 
-  String _firstTimeKey(GameCategoryType type) => 'first_time_' + type.toString().split('.').last;
+  String _firstTimeKey(GameCategoryType type) =>
+      'first_time_' + type.toString().split('.').last;
 
   /// Resets all scores and progress data for the current user
   Future<void> resetAllScoreData() async {
     final allKeys = preferences.getKeys();
 
     // Find all score-related keys
-    final scoreKeys = allKeys.where((key) =>
-      key == 'overall_score' ||  // Overall score
-      key == keyCalculator ||
-      key == keySign ||
-      key == keyCorrectAnswer ||
-      key == keyQuickCalculation ||
-      key == keyFindMissingCalculation ||
-      key == keyTrueFalseCalculation ||
-      key == keyDualGame ||
-      key == keyComplexGame ||
-      key == keyMentalArithmetic ||
-      key == keySquareRoot ||
-      key == keyMathMachine ||
-      key == keyMathPairs ||
-      key == keyCubeRoot ||
-      key == keyConcentration ||
-      key == keyMagicTriangle ||
-      key == keyPicturePuzzle ||
-      key == keyNumberPyramid ||
-      key == keyNumericMemory ||
-      key.startsWith('score_') ||  // Any other score keys
-      key.startsWith('scoreboard_') ||  // Any scoreboard keys
-      key.contains('_score') ||  // Any keys containing '_score'
-      key.contains('Score')  // Any keys containing 'Score'
-    ).toList();
+    final scoreKeys = allKeys
+        .where((key) =>
+                key == 'overall_score' || // Overall score
+                key == keyCalculator ||
+                key == keySign ||
+                key == keyCorrectAnswer ||
+                key == keyQuickCalculation ||
+                key == keyFindMissingCalculation ||
+                key == keyTrueFalseCalculation ||
+                key == keyDualGame ||
+                key == keyComplexGame ||
+                key == keyMentalArithmetic ||
+                key == keySquareRoot ||
+                key == keyMathMachine ||
+                key == keyMathPairs ||
+                key == keyCubeRoot ||
+                key == keyConcentration ||
+                key == keyMagicTriangle ||
+                key == keyPicturePuzzle ||
+                key == keyNumberPyramid ||
+                key == keyNumericMemory ||
+                key.startsWith('score_') || // Any other score keys
+                key.startsWith('scoreboard_') || // Any scoreboard keys
+                key.contains('_score') || // Any keys containing '_score'
+                key.contains('Score') // Any keys containing 'Score'
+            )
+        .toList();
 
     print("Found ${scoreKeys.length} score-related keys to delete:");
     for (final key in scoreKeys) {
@@ -335,11 +345,24 @@ class DashboardProvider extends CoinProvider {
 
     // Sum up all high scores from individual games
     final gameKeys = [
-      keyCalculator, keySign, keyCorrectAnswer, keyQuickCalculation,
-      keyFindMissingCalculation, keyTrueFalseCalculation, keyDualGame,
-      keyComplexGame, keyMentalArithmetic, keySquareRoot, keyMathMachine,
-      keyMathPairs, keyCubeRoot, keyConcentration, keyMagicTriangle,
-      keyPicturePuzzle, keyNumberPyramid, keyNumericMemory
+      keyCalculator,
+      keySign,
+      keyCorrectAnswer,
+      keyQuickCalculation,
+      keyFindMissingCalculation,
+      keyTrueFalseCalculation,
+      keyDualGame,
+      keyComplexGame,
+      keyMentalArithmetic,
+      keySquareRoot,
+      keyMathMachine,
+      keyMathPairs,
+      keyCubeRoot,
+      keyConcentration,
+      keyMagicTriangle,
+      keyPicturePuzzle,
+      keyNumberPyramid,
+      keyNumericMemory
     ];
 
     for (String key in gameKeys) {
@@ -355,7 +378,11 @@ class DashboardProvider extends CoinProvider {
   Future<void> clearAllData() async {
     final keys = preferences.getKeys();
     for (String key in keys) {
-      if (key != 'themeMode' && key != 'isDarkMode' && !key.startsWith('profile_') && !key.startsWith('email_') && key != 'loggedInUser') {
+      if (key != 'themeMode' &&
+          key != 'isDarkMode' &&
+          !key.startsWith('profile_') &&
+          !key.startsWith('email_') &&
+          key != 'loggedInUser') {
         await preferences.remove(key);
       }
     }

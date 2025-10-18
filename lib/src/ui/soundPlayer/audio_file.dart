@@ -1,7 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 
 class AudioPlayer {
   BuildContext? context;

@@ -5,6 +5,7 @@ import 'package:mathsgames/src/core/app_assets.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
+
 import '../app/game_provider.dart';
 
 class CommonInfoTextView<T extends GameProvider> extends StatelessWidget {

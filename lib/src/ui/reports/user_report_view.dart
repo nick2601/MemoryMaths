@@ -3,6 +3,7 @@ import 'package:mathsgames/src/core/theme_wrapper.dart';
 import 'package:mathsgames/src/data/models/user_report.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
 import 'package:provider/provider.dart';
+
 import 'user_report_provider.dart';
 
 /// User report view with Material 3 design and dyslexic-friendly features
@@ -289,7 +290,8 @@ class _UserReportViewState extends State<UserReportView> {
                 Expanded(
                   child: _buildStatItem(
                     'Best Streak',
-                    '${(report.overallSummary.overallAccuracy * 10).toInt()}', // Use accuracy as a proxy for streak
+                    '${(report.overallSummary.overallAccuracy * 10).toInt()}',
+                    // Use accuracy as a proxy for streak
                     Icons.local_fire_department,
                     theme,
                   ),
@@ -302,7 +304,8 @@ class _UserReportViewState extends State<UserReportView> {
     );
   }
 
-  Widget _buildStatItem(String label, String value, IconData icon, ThemeData theme) {
+  Widget _buildStatItem(
+      String label, String value, IconData icon, ThemeData theme) {
     return Container(
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -362,7 +365,8 @@ class _UserReportViewState extends State<UserReportView> {
             ),
             SizedBox(height: 8),
             // Use fixed strengths list for now
-            ..._getDefaultStrengths().map((strength) => _buildBulletPoint(strength, true)),
+            ..._getDefaultStrengths()
+                .map((strength) => _buildBulletPoint(strength, true)),
             SizedBox(height: 16),
             Text(
               'Areas for Improvement:',
@@ -373,7 +377,8 @@ class _UserReportViewState extends State<UserReportView> {
             ),
             SizedBox(height: 8),
             // Use fixed improvement areas for now
-            ..._getDefaultImprovements().map((area) => _buildBulletPoint(area, false)),
+            ..._getDefaultImprovements()
+                .map((area) => _buildBulletPoint(area, false)),
           ],
         ),
       ),
@@ -411,7 +416,8 @@ class _UserReportViewState extends State<UserReportView> {
     );
   }
 
-  Widget _buildProgressIndicator(String skill, double progress, ThemeData theme) {
+  Widget _buildProgressIndicator(
+      String skill, double progress, ThemeData theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -459,7 +465,7 @@ class _UserReportViewState extends State<UserReportView> {
             ),
             SizedBox(height: 16),
             ..._getRecommendations().map((recommendation) =>
-              _buildRecommendationItem(recommendation, theme)),
+                _buildRecommendationItem(recommendation, theme)),
           ],
         ),
       ),
@@ -477,7 +483,9 @@ class _UserReportViewState extends State<UserReportView> {
           Icon(
             isPositive ? Icons.check_circle : Icons.info,
             size: 16,
-            color: isPositive ? theme.colorScheme.secondary : theme.colorScheme.error,
+            color: isPositive
+                ? theme.colorScheme.secondary
+                : theme.colorScheme.error,
           ),
           SizedBox(width: 8),
           Expanded(

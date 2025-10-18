@@ -1,11 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mathsgames/src/data/models/dashboard.dart';
-import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
 import 'package:mathsgames/src/core/theme_wrapper.dart';
+import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
+import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -279,7 +278,9 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     tuple2!.item1.outlineIcon,
                     height: 120,
                     colorFilter: ColorFilter.mode(
-                      Theme.of(context).colorScheme.onSurface, // Use theme color
+                      Theme.of(context)
+                          .colorScheme
+                          .onSurface, // Use theme color
                       BlendMode.srcIn,
                     ),
                   ),
@@ -380,7 +381,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                                         borderRadius: BorderRadius.circular(16),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: baseColor.withValues(alpha: 0.3),
+                                            color: baseColor.withValues(
+                                                alpha: 0.3),
                                             blurRadius: 8,
                                             offset: Offset(0, 4),
                                           ),
@@ -416,7 +418,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                                           children: [
                                             Icon(
                                               Icons.emoji_events_outlined,
-                                              color: baseColor.withValues(alpha: 0.9),
+                                              color: baseColor.withValues(
+                                                  alpha: 0.9),
                                               size: 18,
                                             ),
                                             SizedBox(width: 4),
@@ -436,7 +439,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 4),
                                           decoration: BoxDecoration(
-                                            color: baseColor.withValues(alpha: 0.1),
+                                            color: baseColor.withValues(
+                                                alpha: 0.1),
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),

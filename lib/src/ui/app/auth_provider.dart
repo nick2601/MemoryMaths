@@ -1,8 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mathsgames/src/data/models/user_profile.dart';
 import 'package:mathsgames/src/ui/app/coin_provider.dart';
-import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Provider for managing user authentication state.
 /// Handles signup, login, logout, and authentication status checks.
@@ -15,12 +16,16 @@ class AuthProvider with ChangeNotifier {
 
   /// Returns whether the user is authenticated.
   bool get isAuthenticated => _isAuthenticated;
+
   /// Returns the current username.
   String? get username => _username;
+
   /// Returns the current user email.
   String? get userEmail => _userEmail;
+
   /// Returns the current user profile.
   UserProfile? get userProfile => _userProfile;
+
   /// Returns the current user (for compatibility)
   UserProfile? get currentUser => _userProfile;
 
@@ -30,14 +35,16 @@ class AuthProvider with ChangeNotifier {
   }
 
   /// Registers a new user with the given details
-  Future<void> register(String fullName, String email, String username, String password) async {
+  Future<void> register(
+      String fullName, String email, String username, String password) async {
     await signup(username, email, password, fullName);
   }
 
   /// Signs up a new user with the given username, email, and password.
   /// Creates a user profile for analytics and reporting.
   /// Throws an exception if the username or email already exists.
-  Future<void> signup(String username, String email, String password, String fullName) async {
+  Future<void> signup(
+      String username, String email, String password, String fullName) async {
     final prefs = await SharedPreferences.getInstance();
 
     // Check if the username already exists
@@ -160,7 +167,8 @@ class AuthProvider with ChangeNotifier {
   /// Saves user profile to SharedPreferences
   Future<void> _saveUserProfile(UserProfile profile) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('profile_${profile.email}', jsonEncode(profile.toJson()));
+    await prefs.setString(
+        'profile_${profile.email}', jsonEncode(profile.toJson()));
   }
 
   /// Loads user profile from SharedPreferences

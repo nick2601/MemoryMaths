@@ -100,7 +100,6 @@ class DyslexicTheme {
         onPrimary: Colors.black,
         onSecondary: Colors.black,
       ),
-
       textTheme: _buildTextTheme(Brightness.dark),
       appBarTheme: _buildAppBarTheme(Brightness.dark),
       elevatedButtonTheme: _buildElevatedButtonTheme(),
@@ -115,7 +114,6 @@ class DyslexicTheme {
       navigationBarTheme: _buildNavigationBarTheme(),
       bottomAppBarTheme: _buildBottomAppBarTheme(),
       floatingActionButtonTheme: _buildFABTheme(),
-
       scaffoldBackgroundColor: darkBackground,
       fontFamily: dyslexicFont,
     );
@@ -123,7 +121,8 @@ class DyslexicTheme {
 
   // Private helper methods for component themes
   static TextTheme _buildTextTheme(Brightness brightness) {
-    final textColor = brightness == Brightness.light ? primaryTextColor : Colors.white;
+    final textColor =
+        brightness == Brightness.light ? primaryTextColor : Colors.white;
 
     return TextTheme(
       displayLarge: TextStyle(

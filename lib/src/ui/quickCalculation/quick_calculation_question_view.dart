@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/data/models/quick_calculation.dart';
+
 import '../../utility/global_constants.dart';
 
 class QuickCalculationQuestionView extends StatefulWidget {
@@ -22,6 +23,7 @@ class QuickCalculationQuestionView extends StatefulWidget {
 class _QuickCalculationQuestionViewState
     extends State<QuickCalculationQuestionView> with TickerProviderStateMixin {
   late AnimationController _controller;
+
   @override
   void initState() {
     super.initState();

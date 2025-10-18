@@ -3,18 +3,18 @@
 class ScoreBoard {
   /// The highest score achieved in the game
   int highestScore;
-  
+
   /// Indicates if this is the first time playing the game
   late bool firstTime;
 
   /// Creates a new ScoreBoard instance with a required highest score.
-  /// 
+  ///
   /// Parameters:
   /// - [highestScore]: The initial highest score to set
   ScoreBoard({required this.highestScore});
 
   /// Creates a ScoreBoard instance from a JSON map.
-  /// 
+  ///
   /// Parameters:
   /// - [json]: Map containing the score board data with keys:
   ///   - 'highestScore': The highest score achieved (defaults to 0)
@@ -24,7 +24,7 @@ class ScoreBoard {
         firstTime = json['firstTime'] ?? true;
 
   /// Converts the ScoreBoard instance to a JSON map.
-  /// 
+  ///
   /// Returns a Map containing:
   /// - 'highestScore': The current highest score
   /// - 'firstTime': The first time play status

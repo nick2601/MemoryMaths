@@ -143,14 +143,16 @@ class _DialogListenerState<T extends GameProvider>
 
                   // Reset concentration-specific state
                   if (context.read<T>() is ConcentrationProvider) {
-                    final concentrationProvider = context.read<T>() as ConcentrationProvider;
+                    final concentrationProvider =
+                        context.read<T>() as ConcentrationProvider;
                     concentrationProvider.first = -1;
                     concentrationProvider.second = -1;
                   }
 
                   // Start new game with proper state reset
                   context.read<T>().startGame(
-                      level: level, isTimer: false); // Concentration should not use timer
+                      level: level,
+                      isTimer: false); // Concentration should not use timer
 
                   // Trigger widget refresh by calling nextQuiz callback
                   if (widget.nextQuiz != null) {
@@ -190,7 +192,8 @@ class _DialogListenerState<T extends GameProvider>
               isDialogOpen = false;
               if (value == true) {
                 // User clicked "Go" - continue with game
-                if (widget.gameCategoryType == GameCategoryType.NUMERIC_MEMORY) {
+                if (widget.gameCategoryType ==
+                    GameCategoryType.NUMERIC_MEMORY) {
                   // For numeric memory, just set dialog type to non and let the view handle timing
                   context.read<T>().dialogType = DialogType.non;
                   // Don't call gotItFromInfoDialog - let numeric memory view handle its own logic
@@ -273,7 +276,8 @@ class _DialogListenerState<T extends GameProvider>
               isDialogOpen = false;
               if (value == true) {
                 // User clicked "Ok" after viewing hint - keep game paused
-                if (widget.gameCategoryType == GameCategoryType.MENTAL_ARITHMETIC) {
+                if (widget.gameCategoryType ==
+                    GameCategoryType.MENTAL_ARITHMETIC) {
                   // For mental arithmetic, keep the game paused after viewing hint
                   // User needs time to input the answer they just saw
                   context.read<T>().dialogType = DialogType.non;
@@ -284,7 +288,8 @@ class _DialogListenerState<T extends GameProvider>
                 }
               } else {
                 // User clicked "Cancel" - resume the game timer
-                if (widget.gameCategoryType == GameCategoryType.MENTAL_ARITHMETIC) {
+                if (widget.gameCategoryType ==
+                    GameCategoryType.MENTAL_ARITHMETIC) {
                   context.read<T>().dialogType = DialogType.non;
                   context.read<T>().resumeTimer();
                 } else {

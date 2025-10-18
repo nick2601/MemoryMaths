@@ -16,7 +16,8 @@ class CoinProvider with ChangeNotifier {
   // Legacy key for backward compatibility
   static const String LEGACY_KEY_COIN = 'KeyCoin';
 
-  String get keyCoin => _currentUserId != null ? 'KeyCoin_$_currentUserId' : LEGACY_KEY_COIN;
+  String get keyCoin =>
+      _currentUserId != null ? 'KeyCoin_$_currentUserId' : LEGACY_KEY_COIN;
 
   /// Constructor that accepts SharedPreferences for dependency injection
   CoinProvider({required this.preferences}) {

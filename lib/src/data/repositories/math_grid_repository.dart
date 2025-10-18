@@ -1,5 +1,6 @@
-import 'package:mathsgames/src/data/models/math_grid.dart';
 import 'dart:math';
+
+import 'package:mathsgames/src/data/models/math_grid.dart';
 
 /// Repository class that handles the generation and management of math grid data
 /// Used for creating number grids for math puzzle games

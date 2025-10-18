@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:tuple/tuple.dart';
 
 /// Model class representing the information dialog shown for each game.

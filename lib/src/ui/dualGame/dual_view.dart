@@ -1,16 +1,16 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/quiz_model.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
-
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
 import 'package:mathsgames/src/ui/dualGame/dual_game_provider.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
-import 'dart:math' as math;
 
 import '../../utility/global_constants.dart';
 import '../common/common_dual_button.dart';

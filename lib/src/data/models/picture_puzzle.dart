@@ -4,6 +4,7 @@ enum PicturePuzzleQuestionItemType {
   hint,
   answer,
 }
+
 enum PicturePuzzleShapeType {
   CIRCLE,
   SQUARE,

@@ -167,7 +167,8 @@ class PerformanceSummary {
       'totalPlayTime': totalPlayTime,
       'currentSkillLevel': currentSkillLevel.toString(),
       'progressToNextLevel': progressToNextLevel,
-      'strongestCategories': strongestCategories.map((c) => c.toString()).toList(),
+      'strongestCategories':
+          strongestCategories.map((c) => c.toString()).toList(),
       'improvementAreas': improvementAreas.map((c) => c.toString()).toList(),
     };
   }
@@ -232,7 +233,8 @@ class GamePerformanceReport {
       ),
       strengths: List<String>.from(json['strengths'] ?? []),
       improvementAreas: List<String>.from(json['improvementAreas'] ?? []),
-      recommendedActivities: List<String>.from(json['recommendedActivities'] ?? []),
+      recommendedActivities:
+          List<String>.from(json['recommendedActivities'] ?? []),
       goals: goalsList,
     );
   }
@@ -302,7 +304,8 @@ class SkillAssessment {
 
     return SkillAssessment(
       skillAreas: skillAreasMap,
-      cognitiveAbilities: CognitiveAbilities.fromJson(json['cognitiveAbilities']),
+      cognitiveAbilities:
+          CognitiveAbilities.fromJson(json['cognitiveAbilities']),
       learningStyle: LearningStyle.values.firstWhere(
         (e) => e.toString() == json['learningStyle'],
         orElse: () => LearningStyle.visual,
@@ -354,7 +357,12 @@ class CognitiveAbilities {
 
   /// Overall cognitive score
   double get overallScore {
-    return (memoryScore + processingSpeed + attentionSpan + problemSolving + patternRecognition) / 5;
+    return (memoryScore +
+            processingSpeed +
+            attentionSpan +
+            problemSolving +
+            patternRecognition) /
+        5;
   }
 
   /// Creates CognitiveAbilities from JSON
@@ -536,7 +544,8 @@ class ImprovementGoal {
       targetMetric: json['targetMetric'] ?? '',
       currentValue: (json['currentValue'] ?? 0.0).toDouble(),
       targetValue: (json['targetValue'] ?? 0.0).toDouble(),
-      targetDate: DateTime.parse(json['targetDate'] ?? DateTime.now().toIso8601String()),
+      targetDate: DateTime.parse(
+          json['targetDate'] ?? DateTime.now().toIso8601String()),
       isAchieved: json['isAchieved'] ?? false,
     );
   }
@@ -597,7 +606,9 @@ class Achievement {
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       icon: json['icon'] ?? '',
-      achievedAt: json['achievedAt'] != null ? DateTime.parse(json['achievedAt']) : null,
+      achievedAt: json['achievedAt'] != null
+          ? DateTime.parse(json['achievedAt'])
+          : null,
       category: AchievementCategory.values.firstWhere(
         (e) => e.toString() == json['category'],
         orElse: () => AchievementCategory.general,

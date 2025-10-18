@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/user_profile.dart';
 import 'package:mathsgames/src/data/models/user_report.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Repository for managing user reports and analytics
 class UserReportRepository {
@@ -105,37 +105,45 @@ class UserReportRepository {
     );
 
     // Update game statistics
-    final currentStats = userProfile.gameStats[gameType] ?? GameStatistics(
-      gamesPlayed: 0,
-      highestScore: 0.0,
-      lowestScore: double.infinity,
-      averageScore: 0.0,
-      correctAnswers: 0,
-      wrongAnswers: 0,
-      totalPlayTimeMinutes: 0,
-      highestLevel: 1,
-      currentLevel: 1,
-      recentSessions: [],
-      suggestions: [],
-    );
+    final currentStats = userProfile.gameStats[gameType] ??
+        GameStatistics(
+          gamesPlayed: 0,
+          highestScore: 0.0,
+          lowestScore: double.infinity,
+          averageScore: 0.0,
+          correctAnswers: 0,
+          wrongAnswers: 0,
+          totalPlayTimeMinutes: 0,
+          highestLevel: 1,
+          currentLevel: 1,
+          recentSessions: [],
+          suggestions: [],
+        );
 
     // Calculate new statistics
     final newGamesPlayed = currentStats.gamesPlayed + 1;
-    final newHighestScore = score > currentStats.highestScore ? score : currentStats.highestScore;
+    final newHighestScore =
+        score > currentStats.highestScore ? score : currentStats.highestScore;
     final newLowestScore = currentStats.lowestScore == double.infinity
         ? score
         : (score < currentStats.lowestScore ? score : currentStats.lowestScore);
-    final newAverageScore = ((currentStats.averageScore * currentStats.gamesPlayed) + score) / newGamesPlayed;
+    final newAverageScore =
+        ((currentStats.averageScore * currentStats.gamesPlayed) + score) /
+            newGamesPlayed;
     final newCorrectAnswers = currentStats.correctAnswers + correctAnswers;
     final newWrongAnswers = currentStats.wrongAnswers + wrongAnswers;
-    final newTotalPlayTime = currentStats.totalPlayTimeMinutes + durationMinutes;
-    final newHighestLevel = level > currentStats.highestLevel ? level : currentStats.highestLevel;
+    final newTotalPlayTime =
+        currentStats.totalPlayTimeMinutes + durationMinutes;
+    final newHighestLevel =
+        level > currentStats.highestLevel ? level : currentStats.highestLevel;
 
     // Update recent sessions (keep last 10)
-    final newRecentSessions = [newSession, ...currentStats.recentSessions].take(10).toList();
+    final newRecentSessions =
+        [newSession, ...currentStats.recentSessions].take(10).toList();
 
     // Generate suggestions
-    final newSuggestions = _generateSuggestions(gameType, newSession, currentStats);
+    final newSuggestions =
+        _generateSuggestions(gameType, newSession, currentStats);
 
     final updatedStats = GameStatistics(
       gamesPlayed: newGamesPlayed,
@@ -152,7 +160,8 @@ class UserReportRepository {
     );
 
     // Update user profile
-    final updatedGameStats = Map<GameCategoryType, GameStatistics>.from(userProfile.gameStats);
+    final updatedGameStats =
+        Map<GameCategoryType, GameStatistics>.from(userProfile.gameStats);
     updatedGameStats[gameType] = updatedStats;
 
     final updatedProfile = userProfile.copyWith(
@@ -172,7 +181,9 @@ class UserReportRepository {
 
     if (historyJson != null) {
       final historyList = json.decode(historyJson) as List;
-      return historyList.map((reportJson) => UserReport.fromJson(reportJson)).toList();
+      return historyList
+          .map((reportJson) => UserReport.fromJson(reportJson))
+          .toList();
     }
     return [];
   }
@@ -195,11 +206,14 @@ class UserReportRepository {
     final sortedByAccuracy = userProfile.gameStats.entries.toList()
       ..sort((a, b) => b.value.accuracy.compareTo(a.value.accuracy));
 
-    final strongestCategories = sortedByAccuracy.take(3).map((e) => e.key).toList();
-    final improvementAreas = sortedByAccuracy.reversed.take(3).map((e) => e.key).toList();
+    final strongestCategories =
+        sortedByAccuracy.take(3).map((e) => e.key).toList();
+    final improvementAreas =
+        sortedByAccuracy.reversed.take(3).map((e) => e.key).toList();
 
     // Calculate progress to next level
-    final progressToNextLevel = _calculateProgressToNextLevel(userProfile.skillLevel, overallAccuracy);
+    final progressToNextLevel =
+        _calculateProgressToNextLevel(userProfile.skillLevel, overallAccuracy);
 
     return PerformanceSummary(
       totalGamesPlayed: totalGamesPlayed,
@@ -214,14 +228,16 @@ class UserReportRepository {
   }
 
   /// Generate game-specific reports
-  Map<GameCategoryType, GamePerformanceReport> _generateGameReports(UserProfile userProfile) {
+  Map<GameCategoryType, GamePerformanceReport> _generateGameReports(
+      UserProfile userProfile) {
     final gameReports = <GameCategoryType, GamePerformanceReport>{};
 
     userProfile.gameStats.forEach((gameType, statistics) {
       final performanceGrade = _calculatePerformanceGrade(statistics);
       final strengths = _identifyStrengths(gameType, statistics);
       final improvementAreas = _identifyImprovementAreas(gameType, statistics);
-      final recommendedActivities = _generateRecommendedActivities(gameType, statistics);
+      final recommendedActivities =
+          _generateRecommendedActivities(gameType, statistics);
       final goals = _generateImprovementGoals(gameType, statistics);
 
       gameReports[gameType] = GamePerformanceReport(
@@ -268,7 +284,8 @@ class UserReportRepository {
   }
 
   /// Generate learning path
-  LearningPath _generateLearningPath(UserProfile userProfile, SkillAssessment skillAssessment) {
+  LearningPath _generateLearningPath(
+      UserProfile userProfile, SkillAssessment skillAssessment) {
     final currentPhase = _determineCurrentPhase(userProfile, skillAssessment);
     final nextSteps = _generateNextSteps(currentPhase, skillAssessment);
     final estimatedCompletionTime = _estimateCompletionTime(nextSteps);
@@ -298,20 +315,30 @@ class UserReportRepository {
 
   /// Helper methods for calculations and assessments
 
-  SkillLevel _calculateSkillLevel(Map<GameCategoryType, GameStatistics> gameStats) {
+  SkillLevel _calculateSkillLevel(
+      Map<GameCategoryType, GameStatistics> gameStats) {
     if (gameStats.isEmpty) return SkillLevel.beginner;
 
-    final avgAccuracy = gameStats.values.fold<double>(0, (sum, stats) => sum + stats.accuracy) / gameStats.length;
-    final avgScore = gameStats.values.fold<double>(0, (sum, stats) => sum + stats.averageScore) / gameStats.length;
-    final totalGames = gameStats.values.fold<int>(0, (sum, stats) => sum + stats.gamesPlayed);
+    final avgAccuracy =
+        gameStats.values.fold<double>(0, (sum, stats) => sum + stats.accuracy) /
+            gameStats.length;
+    final avgScore = gameStats.values
+            .fold<double>(0, (sum, stats) => sum + stats.averageScore) /
+        gameStats.length;
+    final totalGames =
+        gameStats.values.fold<int>(0, (sum, stats) => sum + stats.gamesPlayed);
 
-    if (avgAccuracy >= 90 && avgScore >= 80 && totalGames >= 50) return SkillLevel.expert;
-    if (avgAccuracy >= 80 && avgScore >= 60 && totalGames >= 30) return SkillLevel.advanced;
-    if (avgAccuracy >= 70 && avgScore >= 40 && totalGames >= 15) return SkillLevel.intermediate;
+    if (avgAccuracy >= 90 && avgScore >= 80 && totalGames >= 50)
+      return SkillLevel.expert;
+    if (avgAccuracy >= 80 && avgScore >= 60 && totalGames >= 30)
+      return SkillLevel.advanced;
+    if (avgAccuracy >= 70 && avgScore >= 40 && totalGames >= 15)
+      return SkillLevel.intermediate;
     return SkillLevel.beginner;
   }
 
-  double _calculateProgressToNextLevel(SkillLevel currentLevel, double accuracy) {
+  double _calculateProgressToNextLevel(
+      SkillLevel currentLevel, double accuracy) {
     switch (currentLevel) {
       case SkillLevel.beginner:
         return (accuracy / 70) * 100;
@@ -336,31 +363,38 @@ class UserReportRepository {
     return 'F';
   }
 
-  List<String> _generateSuggestions(GameCategoryType gameType, GameSession session, GameStatistics currentStats) {
+  List<String> _generateSuggestions(GameCategoryType gameType,
+      GameSession session, GameStatistics currentStats) {
     final suggestions = <String>[];
 
     // Accuracy-based suggestions
     if (session.accuracy < 70) {
-      suggestions.add('Focus on accuracy over speed - take your time to think through each problem');
-      suggestions.add('Practice similar problems at lower levels to build confidence');
+      suggestions.add(
+          'Focus on accuracy over speed - take your time to think through each problem');
+      suggestions
+          .add('Practice similar problems at lower levels to build confidence');
     }
 
     // Speed-based suggestions
     if (session.durationMinutes > 10) {
-      suggestions.add('Try to solve problems more quickly - practice mental math techniques');
+      suggestions.add(
+          'Try to solve problems more quickly - practice mental math techniques');
     }
 
     // Game-specific suggestions
     switch (gameType) {
       case GameCategoryType.CALCULATOR:
-        suggestions.add('Practice basic arithmetic operations without calculator');
+        suggestions
+            .add('Practice basic arithmetic operations without calculator');
         break;
       case GameCategoryType.MENTAL_ARITHMETIC:
         suggestions.add('Work on memorizing multiplication tables');
-        suggestions.add('Practice breaking down complex calculations into simpler steps');
+        suggestions.add(
+            'Practice breaking down complex calculations into simpler steps');
         break;
       case GameCategoryType.NUMERIC_MEMORY:
-        suggestions.add('Try visualization techniques to remember number sequences');
+        suggestions
+            .add('Try visualization techniques to remember number sequences');
         suggestions.add('Practice chunking numbers into smaller groups');
         break;
       default:
@@ -400,7 +434,10 @@ class UserReportRepository {
   }
 
   SkillLevel _assessMemorySkill(UserProfile userProfile) {
-    final memoryGames = [GameCategoryType.NUMERIC_MEMORY, GameCategoryType.CONCENTRATION];
+    final memoryGames = [
+      GameCategoryType.NUMERIC_MEMORY,
+      GameCategoryType.CONCENTRATION
+    ];
     return _assessSkillByGameTypes(userProfile, memoryGames);
   }
 
@@ -427,7 +464,8 @@ class UserReportRepository {
     return _assessSkillByGameTypes(userProfile, patternGames);
   }
 
-  SkillLevel _assessSkillByGameTypes(UserProfile userProfile, List<GameCategoryType> gameTypes) {
+  SkillLevel _assessSkillByGameTypes(
+      UserProfile userProfile, List<GameCategoryType> gameTypes) {
     double avgAccuracy = 0;
     int gameCount = 0;
 
@@ -472,7 +510,8 @@ class UserReportRepository {
   }
 
   double _calculateProcessingSpeed(UserProfile userProfile) {
-    final quickCalcStats = userProfile.gameStats[GameCategoryType.QUICK_CALCULATION];
+    final quickCalcStats =
+        userProfile.gameStats[GameCategoryType.QUICK_CALCULATION];
     if (quickCalcStats == null) return 50.0;
     // Higher accuracy with less time indicates better processing speed
     return (quickCalcStats.accuracy * 0.8 + 20).clamp(0.0, 100.0);
@@ -537,8 +576,9 @@ class UserReportRepository {
 
     final mean = accuracies.reduce((a, b) => a + b) / accuracies.length;
     final variance = accuracies
-        .map((accuracy) => (accuracy - mean) * (accuracy - mean))
-        .reduce((a, b) => a + b) / accuracies.length;
+            .map((accuracy) => (accuracy - mean) * (accuracy - mean))
+            .reduce((a, b) => a + b) /
+        accuracies.length;
 
     return variance;
   }
@@ -549,9 +589,12 @@ class UserReportRepository {
     return LearningStyle.visual; // Default for math games
   }
 
-  List<MathSkillArea> _identifyFocusAreas(Map<MathSkillArea, SkillLevel> skillAreas) {
+  List<MathSkillArea> _identifyFocusAreas(
+      Map<MathSkillArea, SkillLevel> skillAreas) {
     return skillAreas.entries
-        .where((entry) => entry.value == SkillLevel.beginner || entry.value == SkillLevel.intermediate)
+        .where((entry) =>
+            entry.value == SkillLevel.beginner ||
+            entry.value == SkillLevel.intermediate)
         .map((entry) => entry.key)
         .take(3)
         .toList();
@@ -559,7 +602,8 @@ class UserReportRepository {
 
   // Additional helper methods for learning path generation
 
-  LearningPhase _determineCurrentPhase(UserProfile userProfile, SkillAssessment skillAssessment) {
+  LearningPhase _determineCurrentPhase(
+      UserProfile userProfile, SkillAssessment skillAssessment) {
     final overallSkillLevel = userProfile.skillLevel;
 
     switch (overallSkillLevel) {
@@ -574,7 +618,8 @@ class UserReportRepository {
     }
   }
 
-  List<LearningStep> _generateNextSteps(LearningPhase currentPhase, SkillAssessment skillAssessment) {
+  List<LearningStep> _generateNextSteps(
+      LearningPhase currentPhase, SkillAssessment skillAssessment) {
     final steps = <LearningStep>[];
 
     switch (currentPhase) {
@@ -599,8 +644,12 @@ class UserReportRepository {
     return [
       const LearningStep(
         title: 'Master Basic Arithmetic',
-        description: 'Practice addition, subtraction, multiplication, and division',
-        gameCategories: [GameCategoryType.CALCULATOR, GameCategoryType.MENTAL_ARITHMETIC],
+        description:
+            'Practice addition, subtraction, multiplication, and division',
+        gameCategories: [
+          GameCategoryType.CALCULATOR,
+          GameCategoryType.MENTAL_ARITHMETIC
+        ],
         estimatedMinutes: 30,
         priority: 5,
       ),
@@ -618,7 +667,8 @@ class UserReportRepository {
     return [
       const LearningStep(
         title: 'Speed Up Calculations',
-        description: 'Focus on solving problems quickly while maintaining accuracy',
+        description:
+            'Focus on solving problems quickly while maintaining accuracy',
         gameCategories: [GameCategoryType.QUICK_CALCULATION],
         estimatedMinutes: 25,
         priority: 5,
@@ -626,7 +676,10 @@ class UserReportRepository {
       const LearningStep(
         title: 'Pattern Recognition',
         description: 'Learn to identify mathematical patterns and sequences',
-        gameCategories: [GameCategoryType.MAGIC_TRIANGLE, GameCategoryType.NUMBER_PYRAMID],
+        gameCategories: [
+          GameCategoryType.MAGIC_TRIANGLE,
+          GameCategoryType.NUMBER_PYRAMID
+        ],
         estimatedMinutes: 35,
         priority: 4,
       ),
@@ -684,7 +737,8 @@ class UserReportRepository {
     final now = DateTime.now();
 
     // High score achievements
-    if (userProfile.gameStats.values.any((stats) => stats.highestScore >= 100)) {
+    if (userProfile.gameStats.values
+        .any((stats) => stats.highestScore >= 100)) {
       achievements.add(Achievement(
         id: 'score_100',
         name: 'Century Scorer',
@@ -769,7 +823,8 @@ class UserReportRepository {
         achievements.add(Achievement(
           id: 'mastery_${gameType.toString()}',
           name: '${gameCategoryTypeToString(gameType)} Master',
-          description: 'Achieved mastery in ${gameCategoryTypeToString(gameType)}',
+          description:
+              'Achieved mastery in ${gameCategoryTypeToString(gameType)}',
           icon: 'star',
           achievedAt: now,
           category: AchievementCategory.mastery,
@@ -783,7 +838,8 @@ class UserReportRepository {
 
   // Additional helper methods for report generation
 
-  List<String> _identifyStrengths(GameCategoryType gameType, GameStatistics statistics) {
+  List<String> _identifyStrengths(
+      GameCategoryType gameType, GameStatistics statistics) {
     final strengths = <String>[];
 
     if (statistics.accuracy >= 85) {
@@ -801,7 +857,8 @@ class UserReportRepository {
     return strengths;
   }
 
-  List<String> _identifyImprovementAreas(GameCategoryType gameType, GameStatistics statistics) {
+  List<String> _identifyImprovementAreas(
+      GameCategoryType gameType, GameStatistics statistics) {
     final areas = <String>[];
 
     if (statistics.accuracy < 70) {
@@ -819,7 +876,8 @@ class UserReportRepository {
     return areas;
   }
 
-  List<String> _generateRecommendedActivities(GameCategoryType gameType, GameStatistics statistics) {
+  List<String> _generateRecommendedActivities(
+      GameCategoryType gameType, GameStatistics statistics) {
     final activities = <String>[];
 
     switch (gameType) {
@@ -843,7 +901,8 @@ class UserReportRepository {
     return activities;
   }
 
-  List<ImprovementGoal> _generateImprovementGoals(GameCategoryType gameType, GameStatistics statistics) {
+  List<ImprovementGoal> _generateImprovementGoals(
+      GameCategoryType gameType, GameStatistics statistics) {
     final goals = <ImprovementGoal>[];
     final targetDate = DateTime.now().add(const Duration(days: 30));
 

@@ -1,10 +1,10 @@
+import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/data/models/number_pyramid.dart';
 import 'package:mathsgames/src/ui/numberPyramid/number_pyramid_provider.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-import 'package:figma_squircle/figma_squircle.dart';
 
 class PyramidNumberButton extends StatelessWidget {
   final NumPyramidCellModel numPyramidCellModel;

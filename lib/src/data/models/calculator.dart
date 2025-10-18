@@ -31,9 +31,9 @@ class Calculator {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Calculator &&
-              runtimeType == other.runtimeType &&
-              question == other.question;
+      other is Calculator &&
+          runtimeType == other.runtimeType &&
+          question == other.question;
 
   /// Returns the hash code for the `Calculator` object.
   ///

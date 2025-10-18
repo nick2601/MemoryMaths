@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/core/theme_wrapper.dart';
 import 'package:provider/provider.dart';
+
 import '../app/auth_provider.dart';
 import '../app/theme_provider.dart';
 import '../login/login_view.dart';
@@ -13,7 +14,8 @@ class SignupScreen extends StatefulWidget {
   _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMixin {
+class _SignupScreenState extends State<SignupScreen>
+    with TickerProviderStateMixin {
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
@@ -303,7 +305,9 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
                   labelText: 'Password',
                   prefixIcon: Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
-                    icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                    icon: Icon(_isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off),
                     onPressed: () {
                       setState(() {
                         _isPasswordVisible = !_isPasswordVisible;
@@ -334,7 +338,9 @@ class _SignupScreenState extends State<SignupScreen> with TickerProviderStateMix
                   labelText: 'Confirm Password',
                   prefixIcon: Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
-                    icon: Icon(_isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                    icon: Icon(_isConfirmPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off),
                     onPressed: () {
                       setState(() {
                         _isConfirmPasswordVisible = !_isConfirmPasswordVisible;

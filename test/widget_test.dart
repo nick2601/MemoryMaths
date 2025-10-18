@@ -9,22 +9,12 @@ import 'package:mathsgames/src/ui/app/app.dart';
 
 /// Main test function containing widget tests for the application.
 void main() {
-  /// Test case to verify basic counter functionality
-  /// This is a template test that should be replaced with actual app-specific tests
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  /// Test case to verify if the main App widget is being rendered
+  testWidgets('App screen smoke test', (WidgetTester tester) async {
     // Initialize the app widget for testing
     await tester.pumpWidget(const MyApp());
 
-    // Test initial counter state
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Simulate user interaction
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify counter state after interaction
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify if the MyApp widget is present in the widget tree
+    expect(find.byType(MyApp), findsOneWidget);
   });
 }

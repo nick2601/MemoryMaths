@@ -6,12 +6,14 @@ import '../../utility/global_constants.dart';
 class MentalArithmeticQuestionView extends StatefulWidget {
   final MentalArithmetic currentState;
   final bool shouldStartAnimation; // Add this prop to control animation timing
-  final VoidCallback? onAnimationCompleted; // Add callback for animation completion
+  final VoidCallback?
+      onAnimationCompleted; // Add callback for animation completion
 
   const MentalArithmeticQuestionView({
     Key? key,
     required this.currentState,
-    this.shouldStartAnimation = true, // Default to true for backward compatibility
+    this.shouldStartAnimation =
+        true, // Default to true for backward compatibility
     this.onAnimationCompleted,
   }) : super(key: key);
 
@@ -34,10 +36,10 @@ class _MentalArithmeticQuestionViewState
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 3000), // Increased from 1500ms to 3000ms for easier memorization
+      duration: const Duration(milliseconds: 3000),
+      // Increased from 1500ms to 3000ms for easier memorization
       vsync: this,
-    )
-      ..addStatusListener((status) {
+    )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           if (index < 3) {
             index++;

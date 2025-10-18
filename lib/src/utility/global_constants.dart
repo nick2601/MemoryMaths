@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/ui/app/coin_provider.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
-import 'package:mathsgames/src/ui/app/coin_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
@@ -557,8 +557,9 @@ getSettingWidget(BuildContext context, {Function? function}) {
 getScoreWidget(BuildContext context, {Color? color, bool? isCenter}) {
   return Consumer<CoinProvider>(
     builder: (context, coinProvider, _) => Row(
-      mainAxisAlignment:
-          (isCenter != null) ? MainAxisAlignment.center : MainAxisAlignment.start,
+      mainAxisAlignment: (isCenter != null)
+          ? MainAxisAlignment.center
+          : MainAxisAlignment.start,
       crossAxisAlignment: (isCenter != null)
           ? CrossAxisAlignment.center
           : CrossAxisAlignment.start,
@@ -570,8 +571,7 @@ getScoreWidget(BuildContext context, {Color? color, bool? isCenter}) {
         Text(
           coinProvider.coin.toString(),
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
-              fontWeight: FontWeight.w600,
-              color: color != null ? color : null),
+              fontWeight: FontWeight.w600, color: color != null ? color : null),
         ),
       ],
     ),

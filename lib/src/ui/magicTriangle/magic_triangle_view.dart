@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
 import 'package:mathsgames/src/ui/magicTriangle/magic_triangle_provider.dart';
-import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/magicTriangle/triangle_3x3.dart';
 import 'package:mathsgames/src/ui/magicTriangle/triangle_4x4.dart';
 import 'package:mathsgames/src/ui/magicTriangle/triangle_input_3x3.dart';
@@ -55,7 +55,6 @@ class MagicTriangleView extends StatelessWidget {
             gameCategoryType: GameCategoryType.MAGIC_TRIANGLE,
             colorTuple: colorTuple1,
             context: context),
-
         child: CommonMainWidget<MagicTriangleProvider>(
           gameCategoryType: GameCategoryType.MAGIC_TRIANGLE,
           color: colorTuple1.item1.bgColor!,

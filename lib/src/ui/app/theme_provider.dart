@@ -17,7 +17,8 @@ class ThemeProvider extends ChangeNotifier {
 
   /// Initializes ThemeProvider and loads the saved theme mode.
   ThemeProvider({required this.sharedPreferences}) {
-    _themeMode = ThemeMode.values[sharedPreferences.getInt(KeyUtil.IS_DARK_MODE) ?? 0];
+    _themeMode =
+        ThemeMode.values[sharedPreferences.getInt(KeyUtil.IS_DARK_MODE) ?? 0];
     // Initialize the theme manager and sync with global state
     ThemeManager.initialize(_themeMode);
   }

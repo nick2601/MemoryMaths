@@ -1,8 +1,10 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
-import 'package:mathsgames/src/data/models/math_pairs.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/data/models/math_pairs.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
+
 import '../soundPlayer/audio_file.dart';
 
 /// Provider for managing the state and logic of the Concentration (Memory Pairs) game.
@@ -10,12 +12,16 @@ import '../soundPlayer/audio_file.dart';
 class ConcentrationProvider extends GameProvider<MathPairs> {
   /// Index of the first selected card (-1 if none selected).
   int first = -1;
+
   /// Index of the second selected card (-1 if none selected).
   int second = -1;
+
   /// The current game level.
   int? level;
+
   /// Whether the game uses a timer.
   bool isTimer = true;
+
   /// Callback function to execute when moving to next quiz.
   Function? nextQuiz;
 
@@ -33,7 +39,8 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
           vsync: vsync,
           gameCategoryType: GameCategoryType.CONCENTRATION,
           context: context,
-          isTimer: false, // Set to false like old working code - no time pressure
+          isTimer:
+              false, // Set to false like old working code - no time pressure
         ) {
     this.level = level;
     this.isTimer = false; // Concentration should have unlimited time
@@ -82,7 +89,8 @@ class ConcentrationProvider extends GameProvider<MathPairs> {
   }
 
   /// Handles a correct pair match.
-  Future<void> _handleCorrectMatch(int secondIndex, AudioPlayer audioPlayer) async {
+  Future<void> _handleCorrectMatch(
+      int secondIndex, AudioPlayer audioPlayer) async {
     audioPlayer.playRightSound();
 
     currentState.list[first].isVisible = false;

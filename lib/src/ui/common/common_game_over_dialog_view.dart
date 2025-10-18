@@ -5,6 +5,7 @@ import 'package:mathsgames/src/ui/common/common_score_widget.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:tuple/tuple.dart';
+
 import '../model/gradient_model.dart';
 import '../soundPlayer/audio_file.dart';
 
@@ -35,8 +36,8 @@ class CommonGameOverDialogView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AudioPlayer audioPlayer = new AudioPlayer(context);
-   // AdsFile? adsFile = new AdsFile(context);
-   // adsFile.createInterstitialAd();
+    // AdsFile? adsFile = new AdsFile(context);
+    // adsFile.createInterstitialAd();
 
     audioPlayer.playGameOverSound();
 

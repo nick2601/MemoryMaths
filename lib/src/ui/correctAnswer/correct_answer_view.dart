@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/correct_answer.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/common_wrong_answer_animation_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
-import 'package:mathsgames/src/ui/correctAnswer/correct_answer_question_view.dart';
 import 'package:mathsgames/src/ui/correctAnswer/correct_answer_provider.dart';
-import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/ui/correctAnswer/correct_answer_question_view.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
+
 import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';
 import '../common/common_neumorphic_view.dart';

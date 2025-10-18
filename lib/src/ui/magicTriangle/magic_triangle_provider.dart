@@ -1,8 +1,10 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
-import 'package:mathsgames/src/data/models/magic_triangle.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/data/models/magic_triangle.dart';
 import 'package:mathsgames/src/ui/app/game_provider.dart';
+
 import '../soundPlayer/audio_file.dart';
 
 class MagicTriangleProvider extends GameProvider<MagicTriangle> {

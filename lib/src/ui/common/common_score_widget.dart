@@ -5,6 +5,7 @@ import 'package:mathsgames/src/ui/resizer/fetch_pixels.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:tuple/tuple.dart';
+
 import '../../core/app_assets.dart';
 import '../../core/app_constant.dart';
 import '../../utility/global_constants.dart';
@@ -49,7 +50,7 @@ class CommonScoreWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //AdsFile? adsFile = new AdsFile(context);
-   // adsFile.createInterstitialAd();
+    // adsFile.createInterstitialAd();
 
     double appBarHeight = getScreenPercentSize(context, 25);
     double mainHeight = getScreenPercentSize(context, 30);

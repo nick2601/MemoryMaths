@@ -1,18 +1,18 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/picture_puzzle.dart';
+import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_back_button.dart';
 import 'package:mathsgames/src/ui/common/common_clear_button.dart';
-import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
-import 'package:mathsgames/src/ui/picturePuzzle/picture_puzzle_provider.dart';
-import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/picturePuzzle/picture_puzzle_button.dart';
+import 'package:mathsgames/src/ui/picturePuzzle/picture_puzzle_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
-import 'package:collection/collection.dart';
 
 import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';

@@ -98,14 +98,17 @@ class MentalArithmeticView extends StatelessWidget {
 
                           child: Selector<MentalArithmeticProvider,
                                   Tuple2<MentalArithmetic, bool>>(
-                              selector: (p0, p1) => Tuple2(p1.getCurrentState, p1.shouldStartAnimation),
+                              selector: (p0, p1) => Tuple2(
+                                  p1.getCurrentState, p1.shouldStartAnimation),
                               builder: (context, data, child) {
                                 return MentalArithmeticQuestionView(
                                   currentState: data.item1,
                                   shouldStartAnimation: data.item2,
                                   onAnimationCompleted: () {
                                     // Notify provider when animation completes
-                                    context.read<MentalArithmeticProvider>().onAnimationCompleted();
+                                    context
+                                        .read<MentalArithmeticProvider>()
+                                        .onAnimationCompleted();
                                   },
                                 );
                               }),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/game_info_dialog.dart';
-import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:mathsgames/src/utility/dialog_info_util.dart';
+import 'package:mathsgames/src/utility/global_constants.dart';
 
 class CommonInfoDialogView extends StatelessWidget {
   final GameCategoryType gameCategoryType;
@@ -21,7 +21,8 @@ class CommonInfoDialogView extends StatelessWidget {
 
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.8, // Allow dialog to use up to 80% of screen height
+        maxHeight: MediaQuery.of(context).size.height *
+            0.8, // Allow dialog to use up to 80% of screen height
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -49,14 +50,12 @@ class CommonInfoDialogView extends StatelessWidget {
                       horizontal: getWidthPercentSize(context, 5)),
                   child: Text(
                     gameInfoDialog.dec,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.w400,
                           height: 1.4, // Improve line spacing
                         ),
-                    textAlign: TextAlign.left, // Left align for better readability
+                    textAlign:
+                        TextAlign.left, // Left align for better readability
                   ),
                 ),
               ),
@@ -69,7 +68,8 @@ class CommonInfoDialogView extends StatelessWidget {
               padding: EdgeInsets.all(getScreenPercentSize(context, 2)),
               decoration: BoxDecoration(
                 color: color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(getScreenPercentSize(context, 1)),
+                borderRadius:
+                    BorderRadius.circular(getScreenPercentSize(context, 1)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -78,10 +78,8 @@ class CommonInfoDialogView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       getTextWidget(
-                          Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(fontWeight: FontWeight.w700, color: Colors.green),
+                          Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.w700, color: Colors.green),
                           "+${gameInfoDialog.correctAnswerScore}",
                           TextAlign.center,
                           getScreenPercentSize(context, 2.2)),
@@ -89,10 +87,8 @@ class CommonInfoDialogView extends StatelessWidget {
                         height: getScreenPercentSize(context, 1.8),
                       ),
                       getTextWidget(
-                          Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(fontWeight: FontWeight.w700, color: Colors.red),
+                          Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.w700, color: Colors.red),
                           "${gameInfoDialog.wrongAnswerScore}",
                           TextAlign.center,
                           getScreenPercentSize(context, 2.2)),
@@ -110,7 +106,6 @@ class CommonInfoDialogView extends StatelessWidget {
                           "for correct answer",
                           TextAlign.center,
                           getScreenPercentSize(context, 2)),
-
                       SizedBox(
                         height: getScreenPercentSize(context, 1.8),
                       ),
@@ -139,7 +134,8 @@ class CommonInfoDialogView extends StatelessWidget {
                   Navigator.pop(context, false); // Return false for cancel
                 },
                         isBorder: true,
-                        textColor: Theme.of(context).textTheme.bodyLarge!.color)),
+                        textColor:
+                            Theme.of(context).textTheme.bodyLarge!.color)),
                 SizedBox(
                   width: getWidthPercentSize(context, 5),
                 ),

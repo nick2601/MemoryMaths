@@ -14,6 +14,7 @@ import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
+
 import '../../utility/global_constants.dart';
 
 /// CalculatorView displays the Calculator game UI.
@@ -26,10 +27,18 @@ class CalculatorView extends StatelessWidget {
 
   /// List of button labels for the calculator grid.
   final List<String> buttonLabels = [
-    "7", "8", "9",
-    "4", "5", "6",
-    "1", "2", "3",
-    "Clear", "0", "Back"
+    "7",
+    "8",
+    "9",
+    "4",
+    "5",
+    "6",
+    "1",
+    "2",
+    "3",
+    "Clear",
+    "0",
+    "Back"
   ];
 
   @override
@@ -72,7 +81,10 @@ class CalculatorView extends StatelessWidget {
           final primaryColor = colorTuple.item1.primaryColor;
 
           // Return a loading or error widget if essential values are null
-          if (folderName == null || cellColor == null || bgColor == null || primaryColor == null) {
+          if (folderName == null ||
+              cellColor == null ||
+              bgColor == null ||
+              primaryColor == null) {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -104,11 +116,15 @@ class CalculatorView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Container(
-                            margin: EdgeInsets.only(top: getPercentSize(mainHeight, 3)),
+                            margin: EdgeInsets.only(
+                                top: getPercentSize(mainHeight, 3)),
                             child: Consumer<CalculatorProvider>(
                               builder: (context, calculatorProvider, child) {
                                 return getTextWidget(
-                                  Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold),
+                                  Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(fontWeight: FontWeight.bold),
                                   calculatorProvider.currentState.question,
                                   TextAlign.center,
                                   getPercentSize(remainHeight, 4),
@@ -133,20 +149,27 @@ class CalculatorView extends StatelessWidget {
                             crossAxisSpacing: crossAxisSpacing,
                             mainAxisSpacing: crossAxisSpacing,
                             primary: false,
-                            children: List.generate(buttonLabels.length, (index) {
+                            children:
+                                List.generate(buttonLabels.length, (index) {
                               String e = buttonLabels[index];
                               if (e == "Clear") {
                                 return CommonClearButton(
                                   text: "Clear",
                                   height: buttonHeight,
                                   onTab: () {
-                                    Provider.of<CalculatorProvider>(providerContext, listen: false).clearResult();
+                                    Provider.of<CalculatorProvider>(
+                                            providerContext,
+                                            listen: false)
+                                        .clearResult();
                                   },
                                 );
                               } else if (e == "Back") {
                                 return CommonBackButton(
                                   onTab: () {
-                                    Provider.of<CalculatorProvider>(providerContext, listen: false).backPress();
+                                    Provider.of<CalculatorProvider>(
+                                            providerContext,
+                                            listen: false)
+                                        .backPress();
                                   },
                                   height: buttonHeight,
                                 );
@@ -156,7 +179,10 @@ class CalculatorView extends StatelessWidget {
                                   totalHeight: remainHeight,
                                   height: buttonHeight,
                                   onTab: () {
-                                    Provider.of<CalculatorProvider>(providerContext, listen: false).checkResult(e);
+                                    Provider.of<CalculatorProvider>(
+                                            providerContext,
+                                            listen: false)
+                                        .checkResult(e);
                                   },
                                   colorTuple: colorTuple,
                                 );
@@ -167,10 +193,17 @@ class CalculatorView extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: getPercentSize(gridHeight, 17)),
+                      margin:
+                          EdgeInsets.only(top: getPercentSize(gridHeight, 17)),
                       child: CommonWrongAnswerAnimationView(
-                        currentScore: providerContext.watch<CalculatorProvider>().currentScore.toInt(),
-                        oldScore: providerContext.watch<CalculatorProvider>().oldScore.toInt(),
+                        currentScore: providerContext
+                            .watch<CalculatorProvider>()
+                            .currentScore
+                            .toInt(),
+                        oldScore: providerContext
+                            .watch<CalculatorProvider>()
+                            .oldScore
+                            .toInt(),
                         child: CommonNeumorphicView(
                           isLarge: true,
                           isMargin: false,

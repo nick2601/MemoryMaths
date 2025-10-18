@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/quick_calculation.dart';
+import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_back_button.dart';
 import 'package:mathsgames/src/ui/common/common_clear_button.dart';
+import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/common_neumorphic_view.dart';
 import 'package:mathsgames/src/ui/common/common_number_button.dart';
-import 'package:mathsgames/src/ui/common/common_app_bar.dart';
-import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/common_wrong_answer_animation_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
-import 'package:mathsgames/src/ui/quickCalculation/quick_calculation_question_view.dart';
 import 'package:mathsgames/src/ui/quickCalculation/quick_calculation_provider.dart';
-import 'package:mathsgames/src/core/app_constant.dart';
+import 'package:mathsgames/src/ui/quickCalculation/quick_calculation_question_view.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
+
 import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';
 import '../model/gradient_model.dart';
@@ -77,7 +78,6 @@ class QuickCalculationView extends StatelessWidget {
             context: context),
         gameCategoryType: GameCategoryType.QUICK_CALCULATION,
         level: colorTuple.item2,
-
         child: CommonMainWidget<QuickCalculationProvider>(
           gameCategoryType: GameCategoryType.QUICK_CALCULATION,
           color: colorTuple.item1.bgColor!,

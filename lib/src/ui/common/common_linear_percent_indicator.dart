@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+
 import '../app/game_provider.dart';
 
 class CommonLinearPercentIndicator<T extends GameProvider>

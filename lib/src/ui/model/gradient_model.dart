@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class GradientModel{
+class GradientModel {
   Color? primaryColor;
   Color? cellColor;
   Color? bgColor;

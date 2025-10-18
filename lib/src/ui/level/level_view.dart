@@ -135,23 +135,22 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(24, 24, 24, 30),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: headerGradient,
-        ),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: headerGradient[0].withValues(alpha: 0.3),
-            blurRadius: 15,
-            offset: Offset(0, 5),
-          )
-        ]
-      ),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: headerGradient,
+          ),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: headerGradient[0].withValues(alpha: 0.3),
+              blurRadius: 15,
+              offset: Offset(0, 5),
+            )
+          ]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -177,11 +176,16 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
           SizedBox(height: 20),
           Row(
             children: [
-              _buildStatContainer(headerGradient[0], Icons.grid_view_rounded, '30 Levels'),
+              _buildStatContainer(
+                  headerGradient[0], Icons.grid_view_rounded, '30 Levels'),
               SizedBox(width: 16),
-              _buildStatContainer(headerGradient[0], Icons.timer_outlined, '3 Minutes/Level'),
+              _buildStatContainer(headerGradient[0], Icons.timer_outlined,
+                  '${KeyUtil.getTimeUtil(widget.tuple2.item1.gameCategoryType)} Seconds'),
               SizedBox(width: 16),
-              _buildStatContainer(headerGradient[0], Icons.emoji_events_outlined, 'Score: ${widget.tuple2.item1.scoreboard.highestScore}'),
+              _buildStatContainer(
+                  headerGradient[0],
+                  Icons.emoji_events_outlined,
+                  'Score: ${widget.tuple2.item1.scoreboard.highestScore}'),
             ],
           ),
         ],
@@ -290,67 +294,75 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
             final clampedValue = value.clamp(0.0, 1.0);
 
             return Transform.translate(
-              offset: Offset(0, 30 * (1 - clampedValue)),
-              child: Opacity(
-                opacity: clampedValue,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 10, bottom: 10, top: groupIndex > 0 ? 20 : 10),
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: gradient,
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
+                offset: Offset(0, 30 * (1 - clampedValue)),
+                child: Opacity(
+                  opacity: clampedValue,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: 10,
+                            bottom: 10,
+                            top: groupIndex > 0 ? 20 : 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: gradient,
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            group['icon'],
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            group['title'],
-                            style: TextStyle(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              group['icon'],
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              size: 20,
                             ),
-                          ),
-                        ],
+                            SizedBox(width: 8),
+                            Text(
+                              group['title'],
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Text(
-                      group['subtitle'],
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                        fontStyle: FontStyle.italic,
+                      Text(
+                        group['subtitle'],
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                          fontStyle: FontStyle.italic,
+                        ),
+                        textAlign: TextAlign.start,
                       ),
-                      textAlign: TextAlign.start,
-                    ),
-                    SizedBox(height: 16),
-                    _buildLevelGrid(group['levels'], gradient, theme),
-                    groupIndex < levelGroups.length - 1
-                        ? Divider(height: 40, thickness: 1, indent: 20, endIndent: 20)
-                        : SizedBox(height: 20),
-                  ],
-                ),
-              )
-            );
+                      SizedBox(height: 16),
+                      _buildLevelGrid(group['levels'], gradient, theme),
+                      groupIndex < levelGroups.length - 1
+                          ? Divider(
+                              height: 40,
+                              thickness: 1,
+                              indent: 20,
+                              endIndent: 20)
+                          : SizedBox(height: 20),
+                    ],
+                  ),
+                ));
           },
         );
       },
     );
   }
 
-  Widget _buildLevelGrid(List<int> levels, List<Color> gradient, ThemeData theme) {
+  Widget _buildLevelGrid(
+      List<int> levels, List<Color> gradient, ThemeData theme) {
     return GridView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -377,54 +389,54 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
         curve: Curves.easeOut,
         builder: (context, value, child) {
           return Transform.scale(
-            scale: 0.7 + (0.3 * value),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    gradient[0],
-                    gradient[1],
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: gradient[0].withValues(alpha: 0.3),
-                    blurRadius: 8,
-                    offset: Offset(0, 4),
+              scale: 0.7 + (0.3 * value),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      gradient[0],
+                      gradient[1],
+                    ],
                   ),
-                ],
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      level.toString(),
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Container(
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.play_circle_fill_rounded,
-                        color: Colors.white,
-                        size: 14,
-                      ),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: gradient[0].withValues(alpha: 0.3),
+                      blurRadius: 8,
+                      offset: Offset(0, 4),
                     ),
                   ],
                 ),
-              ),
-            ));
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        level.toString(),
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.play_circle_fill_rounded,
+                          color: Colors.white,
+                          size: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ));
         },
       ),
     );
@@ -435,7 +447,8 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
     final dashboard = widget.tuple2.item2;
 
     print('Navigating to: ${gameCategory.routePath} with level: $level');
-    print('Dashboard properties: folder=${dashboard.folder}, primaryColor=${dashboard.primaryColor}');
+    print(
+        'Dashboard properties: folder=${dashboard.folder}, primaryColor=${dashboard.primaryColor}');
 
     // Create gradient model with proper properties from Dashboard - matching old code structure
     final gradientModel = GradientModel();
@@ -445,7 +458,8 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
     gradientModel.gridColor = dashboard.gridColor;
     gradientModel.bgColor = dashboard.bgColor;
     gradientModel.backgroundColor = dashboard.backgroundColor;
-    gradientModel.folderName = dashboard.folder; // Note: Dashboard.folder -> GradientModel.folderName
+    gradientModel.folderName =
+        dashboard.folder; // Note: Dashboard.folder -> GradientModel.folderName
 
     // Set cellColor using theme-aware approach like the old code
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
@@ -457,7 +471,8 @@ class _LevelViewState extends State<LevelView> with TickerProviderStateMixin {
       dashboard.primaryColor.withValues(alpha: 0.8),
     ];
 
-    print('GradientModel created with: primaryColor=${gradientModel.primaryColor}, folderName=${gradientModel.folderName}');
+    print(
+        'GradientModel created with: primaryColor=${gradientModel.primaryColor}, folderName=${gradientModel.folderName}');
 
     // Navigate to the specific game with level and gradient - matching old code structure
     Navigator.pushNamed(

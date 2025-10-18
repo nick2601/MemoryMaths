@@ -7,6 +7,7 @@ import 'package:mathsgames/src/ui/dashboard/dashboard_provider.dart';
 import 'package:mathsgames/src/ui/login/login_view.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
+
 import 'app/auth_provider.dart';
 import 'app/theme_provider.dart';
 import 'reports/user_report_view.dart';
@@ -152,7 +153,8 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 
-  Widget _buildAppPreferencesCard(ThemeData theme, ThemeProvider themeProvider) {
+  Widget _buildAppPreferencesCard(
+      ThemeData theme, ThemeProvider themeProvider) {
     return Card(
       elevation: 2,
       child: Padding(
@@ -182,7 +184,8 @@ class _SettingScreen extends State<SettingScreen> {
                     value: isDark,
                     onChanged: (value) {
                       darkMode.value = value;
-                      themeProvider.setThemeMode(value ? ThemeMode.dark : ThemeMode.light);
+                      themeProvider.setThemeMode(
+                          value ? ThemeMode.dark : ThemeMode.light);
                     },
                   ),
                 );
@@ -483,7 +486,8 @@ class _SettingScreen extends State<SettingScreen> {
     });
 
     try {
-      final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
+      final dashboardProvider =
+          Provider.of<DashboardProvider>(context, listen: false);
       await dashboardProvider.clearAllData();
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -511,7 +515,8 @@ class _SettingScreen extends State<SettingScreen> {
       await FlutterShare.share(
         title: 'Memory Maths',
         text: 'Check out Memory Maths - a fun way to improve your math skills!',
-        linkUrl: 'https://play.google.com/store/apps/details?id=com.example.mathsgames',
+        linkUrl:
+            'https://play.google.com/store/apps/details?id=com.example.mathsgames',
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

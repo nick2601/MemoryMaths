@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mathsgames/src/core/app_assets.dart';
+import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/square_root.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/squareRoot/square_root_provider.dart';
-import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:vsync_provider/vsync_provider.dart';
+
 import '../../utility/global_constants.dart';
 import '../common/common_main_widget.dart';
 import '../common/common_vertical_button.dart';
@@ -39,7 +40,6 @@ class SquareRootView extends StatelessWidget {
       ],
       child: DialogListener<SquareRootProvider>(
         colorTuple: colorTuple,
-
         appBar: CommonAppBar<SquareRootProvider>(
             infoView: CommonInfoTextView<SquareRootProvider>(
                 gameCategoryType: GameCategoryType.SQUARE_ROOT,
@@ -48,10 +48,8 @@ class SquareRootView extends StatelessWidget {
             gameCategoryType: GameCategoryType.SQUARE_ROOT,
             colorTuple: colorTuple,
             context: context),
-
         gameCategoryType: GameCategoryType.SQUARE_ROOT,
         level: colorTuple.item2,
-
         child: CommonMainWidget<SquareRootProvider>(
           gameCategoryType: GameCategoryType.SQUARE_ROOT,
           color: colorTuple.item1.bgColor!,
@@ -151,7 +149,7 @@ class SquareRootView extends StatelessWidget {
           context: context,
           isTopMargin: false,
         ),
-        ),
+      ),
     );
   }
 }

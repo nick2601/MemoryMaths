@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/core/theme_wrapper.dart';
+import 'package:mathsgames/src/data/models/dashboard.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -145,20 +145,23 @@ class _DashboardViewState extends State<DashboardView>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Memory Math',
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                          fontFamily: 'Montserrat-Bold',
-                        ),
+                        'Memory Maths',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                              fontFamily: 'Montserrat-Bold',
+                            ),
                       ),
                       SizedBox(height: 4),
                       Text(
                         'Train Your Brain, Improve Your Math Skill',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.grey[600],
-                          fontFamily: 'Montserrat-Regular',
-                        ),
+                              color: Colors.grey[600],
+                              fontFamily: 'Montserrat-Regular',
+                            ),
                       ),
                     ],
                   ),
@@ -167,7 +170,8 @@ class _DashboardViewState extends State<DashboardView>
                 SizedBox(height: 16),
 
                 Expanded(
-                  child: _buildCategoryList(themeProvider, margin, verticalSpace),
+                  child:
+                      _buildCategoryList(themeProvider, margin, verticalSpace),
                 ),
               ],
             ),
@@ -177,7 +181,8 @@ class _DashboardViewState extends State<DashboardView>
     );
   }
 
-  Widget _buildCategoryList(ThemeProvider themeProvider, double margin, double verticalSpace) {
+  Widget _buildCategoryList(
+      ThemeProvider themeProvider, double margin, double verticalSpace) {
     final theme = Theme.of(context);
 
     // Vibrant color palette for dashboard items
@@ -194,171 +199,178 @@ class _DashboardViewState extends State<DashboardView>
       itemCount: KeyUtil.dashboardItems.length,
       itemBuilder: (context, index) {
         final dashboard = KeyUtil.dashboardItems[index];
-        final Animation<Offset> animation = index % 2 == 0 ? _offsetLeftEnter : _offsetRightEnter;
+        final Animation<Offset> animation =
+            index % 2 == 0 ? _offsetLeftEnter : _offsetRightEnter;
         final gradientPair = gradients[index % gradients.length];
 
         return SlideTransition(
-          position: animation,
-          child: Padding(
-            padding: EdgeInsets.only(bottom: verticalSpace),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(24),
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  KeyUtil.home,
-                  ModalRoute.withName(KeyUtil.dashboard),
-                  arguments: Tuple2(
-                    getItem(index, themeProvider),
-                    MediaQuery.of(context).padding.top),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: gradientPair[0].withValues(alpha: 0.2),
-                      blurRadius: 12,
-                      offset: Offset(0, 6),
-                    ),
-                  ],
-                ),
-                child: Card(
-                  elevation: 0, // We'll use custom shadow
-                  shape: RoundedRectangleBorder(
+            position: animation,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: verticalSpace),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    KeyUtil.home,
+                    ModalRoute.withName(KeyUtil.dashboard),
+                    arguments: Tuple2(getItem(index, themeProvider),
+                        MediaQuery.of(context).padding.top),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          theme.brightness == Brightness.dark
-                              ? theme.colorScheme.surface
-                              : Colors.white,
-                          theme.brightness == Brightness.dark
-                              ? theme.colorScheme.surface
-                              : gradientPair[0].withValues(alpha: 0.03),
-                        ],
+                    boxShadow: [
+                      BoxShadow(
+                        color: gradientPair[0].withValues(alpha: 0.2),
+                        blurRadius: 12,
+                        offset: Offset(0, 6),
                       ),
+                    ],
+                  ),
+                  child: Card(
+                    elevation: 0, // We'll use custom shadow
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
                     ),
-                    child: Stack(
-                      children: [
-                        // Background decorative elements
-                        Positioned(
-                          right: -20,
-                          bottom: -20,
-                          child: Opacity(
-                            opacity: 0.08,
-                            child: SvgPicture.asset(
-                              dashboard.outlineIcon,
-                              height: 120,
-                              colorFilter: ColorFilter.mode(
-                                gradientPair[0],
-                                BlendMode.srcIn,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            theme.brightness == Brightness.dark
+                                ? theme.colorScheme.surface
+                                : Colors.white,
+                            theme.brightness == Brightness.dark
+                                ? theme.colorScheme.surface
+                                : gradientPair[0].withValues(alpha: 0.03),
+                          ],
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          // Background decorative elements
+                          Positioned(
+                            right: -20,
+                            bottom: -20,
+                            child: Opacity(
+                              opacity: 0.08,
+                              child: SvgPicture.asset(
+                                dashboard.outlineIcon,
+                                height: 120,
+                                colorFilter: ColorFilter.mode(
+                                  gradientPair[0],
+                                  BlendMode.srcIn,
+                                ),
                               ),
                             ),
                           ),
-                        ),
 
-                        // Main content
-                        Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: gradientPair,
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: gradientPair[0].withValues(alpha: 0.3),
-                                      blurRadius: 10,
-                                      offset: Offset(0, 4),
+                          // Main content
+                          Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 80,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: gradientPair,
                                     ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    dashboard.icon,
-                                    height: 42,
-                                    colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 20),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      dashboard.title,
-                                      style: theme.textTheme.titleLarge?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Montserrat-Bold',
-                                        color: theme.colorScheme.onSurface,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: gradientPair[0]
+                                            .withValues(alpha: 0.3),
+                                        blurRadius: 10,
+                                        offset: Offset(0, 4),
                                       ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      dashboard.subtitle,
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        color: theme.colorScheme.onSurfaceVariant,
-                                        fontFamily: 'Montserrat-Regular',
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      gradientPair[0].withValues(alpha: 0.7),
-                                      gradientPair[1].withValues(alpha: 0.7),
                                     ],
                                   ),
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: gradientPair[0].withValues(alpha: 0.2),
-                                      blurRadius: 8,
-                                      offset: Offset(0, 3),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      dashboard.icon,
+                                      height: 42,
+                                      colorFilter: ColorFilter.mode(
+                                          Colors.white, BlendMode.srcIn),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                                child: Icon(
-                                  Icons.play_arrow_rounded,
-                                  color: Colors.white,
-                                  size: 30,
+                                SizedBox(width: 20),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        dashboard.title,
+                                        style: theme.textTheme.titleLarge
+                                            ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Montserrat-Bold',
+                                          color: theme.colorScheme.onSurface,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        dashboard.subtitle,
+                                        style: theme.textTheme.bodyMedium
+                                            ?.copyWith(
+                                          color: theme
+                                              .colorScheme.onSurfaceVariant,
+                                          fontFamily: 'Montserrat-Regular',
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        gradientPair[0].withValues(alpha: 0.7),
+                                        gradientPair[1].withValues(alpha: 0.7),
+                                      ],
+                                    ),
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: gradientPair[0]
+                                            .withValues(alpha: 0.2),
+                                        blurRadius: 8,
+                                        offset: Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Icon(
+                                    Icons.play_arrow_rounded,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ));
-        },
-      );
+            ));
+      },
+    );
   }
 }

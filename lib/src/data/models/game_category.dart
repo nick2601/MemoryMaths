@@ -8,27 +8,27 @@ import 'package:mathsgames/src/data/models/score_board.dart';
 class GameCategory {
   /// Unique identifier for the game category
   int id;
-  
+
   /// Display name of the game category
   String name;
-  
+
   /// Unique key identifier used for internal references
   String key;
-  
+
   /// Type of game category, defined in GameCategoryType enum
   GameCategoryType gameCategoryType;
-  
+
   /// Navigation route path for this game category
   String routePath;
-  
+
   /// Scoreboard associated with this game category
   ScoreBoard scoreboard;
-  
+
   /// Icon asset path for the game category
   String icon;
 
   /// Creates a new GameCategory instance.
-  /// 
+  ///
   /// Parameters:
   /// - [id]: Unique identifier
   /// - [name]: Display name

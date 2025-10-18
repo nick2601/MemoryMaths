@@ -136,7 +136,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
 
                       // App title with Material 3 typography
                       Text(
-                        'Memory Math',
+                        'Memory Maths',
                         style: theme.textTheme.displayMedium?.copyWith(
                           color: theme.colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
@@ -151,7 +151,8 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                       Text(
                         'Learn • Practice • Improve',
                         style: theme.textTheme.titleLarge?.copyWith(
-                          color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: theme.colorScheme.onSurface
+                              .withValues(alpha: 0.7),
                           letterSpacing: 0.8,
                         ),
                         textAlign: TextAlign.center,
@@ -168,7 +169,8 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                           valueColor: AlwaysStoppedAnimation<Color>(
                             theme.colorScheme.primary,
                           ),
-                          backgroundColor: theme.colorScheme.outline.withValues(alpha: 0.3),
+                          backgroundColor:
+                              theme.colorScheme.outline.withValues(alpha: 0.3),
                         ),
                       ),
                     ],

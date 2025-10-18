@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/core/app_theme.dart';
 import 'package:mathsgames/src/core/app_routes.dart';
+import 'package:mathsgames/src/core/app_theme.dart';
 import 'package:mathsgames/src/ui/app/auth_provider.dart';
 import 'package:mathsgames/src/ui/app/theme_provider.dart';
 import 'package:mathsgames/src/ui/dashboard/dashboard_view.dart';
@@ -52,7 +52,8 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(
             builder: (context) {
               // Check if trying to access dashboard or home
-              if (settings.name == KeyUtil.dashboard || settings.name == KeyUtil.home) {
+              if (settings.name == KeyUtil.dashboard ||
+                  settings.name == KeyUtil.home) {
                 return Consumer<AuthProvider>(
                   builder: (context, authProvider, _) {
                     if (authProvider.isAuthenticated) {

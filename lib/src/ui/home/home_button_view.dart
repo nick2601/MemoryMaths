@@ -62,10 +62,9 @@ class HomeButtonView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: getTextWidget(
-                          Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(fontWeight: FontWeight.bold, color: Colors.black87),
+                          Theme.of(context).textTheme.titleSmall!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87),
                           title,
                           TextAlign.center,
                           getPercentSize(remainHeight, 11)),

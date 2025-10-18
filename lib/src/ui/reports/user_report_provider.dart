@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/user_report.dart';
 import 'package:mathsgames/src/data/repositories/user_report_repository.dart';
-import 'package:mathsgames/src/core/app_constant.dart';
 
 import '../../data/models/user_profile.dart';
 
@@ -18,11 +18,16 @@ class UserReportProvider extends ChangeNotifier {
 
   // Getters
   UserReport? get currentReport => _currentReport;
+
   UserReport? get report => _currentReport; // Add missing report getter
   List<UserReport> get reportHistory => _reportHistory;
+
   bool get isLoading => _isLoading;
+
   String? get errorMessage => _errorMessage;
-  bool get hasCurrentData => _currentReport != null || _reportHistory.isNotEmpty;
+
+  bool get hasCurrentData =>
+      _currentReport != null || _reportHistory.isNotEmpty;
 
   /// Default constructor for cases where repository is not needed
   UserReportProvider.withoutRepository() : _repository = UserReportRepository();

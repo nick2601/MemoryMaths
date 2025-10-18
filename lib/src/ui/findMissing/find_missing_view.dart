@@ -56,7 +56,6 @@ class FindMissingView extends StatelessWidget {
             gameCategoryType: GameCategoryType.FIND_MISSING,
             colorTuple: colorTuple,
             context: context),
-
         child: CommonMainWidget<FindMissingProvider>(
           gameCategoryType: GameCategoryType.FIND_MISSING,
           color: colorTuple.item1.bgColor!,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
-import 'package:mathsgames/src/ui/mathPairs/math_pairs_provider.dart';
-import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/mathPairs/math_pairs_button.dart';
+import 'package:mathsgames/src/ui/mathPairs/math_pairs_provider.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';

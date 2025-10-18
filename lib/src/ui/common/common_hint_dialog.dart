@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/ui/app/game_provider.dart';
 import 'package:mathsgames/src/ui/app/coin_provider.dart'; // Import for hintCoin constant
+import 'package:mathsgames/src/ui/app/game_provider.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/resizer/widget_utils.dart';
 import 'package:tuple/tuple.dart';
@@ -52,7 +52,8 @@ class CommonHintDialog extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pop(context, false); // Return false for close/cancel
+                      Navigator.pop(
+                          context, false); // Return false for close/cancel
                     },
                     child: SvgPicture.asset(
                       getFolderName(context, colorTuple.item1.folderName!) +
@@ -90,7 +91,8 @@ class CommonHintDialog extends StatelessWidget {
                                     .textTheme
                                     .titleMedium!
                                     .copyWith(fontWeight: FontWeight.w700),
-                                provider.getAnswer().toString(), // Use getter method instead of direct access
+                                provider.getAnswer().toString(),
+                                // Use getter method instead of direct access
                                 TextAlign.center,
                                 getScreenPercentSize(context, 3),
                                 4),
@@ -100,7 +102,8 @@ class CommonHintDialog extends StatelessWidget {
                       SizedBox(height: getScreenPercentSize(context, 5)),
                       getButtonWidget(
                           context, "Ok", colorTuple.item1.primaryColor, () {
-                        Navigator.pop(context, true); // Return true for continue
+                        Navigator.pop(
+                            context, true); // Return true for continue
                       }, textColor: Colors.black),
                     ],
                   )

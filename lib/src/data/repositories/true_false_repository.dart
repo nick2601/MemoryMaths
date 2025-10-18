@@ -35,6 +35,3 @@ class TrueFalseRepository {
     return list;
   }
 }
-
-
-

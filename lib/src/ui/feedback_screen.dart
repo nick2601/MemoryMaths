@@ -7,6 +7,7 @@ import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/ui/resizer/fetch_pixels.dart';
 import 'package:mathsgames/src/ui/resizer/widget_utils.dart';
 import 'package:mathsgames/src/utility/global_constants.dart';
+
 import '../core/app_assets.dart';
 
 /// FeedbackScreen allows users to provide feedback about the app.

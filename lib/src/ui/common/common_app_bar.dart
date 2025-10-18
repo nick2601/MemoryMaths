@@ -67,10 +67,12 @@ class CommonAppBar<T extends GameProvider> extends StatelessWidget {
                     ? Consumer<T>(builder: (context, provider, child) {
                         // For Mental Arithmetic, only show hint after animation completes
                         bool shouldShowHint = true;
-                        if (gameCategoryType == GameCategoryType.MENTAL_ARITHMETIC) {
+                        if (gameCategoryType ==
+                            GameCategoryType.MENTAL_ARITHMETIC) {
                           // Cast to MentalArithmeticProvider to access animation state
                           final mentalProvider = provider as dynamic;
-                          shouldShowHint = mentalProvider.isAnimationCompleted ?? false;
+                          shouldShowHint =
+                              mentalProvider.isAnimationCompleted ?? false;
                         }
 
                         return shouldShowHint

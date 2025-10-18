@@ -43,7 +43,8 @@ class TrueFalseModel {
   /// - `op_1` (String?): The first multiple-choice option.
   /// - `op_2` (String?): The second multiple-choice option.
   /// - `op_3` (String?): The third multiple-choice option.
-  TrueFalseModel(String answer, {
+  TrueFalseModel(
+    String answer, {
     this.firstDigit,
     this.secondDigit,
     this.question,

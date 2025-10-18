@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
-import 'package:mathsgames/src/data/models/numeric_memory_pair.dart';
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
@@ -123,7 +122,8 @@ class _NumericMemoryViewState extends State<NumericMemoryView>
         ChangeNotifierProvider<NumericMemoryProvider>(
           create: (context) {
             _provider = NumericMemoryProvider(
-              vsync: this, // Use the StatefulWidget's TickerProvider
+              vsync: this,
+              // Use the StatefulWidget's TickerProvider
               level: widget.colorTuple.item2,
               isTimer: false,
               nextQuiz: _handleNextQuiz,
@@ -167,8 +167,10 @@ class _NumericMemoryViewState extends State<NumericMemoryView>
             child: CommonMainWidget<NumericMemoryProvider>(
               gameCategoryType: GameCategoryType.NUMERIC_MEMORY,
               color: widget.colorTuple.item1.bgColor!,
-              levelNo: controller.levelNo, // Dynamic level from provider
-              provider: controller, // Provider reference for level updates
+              levelNo: controller.levelNo,
+              // Dynamic level from provider
+              provider: controller,
+              // Provider reference for level updates
               isTimer: false,
               primaryColor: widget.colorTuple.item1.primaryColor!,
               subChild: Container(
@@ -222,8 +224,10 @@ class _NumericMemoryViewState extends State<NumericMemoryView>
                                   (index) {
                                     return Container(
                                       margin: EdgeInsets.symmetric(
-                                        horizontal: getHorizontalSpace(context) / 1.5,
-                                        vertical: getHorizontalSpace(context) / 1.5,
+                                        horizontal:
+                                            getHorizontalSpace(context) / 1.5,
+                                        vertical:
+                                            getHorizontalSpace(context) / 1.5,
                                       ),
                                       child: NumericMemoryButton(
                                         height: height,
@@ -231,15 +235,20 @@ class _NumericMemoryViewState extends State<NumericMemoryView>
                                         index: index,
                                         function: () {
                                           // Only process if buttons are interactive and game not over
-                                          if (!isContinue || controller.dialogType == DialogType.over) {
+                                          if (!isContinue ||
+                                              controller.dialogType ==
+                                                  DialogType.over) {
                                             return;
                                           }
 
-                                          if (controller.currentState.list[index].key ==
+                                          if (controller.currentState
+                                                  .list[index].key ==
                                               controller.currentState.answer) {
-                                            controller.currentState.list[index].isCheck = true;
+                                            controller.currentState.list[index]
+                                                .isCheck = true;
                                           } else {
-                                            controller.currentState.list[index].isCheck = false;
+                                            controller.currentState.list[index]
+                                                .isCheck = false;
                                           }
 
                                           setState(() {
@@ -247,14 +256,16 @@ class _NumericMemoryViewState extends State<NumericMemoryView>
                                           });
 
                                           controller.checkResult(
-                                            controller.currentState.list[index].key!,
+                                            controller
+                                                .currentState.list[index].key!,
                                             index,
                                           );
                                         },
                                         isContinue: isContinue,
                                         colorTuple: Tuple2(
                                           widget.colorTuple.item1.primaryColor!,
-                                          widget.colorTuple.item1.backgroundColor!,
+                                          widget.colorTuple.item1
+                                              .backgroundColor!,
                                         ),
                                       ),
                                     );

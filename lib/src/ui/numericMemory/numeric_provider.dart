@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/numeric_memory_pair.dart';
@@ -94,7 +95,8 @@ class NumericMemoryProvider extends GameProvider<NumericMemoryPair> {
 
     if (index < list.length) {
       currentState = list[index];
-      print("Next question: ${currentState.question}, Answer: ${currentState.answer}, Current Level: $levelNo");
+      print(
+          "Next question: ${currentState.question}, Answer: ${currentState.answer}, Current Level: $levelNo");
     } else {
       print("Error: No more questions available");
     }

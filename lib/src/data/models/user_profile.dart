@@ -53,8 +53,10 @@ class UserProfile {
     return UserProfile(
       email: json['email'] ?? '',
       name: json['name'] ?? '',
-      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
-      lastPlayedAt: DateTime.parse(json['lastPlayedAt'] ?? DateTime.now().toIso8601String()),
+      createdAt:
+          DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
+      lastPlayedAt: DateTime.parse(
+          json['lastPlayedAt'] ?? DateTime.now().toIso8601String()),
       totalCoins: json['totalCoins'] ?? 0,
       totalGamesPlayed: json['totalGamesPlayed'] ?? 0,
       gameStats: gameStatsMap,
@@ -143,7 +145,8 @@ class UserProfile {
 
   /// Get total playing time in minutes
   int get totalPlayTimeMinutes {
-    return gameStats.values.fold(0, (total, stats) => total + stats.totalPlayTimeMinutes);
+    return gameStats.values
+        .fold(0, (total, stats) => total + stats.totalPlayTimeMinutes);
   }
 }
 
@@ -211,8 +214,12 @@ class GameStatistics {
 
     if (older.isEmpty) return ImprovementTrend.noData;
 
-    final recentAvg = recent.fold<double>(0, (sum, session) => sum + session.score) / recent.length;
-    final olderAvg = older.fold<double>(0, (sum, session) => sum + session.score) / older.length;
+    final recentAvg =
+        recent.fold<double>(0, (sum, session) => sum + session.score) /
+            recent.length;
+    final olderAvg =
+        older.fold<double>(0, (sum, session) => sum + session.score) /
+            older.length;
 
     final improvement = ((recentAvg - olderAvg) / olderAvg) * 100;
 
@@ -257,7 +264,8 @@ class GameStatistics {
       'totalPlayTimeMinutes': totalPlayTimeMinutes,
       'highestLevel': highestLevel,
       'currentLevel': currentLevel,
-      'recentSessions': recentSessions.map((session) => session.toJson()).toList(),
+      'recentSessions':
+          recentSessions.map((session) => session.toJson()).toList(),
       'suggestions': suggestions,
     };
   }
@@ -332,7 +340,8 @@ class GameSession {
     return GameSession(
       score: (json['score'] ?? 0.0).toDouble(),
       level: json['level'] ?? 1,
-      playedAt: DateTime.parse(json['playedAt'] ?? DateTime.now().toIso8601String()),
+      playedAt:
+          DateTime.parse(json['playedAt'] ?? DateTime.now().toIso8601String()),
       durationMinutes: json['durationMinutes'] ?? 0,
       correctAnswers: json['correctAnswers'] ?? 0,
       wrongAnswers: json['wrongAnswers'] ?? 0,

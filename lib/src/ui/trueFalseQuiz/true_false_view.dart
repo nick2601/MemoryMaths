@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 import 'package:mathsgames/src/data/models/random_option_data.dart';
-
 import 'package:mathsgames/src/ui/common/common_app_bar.dart';
 import 'package:mathsgames/src/ui/common/common_info_text_view.dart';
-
 import 'package:mathsgames/src/ui/common/dialog_listener.dart';
 import 'package:mathsgames/src/ui/model/gradient_model.dart';
 import 'package:mathsgames/src/ui/trueFalseQuiz/true_false_provider.dart';
@@ -52,7 +50,6 @@ class TrueFalseView extends StatelessWidget {
             gameCategoryType: GameCategoryType.TRUE_FALSE,
             colorTuple: colorTuple,
             context: context),
-
         child: CommonMainWidget<TrueFalseProvider>(
           gameCategoryType: GameCategoryType.TRUE_FALSE,
           color: colorTuple.item1.bgColor!,

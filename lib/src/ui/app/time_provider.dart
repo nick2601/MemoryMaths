@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/core/app_constant.dart';
 
@@ -13,6 +14,7 @@ class TimeProvider with ChangeNotifier {
 
   /// Current dialog type (info, pause, over, etc.).
   DialogType dialogType = DialogType.non;
+
   /// Current timer status (play, pause, restart).
   TimerStatus timerStatus = TimerStatus.restart;
 
@@ -107,7 +109,6 @@ class TimeProvider with ChangeNotifier {
     timerStatus = TimerStatus.play;
     dialogType = DialogType.non;
   }
-
 
   @override
   void dispose() {

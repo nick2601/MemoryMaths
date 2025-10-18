@@ -31,7 +31,8 @@ class ReportsScreen extends StatelessWidget {
         ],
       ),
       body: authProvider.isAuthenticated
-          ? _buildReportContent(context, authProvider.userEmail ?? 'user@example.com')
+          ? _buildReportContent(
+              context, authProvider.userEmail ?? 'user@example.com')
           : _buildLoginPrompt(context),
     );
   }
@@ -251,7 +252,8 @@ class ReportsScreen extends StatelessWidget {
         padding: EdgeInsets.all(32),
         child: Card(
           elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: EdgeInsets.all(32),
             child: Column(
@@ -306,7 +308,8 @@ class ReportsScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Row(
             children: [
               Icon(Icons.warning_amber_rounded, color: Colors.orange[600]),
@@ -346,7 +349,8 @@ class ReportsScreen extends StatelessWidget {
         context: context,
         barrierDismissible: false,
         builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -359,7 +363,8 @@ class ReportsScreen extends StatelessWidget {
       );
 
       // Get dashboard provider and reset data
-      final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
+      final dashboardProvider =
+          Provider.of<DashboardProvider>(context, listen: false);
       await dashboardProvider.resetAllScoreData();
 
       // Close loading dialog
@@ -377,7 +382,8 @@ class ReportsScreen extends StatelessWidget {
           ),
           backgroundColor: Colors.green[600],
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
       );
     } catch (e) {
@@ -396,7 +402,8 @@ class ReportsScreen extends StatelessWidget {
           ),
           backgroundColor: Colors.red[600],
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
       );
     }
@@ -421,7 +428,8 @@ class ReportsScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Row(
             children: [
               Icon(Icons.help_outline, color: Colors.blue[600]),

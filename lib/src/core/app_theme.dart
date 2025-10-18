@@ -76,5 +76,6 @@ class AppTheme {
 
   // Keep backward compatibility - default to dyslexic theme
   static ThemeData get theme => dyslexicLightTheme;
+
   static ThemeData get darkTheme => dyslexicDarkTheme;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mathsgames/src/ui/signup/signup_screen.dart';
 import 'package:provider/provider.dart';
+
 import '../../core/app_constant.dart';
 import '../../core/theme_wrapper.dart';
 import '../app/auth_provider.dart';
@@ -13,7 +14,8 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -112,7 +114,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 physics: BouncingScrollPhysics(),
                 child: Container(
                   constraints: BoxConstraints(
-                    minHeight: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
+                    minHeight: MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.top,
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                   child: SlideTransition(
@@ -226,7 +229,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                   labelText: 'Password',
                   prefixIcon: Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
-                    icon: Icon(_obscurePassword ? Icons.visibility : Icons.visibility_off),
+                    icon: Icon(_obscurePassword
+                        ? Icons.visibility
+                        : Icons.visibility_off),
                     onPressed: _togglePasswordVisibility,
                   ),
                   border: OutlineInputBorder(

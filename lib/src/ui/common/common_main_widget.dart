@@ -174,20 +174,22 @@ class CommonMainWidget<T extends GameProvider> extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: Selector<T, int>(
-                                  selector: (p0, p1) => p1.levelNo,
-                                  builder: (context, currentLevel, child) {
-                                    // Use provider's levelNo if available, otherwise use passed levelNo, otherwise use model's levelNo
-                                    int displayLevel = provider?.levelNo ?? levelNo ?? currentLevel;
-                                    return getTextWidget(
-                                        Theme.of(context)
-                                            .textTheme
-                                            .titleSmall!
-                                            .copyWith(fontWeight: FontWeight.w500),
-                                        'Level : $displayLevel',
-                                        TextAlign.center,
-                                        getPercentSize(mainHeight, 6));
-                                  }
-                                ),
+                                    selector: (p0, p1) => p1.levelNo,
+                                    builder: (context, currentLevel, child) {
+                                      // Use provider's levelNo if available, otherwise use passed levelNo, otherwise use model's levelNo
+                                      int displayLevel = provider?.levelNo ??
+                                          levelNo ??
+                                          currentLevel;
+                                      return getTextWidget(
+                                          Theme.of(context)
+                                              .textTheme
+                                              .titleSmall!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500),
+                                          'Level : $displayLevel',
+                                          TextAlign.center,
+                                          getPercentSize(mainHeight, 6));
+                                    }),
                               ),
                             ),
                             Align(
